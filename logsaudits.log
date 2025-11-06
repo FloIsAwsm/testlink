@@ -1,0 +1,42 @@
+	[15/Apr/20 08:57:10][AUDIT][<nosession>][GUI]
+		Login for 'admin' from '127.0.0.1' failed
+	[15/Apr/20 08:57:23][AUDIT][8vn7h38vqmrm3l21jo14hsh0v3][GUI]
+		Login for 'admin' from '127.0.0.1' succeeded
+	[15/Apr/20 08:57:45][AUDIT][8vn7h38vqmrm3l21jo14hsh0v3][GUI]
+		Test Project 'test' was created
+	[15/Apr/20 09:01:57][AUDIT][<nosession>][GUI]
+		Login for 'admin' from '127.0.0.1' failed
+	[15/Apr/20 09:02:04][AUDIT][<nosession>][GUI]
+		Login for 'admin' from '127.0.0.1' succeeded
+	[15/Apr/20 09:02:09][AUDIT][<nosession>][GUI]
+		Login for 'ofner' from '127.0.0.1' succeeded
+	[15/Apr/20 09:03:47][AUDIT][<nosession>][GUI]
+		Login for 'admin' from '127.0.0.1' failed
+	[15/Apr/20 09:03:55][AUDIT][8vn7h38vqmrm3l21jo14hsh0v3][GUI]
+		Login for 'admin' from '127.0.0.1' succeeded
+	[15/Apr/20 09:10:05][AUDIT][cg5u56nt6ur4105s8o2ef753m2][GUI]
+		Login for 'wieand' from '192.168.206.31' succeeded
+	[15/Apr/20 09:36:08][AUDIT][8vn7h38vqmrm3l21jo14hsh0v3][GUI]
+		Logout of 'admin'
+	[15/Apr/20 09:37:41][AUDIT][8vn7h38vqmrm3l21jo14hsh0v3][GUI]
+		Login for 'admin' from '127.0.0.1' succeeded
+	[15/Apr/20 09:41:15][AUDIT][8vn7h38vqmrm3l21jo14hsh0v3][GUI]
+		Logout of 'admin'
+	[15/Apr/20 11:20:24][AUDIT][8vn7h38vqmrm3l21jo14hsh0v3][GUI]
+		Login for 'admin' from '127.0.0.1' succeeded
+	[15/Apr/20 11:22:17][AUDIT][8vn7h38vqmrm3l21jo14hsh0v3][GUI]
+		Logout of 'admin'
+	[15/Apr/20 11:22:21][AUDIT][8vn7h38vqmrm3l21jo14hsh0v3][GUI]
+		Login for 'admin' from '127.0.0.1' succeeded
+	[15/Apr/20 11:23:46][AUDIT][8vn7h38vqmrm3l21jo14hsh0v3][GUI]
+		Logout of 'admin'
+	[15/Apr/20 11:23:56][AUDIT][8vn7h38vqmrm3l21jo14hsh0v3][GUI]
+		Login for 'admin' from '127.0.0.1' succeeded
+	[15/Apr/20 11:25:28][AUDIT][8vn7h38vqmrm3l21jo14hsh0v3][GUI]
+		Logout of 'admin'
+	[15/Apr/20 11:25:31][AUDIT][8vn7h38vqmrm3l21jo14hsh0v3][GUI]
+		Login for 'admin' from '127.0.0.1' succeeded
+	[15/Apr/20 11:26:12][AUDIT][8vn7h38vqmrm3l21jo14hsh0v3][GUI]
+		Logout of 'admin'
+	[15/Apr/20 11:26:21][AUDIT][8vn7h38vqmrm3l21jo14hsh0v3][GUI]
+		Login for 'admin' from '127.0.0.1' succeeded
