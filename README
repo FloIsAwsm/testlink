@@ -87,9 +87,9 @@ http://mantis.testlink.org/view.php?id=5372
 ===============================================================
 
 Server environment should consists from:
-- web-server: Apache 2.x
-- PHP > 5.4
-- DBMS: MySQL 5.x , Postgres 8.x,9.x , MS-SQL 2008/2012
+- web-server: Apache 2.x or nginx
+- PHP >= 8.0 (PHP 8.1+ recommended)
+- DBMS: MySQL 5.7+/MariaDB 10.2+ , PostgreSQL 9.x+ , MS-SQL 2012+
 
 Supported client web-browsers: 
 - Firefox 10 - 32

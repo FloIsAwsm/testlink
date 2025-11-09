@@ -50,9 +50,8 @@ function exportDataToXML($items,$rootTpl,$elemTpl,$elemInfo,$bNoXMLHeader = fals
 
   $xmlCode = '';
   reset($items);
-  while($item = each($items))
+  foreach($items as $item)
   {
-    $item = $item[1];
     $xmlElemCode = $elemTpl;
     
     // REMEMBER YOU NEED TO USE XMP TO DEBUG

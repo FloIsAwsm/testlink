@@ -95,9 +95,12 @@ function DataPrepare(&$SrcId,&$TBS) {
 
 		$Key = get_resource_type($SrcId);
 		switch ($Key) {
-		case 'mysql link'            : $this->Type = 6; break;
-		case 'mysql link persistent' : $this->Type = 6; break;
-		case 'mysql result'          : $this->Type = 6; $this->SubType = 1; break;
+		case 'mysql link'            : $this->Type = 6; break; // Legacy - will use MySQLi
+		case 'mysql link persistent' : $this->Type = 6; break; // Legacy - will use MySQLi
+		case 'mysql result'          : $this->Type = 6; $this->SubType = 1; break; // Legacy
+		case 'mysqli link'           : $this->Type = 10; break; // MySQLi (PHP 8 compatible)
+		case 'mysqli link persistent': $this->Type = 10; break; // MySQLi (PHP 8 compatible)
+		case 'mysqli result'         : $this->Type = 10; $this->SubType = 1; break; // MySQLi
 		case 'pgsql link'            : $this->Type = 7; break;
 		case 'pgsql link persistent' : $this->Type = 7; break;
 		case 'pgsql result'          : $this->Type = 7; $this->SubType = 1; break;
@@ -278,13 +281,13 @@ function DataOpen(&$Query,$QryPrms=false) {
 			$this->RecSaving = false;
 		}
 		break;
-	case 6: // MySQL
+	case 6: // MySQL (converted to MySQLi for PHP 8 compatibility)
 		switch ($this->SubType) {
-		case 0: $this->RecSet = @mysql_query($Query,$this->SrcId); break;
+		case 0: $this->RecSet = @mysqli_query($this->SrcId, $Query); break;
 		case 1: $this->RecSet = $this->SrcId; break;
-		case 2: $this->RecSet = @mysql_query($Query); break;
+		case 2: $this->RecSet = @mysqli_query($Query); break;
 		}
-		if ($this->RecSet===false) $this->DataAlert('MySql error message when opening the query: '.mysql_error());
+		if ($this->RecSet===false) $this->DataAlert('MySql error message when opening the query: '.mysqli_error($this->SrcId));
 		break;
 	case 1: // Num
 		$this->RecSet = true;
@@ -432,8 +435,8 @@ function DataFetch() {
 	}
 
 	switch ($this->Type) {
-	case 6: // MySQL
-		$this->CurrRec = mysql_fetch_assoc($this->RecSet);
+	case 6: // MySQL (converted to MySQLi for PHP 8 compatibility)
+		$this->CurrRec = mysqli_fetch_assoc($this->RecSet);
 		break;
 	case 1: // Num
 		if (($this->NumVal>=$this->NumMin) && ($this->NumVal<=$this->NumMax)) {
@@ -510,7 +513,7 @@ function DataClose() {
 	$this->OnDataPi = false;
 	if ($this->RecSaved) return;
 	switch ($this->Type) {
-	case 6: mysql_free_result($this->RecSet); break;
+	case 6: mysqli_free_result($this->RecSet); break;
 	case 3: $FctClose=$this->FctClose; $FctClose($this->RecSet); break;
 	case 4: call_user_func_array($this->FctClose,array(&$this->RecSet)); break;
 	case 5: $this->SrcId->tbsdb_close($this->RecSet); break;
