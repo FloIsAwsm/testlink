@@ -30,8 +30,8 @@ For Oracle the default is dd-mon-yy or dd-mon-yyyy, and for SQL-92 the default i
 yy-mm-dd or yyyy-mm-dd.
 
 Using 'RR' in the format forces two-digit years less than or equal to 49 to be
-interpreted as years in the 21st century (2000–2049), and years over 50 as years in
-the 20th century (1950–1999). Setting the RR format as the default for all two-digit
+interpreted as years in the 21st century (2000ï¿½2049), and years over 50 as years in
+the 20th century (1950ï¿½1999). Setting the RR format as the default for all two-digit
 year entries allows you to become year-2000 compliant. For example:
 NLS_DATE_FORMAT='RR-MM-DD'
 
@@ -1305,10 +1305,10 @@ SELECT /*+ RULE */ distinct b.column_name
 	/**
 	 * Quotes a string.
 	 * An example is  $db->qstr("Don't bother",magic_quotes_runtime());
-	 * 
+	 *
 	 * @param s			the string to quote
-	 * @param [magic_quotes]	if $s is GET/POST var, set to get_magic_quotes_gpc().
-	 *				This undoes the stupidity of magic quotes for GPC.
+	 * @param [magic_quotes]	if $s is GET/POST var, set to false (magic quotes are always disabled in PHP 7.4+).
+	 *				This parameter is kept for backward compatibility.
 	 *
 	 * @return  quoted string to be sent back to database
 	 */

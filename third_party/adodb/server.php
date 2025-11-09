@@ -49,16 +49,10 @@ function err($s)
 	die('**** '.$s.' ');
 }
 
-// undo stupid magic quotes
-function undomq(&$m) 
+// undo stupid magic quotes (no longer needed in PHP 7.4+, but kept for backward compatibility)
+function undomq(&$m)
 {
-	if (get_magic_quotes_gpc()) {
-		// undo the damage
-		$m = str_replace('\\\\','\\',$m);
-		$m = str_replace('\"','"',$m);
-		$m = str_replace('\\\'','\'',$m);
-		
-	}
+	// Magic quotes are always disabled in PHP 7.4+, so no processing needed
 	return $m;
 }
 

@@ -716,7 +716,7 @@
 	*/
 	function QMagic($s)
 	{
-		return $this->qstr($s,get_magic_quotes_gpc());
+		return $this->qstr($s, false);
 	}
 
 	function q(&$s)
@@ -995,8 +995,7 @@
 	
 				foreach($inputarr as $arr) {
 					$sql = ''; $i = 0;
-					//Use each() instead of foreach to reduce memory usage -mikefedyk
-					while(list(, $v) = each($arr)) {
+					foreach($arr as $v) {
 						$sql .= $sqlarr[$i];
 						// from Ron Baldwin <ron.baldwin#sourceprose.com>
 						// Only quote string types	
@@ -1829,9 +1828,7 @@
 		if (!$rs) {
 		// no cached rs found
 			if ($this->debug) {
-				if (get_magic_quotes_runtime() && !$this->memCache) {
-					ADOConnection::outp("Please disable magic_quotes_runtime - it corrupts cache files :(");
-				}
+				// Note: magic_quotes_runtime is always disabled in PHP 7.4+
 				if ($this->debug !== -1) ADOConnection::outp( " $md5file cache failure: $err (this is a notice and not an error)");
 			}
 			
@@ -2662,10 +2659,10 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	 * Correctly quotes a string so that all strings are escaped. We prefix and append
 	 * to the string single-quotes.
 	 * An example is  $db->qstr("Don't bother",magic_quotes_runtime());
-	 * 
+	 *
 	 * @param s			the string to quote
-	 * @param [magic_quotes]	if $s is GET/POST var, set to get_magic_quotes_gpc().
-	 *				This undoes the stupidity of magic quotes for GPC.
+	 * @param [magic_quotes]	if $s is GET/POST var, set to false (magic quotes are always disabled in PHP 7.4+).
+	 *				This parameter is kept for backward compatibility.
 	 *
 	 * @return  quoted string to be sent back to database
 	 */
@@ -2696,7 +2693,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	/**
 	* Will select the supplied $page number from a recordset, given that it is paginated in pages of 
 	* $nrows rows per page. It also saves two boolean values saying if the given page is the first 
-	* and/or last one of the recordset. Added by Iván Oliva to provide recordset pagination.
+	* and/or last one of the recordset. Added by Ivï¿½n Oliva to provide recordset pagination.
 	*
 	* See readme.htm#ex8 for an example of usage.
 	*
@@ -2723,7 +2720,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	/**
 	* Will select the supplied $page number from a recordset, given that it is paginated in pages of 
 	* $nrows rows per page. It also saves two boolean values saying if the given page is the first 
-	* and/or last one of the recordset. Added by Iván Oliva to provide recordset pagination.
+	* and/or last one of the recordset. Added by Ivï¿½n Oliva to provide recordset pagination.
 	*
 	* @param secs2cache	seconds to cache data, set to 0 to force query
 	* @param sql
@@ -2922,9 +2919,9 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	var $_obj; 				/** Used by FetchObj */
 	var $_names;			/** Used by FetchObj */
 	
-	var $_currentPage = -1;	/** Added by Iván Oliva to implement recordset pagination */
-	var $_atFirstPage = false;	/** Added by Iván Oliva to implement recordset pagination */
-	var $_atLastPage = false;	/** Added by Iván Oliva to implement recordset pagination */
+	var $_currentPage = -1;	/** Added by Ivï¿½n Oliva to implement recordset pagination */
+	var $_atFirstPage = false;	/** Added by Ivï¿½n Oliva to implement recordset pagination */
+	var $_atLastPage = false;	/** Added by Ivï¿½n Oliva to implement recordset pagination */
 	var $_lastPageNo = -1; 
 	var $_maxRecordCount = 0;
 	var $datetime = false;

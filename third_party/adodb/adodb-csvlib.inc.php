@@ -250,7 +250,7 @@ $ADODB_INCLUDED_CSV = 1;
 		//var_dump($arr);
 		if (!is_array($arr)) {
 			$err = "Recordset had unexpected EOF (in serialized recordset)";
-			if (get_magic_quotes_runtime()) $err .= ". Magic Quotes Runtime should be disabled!";
+			// Magic quotes runtime is always disabled in PHP 7.4+
 			return $false;
 		}
 		$rs = new $rsclass();

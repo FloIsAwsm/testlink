@@ -56,7 +56,8 @@ class Util
      */
     public static function stripSlashesIfMagicQuotes($rawData, $overrideStripSlashes = null)
     {
-        $strip = is_null($overrideStripSlashes) ? get_magic_quotes_gpc() : $overrideStripSlashes;
+        // Magic quotes are always disabled in PHP 7.4+, so default to false
+        $strip = is_null($overrideStripSlashes) ? false : $overrideStripSlashes;
         if ($strip) {
             return self::_stripSlashes($rawData);
         } else {
