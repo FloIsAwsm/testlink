@@ -19,19 +19,23 @@
  */
 
 
-if( defined('TL_SMARTY_VERSION') && TL_SMARTY_VERSION == 3 )
-{  
-  define('SMARTY_DIR', TL_ABS_PATH . 'third_party'. DIRECTORY_SEPARATOR . 'smarty3'.  
-  	     DIRECTORY_SEPARATOR . 'libs' . DIRECTORY_SEPARATOR);
-}
-else
+// Smarty is now loaded via Composer autoloader in config.inc.php
+// Smarty 4.x is now used by default
+// For backward compatibility, you can still override by defining TL_SMARTY_VERSION in custom_config.inc.php
+if( defined('TL_SMARTY_VERSION') && TL_SMARTY_VERSION < 4 )
 {
-  define('SMARTY_DIR', TL_ABS_PATH . 'third_party'. DIRECTORY_SEPARATOR . 'smarty'.  
-         DIRECTORY_SEPARATOR . 'libs' . DIRECTORY_SEPARATOR);
-}  
-
-define('SMARTY_CORE_DIR', SMARTY_DIR . 'internals' . DIRECTORY_SEPARATOR);
-require_once( SMARTY_DIR . 'Smarty.class.php');
+  // Legacy support for old Smarty versions
+  if(TL_SMARTY_VERSION == 3) {
+    define('SMARTY_DIR', TL_ABS_PATH . 'third_party'. DIRECTORY_SEPARATOR . 'smarty3'.
+           DIRECTORY_SEPARATOR . 'libs' . DIRECTORY_SEPARATOR);
+  } else {
+    define('SMARTY_DIR', TL_ABS_PATH . 'third_party'. DIRECTORY_SEPARATOR . 'smarty'.
+           DIRECTORY_SEPARATOR . 'libs' . DIRECTORY_SEPARATOR);
+  }
+  define('SMARTY_CORE_DIR', SMARTY_DIR . 'internals' . DIRECTORY_SEPARATOR);
+  require_once( SMARTY_DIR . 'Smarty.class.php');
+}
+// Smarty 4.x from Composer is loaded automatically via autoloader
 
 /** in this way you can switch ext js version in easy way,
 	To use a different version of Sencha (Old EXT-JS) that provided with TL */
@@ -286,38 +290,41 @@ class TLSmarty extends Smarty
     $this->assign("tlImages",$this->tlImages);
     
     // Register functions
-    if( defined('TL_SMARTY_VERSION') && TL_SMARTY_VERSION == 3 )
-    {  
-      $this->registerPlugin("function","lang_get", "lang_get_smarty");
-      $this->registerPlugin("function","localize_date", "localize_date_smarty");
-      $this->registerPlugin("function","localize_timestamp", "localize_timestamp_smarty");
-      $this->registerPlugin("function","localize_tc_status","translate_tc_status_smarty");
-      
-      $this->registerPlugin("modifier","basename","basename");
-      $this->registerPlugin("modifier","dirname","dirname");
-
-      // Call to smarty filter that adds a CSRF filter to all form elements
-      if(isset($tlCfg->csrf_filter_enabled) && $tlCfg->csrf_filter_enabled === TRUE && 
-         function_exists('smarty_csrf_filter')) 
-      {
-          $this->registerFilter('output','smarty_csrf_filter');
-      }
-    }
-    else
-    {  
+    // Smarty 4.x and 3.x use registerPlugin, Smarty 2.x uses register_function
+    if( defined('TL_SMARTY_VERSION') && TL_SMARTY_VERSION < 3 )
+    {
+      // Legacy Smarty 2.x support
       $this->register_function("lang_get", "lang_get_smarty");
       $this->register_function("localize_date", "localize_date_smarty");
       $this->register_function("localize_timestamp", "localize_timestamp_smarty");
       $this->register_function("localize_tc_status","translate_tc_status_smarty");
-      
+
       $this->register_modifier("basename","basename");
       $this->register_modifier("dirname","dirname");
-      
+
       // Call to smarty filter that adds a CSRF filter to all form elements
-      if(isset($tlCfg->csrf_filter_enabled) && $tlCfg->csrf_filter_enabled === TRUE && 
-         function_exists('smarty_csrf_filter')) 
+      if(isset($tlCfg->csrf_filter_enabled) && $tlCfg->csrf_filter_enabled === TRUE &&
+         function_exists('smarty_csrf_filter'))
       {
           $this->register_outputfilter('smarty_csrf_filter');
+      }
+    }
+    else
+    {
+      // Smarty 3.x and 4.x use registerPlugin
+      $this->registerPlugin("function","lang_get", "lang_get_smarty");
+      $this->registerPlugin("function","localize_date", "localize_date_smarty");
+      $this->registerPlugin("function","localize_timestamp", "localize_timestamp_smarty");
+      $this->registerPlugin("function","localize_tc_status","translate_tc_status_smarty");
+
+      $this->registerPlugin("modifier","basename","basename");
+      $this->registerPlugin("modifier","dirname","dirname");
+
+      // Call to smarty filter that adds a CSRF filter to all form elements
+      if(isset($tlCfg->csrf_filter_enabled) && $tlCfg->csrf_filter_enabled === TRUE &&
+         function_exists('smarty_csrf_filter'))
+      {
+          $this->registerFilter('output','smarty_csrf_filter');
       }
     }
 

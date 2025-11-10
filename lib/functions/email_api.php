@@ -21,9 +21,9 @@
  */
 
 
-/** @uses class.phpmailer.php */
-define( 'PHPMAILER_PATH', dirname(__FILE__). '/../../third_party/phpmailer' . DIRECTORY_SEPARATOR );
-require_once( PHPMAILER_PATH . 'class.phpmailer.php' );
+/** PHPMailer is now loaded via Composer autoloader in config.inc.php */
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 require_once( 'lang_api.php' );
 require_once( 'common.php');
@@ -70,27 +70,24 @@ function email_send( $p_from, $p_recipient, $p_subject, $p_message, $p_cc='',
 	# short-circuit if no recipient is defined, or email disabled
 	# note that this may cause signup messages not to be sent
 
-	# Visit http://phpmailer.sourceforge.net
+	# Visit https://github.com/PHPMailer/PHPMailer
 	# if you have problems with phpMailer
-	$mail = new PHPMailer;
-
-
-	$mail->PluginDir = PHPMAILER_PATH;
+	$mail = new PHPMailer(true); // Enable exceptions
 
   	// Need to get strings file for php mailer
-  	// To avoid problems I choose ENglish
-  	$mail->SetLanguage( 'en', PHPMAILER_PATH . 'language' . DIRECTORY_SEPARATOR );
+  	// To avoid problems I choose English
+  	$mail->setLanguage('en');
 
 	# Select the method to send mail
-	switch ( config_get( 'phpMailer_method' ) ) 
+	switch ( config_get( 'phpMailer_method' ) )
 	{
-		case PHPMAILER_METHOD_MAIL: $mail->IsMail();
+		case PHPMAILER_METHOD_MAIL: $mail->isMail();
 		break;
 
-		case PHPMAILER_METHOD_SENDMAIL: $mail->IsSendmail();
+		case PHPMAILER_METHOD_SENDMAIL: $mail->isSendmail();
 				break;
 
-		case PHPMAILER_METHOD_SMTP: $mail->IsSMTP();
+		case PHPMAILER_METHOD_SMTP: $mail->isSMTP();
 			# SMTP collection is always kept alive
 			$mail->SMTPKeepAlive = true;
 
@@ -122,19 +119,21 @@ function email_send( $p_from, $p_recipient, $p_subject, $p_message, $p_cc='',
 		break;
 	}
 
-	$mail->IsHTML($htmlFormat);    # set email format to plain text
+	$mail->isHTML($htmlFormat);    # set email format to plain text or HTML
 	$mail->WordWrap = 80;
 	$mail->Priority = config_get( 'mail_priority' );   # Urgent = 1, Not Urgent = 5, Disable = 0
 
 	$mail->CharSet = config_get( 'charset');
 	$mail->Host = config_get( 'smtp_host' );
-  	$mail->From = config_get( 'from_email' );
-	if ( !is_blank( $p_from ) )
-	{
-	  $mail->From     = $p_from;
+
+	// Set From address
+	$from_email = !is_blank( $p_from ) ? $p_from : config_get( 'from_email' );
+	$mail->setFrom($from_email, '');
+
+	$return_path = config_get( 'return_path_email' );
+	if (!is_blank($return_path)) {
+		$mail->Sender = $return_path;
 	}
-	$mail->Sender   = config_get( 'return_path_email' );
-	$mail->FromName = '';
 
 	$t_debug_to = '';
 	# add to the Recipient list
@@ -142,21 +141,21 @@ function email_send( $p_from, $p_recipient, $p_subject, $p_message, $p_cc='',
 
 	foreach ($t_recipient_list as $t_recipient) {
 		if ( !is_blank( $t_recipient ) ) {
-				$mail->AddAddress( $t_recipient, '' );
+				$mail->addAddress( $t_recipient, '' );
 		}
 	}
 
   	$t_cc_list = explode(',', $p_cc);
 	foreach ($t_cc_list as $t_cc) {
 		if ( !is_blank( $t_cc ) ) {
-				$mail->AddCC( $t_cc, '' );
+				$mail->addCC( $t_cc, '' );
 		}
 	}
 
 	$mail->Subject = $t_subject;
 	$mail->Body    = make_lf_crlf( "\n".$t_message );
 
-	if ( !$mail->Send() ) {
+	if ( !$mail->send() ) {
 
 		if ( $p_exit_on_error )  {
 		  PRINT "PROBLEMS SENDING MAIL TO: $p_recipient<br />";
@@ -186,9 +185,8 @@ function email_smtp_close() {
 	global $g_phpMailer;
 
 	if( !is_null( $g_phpMailer ) ) {
-		if( $g_phpMailer->smtp->Connected() ) {
-			$g_phpMailer->smtp->Quit();
-			$g_phpMailer->smtp->Close();
+		if( $g_phpMailer->getSMTPInstance() && $g_phpMailer->getSMTPInstance()->connected() ) {
+			$g_phpMailer->smtpClose();
 		}
 		$g_phpMailer = null;
 	}

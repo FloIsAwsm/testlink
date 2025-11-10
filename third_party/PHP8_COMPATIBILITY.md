@@ -72,12 +72,14 @@ Current versions included in TestLink:
 
 | Library | Current Version | Latest Version | PHP 8 Status | Notes |
 |---------|----------------|----------------|--------------|-------|
-| **ADODB** | v5.15 (2012) | v5.22+ | ✅ Fixed | Consider updating to v5.22+ |
-| **Smarty 3** | v3.1.13 | v4.x | ✅ Fixed | v3.1.13 works, v4.x available |
-| **Smarty 2** | Legacy | EOL | ✅ Fixed | Keep for backward compat |
-| **PHPMailer** | v5.1 | v6.x | ✅ Fixed | Recommend updating to v6.x |
-| **PHPExcel** | v1.7.6 (2011) | Deprecated | ✅ Fixed | Replaced by PhpSpreadsheet |
-| **Zend Framework** | v1.x (partial) | Laminas | ✅ Fixed | ZF1 EOL, Laminas is successor |
+| **ADODB** | v5.22.10 | v5.22.10 | ✅ **UPGRADED** | Upgraded via Composer |
+| **Smarty** | v4.5.6 | v4.5.6 | ✅ **UPGRADED** | Upgraded to Smarty 4.x via Composer |
+| **Smarty 3** | v3.1.13 (legacy) | v4.x | ✅ Fixed | Kept for backward compatibility |
+| **Smarty 2** | Legacy | EOL | ✅ Fixed | Kept for backward compatibility |
+| **PHPMailer** | v6.12.0 | v6.12.0 | ✅ **UPGRADED** | Upgraded to 6.x via Composer |
+| **PhpSpreadsheet** | v1.30.1 | v1.30.1 | ✅ **NEW** | Replaced PHPExcel via Composer |
+| **PHPExcel** | v1.7.6 (2011) | Deprecated | ⚠️ **REPLACED** | Now using PhpSpreadsheet |
+| **Zend Framework** | v1.x (partial) | Laminas | ✅ Fixed | ZF1 components fixed, minimal usage |
 | **CKEditor** | Unknown | Latest | ✅ Fixed | JavaScript lib, minimal PHP |
 | **Slim** | v2.x | v4.x | ✅ Fixed | Works with fixes |
 | **pchart** | v2.x | v2.x | ✅ Working | No issues found |
@@ -166,6 +168,39 @@ None. All changes maintain backward compatibility with existing TestLink code.
 No configuration changes required. All libraries work with existing TestLink configuration.
 
 ## Changelog
+
+### 2025-11-10 - Third-Party Library Upgrades
+
+**Major upgrades via Composer:**
+
+1. **PHPExcel → PhpSpreadsheet 1.30.1**
+   - Replaced deprecated PHPExcel with official successor
+   - Updated files: `lib/results/resultsTC.php`, `lib/results/resultsByStatus.php`
+   - API changes: Class namespace updated to `\PhpOffice\PhpSpreadsheet\*`
+
+2. **PHPMailer 5.1 → 6.12.0**
+   - Upgraded to latest PHPMailer with better PHP 8 support
+   - Updated file: `lib/functions/email_api.php`
+   - API changes: Method names changed to camelCase (e.g., `IsMail()` → `isMail()`)
+
+3. **ADODB 5.15 → 5.22.10**
+   - Upgraded to latest ADODB with PHP 8 improvements
+   - Updated file: `lib/functions/database.class.php`
+   - Fully backward compatible
+
+4. **Smarty 3.1.13 → 4.5.6**
+   - Upgraded to Smarty 4.x with full PHP 8 support
+   - Updated file: `lib/functions/tlsmarty.inc.php`
+   - Backward compatible with legacy versions
+
+**Configuration changes:**
+- Added Composer autoloader in `config.inc.php`
+- Added dependencies to `composer.json`
+- Installed packages via `composer install`
+
+**Zend Framework:**
+- Kept existing fixed Zend Framework 1.x components (minimal usage)
+- Components remain PHP 8 compatible with previous fixes
 
 ### 2025-11-09 - PHP 8 Compatibility Update
 
