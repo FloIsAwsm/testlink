@@ -59,6 +59,9 @@ $tlCfg->req_spec_cfg = new stdClass();
 $tlCfg->diffEngine = new stdClass();
 $tlCfg->tplanDesign = new stdClass();
 
+$tlCfg->resultMatrixReport = new stdClass();
+$tlCfg->resultMatrixReport->buildColumns = array();
+
 $tlCfg->notifications = new stdClass();
 $tlCfg->proxy = new stdClass();
 
