@@ -381,7 +381,7 @@ function initProject(&$db,$hash_user_sel)
   $tplan_id = isset($_SESSION['testplanID']) ? $_SESSION['testplanID'] : null;
   // Now we need to validate the TestPlan
   // dolezalz, havlatm: added remember the last selection by cookie
-  $cookieName = "TL_user${_SESSION['userID']}_proj${tproject_id}_testPlanId";
+  $cookieName = "TL_user{$_SESSION['userID']}_proj{$tproject_id}_testPlanId";
   if($user_sel["tplan_id"] != 0)
   {
     $tplan_id = $user_sel["tplan_id"];
