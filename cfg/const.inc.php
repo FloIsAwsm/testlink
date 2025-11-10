@@ -20,7 +20,7 @@
 
 /* [GLOBAL SETTINGS] */
 
-define('TL_SMARTY_VERSION',4);  // Use Smarty 4 from Composer (PHP 8 compatible)
+define('TL_SMARTY_VERSION',3);  // Use Smarty 3 from third_party (bundled with TestLink)
 
 /** TestLink Release version (MUST BE changed before the release day) */
 define('TL_VERSION_NUMBER', '1.9.14'); 
