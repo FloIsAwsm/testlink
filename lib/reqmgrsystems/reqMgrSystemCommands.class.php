@@ -18,7 +18,7 @@
 
 class reqMgrSystemCommands
 {
-  var $mgr;
+  public $mgr;
   private $db;
   private $templateCfg;
   private $grants;

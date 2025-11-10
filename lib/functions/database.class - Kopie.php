@@ -54,12 +54,12 @@ class database
   const CUMULATIVE=1;
   const ONERROREXIT=1;
   
-  var $db;
-  var $queries_array = array();
-  var $is_connected=false;
-  var $nQuery = 0;
-  var $overallDuration = 0;
-  var $dbType;
+  public $db;
+  public $queries_array = array();
+  public $is_connected=false;
+  public $nQuery = 0;
+  public $overallDuration = 0;
+  public $dbType;
   
   private $logEnabled=0;
   private $logQueries=0;
@@ -92,11 +92,11 @@ class database
   }
 
   // TICKET 4898: MSSQL - Add support for SQLSRV drivers needed for PHP on WINDOWS version 5.3 and higher
-  function database($db_type)
+  function __construct($db_type)
   {
     $this->dbType = $adodb_driver = $db_type;
     $fetch_mode = ADODB_FETCH_ASSOC;
-    
+
     // added to reduce memory usage (before this setting we used ADODB_FETCH_BOTH)
     if($this->dbType == 'mssql')
     {
@@ -108,14 +108,14 @@ class database
         // These functions allow you to access MS SQL Server database.
         // This extension is not available anymore on Windows with PHP 5.3 or later.
         // SQLSRV, an alternative driver for MS SQL is available from Microsoft:
-        // http://msdn.microsoft.com/en-us/sqlserver/ff657782.aspx.       
+        // http://msdn.microsoft.com/en-us/sqlserver/ff657782.aspx.
           //
         // PHP_VERSION_ID is available as of PHP 5.2.7
-        if ( defined('PHP_VERSION_ID') && PHP_VERSION_ID >= 50300)  
+        if ( defined('PHP_VERSION_ID') && PHP_VERSION_ID >= 50300)
         {
           $adodb_driver = 'mssqlnative';
-        }     
-      } 
+        }
+      }
     }
     $this->db = NewADOConnection($adodb_driver);
     $this->db->SetFetchMode($fetch_mode);

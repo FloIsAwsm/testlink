@@ -30,16 +30,16 @@ class testproject extends tlObjectWithAttachments
   const GET_EMPTY_REQSPEC = 0;
   
   /** @var database handler */
-  var $db;
-  var $tree_manager;
-  var $cfield_mgr;
+  public $db;
+  public $tree_manager;
+  public $cfield_mgr;
 
   // Node Types (NT)
-  var $nt2exclude=array('testplan' => 'exclude_me','requirement_spec'=> 'exclude_me','requirement'=> 'exclude_me');
+  public $nt2exclude=array('testplan' => 'exclude_me','requirement_spec'=> 'exclude_me','requirement'=> 'exclude_me');
 
-  var $nt2exclude_children=array('testcase' => 'exclude_my_children','requirement_spec'=> 'exclude_my_children');
+  public $nt2exclude_children=array('testcase' => 'exclude_my_children','requirement_spec'=> 'exclude_my_children');
 
-  var $debugMsg;
+  public $debugMsg;
 
   /** 
    * Class constructor
@@ -671,7 +671,7 @@ function get_accessible_for_user($user_id,$opt = null,$filters = null)
     $this->parseTestProjectRecordset($items);
   }
 
-  if ($do_post_process && sizeof($arrTemp))
+  if ($do_post_process && $arrTemp && sizeof($arrTemp))
   {
     switch ($my['opt']['output'])
     {
@@ -811,6 +811,7 @@ function count_testcases($id)
 {
   $tcIDs = array();
   $this->get_all_testcases_id($id,$tcIDs);
+  if (is_null($tcIDs)) $tcIDs = array();
   $qty = sizeof($tcIDs);
   return $qty;
 }
@@ -2044,7 +2045,7 @@ function setPublicStatus($id,$status)
           $suiteIDs[] = $row['id'];
         }
       }
-      if (sizeof($suiteIDs))
+      if ($suiteIDs && sizeof($suiteIDs))
       {
         $suiteIDs  = implode(",",$suiteIDs);
         $this->get_all_testcases_id($suiteIDs,$tcIDs,$options);

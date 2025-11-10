@@ -24,25 +24,25 @@ class tree extends tlObject
   // configurable values - pseudoconstants
   // VERBOSE description do not map 100% contents of node_types table
   // Now contains also PSEUDO NODES => build
-  var $node_types = array( 1 => 'testproject','testsuite',
+  public $node_types = array( 1 => 'testproject','testsuite',
                                 'testcase','tcversion','testplan',
                                 'requirement_spec','requirement','req_version',
                                 'testcase_step','req_revision','requirement_spec_revision',
                                 'build');
 
   // key: node type id, value: class name
-  var $class_name = array( 1 => 'testproject','testsuite',
+  public $class_name = array( 1 => 'testproject','testsuite',
                                 'testcase',null,'testplan',
                                 'requirement_spec_mgr','requirement_mgr',null,
                                 null,null,null,null);
 
-  var $nodeWithoutClass = null;
+  public $nodeWithoutClass = null;
                                 
-  var $node_descr_id = array();
+  public $node_descr_id = array();
   
 
   // Order here means NOTHING
-  var $node_tables_by = array('id' => array(),
+  public $node_tables_by = array('id' => array(),
                 'name' =>
                   array('testproject' => 'testprojects',
                         'testsuite' => 'testsuites',
@@ -55,13 +55,13 @@ class tree extends tlObject
                         'req_revision' => 'req_versions',
                         'requirement_spec_revision' => 'req_specs_revisions'));
   
-  var $node_tables;
+  public $node_tables;
     
-  var $ROOT_NODE_TYPE_ID = 1;
-  var $ROOT_NODE_PARENT_ID = NULL;
+  public $ROOT_NODE_TYPE_ID = 1;
+  public $ROOT_NODE_PARENT_ID = NULL;
 
   /** @var resource database handler */
-  var $db;
+  public $db;
 
   /**
    * Class costructor
@@ -1633,7 +1633,7 @@ class tree extends tlObject
             $containerSet[] = $row['id'];
         }
       }
-      if (sizeof($containerSet))
+      if ($containerSet && sizeof($containerSet))
       {
         $containerSet  = implode(",",$containerSet);
         $this->getAllItemsID($containerSet,$itemSet,$coupleTypes);

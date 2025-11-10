@@ -49,26 +49,26 @@ class testcase extends tlObjectWithAttachments
         
     
   /** @var database handler */
-  var $db;
-  var $tree_manager;
-  var $tproject_mgr;
+  public $db;
+  public $tree_manager;
+  public $tproject_mgr;
 
-  var $node_types_descr_id;
-  var $node_types_id_descr;
-  var $my_node_type;
+  public $node_types_descr_id;
+  public $node_types_id_descr;
+  public $my_node_type;
 
-  var $assignment_mgr;
-  var $assignment_types;
-  var $assignment_status;
+  public $assignment_mgr;
+  public $assignment_types;
+  public $assignment_status;
 
-  var $cfield_mgr;
+  public $cfield_mgr;
 
-  var $import_file_types = array("XML" => "XML");
-  var $export_file_types = array("XML" => "XML");
-  var $execution_types = array();
-  var $cfg;
-  var $debugMsg;
-  var $layout;
+  public $import_file_types = array("XML" => "XML");
+  public $export_file_types = array("XML" => "XML");
+  public $execution_types = array();
+  public $cfg;
+  public $debugMsg;
+  public $layout;
 
   
   /**
@@ -2517,8 +2517,8 @@ class testcase extends tlObjectWithAttachments
     $item_executed = null;
     $link_info = null;
     $in_set = null;
-      
-    if (sizeof($rs))
+
+    if ($rs && sizeof($rs))
     {
       foreach($rs as $idx => $elem)
       {
@@ -2964,7 +2964,7 @@ class testcase extends tlObjectWithAttachments
   {
     // if keyword is already assigned, we just say good bye
     $kw = $this->getKeywords($id,$kw_id);
-    if (sizeof($kw))
+    if ($kw && sizeof($kw))
     {
       return 1;
     }
@@ -3016,11 +3016,11 @@ class testcase extends tlObjectWithAttachments
   */
   function setKeywords($id,$kw_ids,$audit = self::AUDIT_ON)
   {
-    $result = $this->deleteKeywords($id);      
-    if ($result && sizeof($kw_ids))
+    $result = $this->deleteKeywords($id);
+    if ($result && $kw_ids && sizeof($kw_ids))
     {
       $result = $this->addKeywords($id,$kw_ids);
-    } 
+    }
     return $result;
   }
   

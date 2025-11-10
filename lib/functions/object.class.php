@@ -606,7 +606,7 @@ abstract class tlDBObject extends tlObject implements iDBSerialization
                                              $detailLevel = self::TLOBJ_O_GET_DETAIL_FULL)
   {
     $items = null;
-    if (sizeof($ids))
+    if ($ids && sizeof($ids))
     { 
       $dummyItem = new $className();
       $query = $dummyItem->getReadFromDBQuery($ids,self::TLOBJ_O_SEARCH_BY_ID,$detailLevel);

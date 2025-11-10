@@ -9,10 +9,10 @@
 
 class no_editor
 {
-  var $InstanceName ;
-  var $Value;
-  var $rows = 8;
-  var $cols = 80;
+  public $InstanceName ;
+  public $Value;
+  public $rows = 8;
+  public $cols = 80;
 
   function __construct($instanceName)
   {

@@ -12,14 +12,14 @@
 //
 
 class SqlParser {
-	var $sql_errors;
-	var $install_failed;
+	public $sql_errors;
+	public $install_failed;
 
-	var $db_conn;
-	var $db_type;
-    var $db_table_prefix;
+	public $db_conn;
+	public $db_type;
+    public $db_table_prefix;
 
-	function SqlParser(&$db_conn,$db_type,$db_table_prefix='') 
+	function __construct(&$db_conn,$db_type,$db_table_prefix='')
 	{
 		$this->db_conn = $db_conn;
 		$this->db_type = $db_type;

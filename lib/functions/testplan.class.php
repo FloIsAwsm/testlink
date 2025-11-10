@@ -41,37 +41,37 @@ class testplan extends tlObjectWithAttachments
   const IGNORE=-1;
 
   /** @var database handler */
-  var $db;
+  public $db;
 
-  var $tree_manager;
-  var $assignment_mgr;
-  var $cfield_mgr;
-  var $tcase_mgr;
+  public $tree_manager;
+  public $assignment_mgr;
+  public $cfield_mgr;
+  public $tcase_mgr;
    
-  var $assignment_types;
-  var $assignment_status;
+  public $assignment_types;
+  public $assignment_status;
 
   /** message to show on GUI */
-  var $user_feedback_message = '';
+  public $user_feedback_message = '';
 
-  var $node_types_descr_id;
-  var $node_types_id_descr;
+  public $node_types_descr_id;
+  public $node_types_id_descr;
 
-  var $import_file_types = array("XML" => "XML"); // array("XML" => "XML", "XLS" => "XLS" );
+  public $import_file_types = array("XML" => "XML"); // array("XML" => "XML", "XLS" => "XLS" );
   
-  var $resultsCfg;
-  var $tcaseCfg;
+  public $resultsCfg;
+  public $tcaseCfg;
   
-  var $notRunStatusCode;
-  var $execTaskCode;
+  public $notRunStatusCode;
+  public $execTaskCode;
 
 
   // Nodes to exclude when do test plan tree traversal
-    var $nt2exclude=array('testplan' => 'exclude_me',
+    public $nt2exclude=array('testplan' => 'exclude_me',
                         'requirement_spec'=> 'exclude_me',
                         'requirement'=> 'exclude_me');
 
-    var $nt2exclude_children=array('testcase' => 'exclude_my_children',
+    public $nt2exclude_children=array('testcase' => 'exclude_my_children',
                      'requirement_spec'=> 'exclude_my_children');
 
   /**
@@ -7508,16 +7508,16 @@ class testplan extends tlObjectWithAttachments
 class build_mgr extends tlObject
 {
   /** @var database handler */
-  var $db;
-  var $cfield_mgr;
+  public $db;
+  public $cfield_mgr;
 
 
-  /** 
-   * class constructor 
-   * 
+  /**
+   * class constructor
+   *
    * @param resource &$db reference to database handler
    **/
-  function build_mgr(&$db)
+  function __construct(&$db)
   {
     parent::__construct();
     $this->db = &$db;
@@ -7986,14 +7986,14 @@ class build_mgr extends tlObject
 class milestone_mgr extends tlObject
 {
   /** @var database handler */
-  var $db;
+  public $db;
 
-  /** 
-   * class constructor 
-   * 
+  /**
+   * class constructor
+   *
    * @param resource &$db reference to database handler
    **/
-  function milestone_mgr(&$db)
+  function __construct(&$db)
   {
     parent::__construct();
     $this->db = &$db;

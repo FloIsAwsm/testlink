@@ -1452,7 +1452,7 @@ function renderTestCaseForPrinting(&$db,&$node,&$options,$env,$context,$indentLe
              $labels['reqs'].'</span>'; 
     $code .= '<td colspan="' . ($cfg['tableColspan']-1) . '">';
 
-    if (sizeof($requirements))
+    if ($requirements && sizeof($requirements))
     {
       foreach ($requirements as $req)
       {
@@ -1473,7 +1473,7 @@ function renderTestCaseForPrinting(&$db,&$node,&$options,$env,$context,$indentLe
              $labels['keywords'].':</span>';
     $code .= '<td colspan="' . ($cfg['tableColspan']-1) . '">';
     $arrKeywords = $tc_mgr->getKeywords($id);
-    if (sizeof($arrKeywords))
+    if ($arrKeywords && sizeof($arrKeywords))
     {
       foreach ($arrKeywords as $kw)
       {

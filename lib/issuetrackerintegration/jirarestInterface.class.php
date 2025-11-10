@@ -20,7 +20,7 @@ class jirarestInterface extends issueTrackerInterface
   private $APIClient;
   private $issueDefaults;
   private $issueAttr = null;
-  var $support;
+  public $support;
 
 	/**
 	 * Construct and connect to BTS.

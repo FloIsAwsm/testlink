@@ -20,19 +20,19 @@ class requirement_spec_mgr extends tlObjectWithAttachments
   const CASE_SENSITIVE=0;
   const CASE_INSENSITIVE=1;
   
-  var $db;
-  var $cfield_mgr;
-  var $tree_mgr;
+  public $db;
+  public $cfield_mgr;
+  public $tree_mgr;
   
-  var $import_file_types = array("XML" => "XML");
-  var $export_file_types = array("XML" => "XML");
-  var $my_node_type;
-  var $node_types_descr_id;
-  var $node_types_id_descr;
-  var $attachmentTableName;
-  var $field_size;
-  var $req_mgr;
-  var $relationsCfg;
+  public $import_file_types = array("XML" => "XML");
+  public $export_file_types = array("XML" => "XML");
+  public $my_node_type;
+  public $node_types_descr_id;
+  public $node_types_id_descr;
+  public $attachmentTableName;
+  public $field_size;
+  public $req_mgr;
+  public $relationsCfg;
 
   /*
     contructor
@@ -286,7 +286,7 @@ function get_coverage($id)
   $output['nottestable'] = $this->get_requirements($id,'all',null,$getOptions,$getFilters);   
 
   // get coverage
-  if (sizeof($validReq))
+  if ($validReq && sizeof($validReq))
   {
     foreach ($validReq as $req)
     {

@@ -26,10 +26,10 @@
  */
 class tinymce
 {
-	var $InstanceName;
-	var $Value;
-	var $rows = 12;
-	var $cols = 80;
+	public $InstanceName;
+	public $Value;
+	public $rows = 12;
+	public $cols = 80;
 
 	function __construct($instanceName)
  	{

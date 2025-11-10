@@ -17,7 +17,7 @@ class redminerestInterface extends issueTrackerInterface
   private $issueOtherAttr = null; // see 
   private $translate = null;
 
-	var $defaultResolvedStatus;
+	public $defaultResolvedStatus;
 
 	/**
 	 * Construct and connect to BTS.

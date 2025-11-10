@@ -33,46 +33,46 @@ define('TBS_ISINSTALLED', -3);
 // *********************************************
 
 class clsTbsLocator {
-	var $PosBeg = false;
-	var $PosEnd = false;
-	var $Enlarged = false;
-	var $FullName = false;
-	var $SubName = '';
-	var $SubOk = false;
-	var $SubLst = array();
-	var $SubNbr = 0;
-	var $PrmLst = array();
-	var $PrmIfNbr = false;
-	var $MagnetId = false;
-	var $BlockFound = false;
-	var $FirstMerge = true;
-	var $ConvProtect = true;
-	var $ConvStr = true;
-	var $ConvMode = 1; // Normal
-	var $ConvBr = true;
+	public $PosBeg = false;
+	public $PosEnd = false;
+	public $Enlarged = false;
+	public $FullName = false;
+	public $SubName = '';
+	public $SubOk = false;
+	public $SubLst = array();
+	public $SubNbr = 0;
+	public $PrmLst = array();
+	public $PrmIfNbr = false;
+	public $MagnetId = false;
+	public $BlockFound = false;
+	public $FirstMerge = true;
+	public $ConvProtect = true;
+	public $ConvStr = true;
+	public $ConvMode = 1; // Normal
+	public $ConvBr = true;
 }
 
 // *********************************************
 
 class clsTbsDataSource {
 
-var $Type = false;
-var $SubType = 0;
-var $SrcId = false;
-var $Query = '';
-var $RecSet = false;
-var $RecKey = '';
-var $RecNum = 0;
-var $RecNumInit = 0;
-var $RecSaving = false;
-var $RecSaved = false;
-var $RecBuffer = false;
-var $CurrRec = false;
-var $TBS = false;
-var $OnDataOk = false;
-var $OnDataPrm = false;
-var $OnDataPrmDone = array();
-var $OnDataPi = false;
+public $Type = false;
+public $SubType = 0;
+public $SrcId = false;
+public $Query = '';
+public $RecSet = false;
+public $RecKey = '';
+public $RecNum = 0;
+public $RecNumInit = 0;
+public $RecSaving = false;
+public $RecSaved = false;
+public $RecBuffer = false;
+public $CurrRec = false;
+public $TBS = false;
+public $OnDataOk = false;
+public $OnDataPrm = false;
+public $OnDataPrmDone = array();
+public $OnDataPi = false;
 
 function DataAlert($Msg) {
 	if (is_array($this->TBS->_CurrBlock)) {
@@ -536,45 +536,45 @@ function DataClose() {
 class clsTinyButStrong {
 
 // Public properties
-var $Source = '';
-var $Render = 3;
-var $TplVars = array();
-var $ObjectRef = false;
-var $NoErr = false;
-var $Assigned = array();
-var $ExtendedMethods = array();
-var $ErrCount = 0;
+public $Source = '';
+public $Render = 3;
+public $TplVars = array();
+public $ObjectRef = false;
+public $NoErr = false;
+public $Assigned = array();
+public $ExtendedMethods = array();
+public $ErrCount = 0;
 // Undocumented (can change at any version)
-var $Version = '3.9.0';
-var $Charset = '';
-var $TurboBlock = true;
-var $VarPrefix = '';
-var $VarRef = null;
-var $FctPrefix = '';
-var $Protect = true;
-var $ErrMsg = '';
-var $AttDelim = false;
-var $MethodsAllowed = false;
-var $OnLoad = true;
-var $OnShow = true;
-var $IncludePath = array();
-var $TplStore = array();
-var $OldSubTpl = false;
+public $Version = '3.9.0';
+public $Charset = '';
+public $TurboBlock = true;
+public $VarPrefix = '';
+public $VarRef = null;
+public $FctPrefix = '';
+public $Protect = true;
+public $ErrMsg = '';
+public $AttDelim = false;
+public $MethodsAllowed = false;
+public $OnLoad = true;
+public $OnShow = true;
+public $IncludePath = array();
+public $TplStore = array();
+public $OldSubTpl = false;
 // Private
-var $_ErrMsgName = '';
-var $_LastFile = '';
-var $_CharsetFct = false;
-var $_Mode = 0;
-var $_CurrBlock = '';
-var $_ChrOpen = '[';
-var $_ChrClose = ']';
-var $_ChrVal = '[val]';
-var $_ChrProtect = '&#91;';
-var $_PlugIns = array();
-var $_PlugIns_Ok = false;
-var $_piOnFrm_Ok = false;
+public $_ErrMsgName = '';
+public $_LastFile = '';
+public $_CharsetFct = false;
+public $_Mode = 0;
+public $_CurrBlock = '';
+public $_ChrOpen = '[';
+public $_ChrClose = ']';
+public $_ChrVal = '[val]';
+public $_ChrProtect = '&#91;';
+public $_PlugIns = array();
+public $_PlugIns_Ok = false;
+public $_piOnFrm_Ok = false;
 
-function clsTinyButStrong($Options=null,$VarPrefix='',$FctPrefix='') {
+function __construct($Options=null,$VarPrefix='',$FctPrefix='') {
 
 	// Compatibility
 	if (is_string($Options)) {
@@ -597,7 +597,7 @@ function clsTinyButStrong($Options=null,$VarPrefix='',$FctPrefix='') {
 			}
 			if ($Err) $this->meth_Misc_Alert('with clsTinyButStrong() function','value \''.$Chrs.'\' is a bad tag delimitor definition.');
 		}
-	} 
+	}
 
 	// Set options
 	$this->VarRef =& $GLOBALS;

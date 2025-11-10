@@ -22,7 +22,7 @@ class mantisdbInterface extends issueTrackerInterface
                                 'resolved'     => '#cceedd', # buish-green
                                 'closed'       => '#e8e8e8'); # light gray
 
-  var $defaultResolvedStatus;
+  public $defaultResolvedStatus;
 
 
   /**

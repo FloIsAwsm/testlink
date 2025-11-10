@@ -17,27 +17,27 @@
 
 abstract class reqMgrSystemInterface
 {
-  var $connected;
-  var $cfg = null;  // simpleXML object  
-  var $interfaceViaDB = false;  // useful for connect/disconnect methods
+  public $connected;
+  public $cfg = null;  // simpleXML object  
+  public $interfaceViaDB = false;  // useful for connect/disconnect methods
 
 
   // Variables related to establishing the connection
-  var $serverConnection = null;
-  var $server = null;
-  var $user = null;
-  var $password = null;
+  public $serverConnection = null;
+  public $server = null;
+  public $user = null;
+  public $password = null;
   
   // Variables related to retrieving and caching the requirements
-  var $projects = array();
-  var $lastproject = null;
-  var $baselines = array();
-  var $lastbaseline = null;
-  var $requirements = array();
-  var $type = null;
+  public $projects = array();
+  public $lastproject = null;
+  public $baselines = array();
+  public $lastbaseline = null;
+  public $requirements = array();
+  public $type = null;
   
   // Variables related to requirement modifications during import.
-  var $prefix = "";
+  public $prefix = "";
   
   /**
    * Will follow same approach used for issue tracking integration,

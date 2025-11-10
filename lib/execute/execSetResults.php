@@ -717,7 +717,7 @@ function exec_additional_info(&$db, $attachmentRepository, &$tcase_mgr, $other_e
   
   foreach($other_execs as $tcversion_id => $execInfo)
   {
-    $num_elem = sizeof($execInfo);   
+    $num_elem = ($execInfo ? sizeof($execInfo) : 0);   
     for($idx = 0;$idx < $num_elem;$idx++)
     {
       $exec_id = $execInfo[$idx]['execution_id'];

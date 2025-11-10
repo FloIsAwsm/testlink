@@ -127,7 +127,7 @@ function guard_header_smarty($file)
 class TLSmarty extends Smarty
 {
   private $tlImages;
-  var $tlTemplateCfg;
+  public $tlTemplateCfg;
 
   public function __construct()
   {

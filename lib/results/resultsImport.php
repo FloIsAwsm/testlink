@@ -212,7 +212,7 @@ function saveImportedResultData(&$db,$resultData,$context,$options)
   
   $resultMap=array();
   $tplan_mgr=null;
-  $tc_qty=sizeof($resultData);
+  $tc_qty=($resultData ? sizeof($resultData) : 0);
 
   if($tc_qty)
   {
