@@ -958,7 +958,7 @@ function meth_Locator_FindTbs(&$Txt,$Name,$Pos,$ChrSub) {
 		if ($Pos===false) {
 			return false;
 		} else {
-			$Loc = &new clsTbsLocator;
+			$Loc = new clsTbsLocator;
 			$ReadPrm = false;
 			$PosX = $Pos + strlen($Start);
 			$x = $Txt[$PosX];
@@ -1728,7 +1728,7 @@ function meth_Locator_PartAndRename(&$CurrVal, &$PrmLst) {
 function meth_Locator_FindBlockLst(&$Txt,$BlockName,$Pos,$SpePrm) {
 // Return a locator object covering all block definitions, even if there is no block definition found.
 
-	$LocR = &new clsTbsLocator;
+	$LocR = new clsTbsLocator;
 	$LocR->P1 = false;
 	$LocR->FieldOutside = false;
 	$LocR->FOStop = false;
@@ -2175,7 +2175,7 @@ function meth_Merge_Block(&$Txt,$BlockLst,&$SrcId,&$Query,$SpePrm,$SpeRecNum,$Qr
 	$this->_CurrBlock = $BlockLst;
 
 	// Get source type and info
-	$Src = &new clsTbsDataSource;
+	$Src = new clsTbsDataSource;
 	if (!$Src->DataPrepare($SrcId,$this)) {
 		$this->_CurrBlock = $BlockSave;
 		return 0;
@@ -4508,7 +4508,7 @@ $Opening is used only when $LevelStop=false.
 
 	if ($Tag==='_') { // New line
 		$p = clsTinyButStrong::f_Xml_FindNewLine($Txt,$PosBeg,$Forward,($LevelStop!==0));
-		$Loc = &new clsTbsLocator;
+		$Loc = new clsTbsLocator;
 		$Loc->PosBeg = ($Forward) ? $PosBeg : $p;
 		$Loc->PosEnd = ($Forward) ? $p : $PosBeg;
 		$Loc->RightLevel = 0;
@@ -4587,7 +4587,7 @@ $Opening is used only when $LevelStop=false.
 
 	// Search for the end of the tag
 	if ($TagOk) {
-		$Loc = &new clsTbsLocator;
+		$Loc = new clsTbsLocator;
 		if ($WithPrm) {
 			clsTinyButStrong::f_Loc_PrmRead($Txt,$PosX,true,'\'"','<','>',$Loc,$PosEnd,$WithPos);
 		} elseif ($PosEnd===false) {
