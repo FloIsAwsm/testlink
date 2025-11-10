@@ -60,7 +60,7 @@ class dBug {
 	var $arrHistory = array();
 	
 	//constructor
-	function dBug($var,$forceType="") {
+	function __construct($var,$forceType="") {
 		//include js and css scripts
 		if(!defined('BDBUGINIT')) {
 			define("BDBUGINIT", TRUE);

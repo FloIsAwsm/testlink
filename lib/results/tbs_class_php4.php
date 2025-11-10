@@ -574,7 +574,7 @@ var $_PlugIns = array();
 var $_PlugIns_Ok = false;
 var $_piOnFrm_Ok = false;
 
-function clsTinyButStrong($Options=null,$VarPrefix='',$FctPrefix='') {
+function __construct($Options=null,$VarPrefix='',$FctPrefix='') {
 
 	// Compatibility
 	if (is_string($Options)) {
@@ -597,7 +597,7 @@ function clsTinyButStrong($Options=null,$VarPrefix='',$FctPrefix='') {
 			}
 			if ($Err) $this->meth_Misc_Alert('with clsTinyButStrong() function','value \''.$Chrs.'\' is a bad tag delimitor definition.');
 		}
-	} 
+	}
 
 	// Set options
 	$this->VarRef =& $GLOBALS;
