@@ -84,6 +84,8 @@ class tlLogger extends tlObject
   protected $eventManager;
   protected $loggerTypeClass = array('db' => null, 'file' => null, 'mail' => null);
   protected $loggerTypeDomain;
+  protected $logLevelFilter = null;
+  protected $db = null;
     
   public function __construct(&$db)
   {

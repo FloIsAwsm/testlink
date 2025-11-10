@@ -137,11 +137,17 @@ class database
   
   /** Make a connection to the database */
   # changed Connect() to NConnect() see ADODB Manuals
-  function connect( $p_dsn, $p_hostname = null, $p_username = null, 
-                            $p_password = null, $p_database_name = null ) 
+  function connect( $p_dsn, $p_hostname = null, $p_username = null,
+                            $p_password = null, $p_database_name = null )
   {
     $result = array('status' => 1, 'dbms_msg' => 'ok');
-    
+
+    if( is_null($this->db) ) {
+      $result['status'] = 0;
+      $result['dbms_msg'] = 'Database connection object is not initialized. Please check ADODB installation and DB_TYPE configuration.';
+      return $result;
+    }
+
     if(  $p_dsn === false ) {
       $t_result = $this->db->NConnect($p_hostname, $p_username, $p_password, $p_database_name );
     } else {
