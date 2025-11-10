@@ -174,7 +174,7 @@ class assignment_mgr extends tlObjectWithDB
                 " AND user_id = " . $safe['user_id'];
 
       $rs = $this->db->get_recordset($check);
-      if( is_null($rs) || count($rs) == 0 )
+      if( is_null($rs) || count($rs ?? []) == 0 )
       {
         if($safe['user_id'] > 0)
         {

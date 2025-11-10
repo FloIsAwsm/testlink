@@ -710,7 +710,7 @@ class testcase extends tlObjectWithAttachments
     }  
   
     $rs = $this->db->fetchRowsIntoMap($sql,$my['options']['access_key']);
-    if( is_null($rs) || count($rs) == 0 )
+    if( is_null($rs) || count($rs ?? []) == 0 )
     {
       $rs=null;   
     }
@@ -764,7 +764,7 @@ class testcase extends tlObjectWithAttachments
               " AND NH_TCASE_PARENT.node_type_id = {$this->node_types_descr_id['testsuite']} ";
     }
     $recordset = $this->db->get_recordset($sql);
-    if(count($recordset) && $tproject_name != "")
+    if(count($recordset ?? []) && $tproject_name != "")
     {    
       list($tproject_info)=$this->tproject_mgr->get_by_name($tproject_name);
       foreach($recordset as $idx => $tcase_info)
@@ -3409,12 +3409,12 @@ class testcase extends tlObjectWithAttachments
        
     $recordset = $this->db->fetchColumnsIntoMap($sql,'execution_id','tcversion_id');
     $and_exec_id='';
-    if( !is_null($recordset) && count($recordset) > 0)
+    if( !is_null($recordset) && count($recordset ?? []) > 0)
     {
       $the_list = implode(",", array_keys($recordset));
       if($the_list != '')
       {
-        if( count($recordset) > 1 )
+        if( count($recordset ?? []) > 1 )
         {
           $and_exec_id = " AND e.id IN ($the_list) ";
         }
@@ -4798,7 +4798,7 @@ class testcase extends tlObjectWithAttachments
 
       // get all testcases on test project with this name and parent test suite
         $recordset = $this->get_by_name($tcaseName, $tsuiteName ,$tprojectName);
-        if( !is_null($recordset) && count($recordset) > 0 )
+        if( !is_null($recordset) && count($recordset ?? []) > 0 )
         {
           foreach($recordset as $value)
           {

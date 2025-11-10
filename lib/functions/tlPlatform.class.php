@@ -264,7 +264,7 @@ class tlPlatform extends tlObjectWithDB
           " GROUP BY PLAT.id ";
       $figures = $this->db->fetchRowsIntoMap($sql,'id');   
       
-      $loop2do = count($rs);
+      $loop2do = count($rs ?? []);
       for($idx=0; $idx < $loop2do; $idx++)
       {
         $rs[$idx]['linked_count'] = $figures[$rs[$idx]['id']]['linked_count'];        

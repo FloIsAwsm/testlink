@@ -2859,7 +2859,7 @@ class TestlinkXMLRPCServer extends IXR_Server
         
        $rs=$this->dbObj->get_recordset($sql);
     
-       if( count($rs) != 1 )
+       if( count($rs ?? []) != 1 )
        {
           $status_ok=false;
           $tproject_info = $this->tprojectMgr->get_by_id($tproject_id);

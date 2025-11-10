@@ -106,7 +106,7 @@ switch($assignRolesFor)
 $gui->grants = getGrantsForUserMgmt($db,$args->user,$target->testprojectID,-1);
 
 $gui->accessTypeImg = '';
-if(is_null($gui->features) || count($gui->features) == 0)
+if(is_null($gui->features) || count($gui->features ?? []) == 0)
 {
   $gui->features = null;
   if( $gui->user_feedback == '' )

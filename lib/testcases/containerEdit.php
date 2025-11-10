@@ -589,7 +589,7 @@ function deleteTestSuite(&$smartyObj,&$argsObj,&$tsuiteMgr,&$treeMgr,&$tcaseMgr,
     $map_msg['link_msg'] = null;
     $map_msg['delete_msg'] = null;
 
-    if(is_null($testcases) || count($testcases) == 0)
+    if(is_null($testcases) || count($testcases ?? []) == 0)
     {
       $can_delete = 1;
     }
@@ -1137,7 +1137,7 @@ function deleteTestCasesViewer(&$dbHandler,&$smartyObj,&$tprojectMgr,&$treeMgr,&
     $tcasePrefix = $tprojectMgr->getTestCasePrefix($argsObj->tprojectID);
     $hasExecutedTC = false;
 
-    if( !is_null($guiObj->testCaseSet) && count($guiObj->testCaseSet) > 0)
+    if( !is_null($guiObj->testCaseSet) && count($guiObj->testCaseSet ?? []) > 0)
     {
       foreach($guiObj->testCaseSet as &$child)
       {
@@ -1229,7 +1229,7 @@ returns: -
 */
 function doDeleteTestCases(&$dbHandler,$tcaseSet,&$tcaseMgr)
 {
-  if( count($tcaseSet) > 0 )
+  if( count($tcaseSet ?? []) > 0 )
   {
     foreach($tcaseSet as $victim)
     {
@@ -1334,7 +1334,7 @@ function initializeGui(&$objMgr,$id,$argsObj,$lbl)
  */
 function doBulkSet(&$dbHandler,$argsObj,$tcaseSet,&$tcaseMgr)
 {
-  if( count($tcaseSet) > 0 )
+  if( count($tcaseSet ?? []) > 0 )
   {
     foreach($tcaseSet as $tcversion_id => $tcase_id)
     {

@@ -1012,7 +1012,7 @@ function setCanExecute($exec_info,$execution_mode,$can_execute,$tester_id)
 function createExecNotesWebEditor(&$tcversions,$basehref,$editorCfg)
 {
   
-    if(is_null($tcversions) || count($tcversions) == 0 )
+    if(is_null($tcversions) || count($tcversions ?? []) == 0 )
     {
         return null;  // nothing todo >>>------> bye!  
     }

@@ -948,8 +948,8 @@ function req_link_replace($dbHandler, $scope, $tprojectID)
       // get all reqs / req specs with the specified doc_id
       $sql = $sql2exec[$accessKey] . "'{$matches[$patternPositions['doc_id']][$key]}'";
       $rs = $dbHandler->get_recordset($sql);
-      
-      if (count($rs) > 0) 
+
+      if (count($rs ?? []) > 0) 
       {
   
         foreach($rs as $key => $value) 

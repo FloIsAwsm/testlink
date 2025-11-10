@@ -298,7 +298,7 @@ public function setSessionProject($projectId)
  */
 protected function parseTestProjectRecordset(&$recordset)
 {
-  if (count($recordset) > 0)
+  if (count($recordset ?? []) > 0)
   {
     foreach ($recordset as $number => $row)
     {
@@ -481,7 +481,7 @@ function get_all($filters=null,$options=null)
   else
   {
     $recordset = $this->db->fetchRowsIntoMap($sql,$my['options']['access_key']);
-    if (count($recordset) > 0)
+    if (count($recordset ?? []) > 0)
     {
       foreach ($recordset as $number => $row)
       {
@@ -2925,7 +2925,7 @@ function _get_subtree_rec($node_id,&$pnode,$filters = null, $options = null)
   
   // Approach Change - get all 
   $rs = $this->db->fetchRowsIntoMap($sql,'id');
-  if( count($rs) == 0 )
+  if( count($rs ?? []) == 0 )
   {
     return $qnum;
   }
