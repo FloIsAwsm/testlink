@@ -97,7 +97,8 @@ class database
   }
 
   // TICKET 4898: MSSQL - Add support for SQLSRV drivers needed for PHP on WINDOWS version 5.3 and higher
-  function database($db_type)
+  // PHP 8 compatibility: Use __construct instead of old-style constructor
+  function __construct($db_type)
   {
     $this->dbType = $adodb_driver = $db_type;
     $fetch_mode = ADODB_FETCH_ASSOC;

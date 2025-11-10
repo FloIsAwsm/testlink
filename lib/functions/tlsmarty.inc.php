@@ -36,7 +36,20 @@ if( defined('TL_SMARTY_VERSION') && TL_SMARTY_VERSION < 4 )
   require_once( SMARTY_DIR . 'Smarty.class.php');
 }
 // Smarty 4.x from Composer is loaded automatically via autoloader
+else
+{
 
+  // Use Smarty 4.x from Composer (default)
+
+  // Define SMARTY_DIR for backward compatibility, pointing to vendor directory
+
+  define('SMARTY_DIR', TL_ABS_PATH . 'vendor'. DIRECTORY_SEPARATOR . 'smarty'. DIRECTORY_SEPARATOR . 'smarty' . DIRECTORY_SEPARATOR . 'libs' . DIRECTORY_SEPARATOR);
+
+  // Smarty 4.x is loaded automatically via Composer autoloader in config.inc.php
+
+  // No need to require Smarty.class.php as it's autoloaded
+
+}
 /** in this way you can switch ext js version in easy way,
 	To use a different version of Sencha (Old EXT-JS) that provided with TL */
 if( !defined('TL_EXTJS_RELATIVE_PATH') )
@@ -121,9 +134,9 @@ class TLSmarty extends Smarty
     global $tlCfg;
     
     parent::__construct();
-    $this->template_dir = TL_ABS_PATH . 'gui/templates/';
-    $this->compile_dir = TL_TEMP_PATH;
-    $this->config_dir = TL_ABS_PATH . 'gui/templates/';
+    $this->setTemplateDir(TL_ABS_PATH . 'gui/templates/');
+    $this->setCompileDir(TL_TEMP_PATH);
+    $this->setConfigDir(TL_ABS_PATH . 'gui/templates/');
     
     $testproject_coloring = $tlCfg->gui->testproject_coloring;
     $testprojectColor = $tlCfg->gui->background_color ; //TL_BACKGROUND_DEFAULT;
