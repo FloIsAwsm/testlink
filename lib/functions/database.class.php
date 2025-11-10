@@ -123,6 +123,31 @@ class database
       } 
     }
     $this->db = NewADOConnection($adodb_driver);
+
+    // Check if ADODB connection object was created successfully
+    if (!$this->db) {
+      $errorMsg = "Failed to create database connection object.\n\n";
+      $errorMsg .= "Possible causes:\n";
+      $errorMsg .= "1. ADODB library is not installed or not loaded properly\n";
+      $errorMsg .= "2. Database type '$db_type' is not supported by ADODB\n";
+      $errorMsg .= "3. Composer dependencies are not installed (run: composer install)\n\n";
+      $errorMsg .= "Please check:\n";
+      $errorMsg .= "- The vendor/adodb directory exists\n";
+      $errorMsg .= "- Composer dependencies have been installed\n";
+      $errorMsg .= "- DB_TYPE in config_db.inc.php is valid (mysql, mysqli, postgres, etc.)\n";
+
+      // Display error and exit immediately
+      if (PHP_SAPI === 'cli') {
+        echo $errorMsg;
+      } else {
+        echo "<!DOCTYPE html><html><head><title>Database Initialization Error</title></head><body>";
+        echo "<h1>Database Initialization Error</h1>";
+        echo "<pre>" . htmlspecialchars($errorMsg) . "</pre>";
+        echo "</body></html>";
+      }
+      exit(1);
+    }
+
     $this->db->SetFetchMode($fetch_mode);
   }
 

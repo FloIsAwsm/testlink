@@ -165,11 +165,20 @@ function doDBConnect(&$db,$onErrorExit=false)
     tLog(str_replace($search,$replace,$logmsg), 'ERROR');
     if( $onErrorExit )
     {
-      $smarty = new TLSmarty();
-      $smarty->assign('title', lang_get('fatal_page_title'));
-      $smarty->assign('content', $logtext);
-      $smarty->assign('link_to_op', null);
-      $smarty->display('workAreaSimple.tpl'); 
+      try {
+        $smarty = new TLSmarty();
+        $smarty->assign('title', lang_get('fatal_page_title'));
+        $smarty->assign('content', $logtext);
+        $smarty->assign('link_to_op', null);
+        $smarty->display('workAreaSimple.tpl');
+      } catch (Exception $e) {
+        // Fallback to simple HTML if Smarty fails
+        echo '<!DOCTYPE html><html><head><title>Database Connection Error</title></head><body>';
+        echo '<h1>Database Connection Error</h1>';
+        echo '<div>' . $logtext . '</div>';
+        echo '<p>Additionally, the template engine failed to load. This might indicate a configuration problem.</p>';
+        echo '</body></html>';
+      }
       exit();
     }
   }
