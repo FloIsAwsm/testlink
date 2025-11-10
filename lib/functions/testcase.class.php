@@ -839,9 +839,9 @@ class testcase extends tlObjectWithAttachments
       {
         $gui->can_do->add2tplan = 'no';
       }
-    }  
-    
-    if($status_ok && sizeof($idSet))
+    }
+
+    if($status_ok && count($idSet ?? []))
     {
       $cfx = 0;
       
@@ -2518,7 +2518,7 @@ class testcase extends tlObjectWithAttachments
     $link_info = null;
     $in_set = null;
 
-    if ($rs && sizeof($rs))
+    if ($rs && count($rs ?? []))
     {
       foreach($rs as $idx => $elem)
       {
@@ -2964,7 +2964,7 @@ class testcase extends tlObjectWithAttachments
   {
     // if keyword is already assigned, we just say good bye
     $kw = $this->getKeywords($id,$kw_id);
-    if ($kw && sizeof($kw))
+    if ($kw && count($kw ?? []))
     {
       return 1;
     }
@@ -2998,7 +2998,7 @@ class testcase extends tlObjectWithAttachments
   function addKeywords($id,$kw_ids,$audit = self::AUDIT_ON)
   {
     $status_ok = 1;
-    $num_kws = sizeof($kw_ids);
+    $num_kws = count($kw_ids ?? []);
     for($idx = 0; $idx < $num_kws; $idx++)
     {
       $status_ok = $status_ok && $this->addKeyword($id,$kw_ids[$idx],$audit);
@@ -3017,7 +3017,7 @@ class testcase extends tlObjectWithAttachments
   function setKeywords($id,$kw_ids,$audit = self::AUDIT_ON)
   {
     $result = $this->deleteKeywords($id);
-    if ($result && $kw_ids && sizeof($kw_ids))
+    if ($result && $kw_ids && count($kw_ids ?? []))
     {
       $result = $this->addKeywords($id,$kw_ids);
     }

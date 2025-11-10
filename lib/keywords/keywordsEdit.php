@@ -79,7 +79,7 @@ function init_args()
 {
 	$args = new stdClass();
 	
-	$bPostBack = sizeof($_POST);
+	$bPostBack = count($_POST ?? []);
 	$source = $bPostBack ? "POST" : "GET";
 	$iParams = array(
 			"doAction" => array($source,tlInputParameter::STRING_N,0,50),

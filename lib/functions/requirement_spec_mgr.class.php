@@ -286,7 +286,7 @@ function get_coverage($id)
   $output['nottestable'] = $this->get_requirements($id,'all',null,$getOptions,$getFilters);   
 
   // get coverage
-  if ($validReq && sizeof($validReq))
+  if ($validReq && count($validReq ?? []))
   {
     foreach ($validReq as $req)
     {
@@ -988,7 +988,7 @@ function exportReqSpecToXML($id,$tproject_id,$optExport=array())
 	$childNodes = isset($req_spec['childNodes']) ? $req_spec['childNodes'] : null ;
 	if( !is_null($childNodes) )
 	{
-    $loop_qty=sizeof($childNodes); 
+    $loop_qty=count($childNodes ?? []); 
     for($idx = 0;$idx < $loop_qty;$idx++)
     {
 	    $cNode = $childNodes[$idx];

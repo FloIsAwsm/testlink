@@ -70,7 +70,7 @@ switch($args->edit)
       $tcs = $tsuite_mgr->get_testcases_deep($args->id,'only_id');
     }
 
-    if( $tcs && ($loop2do = sizeof($tcs)) )
+    if( $tcs && ($loop2do = count($tcs ?? [])) )
     {
       $gui->can_do = 1;
       if ($args->assignToTestSuite)
@@ -96,7 +96,7 @@ switch($args->edit)
     $doRecall = true;
     $gui->can_do = 1;
     $tcData = $tcase_mgr->get_by_id($args->id);
-    if ($tcData && sizeof($tcData))
+    if ($tcData && count($tcData ?? []))
     {
       $gui->keyword_assignment_subtitle = lang_get('test_case') . TITLE_SEP . $tcData[0]['name'];
     }

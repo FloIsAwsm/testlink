@@ -547,7 +547,7 @@ function renderReqSpecTreeForPrinting(&$db, &$node, &$options,$tocPrefix, $rsCnt
     
     $childNodes = $node['childNodes'];
     $rsCnt = 0;
-         $children_qty = sizeof($childNodes);
+         $children_qty = count($childNodes ?? []);
     for($i = 0;$i < $children_qty ;$i++)
     {
       $current = $childNodes[$i];
@@ -816,7 +816,7 @@ function renderTestSpecTreeForPrinting(&$db,&$node,&$options,$env,$context,$tocP
     // Need to be a LOCAL COUNTER for each PARENT
     $TOCCounter = 0;
     $childNodes = $node['childNodes'];
-    $children_qty = sizeof($childNodes);
+    $children_qty = count($childNodes ?? []);
     for($idx = 0;$idx < $children_qty ;$idx++)
     {
       $current = $childNodes[$idx];
@@ -1452,7 +1452,7 @@ function renderTestCaseForPrinting(&$db,&$node,&$options,$env,$context,$indentLe
              $labels['reqs'].'</span>'; 
     $code .= '<td colspan="' . ($cfg['tableColspan']-1) . '">';
 
-    if ($requirements && sizeof($requirements))
+    if ($requirements && count($requirements ?? []))
     {
       foreach ($requirements as $req)
       {
@@ -1473,7 +1473,7 @@ function renderTestCaseForPrinting(&$db,&$node,&$options,$env,$context,$indentLe
              $labels['keywords'].':</span>';
     $code .= '<td colspan="' . ($cfg['tableColspan']-1) . '">';
     $arrKeywords = $tc_mgr->getKeywords($id);
-    if ($arrKeywords && sizeof($arrKeywords))
+    if ($arrKeywords && count($arrKeywords ?? []))
     {
       foreach ($arrKeywords as $kw)
       {

@@ -73,7 +73,7 @@ function initializeGui(&$db,&$args,$dateFormat)
 	$options = new stdClass();
 	
 	// convert starttime to iso format for database usage
-	if (isset($args->selected_start_date) && sizeof($args->selected_start_date) > 0) {
+	if (isset($args->selected_start_date) && count($args->selected_start_date ?? []) > 0) {
 		$date_array = split_localized_date($args->selected_start_date[0], $dateFormat);
 		if ($date_array != null) {
 			// set date in iso format
@@ -82,7 +82,7 @@ function initializeGui(&$db,&$args,$dateFormat)
 	}
 	
 	// convert starttime to iso format for database usage
-	if (isset($args->selected_end_date) && sizeof($args->selected_end_date) > 0) {
+	if (isset($args->selected_end_date) && count($args->selected_end_date ?? []) > 0) {
 		$date_array = split_localized_date($args->selected_end_date[0], $dateFormat);
 		if ($date_array != null) {
 			// set date in iso format

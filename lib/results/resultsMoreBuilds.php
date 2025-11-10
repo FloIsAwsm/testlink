@@ -101,7 +101,7 @@ function initializeGui(&$dbHandler,&$argsObj,$dateFormat)
 	} 
 
     $filters['builds'] = null;
-    if (sizeof($argsObj->buildsSelected)) 
+    if (count($argsObj->buildsSelected ?? [])) 
     {
     	$filters['builds'] = implode(",", $argsObj->buildsSelected);
     }

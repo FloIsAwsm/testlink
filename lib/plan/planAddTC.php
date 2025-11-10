@@ -124,7 +124,7 @@ if($do_display)
     $keywordsTestCases = $tproject_mgr->get_keywords_tcases($args->tproject_id,$keywordsFilter->items,
                                                             $keywordsFilter->type);
       
-    if (sizeof($keywordsTestCases))
+    if (count($keywordsTestCases ?? []))
     {
       $testCaseSet = array_keys($keywordsTestCases);
     }

@@ -33,7 +33,7 @@ $gui->TestProjects = $tproject_mgr->get_accessible_for_user($args->user->dbID,
 
 
 
-$gui->TestProjectCount = sizeof($gui->TestProjects);
+$gui->TestProjectCount = count($gui->TestProjects ?? []);
 $gui->TestPlanCount = 0; 
 
 $tprojectQty = $tproject_mgr->getItemCount();
@@ -47,7 +47,7 @@ if($gui->TestProjectCount == 0 && $tprojectQty > 0)
 if($gui->tprojectID)
 {
 	$testPlanSet = $args->user->getAccessibleTestPlans($db,$gui->tprojectID);
-  $gui->TestPlanCount = sizeof($testPlanSet);
+  $gui->TestPlanCount = count($testPlanSet ?? []);
 
 	$tplanID = isset($_SESSION['testplanID']) ? intval($_SESSION['testplanID']) : null;
   if( !is_null($tplanID) )

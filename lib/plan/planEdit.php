@@ -431,7 +431,7 @@ function initializeGui(&$dbHandler,&$argsObj,&$editorCfg,&$tprojectMgr)
 function getItemData(&$itemMgr,&$guiObj,&$ofObj,$itemID,$updateAttachments=false)
 {
   $dummy = $itemMgr->get_by_id($itemID);
-  if ($dummy && sizeof($dummy))
+  if ($dummy && count($dummy ?? []))
   {
     $ofObj->Value = $dummy['notes'];
     $guiObj->testplan_name = $dummy['name'];

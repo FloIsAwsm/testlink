@@ -148,7 +148,7 @@ function importTestCaseDataFromXML(&$db,$fileName,$parentID,$tproject_id,$userID
       if ($xmlKeywords)
       {
         $tproject = new testproject($db);
-        $loop2do = sizeof($xmlKeywords);
+        $loop2do = count($xmlKeywords ?? []);
         for($idx = 0; $idx < $loop2do ;$idx++)
         {
           $tproject->importKeywordsFromSimpleXML($tproject_id,$xmlKeywords[$idx]);
@@ -256,7 +256,7 @@ function saveImportedTCData(&$db,$tcData,$tproject_id,$container_id,
   }
   
   $resultMap = array();
-  $tc_qty = sizeof($tcData);
+  $tc_qty = count($tcData ?? []);
   $userIDCache = array();
   
   for($idx = 0; $idx <$tc_qty ; $idx++)
@@ -475,7 +475,7 @@ function saveImportedTCData(&$db,$tcData,$tproject_id,$container_id,
 function buildKeywordList($kwMap,$keywords)
 {
   $items = array();
-  $loop2do = sizeof($keywords);
+  $loop2do = count($keywords ?? []);
   for($jdx = 0; $jdx <$loop2do ; $jdx++)
   {
     $items[] = $kwMap[trim($keywords[$jdx]['name'])]; 
@@ -723,7 +723,7 @@ function getTestCaseSetFromSimpleXMLObj($xmlTCs)
   }
     
   $jdx = 0;
-  $loops2do=sizeof($xmlTCs);
+  $loops2do=count($xmlTCs ?? []);
   $tcaseSet = array();
   
   // $tcXML['elements'] = array('string' => array("summary","preconditions"),
@@ -921,7 +921,7 @@ function importTestSuitesFromSimpleXML(&$dbHandler,&$xml,$parentID,$tproject_id,
     }
 
     $childrenNodes = $xml->children();  
-    $loop2do = sizeof($childrenNodes);
+    $loop2do = count($childrenNodes ?? []);
     
     for($idx = 0; $idx < $loop2do; $idx++)
     {

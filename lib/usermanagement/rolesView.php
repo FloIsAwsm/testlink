@@ -28,7 +28,7 @@ switch ($args->doAction)
     if ($role)
     {
       $affectedUsers = $role->getAllUsersWithRole($db);
-      $doDelete = (!$affectedUsers || sizeof($affectedUsers) == 0);
+      $doDelete = (!$affectedUsers || count($affectedUsers ?? []) == 0);
     }
   break;
 

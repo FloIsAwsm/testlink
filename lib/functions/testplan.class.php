@@ -3864,7 +3864,7 @@ class testplan extends tlObjectWithAttachments
     $childNodes = isset($container['childNodes']) ? $container['childNodes'] : null ;
     if( !is_null($childNodes) )
     {
-      $loop_qty=sizeof($childNodes); 
+      $loop_qty=count($childNodes ?? []); 
       for($idx = 0;$idx < $loop_qty;$idx++)
       {
         $cNode = $childNodes[$idx];

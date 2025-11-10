@@ -1633,7 +1633,7 @@ class tree extends tlObject
             $containerSet[] = $row['id'];
         }
       }
-      if ($containerSet && sizeof($containerSet))
+      if ($containerSet && count($containerSet ?? []))
       {
         $containerSet  = implode(",",$containerSet);
         $this->getAllItemsID($containerSet,$itemSet,$coupleTypes);

@@ -1035,7 +1035,7 @@ class testsuite extends tlObjectWithAttachments
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $status = 1;
     $kw = $this->getKeywords($id,$kw_id);
-    if( ($doLink = !($kw && sizeof($kw))) )
+    if( ($doLink = !($kw && count($kw ?? []))) )
     {
       $sql = "/* $debugMsg */ INSERT INTO {$this->tables['object_keywords']} " .
              " (fk_id,fk_table,keyword_id) VALUES ($id,'nodes_hierarchy',$kw_id)";
@@ -1056,7 +1056,7 @@ class testsuite extends tlObjectWithAttachments
   function addKeywords($id,$kw_ids)
   {
     $status = 1;
-    $num_kws = ($kw_ids ? sizeof($kw_ids) : 0);
+    $num_kws = ($kw_ids ? count($kw_ids ?? []) : 0);
     for($idx = 0; $idx < $num_kws; $idx++)
     {
       $status = $status && $this->addKeyword($id,$kw_ids[$idx]);
@@ -1145,7 +1145,7 @@ class testsuite extends tlObjectWithAttachments
     $relXmlData = '';
     if( !is_null($childNodes) )
     {
-      $loop_qty=sizeof($childNodes); 
+      $loop_qty=count($childNodes ?? []); 
       for($idx = 0;$idx < $loop_qty;$idx++)
       {
         $cNode = $childNodes[$idx];

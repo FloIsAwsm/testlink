@@ -721,7 +721,7 @@ function  reorderTestSuiteViewer(&$smartyObj,&$treeMgr,$argsObj)
     $object_name = $object_info['name'];
 
 
-    if (!$children || !sizeof($children))
+    if (!$children || !count($children ?? []))
     {  
       $children = null;
     }
@@ -945,7 +945,7 @@ function moveTestCasesViewer(&$dbHandler,&$smartyObj,&$tprojectMgr,&$treeMgr,
 
   // check if operation can be done
   $user_feedback = $feedback;
-  if(!is_null($children) && (sizeof($children) > 0) && $testsuites && sizeof($testsuites))
+  if(!is_null($children) && (count($children ?? []) > 0) && $testsuites && count($testsuites ?? []))
   {
     $op_ok = true;
   }
@@ -998,7 +998,7 @@ returns: -
 function copyTestCases(&$smartyObj,$template_dir,&$tsuiteMgr,&$tcaseMgr,$argsObj)
 {
   $op = array('refreshTree' => false, 'userfeedback' => '');
-  if( ($qty=sizeof($argsObj->tcaseSet)) > 0)
+  if( ($qty=count($argsObj->tcaseSet ?? [])) > 0)
   {
     $msg_id = $qty == 1 ? 'one_testcase_copied' : 'testcase_set_copied';
     $op['userfeedback'] = sprintf(lang_get($msg_id),$qty);
@@ -1035,7 +1035,7 @@ returns: -
 */
 function moveTestCases(&$smartyObj,$template_dir,&$tsuiteMgr,&$treeMgr,$argsObj,$lbl)
 {
-    if(sizeof($argsObj->tcaseSet) > 0)
+    if(count($argsObj->tcaseSet ?? []) > 0)
     {
         $status_ok = $treeMgr->change_parent($argsObj->tcaseSet,$argsObj->containerID);
         $user_feedback= $status_ok ? '' : lang_get('move_testcases_failed');
@@ -1193,7 +1193,7 @@ function deleteTestCasesViewer(&$dbHandler,&$smartyObj,&$tprojectMgr,&$treeMgr,&
     }
     // check if operation can be done
     $guiObj->user_feedback = $feedback;
-    if(!is_null($guiObj->testCaseSet) && (sizeof($guiObj->testCaseSet) > 0) )
+    if(!is_null($guiObj->testCaseSet) && (count($guiObj->testCaseSet ?? []) > 0) )
     {
       $guiObj->op_ok = true;
       $guiObj->user_feedback = '';

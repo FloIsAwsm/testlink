@@ -65,7 +65,7 @@ function setUserSession(&$db,$user, $id, $roleID, $email, $locale = null, $activ
   if (!$_SESSION['testprojectID'])
   {
       $tpID = null;
-      if (sizeof($arrProducts))
+      if (count($arrProducts ?? []))
       {
         $tpID = key($arrProducts);
       } 

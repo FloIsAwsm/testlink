@@ -729,7 +729,7 @@ function renderTreeNode($level,&$node,$hash_id_descr,$linkto,$testCasePrefix,$op
     //                         in order to change it's values using reference .
     // Can not assign anymore to intermediate variables.
     //
-    $nChildren = sizeof($node['childNodes']);
+    $nChildren = count($node['childNodes'] ?? []);
     for($idx = 0;$idx < $nChildren;$idx++)
     {
       // asimon - replaced is_null by !isset because of warnings in event log
@@ -882,7 +882,7 @@ function renderExecTreeNode($level,&$node,&$tcase_node,$hash_id_descr,$linkto,$t
   {
     // need to work always original object in order to change it's values using reference .
     // Can not assign anymore to intermediate variables.
-    $nodes_qty = sizeof($node['childNodes']);
+    $nodes_qty = count($node['childNodes'] ?? []);
     for($idx = 0;$idx <$nodes_qty ;$idx++)
     {
       if(is_null($node['childNodes'][$idx]) || $node['childNodes'][$idx]==REMOVEME)

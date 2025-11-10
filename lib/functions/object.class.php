@@ -303,9 +303,9 @@ abstract class tlObject implements iSerialization
     if ($tableNames != null)
     { 
       $tableNames = (array)$tableNames;
-      $tableNames = array_flip($tableNames);      
+      $tableNames = array_flip($tableNames);
       $tables = array_intersect_key($tables,$tableNames);
-      if (sizeof($tables) != sizeof($tableNames))
+      if (count($tables ?? []) != count($tableNames ?? []))
       {
         throw new Exception("Wrong table name(s) for getDBTables() detected!");
       } 
@@ -323,9 +323,9 @@ abstract class tlObject implements iSerialization
     if ($itemNames != null)
     { 
       $itemNames = (array)$itemNames;
-            $itemNames = array_flip($itemNames);      
+            $itemNames = array_flip($itemNames);
       $items = array_intersect_key($items,$itemNames);
-      if (sizeof($items) != sizeof($itemNames))
+      if (count($items ?? []) != count($itemNames ?? []))
       {
         $msg = "Wrong view name(s) for " . __FUNCTION__ . " detected!";
         throw new Exception($msg);
@@ -570,7 +570,7 @@ abstract class tlDBObject extends tlObject implements iDBSerialization
       $items = self::bulkCreateObjectsFromDB($db,$ids,$className,$returnAsMap,$detailLevel);
     else
     {
-      for($i = 0;$i < sizeof($ids);$i++)
+      for($i = 0;$i < count($ids ?? []);$i++)
       {
         $id = $ids[$i];
         $item = self::createObjectFromDB($db,$id,$className,self::TLOBJ_O_SEARCH_BY_ID,$detailLevel);
@@ -606,7 +606,7 @@ abstract class tlDBObject extends tlObject implements iDBSerialization
                                              $detailLevel = self::TLOBJ_O_GET_DETAIL_FULL)
   {
     $items = null;
-    if ($ids && sizeof($ids))
+    if ($ids && count($ids ?? []))
     { 
       $dummyItem = new $className();
       $query = $dummyItem->getReadFromDBQuery($ids,self::TLOBJ_O_SEARCH_BY_ID,$detailLevel);

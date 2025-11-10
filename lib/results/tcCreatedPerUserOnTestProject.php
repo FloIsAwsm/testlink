@@ -107,7 +107,7 @@ function initializeGuiForResult(&$dbHandler,$argsObj,&$guiObj)
   $k2l = array('selected_start_date' => 'startTime','selected_end_date' => 'endTime');
   foreach($k2l as $in => $opt)
   {
-    if (isset($argsObj->$in) && sizeof($argsObj->$in) > 0) 
+    if (isset($argsObj->$in) && count($argsObj->$in ?? []) > 0) 
     {
       $dd = split_localized_date(current($argsObj->$in), $dateFormat);
       if ($dd != null) 
