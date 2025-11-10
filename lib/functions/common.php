@@ -117,9 +117,37 @@ $db = 0;
 function doDBConnect(&$db,$onErrorExit=false)
 {
   global $g_tlLogger;
-  
+
   $charSet = config_get('charset');
   $result = array('status' => 1, 'dbms_msg' => 'ok');
+
+  // Check if database configuration constants are defined
+  if (!defined('DB_TYPE') || !defined('DB_HOST') || !defined('DB_USER') ||
+      !defined('DB_PASS') || !defined('DB_NAME')) {
+    $result['status'] = 0;
+    $result['dbms_msg'] = 'Database configuration file (config_db.inc.php) is missing or incomplete. ' .
+                          'Please run the TestLink installer or create this file with the required database constants: ' .
+                          'DB_TYPE, DB_HOST, DB_USER, DB_PASS, DB_NAME.';
+
+    if ($onErrorExit) {
+      try {
+        $smarty = new TLSmarty();
+        $smarty->assign('title', 'Database Configuration Missing');
+        $smarty->assign('content', $result['dbms_msg']);
+        $smarty->assign('link_to_op', null);
+        $smarty->display('workAreaSimple.tpl');
+      } catch (Exception $e) {
+        // Fallback to simple HTML if Smarty fails
+        echo '<!DOCTYPE html><html><head><title>Database Configuration Missing</title></head><body>';
+        echo '<h1>Database Configuration Missing</h1>';
+        echo '<p>' . htmlspecialchars($result['dbms_msg']) . '</p>';
+        echo '<p>Please run the TestLink installer to configure your database connection.</p>';
+        echo '</body></html>';
+      }
+      exit();
+    }
+    return $result;
+  }
 
   $db = new database(DB_TYPE);
   $result = $db->connect(DSN, DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -137,11 +165,20 @@ function doDBConnect(&$db,$onErrorExit=false)
     tLog(str_replace($search,$replace,$logmsg), 'ERROR');
     if( $onErrorExit )
     {
-      $smarty = new TLSmarty();
-      $smarty->assign('title', lang_get('fatal_page_title'));
-      $smarty->assign('content', $logtext);
-      $smarty->assign('link_to_op', null);
-      $smarty->display('workAreaSimple.tpl'); 
+      try {
+        $smarty = new TLSmarty();
+        $smarty->assign('title', lang_get('fatal_page_title'));
+        $smarty->assign('content', $logtext);
+        $smarty->assign('link_to_op', null);
+        $smarty->display('workAreaSimple.tpl');
+      } catch (Exception $e) {
+        // Fallback to simple HTML if Smarty fails
+        echo '<!DOCTYPE html><html><head><title>Database Connection Error</title></head><body>';
+        echo '<h1>Database Connection Error</h1>';
+        echo '<div>' . $logtext . '</div>';
+        echo '<p>Additionally, the template engine failed to load. This might indicate a configuration problem.</p>';
+        echo '</body></html>';
+      }
       exit();
     }
   }
