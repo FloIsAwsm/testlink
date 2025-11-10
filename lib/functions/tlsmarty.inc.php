@@ -119,11 +119,11 @@ class TLSmarty extends Smarty
   function TLSmarty()
   {
     global $tlCfg;
-    
+
     parent::__construct();
-    $this->template_dir = TL_ABS_PATH . 'gui/templates/';
-    $this->compile_dir = TL_TEMP_PATH;
-    $this->config_dir = TL_ABS_PATH . 'gui/templates/';
+    $this->setTemplateDir(TL_ABS_PATH . 'gui/templates/');
+    $this->setCompileDir(TL_TEMP_PATH);
+    $this->setConfigDir(TL_ABS_PATH . 'gui/templates/');
     
     $testproject_coloring = $tlCfg->gui->testproject_coloring;
     $testprojectColor = $tlCfg->gui->background_color ; //TL_BACKGROUND_DEFAULT;
