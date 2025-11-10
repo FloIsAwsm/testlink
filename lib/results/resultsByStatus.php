@@ -17,7 +17,7 @@
  * 
  */
 require('../../config.inc.php');
-require_once('../../third_party/codeplex/PHPExcel.php');   // Must be included BEFORE common.php
+// PhpSpreadsheet is now loaded via Composer autoloader in config.inc.php
 require_once('common.php');
 require_once('displayMgr.php');
 require_once('users.inc.php');
@@ -700,9 +700,9 @@ function createSpreadsheet($gui,$args,$customFieldColumns=null)
 
   $styleReportContext = array('font' => array('bold' => true));
   $styleDataHeader = array('font' => array('bold' => true),
-                           'borders' => array('outline' => array('style' => PHPExcel_Style_Border::BORDER_MEDIUM),
-                                              'vertical' => array('style' => PHPExcel_Style_Border::BORDER_THIN)),
-                           'fill' => array('type' => PHPExcel_Style_Fill::FILL_SOLID,
+                           'borders' => array('outline' => array('style' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_MEDIUM),
+                                              'vertical' => array('style' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN)),
+                           'fill' => array('type' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
                                            'startcolor' => array( 'argb' => 'FF9999FF'))
                            );
 
@@ -715,7 +715,7 @@ function createSpreadsheet($gui,$args,$customFieldColumns=null)
                              localize_dateOrTimeStamp(null,$dummy,'timestamp_format',time())),
                        array($gui->report_context,''));
 
-  $objPHPExcel = new PHPExcel();
+  $objPHPExcel = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
   $cellArea = "A1:"; 
   foreach($lines2write as $zdx => $fields)
   {
@@ -851,7 +851,7 @@ function createSpreadsheet($gui,$args,$customFieldColumns=null)
                               'Content-Type' => 'application/vnd.ms-excel');
   
   $xlsType = 'Excel5';                               
-  $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, $xlsType);
+  $objWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($objPHPExcel, $xlsType);
   
   $tmpfname = tempnam(config_get('temp_dir'),"resultsTC.tmp");
   $objWriter->save($tmpfname);

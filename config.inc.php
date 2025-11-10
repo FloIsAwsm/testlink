@@ -74,6 +74,9 @@ if( !defined('DB_TABLE_PREFIX') )
 /** The root dir for the testlink installation with trailing slash */
 define('TL_ABS_PATH', dirname(__FILE__) . DIRECTORY_SEPARATOR);
 
+/** Load Composer dependencies */
+require_once(TL_ABS_PATH . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
+
 /** Include constants and magic numbers (users should not change it)*/
 require_once(TL_ABS_PATH . 'cfg' . DIRECTORY_SEPARATOR . 'const.inc.php');
 

@@ -36,13 +36,18 @@
  */
 $ADODB_COUNTRECS = TRUE;
 
-// To use a different version of ADODB that provided with TL, use a similar bunch of lines
-// on custom_config.inc.php
-if( !defined('TL_ADODB_RELATIVE_PATH') )
+// ADODB is now loaded via Composer in config.inc.php
+// To use a different version of ADODB, define TL_ADODB_RELATIVE_PATH in custom_config.inc.php
+if( !defined('TL_ADODB_LOADED') )
 {
-    define('TL_ADODB_RELATIVE_PATH','/../../third_party/adodb/adodb.inc.php' );
+    if( defined('TL_ADODB_RELATIVE_PATH') ) {
+        require_once( dirname(__FILE__). TL_ADODB_RELATIVE_PATH );
+    } else {
+        // Use Composer version
+        require_once( dirname(__FILE__). '/../../vendor/adodb/adodb-php/adodb.inc.php' );
+    }
+    define('TL_ADODB_LOADED', true);
 }
-require_once( dirname(__FILE__). TL_ADODB_RELATIVE_PATH );
 require_once( dirname(__FILE__). '/logging.inc.php' );
 
 /**
