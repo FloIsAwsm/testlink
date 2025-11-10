@@ -1,0 +1,44 @@
+{
+    "name": "testlink/testlink",
+    "description": "TestLink - Open Source Test Management and Test Execution System",
+    "type": "project",
+    "license": "GPL-2.0-or-later",
+    "keywords": [
+        "test",
+        "testing",
+        "test management",
+        "test execution",
+        "quality assurance",
+        "qa"
+    ],
+    "homepage": "https://testlink.org",
+    "support": {
+        "issues": "http://mantis.testlink.org/",
+        "forum": "https://testlink.org/",
+        "source": "https://github.com/TestLinkOpenSourceTRMS/testlink-code"
+    },
+    "require": {
+        "php": ">=8.0",
+        "ext-mysqli": "*",
+        "ext-pgsql": "*",
+        "ext-gd": "*",
+        "ext-mbstring": "*",
+        "ext-xml": "*",
+        "ext-json": "*",
+        "ext-session": "*"
+    },
+    "require-dev": {
+        "php": ">=8.0"
+    },
+    "suggest": {
+        "ext-ldap": "Required for LDAP authentication support",
+        "ext-curl": "Required for issue tracker integration and API features",
+        "ext-zip": "Required for export/import features"
+    },
+    "config": {
+        "platform": {
+            "php": "8.0"
+        },
+        "sort-packages": true
+    }
+}

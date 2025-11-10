@@ -140,14 +140,14 @@ function email_send( $p_from, $p_recipient, $p_subject, $p_message, $p_cc='',
 	# add to the Recipient list
 	$t_recipient_list = explode(',', $t_recipient);
 
-	while ( list( , $t_recipient ) = each( $t_recipient_list ) ) {
+	foreach ($t_recipient_list as $t_recipient) {
 		if ( !is_blank( $t_recipient ) ) {
 				$mail->AddAddress( $t_recipient, '' );
 		}
 	}
 
   	$t_cc_list = explode(',', $p_cc);
-	while(list(, $t_cc) = each($t_cc_list)) {
+	foreach ($t_cc_list as $t_cc) {
 		if ( !is_blank( $t_cc ) ) {
 				$mail->AddCC( $t_cc, '' );
 		}

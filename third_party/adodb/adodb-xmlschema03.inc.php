@@ -175,7 +175,7 @@ class dbObject {
 	* Destroys the object
 	*/
 	function destroy() {
-		unset( $this );
+		// unset($this) is not allowed in PHP 7.4+, cleanup happens automatically
 	}
 	
 	/**
@@ -1407,10 +1407,9 @@ class adoSchema {
 	*/
 	function adoSchema( $db ) {
 		// Initialize the environment
-		$this->mgq = get_magic_quotes_runtime();
-		#set_magic_quotes_runtime(0);
-		ini_set("magic_quotes_runtime", 0);
-		
+		// Magic quotes runtime is always disabled in PHP 7.4+
+		$this->mgq = 0;
+
 		$this->db = $db;
 		$this->debug = $this->db->debug;
 		$this->dict = NewDataDictionary( $this->db );
@@ -2375,9 +2374,8 @@ class adoSchema {
 	* @deprecated adoSchema now cleans up automatically.
 	*/
 	function Destroy() {
-		ini_set("magic_quotes_runtime", $this->mgq );
-		#set_magic_quotes_runtime( $this->mgq );
-		unset( $this );
+		// Magic quotes runtime is always disabled in PHP 7.4+, no need to restore
+		// Note: unset($this) is not allowed in PHP 7.4+, and cleanup happens automatically
 	}
 }
 

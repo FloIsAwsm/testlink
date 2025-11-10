@@ -166,10 +166,10 @@ class ADODB_mssql extends ADOConnection {
 	* Correctly quotes a string so that all strings are escaped. We prefix and append
 	* to the string single-quotes.
 	* An example is  $db->qstr("Don't bother",magic_quotes_runtime());
-	* 
+	*
 	* @param s         the string to quote
-	* @param [magic_quotes]    if $s is GET/POST var, set to get_magic_quotes_gpc().
-	*              This undoes the stupidity of magic quotes for GPC.
+	* @param [magic_quotes]    if $s is GET/POST var, set to false (magic quotes are always disabled in PHP 7.4+).
+	*              This parameter is kept for backward compatibility.
 	*
 	* @return  quoted string to be sent back to database
 	*/
@@ -620,7 +620,7 @@ order by constraint_name, referenced_table_name, keyno";
                 $arr = $args;
             }
 
-            array_walk($arr, create_function('&$v', '$v = "CAST(" . $v . " AS VARCHAR(255))";'));
+            array_walk($arr, function(&$v) { $v = "CAST(" . $v . " AS VARCHAR(255))"; });
             $s = implode('+',$arr);
             if (sizeof($arr) > 0) return "$s";
             

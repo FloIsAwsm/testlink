@@ -212,13 +212,12 @@ class ADODB_mysqli extends ADOConnection {
 	// if magic quotes disabled, use mysql_real_escape_string()
 	// From readme.htm:
 	// Quotes a string to be sent to the database. The $magic_quotes_enabled
-	// parameter may look funny, but the idea is if you are quoting a 
-	// string extracted from a POST/GET variable, then 
-	// pass get_magic_quotes_gpc() as the second parameter. This will 
-	// ensure that the variable is not quoted twice, once by qstr and once 
-	// by the magic_quotes_gpc.
+	// parameter may look funny, but the idea was if you are quoting a
+	// string extracted from a POST/GET variable, then you would
+	// pass get_magic_quotes_gpc() as the second parameter. However,
+	// magic quotes are always disabled in PHP 7.4+, so pass false.
 	//
-	//Eg. $s = $db->qstr(_GET['name'],get_magic_quotes_gpc());
+	//Eg. $s = $db->qstr(_GET['name'], false);
 	function qstr($s, $magic_quotes = false)
 	{
 		if (is_null($s)) return 'NULL';
