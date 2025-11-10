@@ -128,11 +128,11 @@ class TLSmarty extends Smarty
 {
   private $tlImages;
   var $tlTemplateCfg;
-	
-  function TLSmarty()
+
+  public function __construct()
   {
     global $tlCfg;
-    
+
     parent::__construct();
     $this->setTemplateDir(TL_ABS_PATH . 'gui/templates/');
     $this->setCompileDir(TL_TEMP_PATH);
