@@ -20,28 +20,28 @@
 require_once( dirname(__FILE__) . '/attachments.inc.php');
 class requirement_mgr extends tlObjectWithAttachments
 {
-  var $db;
-  var $cfield_mgr;
-  var $my_node_type;
-  var $tree_mgr;
-  var $node_types_descr_id;
-  var $node_types_id_descr;
-  var $attachmentTableName;
+  public $db;
+  public $cfield_mgr;
+  public $my_node_type;
+  public $tree_mgr;
+  public $node_types_descr_id;
+  public $node_types_id_descr;
+  public $attachmentTableName;
 
 
   // 20100220 - franciscom - I'm will work only on XML
   // then remove other formats till other dev do refactor
-  var $import_file_types = array("csv" => "CSV",
+  public $import_file_types = array("csv" => "CSV",
                                  "csv_doors" => "CSV (Doors)",
                                  "XML" => "XML",
                                  "DocBook" => "DocBook");
 
-  var $export_file_types = array("XML" => "XML");
+  public $export_file_types = array("XML" => "XML");
   
-  var $fieldSize;
-  var $reqCfg;
-  var $internal_links;
-  var $relationsCfg;
+  public $fieldSize;
+  public $reqCfg;
+  public $internal_links;
+  public $relationsCfg;
 
   
   

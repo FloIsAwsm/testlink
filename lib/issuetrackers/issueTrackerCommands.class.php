@@ -17,7 +17,7 @@
 
 class issueTrackerCommands
 {
-  var $issueTrackerMgr;
+  public $issueTrackerMgr;
   private $db;
   private $templateCfg;
   private $grants;

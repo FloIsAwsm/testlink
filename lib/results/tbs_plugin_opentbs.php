@@ -5154,22 +5154,22 @@ If they are blank spaces, line beaks, or other unexpected characters, then you h
  */
 class clsTbsXmlLoc {
 
-	var $PosBeg;
-	var $PosEnd;
-	var $SelfClosing;
-	var $Txt;
-	var $Name = ''; 
+	public $PosBeg;
+	public $PosEnd;
+	public $SelfClosing;
+	public $Txt;
+	public $Name = ''; 
 
-	var $pST_PosEnd = false; // start tag: position of the end
-	var $pST_Src = false;    // start tag: source
-	var $pET_PosBeg = false; // end tag: position of the begining
+	public $pST_PosEnd = false; // start tag: position of the end
+	public $pST_Src = false;    // start tag: source
+	public $pET_PosBeg = false; // end tag: position of the begining
 
-	var $Parent = false; // parent object
+	public $Parent = false; // parent object
 
 	// For relative mode
-	var $rel_Txt = false;
-	var $rel_PosBeg = false;
-	var $rel_Len = false;
+	public $rel_Txt = false;
+	public $rel_PosBeg = false;
+	public $rel_Len = false;
 	
 	// Create an instance with the given parameters
 	function __construct(&$Txt, $Name, $PosBeg, $SelfClosing = null, $Parent=false) {

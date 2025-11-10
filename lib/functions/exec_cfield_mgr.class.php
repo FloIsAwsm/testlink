@@ -20,8 +20,8 @@
  */
 class exec_cfield_mgr extends cfield_mgr
 {
-	var $db;
-  var $cf_map;
+	public $db;
+  public $cf_map;
 
 	/**
 	 * Class constructor

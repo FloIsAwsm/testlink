@@ -15,11 +15,11 @@ require_once('../../../third_party/lux-phpactiveresource/ActiveResource.php');
 
 class Issue extends ActiveResource 
 {
-    // var $site = 'http://testlink.redmine:redmine2012@testlink.m.redmine.org/';
-    var $site = 'http://testlink.m.redmine.org/';
-    var $request_format = 'xml'; // REQUIRED!
-    var $user = 'testlink.redmine';
-    var $password = 'redmine2012';
+    // public $site = 'http://testlink.redmine:redmine2012@testlink.m.redmine.org/';
+    public $site = 'http://testlink.m.redmine.org/';
+    public $request_format = 'xml'; // REQUIRED!
+    public $user = 'testlink.redmine';
+    public $password = 'redmine2012';
 }
 
 // find issues

@@ -22,15 +22,15 @@ class tlIssueTracker extends tlObject
 {
     
   /** @var resource the database handler */
-  var $db;
+  public $db;
 
-  var $types = null;
+  public $types = null;
 
   // IMPORTANT NOTICE
   // array index is used AS CODE that will be written to DB
   // if you need to add a new item start on 200, to avoid crash with standard ID
   //  
-  var $systems = array( 1 =>  array('type' => 'bugzilla', 'api' => 'xmlrpc', 'enabled' => true, 'order' => -1),
+  public $systems = array( 1 =>  array('type' => 'bugzilla', 'api' => 'xmlrpc', 'enabled' => true, 'order' => -1),
                         2 =>  array('type' => 'bugzilla', 'api' => 'db', 'enabled' => true, 'order' => -1),
                         3 =>  array('type' => 'mantis', 'api' =>'soap', 'enabled' => true, 'order' => -1),
                         4 =>  array('type' => 'mantis', 'api' =>'db', 'enabled' => true, 'order' => -1),
@@ -53,7 +53,7 @@ class tlIssueTracker extends tlObject
                        21 =>  array('type' => 'trackplus','api' =>'db','enabled' => false, 'order' => -1));
   
     
-  var $entitySpec = array('name' => 'string','cfg' => 'string','type' => 'int');
+  public $entitySpec = array('name' => 'string','cfg' => 'string','type' => 'int');
     
   /**
    * Class constructor

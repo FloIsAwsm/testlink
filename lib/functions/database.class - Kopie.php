@@ -54,12 +54,12 @@ class database
   const CUMULATIVE=1;
   const ONERROREXIT=1;
   
-  var $db;
-  var $queries_array = array();
-  var $is_connected=false;
-  var $nQuery = 0;
-  var $overallDuration = 0;
-  var $dbType;
+  public $db;
+  public $queries_array = array();
+  public $is_connected=false;
+  public $nQuery = 0;
+  public $overallDuration = 0;
+  public $dbType;
   
   private $logEnabled=0;
   private $logQueries=0;

@@ -896,7 +896,7 @@ class tlEvent extends tlDBObject
  */
 class tlDBLogger extends tlObjectWithDB
 {
-  var $logLevelFilter = null;
+  public $logLevelFilter = null;
   protected $pendingTransaction = null;
   protected $doLogging = true;
 
@@ -1038,7 +1038,7 @@ class tlFileLogger extends tlObject
   static protected $eventFormatString = "\t[%timestamp][%errorlevel][%sessionid][%source]\n\t\t%description\n";
   static protected $openTransactionFormatString = "[%prefix][%transactionID][%name][%entryPoint][%startTime]\n";
   static protected $closedTransactionFormatString = "[%prefix][%transactionID][%name][%entryPoint][%startTime][%endTime][took %duration secs]\n";
-  var $logLevelFilter = null;
+  public $logLevelFilter = null;
 
   protected $doLogging = true;
 
@@ -1207,7 +1207,7 @@ class tlHTMLLogger
 class tlMailLogger extends tlObjectWithDB
 {
 
-  var $logLevelFilter = null;
+  public $logLevelFilter = null;
   
   static protected $eventFormatString = "\t[%timestamp][%errorlevel][%sessionid][%source]\n\t\t%description\n";
 

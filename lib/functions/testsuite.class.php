@@ -34,24 +34,24 @@ class testsuite extends tlObjectWithAttachments
   private $object_table;
 
   /** @var database handler */
-  var $db;
-  var $tree_manager;
-  var $node_types_descr_id;
-  var $node_types_id_descr;
-  var $my_node_type;
-  var $cfield_mgr;
+  public $db;
+  public $tree_manager;
+  public $node_types_descr_id;
+  public $node_types_id_descr;
+  public $my_node_type;
+  public $cfield_mgr;
 
 
-  var $import_file_types = array("XML" => "XML");
-  var $export_file_types = array("XML" => "XML");
+  public $import_file_types = array("XML" => "XML");
+  public $export_file_types = array("XML" => "XML");
  
   // Node Types (NT)
-  var $nt2exclude=array('testplan' => 'exclude_me',
+  public $nt2exclude=array('testplan' => 'exclude_me',
                         'requirement_spec'=> 'exclude_me',
                         'requirement'=> 'exclude_me');
                                                   
 
-  var $nt2exclude_children=array('testcase' => 'exclude_my_children',
+  public $nt2exclude_children=array('testcase' => 'exclude_my_children',
                                  'requirement_spec'=> 'exclude_my_children');
 
   /**
@@ -1035,12 +1035,12 @@ class testsuite extends tlObjectWithAttachments
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $status = 1;
     $kw = $this->getKeywords($id,$kw_id);
-    if( ($doLink = !sizeof($kw)) )
+    if( ($doLink = !($kw && sizeof($kw))) )
     {
       $sql = "/* $debugMsg */ INSERT INTO {$this->tables['object_keywords']} " .
              " (fk_id,fk_table,keyword_id) VALUES ($id,'nodes_hierarchy',$kw_id)";
           $status = $this->db->exec_query($sql) ? 1 : 0;
-    } 
+    }
     return $status;
   }
   
@@ -1056,7 +1056,7 @@ class testsuite extends tlObjectWithAttachments
   function addKeywords($id,$kw_ids)
   {
     $status = 1;
-    $num_kws = sizeof($kw_ids);
+    $num_kws = ($kw_ids ? sizeof($kw_ids) : 0);
     for($idx = 0; $idx < $num_kws; $idx++)
     {
       $status = $status && $this->addKeyword($id,$kw_ids[$idx]);

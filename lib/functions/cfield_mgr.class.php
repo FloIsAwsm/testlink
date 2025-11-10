@@ -52,10 +52,10 @@ class cfield_mgr extends tlObject
   const DISABLED = 0;
     
 	/** @var resource the database handler */
-	var $db;
+	public $db;
 
 	/** @var object tree class */
-	var $tree_manager;
+	public $tree_manager;
 
   /**
    *  @var array $application_areas
@@ -70,7 +70,7 @@ class cfield_mgr extends tlObject
    * IMPORTANT: this values are used as access keys in several properties of this object.
    *            then if you add one here, remember to update other properties.
    */
-  var $application_areas = array('execution','design','testplan_design');
+  public $application_areas = array('execution','design','testplan_design');
 
 	/**
 	 * @var array Define type of custom fields managed.
@@ -81,7 +81,7 @@ class cfield_mgr extends tlObject
    * Added specific type for test automation related custom fields.
    * Start at code 500
    */ 
-  var $custom_field_types = array(0=>'string',
+  public $custom_field_types = array(0=>'string',
                                   1=>'numeric',
                                   2=>'float',
                                   4=>'email',
@@ -100,7 +100,7 @@ class cfield_mgr extends tlObject
      * Keys of this map must be the values present in:
      * <code>$this->custom_field_types</code>
      */ 
-    var $possible_values_cfg = array('string' => 0,
+    public $possible_values_cfg = array('string' => 0,
                                      'numeric'=> 0,
                                      'float'=> 0,
                                      'email'=> 0,
@@ -115,7 +115,7 @@ class cfield_mgr extends tlObject
     							                   'server' => 0);
     
     /**  @var array only the types listed here can have custom fields */
-    var $node_types = array('build','testsuite','testplan','testcase','requirement_spec','requirement');
+    public $node_types = array('build','testsuite','testplan','testcase','requirement_spec','requirement');
 
    /**
      *  @var map of maps $locations
@@ -136,7 +136,7 @@ class cfield_mgr extends tlObject
      * IMPORTANT: if you add a new key, this values are used as access keys in several properties of this object.
      *            then if you add one here, remember to update other properties.
      */
-    var $locations = array( 'testcase' => 
+    public $locations = array( 'testcase' => 
                             array( 1 => 'standard_location', 2 => 'before_steps_results'));
 
     // changes in configuration
@@ -148,7 +148,7 @@ class cfield_mgr extends tlObject
     // 0 => combo will not displayed
     //
     // May be need a review, because after the changes, seems a little bit silly.
-    var $enable_on_cfg = array('execution' => array('build' => 0, 'testsuite' => 0,
+    public $enable_on_cfg = array('execution' => array('build' => 0, 'testsuite' => 0,
                                                     'testplan'  => 0,'testcase'  => 1,
                                                     'requirement_spec' => 0,'requirement' => 0),
 								               'design' => array('build' => 0,'testsuite' => 0,
@@ -159,7 +159,7 @@ class cfield_mgr extends tlObject
                                                           'requirement_spec' => 0,'requirement' => 0));
 
   // 0 => combo will not displayed
-  var $show_on_cfg=array('execution'=>array('testsuite' => 1,
+  public $show_on_cfg=array('execution'=>array('testsuite' => 1,
 	                                          'testplan'  => 1,
 	                                          'testcase'  => 1,
                                             'build'  => 1,
@@ -182,20 +182,20 @@ class cfield_mgr extends tlObject
     // the name of html input will have the following format
     // <name_prefix>_<custom_field_type_id>_<progressive>
     //
-    var $name_prefix='custom_field_';
-    var $sizes = null;
+    public $name_prefix='custom_field_';
+    public $sizes = null;
     
     // must be equal to the lenght of:
     // value column on cfield_*_values tables
     // default_value column on custom_fields table
     // 0 -> no limit
     // Is used on text area types
-    var $max_length_value;
+    public $max_length_value;
     
     // must be equal to the lenght of:
     // possible_values column on custom_fields table
     // 0 -> no limit
-    var $max_length_possible_values;
+    public $max_length_possible_values;
     
     
 	/**

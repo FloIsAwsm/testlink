@@ -721,7 +721,7 @@ function  reorderTestSuiteViewer(&$smartyObj,&$treeMgr,$argsObj)
     $object_name = $object_info['name'];
 
 
-    if (!sizeof($children))
+    if (!$children || !sizeof($children))
     {  
       $children = null;
     }
@@ -945,7 +945,7 @@ function moveTestCasesViewer(&$dbHandler,&$smartyObj,&$tprojectMgr,&$treeMgr,
 
   // check if operation can be done
   $user_feedback = $feedback;
-  if(!is_null($children) && (sizeof($children) > 0) && sizeof($testsuites))
+  if(!is_null($children) && (sizeof($children) > 0) && $testsuites && sizeof($testsuites))
   {
     $op_ok = true;
   }

@@ -330,7 +330,7 @@ class tlUser extends tlDBObject
     }
     $allRoles = $db->fetchColumnsIntoMap($sql,'testproject_id','role_id');
     $this->tprojectRoles = null;
-    if (sizeof($allRoles))
+    if ($allRoles && sizeof($allRoles))
     {
       $roleCache = null;
       foreach($allRoles as $tprojectID => $roleID)
@@ -374,7 +374,7 @@ class tlUser extends tlDBObject
         
     $allRoles = $db->fetchColumnsIntoMap($sql,'testplan_id','role_id');
     $this->tplanRoles = null;
-    if (sizeof($allRoles))
+    if ($allRoles && sizeof($allRoles))
     {
       $roleCache = null;
       foreach($allRoles as $tplanID => $roleID)

@@ -32,21 +32,21 @@ abstract class issueTrackerInterface
 {
   // members to store the bugtracking information.
   // Values are set in the actual subclasses
-  var $cfg = null;  // simpleXML object
-  var $name = null;
+  public $cfg = null;  // simpleXML object
+  public $name = null;
 
-  var $tlCharSet = null;
+  public $tlCharSet = null;
   
   // private vars don't touch
-  var $dbConnection = null;  // usable only if interface is done via direct DB access.
-  var $dbMsg = '';
-  var $connected = false;
-  var $interfaceViaDB = false;  // useful for connect/disconnect methods
-  var $resolvedStatus;
+  public $dbConnection = null;  // usable only if interface is done via direct DB access.
+  public $dbMsg = '';
+  public $connected = false;
+  public $interfaceViaDB = false;  // useful for connect/disconnect methods
+  public $resolvedStatus;
   
-  var $methodOpt = array('buildViewBugLink' => array('addSummary' => false, 'colorByStatus' => false));
-  var $guiCfg = array();
-  var $summaryLengthLimit = 120;  // Mantis max is 128.  
+  public $methodOpt = array('buildViewBugLink' => array('addSummary' => false, 'colorByStatus' => false));
+  public $guiCfg = array();
+  public $summaryLengthLimit = 120;  // Mantis max is 128.  
 
   /**
    * Construct and connect to BTS.

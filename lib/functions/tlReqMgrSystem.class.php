@@ -22,16 +22,16 @@ class tlReqMgrSystem extends tlObject
 {
     
   /** @var resource the database handler */
-  var $db;
+  public $db;
 
-  var $types = null;
+  public $types = null;
 
   // IMPORTANT NOTICE
   // array index is used AS CODE that will be written to DB
   // if you need to add a new item start on 200, to avoid crash with standard ID
   //   
-  var $systems = array( 1 =>  array('type' => 'contour', 'api' => 'soap', 'enabled' => true, 'order' => -1));
-  var $entitySpec = array('name' => 'string','cfg' => 'string','type' => 'int');
+  public $systems = array( 1 =>  array('type' => 'contour', 'api' => 'soap', 'enabled' => true, 'order' => -1));
+  public $entitySpec = array('name' => 'string','cfg' => 'string','type' => 'int');
     
   /**
    * Class constructor

@@ -35,7 +35,7 @@ require_once('../../cfg/reports.cfg.php');
 class tlReports extends tlObjectWithDB
 {
   /** resource of database handler; reference is passed in by constructor */
-  var $db = null;
+  public $db = null;
 
   /** Test Plan Identifier; reference is passed in by constructor */
   private $testPlanID = -1;

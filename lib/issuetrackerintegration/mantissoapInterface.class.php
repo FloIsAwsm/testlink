@@ -24,10 +24,10 @@ class mantissoapInterface extends issueTrackerInterface
   
   private $soapOpt = array("connection_timeout" => 1, 'exceptions' => 1);
   
-  var $defaultResolvedStatus;
+  public $defaultResolvedStatus;
 
   // field is nvarchar(128) at least on 1.2.14
-  var $summaryLengthLimit = 120;
+  public $summaryLengthLimit = 120;
 
   /**
    * Construct and connect to BTS.
