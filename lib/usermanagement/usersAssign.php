@@ -106,7 +106,7 @@ switch($assignRolesFor)
 $gui->grants = getGrantsForUserMgmt($db,$args->user,$target->testprojectID,-1);
 
 $gui->accessTypeImg = '';
-if(is_null($gui->features) || count($gui->features) == 0)
+if(is_null($gui->features) || count($gui->features ?? []) == 0)
 {
   $gui->features = null;
   if( $gui->user_feedback == '' )
@@ -303,7 +303,7 @@ function getTestProjectEffectiveRoles($dbHandler,&$objMgr,&$argsObj,$users)
 		{
 			$argsObj->featureID = $argsObj->testprojectID;
 		}
-		else if ($features && sizeof($features))
+		else if ($features && count($features ?? []))
 		{
 		  $xx = current($features);
 			$argsObj->featureID = $xx['id'];
@@ -393,7 +393,7 @@ function getTestPlanEffectiveRoles(&$dbHandler,&$tplanMgr,$tprojectMgr,&$argsObj
     //if nothing special was selected, use the one in the session or the first
     if (!$argsObj->featureID)
     {
-      if ($features && sizeof($features))
+      if ($features && count($features ?? []))
       {
         if ($argsObj->testplanID)
         {
@@ -504,7 +504,7 @@ function getTestPlanEffectiveRolesNEW(&$dbHandler,&$tplanMgr,$tprojectMgr,&$args
 		//if nothing special was selected, use the one in the session or the first
 		if (!$argsObj->featureID)
 		{
-			if ($features && sizeof($features))
+			if ($features && count($features ?? []))
 			{
 				if ($argsObj->testplanID)
 				{

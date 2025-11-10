@@ -100,7 +100,7 @@ function init_args()
   $_REQUEST = strings_stripSlashes($_REQUEST);
 
   $args = new stdClass();
-  $source = sizeof($_POST) ? "POST" : "GET";
+  $source = count($_POST ?? []) ? "POST" : "GET";
   $iParams = array("doAction" => array($source,tlInputParameter::STRING_N,0,50),
                    "id" => array($source, tlInputParameter::INT_N),
                    "name" => array($source, tlInputParameter::STRING_N,0,100),

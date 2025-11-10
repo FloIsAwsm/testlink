@@ -595,7 +595,7 @@ class reqSpecCommands
     $childNodes = isset($req_spec['childNodes']) ? $req_spec['childNodes'] : null ;
     if( !is_null($childNodes)) 
     {
-      $loop_qty=sizeof($childNodes); 
+      $loop_qty=count($childNodes ?? []); 
       for($idx = 0;$idx < $loop_qty;$idx++) 
       {
         $cNode = $childNodes[$idx];

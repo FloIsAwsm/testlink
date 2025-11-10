@@ -1196,7 +1196,7 @@ class tlTestCaseFilterControl extends tlFilterControl {
                                         $this->args->$key : $newest_build_id;
 
     // still no build selected? take first one from selection.
-    if (!$this->settings[$key]['selected'] && sizeof($this->settings[$key]['items'])) 
+    if (!$this->settings[$key]['selected'] && count($this->settings[$key]['items'] ?? [])) 
     {
       $this->settings[$key]['selected'] = end($tplan_builds);
     }

@@ -298,7 +298,7 @@ public function setSessionProject($projectId)
  */
 protected function parseTestProjectRecordset(&$recordset)
 {
-  if (count($recordset) > 0)
+  if (count($recordset ?? []) > 0)
   {
     foreach ($recordset as $number => $row)
     {
@@ -481,7 +481,7 @@ function get_all($filters=null,$options=null)
   else
   {
     $recordset = $this->db->fetchRowsIntoMap($sql,$my['options']['access_key']);
-    if (count($recordset) > 0)
+    if (count($recordset ?? []) > 0)
     {
       foreach ($recordset as $number => $row)
       {
@@ -671,7 +671,7 @@ function get_accessible_for_user($user_id,$opt = null,$filters = null)
     $this->parseTestProjectRecordset($items);
   }
 
-  if ($do_post_process && $arrTemp && sizeof($arrTemp))
+  if ($do_post_process && $arrTemp && count($arrTemp ?? []))
   {
     switch ($my['opt']['output'])
     {
@@ -812,7 +812,7 @@ function count_testcases($id)
   $tcIDs = array();
   $this->get_all_testcases_id($id,$tcIDs);
   if (is_null($tcIDs)) $tcIDs = array();
-  $qty = sizeof($tcIDs);
+  $qty = count($tcIDs ?? []);
   return $qty;
 }
 
@@ -1179,7 +1179,7 @@ function setPublicStatus($id,$status)
   {
     $result = tl::OK;
     $kwIDs = $this->getKeywordIDsFor($testproject_id);
-    for($i = 0;$i < sizeof($kwIDs);$i++)
+    for($i = 0;$i < count($kwIDs ?? []);$i++)
     {
       $resultKw = $this->deleteKeyword($kwIDs[$i]);
       if ($resultKw != tl::OK)
@@ -1232,7 +1232,7 @@ function setPublicStatus($id,$status)
       $xmlCode .= TL_XMLEXPORT_HEADER."\n";
     }
     $xmlCode .= "<keywords>";
-    for($idx = 0;$idx < sizeof($kwIDs);$idx++)
+    for($idx = 0;$idx < count($kwIDs ?? []);$idx++)
     {
       $keyword = new tlKeyword($kwIDs[$idx]);
       $keyword->readFromDb($this->db);
@@ -1252,7 +1252,7 @@ function setPublicStatus($id,$status)
   {
     $kwIDs = $this->getKeywordIDsFor($testproject_id);
     $csv = null;
-    for($idx = 0;$idx < sizeof($kwIDs);$idx++)
+    for($idx = 0;$idx < count($kwIDs ?? []);$idx++)
     {
       $keyword = new tlKeyword($kwIDs[$idx]);
       $keyword->readFromDb($this->db);
@@ -2045,7 +2045,7 @@ function setPublicStatus($id,$status)
           $suiteIDs[] = $row['id'];
         }
       }
-      if ($suiteIDs && sizeof($suiteIDs))
+      if ($suiteIDs && count($suiteIDs ?? []))
       {
         $suiteIDs  = implode(",",$suiteIDs);
         $this->get_all_testcases_id($suiteIDs,$tcIDs,$options);
@@ -2925,7 +2925,7 @@ function _get_subtree_rec($node_id,&$pnode,$filters = null, $options = null)
   
   // Approach Change - get all 
   $rs = $this->db->fetchRowsIntoMap($sql,'id');
-  if( count($rs) == 0 )
+  if( count($rs ?? []) == 0 )
   {
     return $qnum;
   }

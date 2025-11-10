@@ -32,8 +32,8 @@ function exportDataToCSV($data,$sourceKeys,$destKeys,$bWithHeader = 0,$delimiter
 		$header = implode(";",$destKeys);	
 		$csvContent .= $header . $newLine;
 	}
-	$len = sizeof($sourceKeys);
-	for($i = 0;$i < sizeof($data);$i++)
+	$len = count($sourceKeys ?? []);
+	for($i = 0;$i < count($data ?? []);$i++)
 	{
 		$values = $data[$i];
 		$line = '';

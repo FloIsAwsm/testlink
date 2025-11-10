@@ -540,7 +540,7 @@ class testplan extends tlObjectWithAttachments
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
 
     // protect yourself :) - 20140607
-    if( is_null($id) || (is_int($id) && intval($id) <= 0 ) || (is_array($id) && count($id) == 0) )
+    if( is_null($id) || (is_int($id) && intval($id) <= 0 ) || (is_array($id) && count($id ?? []) == 0) )
     {
       return 0;  // >>>----> Bye
     } 
@@ -3864,7 +3864,7 @@ class testplan extends tlObjectWithAttachments
     $childNodes = isset($container['childNodes']) ? $container['childNodes'] : null ;
     if( !is_null($childNodes) )
     {
-      $loop_qty=sizeof($childNodes); 
+      $loop_qty=count($childNodes ?? []); 
       for($idx = 0;$idx < $loop_qty;$idx++)
       {
         $cNode = $childNodes[$idx];
@@ -4115,7 +4115,7 @@ class testplan extends tlObjectWithAttachments
     $sql .= " ORDER BY node_order,id";
     
     $rs = $this->db->fetchRowsIntoMap($sql,'id');
-    if( count($rs) == 0 )
+    if( count($rs ?? []) == 0 )
     {
       return $qnum;
     }

@@ -1751,13 +1751,13 @@ function name_is_unique($id,$name)
         }
         $safe_value=$this->db->prepare_string($value);
 
-        if( count($rs) > 0 && $value != "")   //$this->db->num_rows($result) > 0 )
+        if( count($rs ?? []) > 0 && $value != "")   //$this->db->num_rows($result) > 0 )
         {
           $sql = " UPDATE {$this->tables['cfield_execution_values']} " .
                  " SET value='{$safe_value}' " .   $where_clause;
-    	    $this->db->exec_query($sql);      
+    	    $this->db->exec_query($sql);
         }
-        else if (count($rs) == 0 && $value != "")
+        else if (count($rs ?? []) == 0 && $value != "")
         {
 
           # Remark got from Mantis code:
@@ -1769,8 +1769,8 @@ function name_is_unique($id,$name)
   			         " VALUES	( {$field_id}, {$node_id}, {$execution_id}, {$testplan_id}, '{$safe_value}' )";
 		      $this->db->exec_query($sql);
         
-        } 
-        else if (count($rs) > 0 && $value == "") 
+        }
+        else if (count($rs ?? []) > 0 && $value == "") 
         {
   			  $sql = "/* $debugMsg */ DELETE FROM {$this->tables['cfield_execution_values']} " . $where_clause;
   			  $this->db->exec_query($sql);

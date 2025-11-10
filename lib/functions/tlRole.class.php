@@ -234,7 +234,7 @@ class tlRole extends tlDBObject
     $this->description = trim($this->description);
     
     $result = tl::OK;
-    if (!$this->rights || !sizeof($this->rights))
+    if (!$this->rights || !count($this->rights ?? []))
       $result = self::E_EMPTYROLE;
     
     if ($result >= tl::OK)
@@ -480,7 +480,7 @@ class tlRole extends tlDBObject
   protected function buildRightsArray($rightInfo)
   {
     $rights = null;
-    for($i = 0;$i < sizeof($rightInfo);$i++)
+    for($i = 0;$i < count($rightInfo ?? []);$i++)
     {
       $id = $rightInfo[$i];
       $right = new tlRight($id['right_id']);

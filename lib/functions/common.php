@@ -548,7 +548,7 @@ function strings_stripSlashes($parameter,$bGPC = true)
   if (is_array($parameter))
   {
     $retParameter = null;
-    if (sizeof($parameter))
+    if (count($parameter ?? []))
     {
       foreach($parameter as $key=>$value)
       {

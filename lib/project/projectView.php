@@ -54,7 +54,7 @@ if(!is_null($gui->tprojects) || $args->doAction=='list')
     } 
   }
 
-  if(count($gui->tprojects) == 0)
+  if(count($gui->tprojects ?? []) == 0)
   {
     $template2launch = "projectEdit.tpl"; 
     $gui->doAction = "create";

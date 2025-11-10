@@ -330,7 +330,7 @@ class tlUser extends tlDBObject
     }
     $allRoles = $db->fetchColumnsIntoMap($sql,'testproject_id','role_id');
     $this->tprojectRoles = null;
-    if ($allRoles && sizeof($allRoles))
+    if ($allRoles && count($allRoles ?? []))
     {
       $roleCache = null;
       foreach($allRoles as $tprojectID => $roleID)
@@ -374,7 +374,7 @@ class tlUser extends tlDBObject
         
     $allRoles = $db->fetchColumnsIntoMap($sql,'testplan_id','role_id');
     $this->tplanRoles = null;
-    if ($allRoles && sizeof($allRoles))
+    if ($allRoles && count($allRoles ?? []))
     {
       $roleCache = null;
       foreach($allRoles as $tplanID => $roleID)
@@ -1096,7 +1096,7 @@ class tlUser extends tlDBObject
   static public function getByIDs(&$db,$ids,$detailLevel = self::TLOBJ_O_GET_DETAIL_FULL)
   {
     $users = null;
-    for($idx = 0;$idx < sizeof($ids);$idx++)
+    for($idx = 0;$idx < count($ids ?? []);$idx++)
     {
       $id = $ids[$idx];
       $user = tlDBObject::createObjectFromDB($db,$id,__CLASS__,self::TLOBJ_O_SEARCH_BY_ID,$detailLevel);

@@ -710,7 +710,7 @@ class testcase extends tlObjectWithAttachments
     }  
   
     $rs = $this->db->fetchRowsIntoMap($sql,$my['options']['access_key']);
-    if( is_null($rs) || count($rs) == 0 )
+    if( is_null($rs) || count($rs ?? []) == 0 )
     {
       $rs=null;   
     }
@@ -764,7 +764,7 @@ class testcase extends tlObjectWithAttachments
               " AND NH_TCASE_PARENT.node_type_id = {$this->node_types_descr_id['testsuite']} ";
     }
     $recordset = $this->db->get_recordset($sql);
-    if(count($recordset) && $tproject_name != "")
+    if(count($recordset ?? []) && $tproject_name != "")
     {    
       list($tproject_info)=$this->tproject_mgr->get_by_name($tproject_name);
       foreach($recordset as $idx => $tcase_info)
@@ -839,9 +839,9 @@ class testcase extends tlObjectWithAttachments
       {
         $gui->can_do->add2tplan = 'no';
       }
-    }  
-    
-    if($status_ok && sizeof($idSet))
+    }
+
+    if($status_ok && count($idSet ?? []))
     {
       $cfx = 0;
       
@@ -2518,7 +2518,7 @@ class testcase extends tlObjectWithAttachments
     $link_info = null;
     $in_set = null;
 
-    if ($rs && sizeof($rs))
+    if ($rs && count($rs ?? []))
     {
       foreach($rs as $idx => $elem)
       {
@@ -2964,7 +2964,7 @@ class testcase extends tlObjectWithAttachments
   {
     // if keyword is already assigned, we just say good bye
     $kw = $this->getKeywords($id,$kw_id);
-    if ($kw && sizeof($kw))
+    if ($kw && count($kw ?? []))
     {
       return 1;
     }
@@ -2998,7 +2998,7 @@ class testcase extends tlObjectWithAttachments
   function addKeywords($id,$kw_ids,$audit = self::AUDIT_ON)
   {
     $status_ok = 1;
-    $num_kws = sizeof($kw_ids);
+    $num_kws = count($kw_ids ?? []);
     for($idx = 0; $idx < $num_kws; $idx++)
     {
       $status_ok = $status_ok && $this->addKeyword($id,$kw_ids[$idx],$audit);
@@ -3017,7 +3017,7 @@ class testcase extends tlObjectWithAttachments
   function setKeywords($id,$kw_ids,$audit = self::AUDIT_ON)
   {
     $result = $this->deleteKeywords($id);
-    if ($result && $kw_ids && sizeof($kw_ids))
+    if ($result && $kw_ids && count($kw_ids ?? []))
     {
       $result = $this->addKeywords($id,$kw_ids);
     }
@@ -3409,12 +3409,12 @@ class testcase extends tlObjectWithAttachments
        
     $recordset = $this->db->fetchColumnsIntoMap($sql,'execution_id','tcversion_id');
     $and_exec_id='';
-    if( !is_null($recordset) && count($recordset) > 0)
+    if( !is_null($recordset) && count($recordset ?? []) > 0)
     {
       $the_list = implode(",", array_keys($recordset));
       if($the_list != '')
       {
-        if( count($recordset) > 1 )
+        if( count($recordset ?? []) > 1 )
         {
           $and_exec_id = " AND e.id IN ($the_list) ";
         }
@@ -4798,7 +4798,7 @@ class testcase extends tlObjectWithAttachments
 
       // get all testcases on test project with this name and parent test suite
         $recordset = $this->get_by_name($tcaseName, $tsuiteName ,$tprojectName);
-        if( !is_null($recordset) && count($recordset) > 0 )
+        if( !is_null($recordset) && count($recordset ?? []) > 0 )
         {
           foreach($recordset as $value)
           {

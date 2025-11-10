@@ -717,7 +717,7 @@ function exec_additional_info(&$db, $attachmentRepository, &$tcase_mgr, $other_e
   
   foreach($other_execs as $tcversion_id => $execInfo)
   {
-    $num_elem = ($execInfo ? sizeof($execInfo) : 0);   
+    $num_elem = ($execInfo ? count($execInfo ?? []) : 0);   
     for($idx = 0;$idx < $num_elem;$idx++)
     {
       $exec_id = $execInfo[$idx]['execution_id'];
@@ -1012,7 +1012,7 @@ function setCanExecute($exec_info,$execution_mode,$can_execute,$tester_id)
 function createExecNotesWebEditor(&$tcversions,$basehref,$editorCfg)
 {
   
-    if(is_null($tcversions) || count($tcversions) == 0 )
+    if(is_null($tcversions) || count($tcversions ?? []) == 0 )
     {
         return null;  // nothing todo >>>------> bye!  
     }

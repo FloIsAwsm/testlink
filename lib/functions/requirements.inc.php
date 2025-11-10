@@ -621,7 +621,7 @@ function getReqCoverage(&$dbHandler,$reqs,&$execMap)
         {
           $exec_status = $resultsCfg['status_code']['not_run'];
           $tcase_path='';
-          if (isset($execMap[$item_info['testcase_id']]) && sizeof($execMap[$item_info['testcase_id']]))
+          if (isset($execMap[$item_info['testcase_id']]) && count($execMap[$item_info['testcase_id']] ?? []))
           {
               $execInfo = end($execMap[$item_info['testcase_id']]);
               $tcase_path=$execInfo['tcase_path'];
@@ -720,7 +720,7 @@ function getReqCoverage(&$dbHandler,$reqs,&$execMap)
 function getLastExecutions(&$db,$tcaseSet,$tplanId)
 {
   $execMap = array();
-  if (sizeof($tcaseSet))
+  if (count($tcaseSet ?? []))
   {
     $tcase_mgr = new testcase($db);
       $items=array_keys($tcaseSet);
@@ -948,8 +948,8 @@ function req_link_replace($dbHandler, $scope, $tprojectID)
       // get all reqs / req specs with the specified doc_id
       $sql = $sql2exec[$accessKey] . "'{$matches[$patternPositions['doc_id']][$key]}'";
       $rs = $dbHandler->get_recordset($sql);
-      
-      if (count($rs) > 0) 
+
+      if (count($rs ?? []) > 0) 
       {
   
         foreach($rs as $key => $value) 
