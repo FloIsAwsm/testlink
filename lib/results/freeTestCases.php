@@ -190,5 +190,3 @@ function checkRights(&$db,&$user)
 	return $user->hasRight($db,'testplan_metrics');
 }
 ?>
-
-

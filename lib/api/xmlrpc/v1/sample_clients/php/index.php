@@ -57,6 +57,6 @@ foreach($examples as $url2launch)
 	echo '<a href="' . './' . $url2launch . '">' . $url2launch .  '</a>';
 	echo '</td></tr>';
 }
-echo '</table>'; 
+echo '</table>';
 
-?> 
+?>
