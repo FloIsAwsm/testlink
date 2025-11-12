@@ -81,6 +81,6 @@ function build_cfield_radio_head($custom_field_value)
       $value=is_array($custom_field_value) ? $custom_field_value[0] :$custom_field_value;
     }
     return $value;
-  
+
 }
-?>  
+?>

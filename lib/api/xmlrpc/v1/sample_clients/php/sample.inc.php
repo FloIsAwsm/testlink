@@ -77,4 +77,4 @@ if( DEV_KEY == "dev01" )
     echo 'Please check if this VALUE is defined for a user on yout DB Installation<b>';
     echo '<hr>';
 }
-?> 
+?>
