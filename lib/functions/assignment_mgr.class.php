@@ -36,7 +36,7 @@ class assignment_mgr extends tlObjectWithDB
     static $hash_types;
     if (!$hash_types)
     {
-      $sql = "SELECT * FROM {$this->tables['assignment_types']}";
+      $sql = "SELECT * FROM " . $this->tables['assignment_types'] . "";
       $hash_types = $this->db->fetchRowsIntoMap($sql,$key_field);
     }
     return $hash_types;
@@ -51,7 +51,7 @@ class assignment_mgr extends tlObjectWithDB
     static $hash_types;
     if (!$hash_types)
     {
-      $sql = " SELECT * FROM {$this->tables['assignment_status']} "; 
+      $sql = " SELECT * FROM " . $this->tables['assignment_status'] . " "; 
       $hash_types = $this->db->fetchRowsIntoMap($sql,$key_field);
     }
     
@@ -70,7 +70,7 @@ class assignment_mgr extends tlObjectWithDB
     {
       $where_clause = " WHERE feature_id={$feature_id}";
     }
-    $sql = " DELETE FROM {$this->tables['user_assignments']}  {$where_clause}"; 
+    $sql = " DELETE FROM " . $this->tables['user_assignments'] . "  {$where_clause}"; 
     $result = $this->db->exec_query($sql);
   }
   
@@ -93,7 +93,7 @@ class assignment_mgr extends tlObjectWithDB
       $type_sql = " AND type = {$tc_execution_type} ";
     }
     
-    $sql = " DELETE FROM {$this->tables['user_assignments']} " .
+    $sql = " DELETE FROM " . $this->tables['user_assignments'] . " " .
            " WHERE build_id = " . intval($build_id) . " {$type_sql} ";
     
     $this->db->exec_query($sql);
@@ -105,7 +105,7 @@ class assignment_mgr extends tlObjectWithDB
     $feature_id_list = implode(",",array_keys($feature_map));
     $where_clause = " WHERE feature_id IN ($feature_id_list) ";
       
-    $sql = " DELETE FROM {$this->tables['user_assignments']}  {$where_clause} ";
+    $sql = " DELETE FROM " . $this->tables['user_assignments'] . "  {$where_clause} ";
     
     // build_id is the same for all entries because of assignment form
     // -> skip foreach after first iteration
@@ -131,7 +131,7 @@ class assignment_mgr extends tlObjectWithDB
 
     foreach($items as $signature)
     {
-      $sql = " DELETE FROM {$this->tables['user_assignments']} WHERE 1=1 ";
+      $sql = " DELETE FROM " . $this->tables['user_assignments'] . " WHERE 1=1 ";
       foreach($signature as $column => $val)
       {
         $sql .= " AND $column = " . intval($val);
@@ -167,7 +167,7 @@ class assignment_mgr extends tlObjectWithDB
       // Check if exists before adding
       $safe['user_id'] = intval($elem['user_id']);
       $check = "/* $debugMsg */ ";
-      $check .= " SELECT id FROM {$this->tables['user_assignments']} " .
+      $check .= " SELECT id FROM " . $this->tables['user_assignments'] . " " .
                 " WHERE feature_id = " . intval($feature_id) .
                 " AND build_id = " . intval($elem['build_id']) .
                 " AND type = " . intval($elem['type']) .
@@ -178,7 +178,7 @@ class assignment_mgr extends tlObjectWithDB
       {
         if($safe['user_id'] > 0)
         {
-          $sql = "INSERT INTO {$this->tables['user_assignments']} " .
+          $sql = "INSERT INTO " . $this->tables['user_assignments'] . " " .
                  "(feature_id,user_id,assigner_id,type,status,creation_ts";
                       
           $values = "VALUES({$feature_id},{$elem['user_id']},{$elem['assigner_id']}," .
@@ -229,7 +229,7 @@ class assignment_mgr extends tlObjectWithDB
     foreach($feature_map as $feature_id => $elem)
     {
       $sepa = "";
-      $sql = "UPDATE {$this->tables['user_assignments']} SET ";
+      $sql = "UPDATE " . $this->tables['user_assignments'] . " SET ";
       $simple_fields = array('user_id','assigner_id','type','status');
       $date_fields = array('deadline_ts','creation_ts');  
     
@@ -275,7 +275,7 @@ class assignment_mgr extends tlObjectWithDB
       
     $user_sql = ($user_id && is_numeric($user_id)) ? "AND user_id = {$user_id} " : "";
     
-    $sql = " SELECT COUNT(id) AS count FROM {$this->tables['user_assignments']} " .
+    $sql = " SELECT COUNT(id) AS count FROM " . $this->tables['user_assignments'] . " " .
            " WHERE build_id = {$build_id} {$user_sql} {$type_sql} ";
       
     $count = $this->db->fetchOneValue($sql);
@@ -302,12 +302,12 @@ class assignment_mgr extends tlObjectWithDB
     
     $sql = " SELECT UA.id as assignment_id,UA.user_id,TPTCV.testplan_id," .
            " TPTCV.platform_id,BU.id AS BUILD_ID,E.id AS EXECID, E.status " .
-           " FROM {$this->tables['user_assignments']} UA " .
-           " JOIN {$this->tables['builds']}  BU ON UA.build_id = BU.id " .
-           " JOIN {$this->tables['testplan_tcversions']} TPTCV " .
+           " FROM " . $this->tables['user_assignments'] . " UA " .
+           " JOIN " . $this->tables['builds'] . "  BU ON UA.build_id = BU.id " .
+           " JOIN " . $this->tables['testplan_tcversions'] . " TPTCV " .
            "     ON TPTCV.testplan_id = BU.testplan_id " .
            "     AND TPTCV.id = UA.feature_id " .
-           " LEFT OUTER JOIN {$this->tables['executions']} E " .
+           " LEFT OUTER JOIN " . $this->tables['executions'] . " E " .
            "     ON E.testplan_id = TPTCV.testplan_id " . 
            "     AND E.tcversion_id = TPTCV.tcversion_id " .
            "     AND E.platform_id = TPTCV.platform_id " .
@@ -401,7 +401,7 @@ class assignment_mgr extends tlObjectWithDB
       
     $sql =  "/* $debugMsg */ ".
             " SELECT COUNT(id) AS qty, build_id " . 
-            " FROM {$this->tables['user_assignments']} " .
+            " FROM " . $this->tables['user_assignments'] . " " .
             " WHERE build_id IN ( " . implode(",",(array)$buildID) . " ) " .
             " AND type = {$execAssign} " .
             " GROUP BY build_id ";
@@ -428,12 +428,12 @@ class assignment_mgr extends tlObjectWithDB
 
     $sql =  "/* $debugMsg */ ".
             " SELECT count(0) as qty, UA.build_id ".
-            " FROM {$this->tables['user_assignments']} UA " .
-            " JOIN {$this->tables['builds']}  BU ON UA.build_id = BU.id " .
-            " JOIN {$this->tables['testplan_tcversions']} TPTCV " .
+            " FROM " . $this->tables['user_assignments'] . " UA " .
+            " JOIN " . $this->tables['builds'] . "  BU ON UA.build_id = BU.id " .
+            " JOIN " . $this->tables['testplan_tcversions'] . " TPTCV " .
             "     ON TPTCV.testplan_id = BU.testplan_id " .
             "     AND TPTCV.id = UA.feature_id " .
-            " LEFT OUTER JOIN {$this->tables['executions']} E " .
+            " LEFT OUTER JOIN " . $this->tables['executions'] . " E " .
             "     ON E.testplan_id = TPTCV.testplan_id " . 
             "     AND E.tcversion_id = TPTCV.tcversion_id " .
             "     AND E.platform_id = TPTCV.platform_id " .
@@ -463,7 +463,7 @@ class assignment_mgr extends tlObjectWithDB
     }
     $sql =  "/* $debugMsg */ ".
             " SELECT UA.user_id,UA.feature_id ".
-            " FROM {$this->tables['user_assignments']} UA " .
+            " FROM " . $this->tables['user_assignments'] . " UA " .
             " WHERE UA.build_id = " . intval($buildID) . 
             " AND UA.feature_id IN(" . implode(",",(array)$featureSet)  . " )" .       
             " AND type = " . intval($assignmentType);

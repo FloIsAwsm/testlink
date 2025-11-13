@@ -66,7 +66,7 @@ class tlPlatform extends tlObjectWithDB
     }
     else
     {
-      $sql = "INSERT INTO {$this->tables['platforms']} " .
+      $sql = "INSERT INTO " . $this->tables['platforms'] . " " .
              "(name, testproject_id, notes) " .
              " VALUES ('" . $this->db->prepare_string($safeName) . 
              "', $this->tproject_id, '".$this->db->prepare_string($notes)."')";
@@ -89,7 +89,7 @@ class tlPlatform extends tlObjectWithDB
   public function getByID($id)
   {
     $sql =  " SELECT id, name, notes " .
-            " FROM {$this->tables['platforms']} " .
+            " FROM " . $this->tables['platforms'] . " " .
             " WHERE id = " . intval($id);
     return $this->db->fetchFirstRow($sql);
   }
@@ -102,7 +102,7 @@ class tlPlatform extends tlObjectWithDB
   {
     $val = trim($name);
     $sql =  " SELECT id, name, notes " .
-            " FROM {$this->tables['platforms']} " .
+            " FROM " . $this->tables['platforms'] . " " .
             " WHERE name = '" . $this->db->prepare_string($val) . "'" .
             " AND testproject_id = " . intval($this->tproject_id);
     $ret = $this->db->fetchFirstRow($sql);
@@ -132,7 +132,7 @@ class tlPlatform extends tlObjectWithDB
   public function update($id, $name, $notes)
   {
     $safeName = $this->throwIfEmptyName($name);
-    $sql = " UPDATE {$this->tables['platforms']} " .
+    $sql = " UPDATE " . $this->tables['platforms'] . " " .
            " SET name = '" . $this->db->prepare_string($name) . "' " .
            ", notes =  '". $this->db->prepare_string($notes) . "' " .
          " WHERE id = {$id}";
@@ -150,7 +150,7 @@ class tlPlatform extends tlObjectWithDB
    */
   public function delete($id)
   {
-    $sql = "DELETE FROM {$this->tables['platforms']} WHERE id = {$id}";
+    $sql = "DELETE FROM " . $this->tables['platforms'] . " WHERE id = {$id}";
     $result = $this->db->exec_query($sql);
     
     return $result ? tl::OK : self::E_DBERROR;
@@ -169,7 +169,7 @@ class tlPlatform extends tlObjectWithDB
       $idSet = (array)$id;
       foreach ($idSet as $platform_id)
       {
-        $sql = " INSERT INTO {$this->tables['testplan_platforms']} " .
+        $sql = " INSERT INTO " . $this->tables['testplan_platforms'] . " " .
             " (testplan_id, platform_id) " .
             " VALUES ($testplan_id, $platform_id)";
         $result = $this->db->exec_query($sql);
@@ -196,7 +196,7 @@ class tlPlatform extends tlObjectWithDB
       $idSet = (array)$id;
       foreach ($idSet as $platform_id)
       {
-        $sql = " DELETE FROM {$this->tables['testplan_platforms']} " .
+        $sql = " DELETE FROM " . $this->tables['testplan_platforms'] . " " .
              " WHERE testplan_id = {$testplan_id} " .
              " AND platform_id = {$platform_id} ";
           
@@ -217,7 +217,7 @@ class tlPlatform extends tlObjectWithDB
    */
   public function getID($name)
   {
-    $sql = " SELECT id FROM {$this->tables['platforms']} " .
+    $sql = " SELECT id FROM " . $this->tables['platforms'] . " " .
          " WHERE name = '" . $this->db->prepare_string($name) . "'" .
          " AND testproject_id = {$this->tproject_id} ";
     return $this->db->fetchOneValue($sql);
@@ -242,7 +242,7 @@ class tlPlatform extends tlObjectWithDB
     
     $tproject_filter = " WHERE PLAT.testproject_id = {$this->tproject_id} ";
     
-    $sql =  " SELECT id, name, notes  FROM {$this->tables['platforms']} PLAT {$tproject_filter} " .
+    $sql =  " SELECT id, name, notes  FROM " . $this->tables['platforms'] . " PLAT {$tproject_filter} " .
             " ORDER BY name";
 
     $rs = $this->db->get_recordset($sql);
@@ -252,14 +252,14 @@ class tlPlatform extends tlObjectWithDB
       // notes is a TEXT field
       // $sql =  " SELECT PLAT.id,PLAT.name,PLAT.notes, " .
       //     " COUNT(TPLAT.testplan_id) AS linked_count " .
-      //     " FROM {$this->tables['platforms']} PLAT " .
-      //     " LEFT JOIN {$this->tables['testplan_platforms']} TPLAT " .
+      //     " FROM " . $this->tables['platforms'] . " PLAT " .
+      //     " LEFT JOIN " . $this->tables['testplan_platforms'] . " TPLAT " .
       //     " ON TPLAT.platform_id = PLAT.id " . $tproject_filter .
       //     " GROUP BY PLAT.id, PLAT.name, PLAT.notes";
       
       $sql =  " SELECT PLAT.id, COUNT(TPLAT.testplan_id) AS linked_count " .
-          " FROM {$this->tables['platforms']} PLAT " .
-          " LEFT JOIN {$this->tables['testplan_platforms']} TPLAT " .
+          " FROM " . $this->tables['platforms'] . " PLAT " .
+          " LEFT JOIN " . $this->tables['testplan_platforms'] . " TPLAT " .
           " ON TPLAT.platform_id = PLAT.id " . $tproject_filter .
           " GROUP BY PLAT.id ";
       $figures = $this->db->fetchRowsIntoMap($sql,'id');   
@@ -284,7 +284,7 @@ class tlPlatform extends tlObjectWithDB
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $sql =  "/* $debugMsg */  SELECT id, name " .
-        " FROM {$this->tables['platforms']} " .
+        " FROM " . $this->tables['platforms'] . " " .
         " WHERE testproject_id = {$this->tproject_id} {$orderBy}";
     if( $output == 'columns' )
     {
@@ -306,7 +306,7 @@ class tlPlatform extends tlObjectWithDB
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $sql = "/* $debugMsg */ SELECT COUNT(0) AS num " .
-         " FROM {$this->tables['testplan_platforms']} " .
+         " FROM " . $this->tables['testplan_platforms'] . " " .
          " WHERE testplan_id = {$testplan_id}";
     $num_tplans = $this->db->fetchOneValue($sql);
     return ($num_tplans > 0);
@@ -332,8 +332,8 @@ class tlPlatform extends tlObjectWithDB
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $rs = null;
     $sql = "/* $debugMsg */ SELECT P.id, P.name, P.notes " .
-           " FROM {$this->tables['platforms']} P " .
-           " JOIN {$this->tables['testplan_platforms']} TP " .
+           " FROM " . $this->tables['platforms'] . " P " .
+           " JOIN " . $this->tables['testplan_platforms'] . " TP " .
            " ON P.id = TP.platform_id " .
            " WHERE  TP.testplan_id = {$testplanID} {$my['options']['orderBy']}";
     
@@ -364,8 +364,8 @@ class tlPlatform extends tlObjectWithDB
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $sql =  "/* $debugMsg */ SELECT P.id, P.name " .
-            " FROM {$this->tables['platforms']} P " .
-            " JOIN {$this->tables['testplan_platforms']} TP " .
+            " FROM " . $this->tables['platforms'] . " P " .
+            " JOIN " . $this->tables['testplan_platforms'] . " TP " .
             " ON P.id = TP.platform_id " .
             " WHERE  TP.testplan_id = {$testplanID} {$orderBy}";
     return $this->db->fetchColumnsIntoMap($sql, 'id', 'name');
@@ -396,7 +396,7 @@ class tlPlatform extends tlObjectWithDB
     */
   public function deleteByTestProject($tproject_id)
   {
-    $sql = "DELETE FROM {$this->tables['platforms']} WHERE testproject_id = {$tproject_id}";
+    $sql = "DELETE FROM " . $this->tables['platforms'] . " WHERE testproject_id = {$tproject_id}";
     $result = $this->db->exec_query($sql);
     
     return $result ? tl::OK : self::E_DBERROR;
@@ -419,8 +419,8 @@ class tlPlatform extends tlObjectWithDB
     //       allows to get 0 on platform_qty
     //
     $sql = $debugMsg . " SELECT COALESCE(COUNT(PLAT.id),0) AS platform_qty, TPROJ.id AS tproject_id " .
-           " FROM {$this->tables['testprojects']} TPROJ " .
-           " LEFT OUTER JOIN {$this->tables['platforms']} PLAT ON PLAT.testproject_id = TPROJ.id ";
+           " FROM " . $this->tables['testprojects'] . " TPROJ " .
+           " LEFT OUTER JOIN " . $this->tables['platforms'] . " PLAT ON PLAT.testproject_id = TPROJ.id ";
     
     switch($my['opt']['range'])
     {
@@ -437,7 +437,7 @@ class tlPlatform extends tlObjectWithDB
     $debugMsg = '/* Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__ . '*/ ';
     $pid = intval(is_null($tproject_id) ? $this->tproject_id : $tproject_id);
     
-    $sql = " SELECT id FROM {$this->tables['platforms']} " .
+    $sql = " SELECT id FROM " . $this->tables['platforms'] . " " .
            " WHERE id = " . intval($id) . " AND testproject_id=" . $pid;
     $dummy =  $this->db->fetchRowsIntoMap($sql,'id');
     return isset($dummy['id']);
@@ -446,7 +446,7 @@ class tlPlatform extends tlObjectWithDB
   public function isLinkedToTestplan($id,$testplan_id)
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
-    $sql = " SELECT platform_id FROM {$this->tables['testplan_platforms']} " .
+    $sql = " SELECT platform_id FROM " . $this->tables['testplan_platforms'] . " " .
            " WHERE testplan_id = " . intval($testplan_id) .
            " AND platform_id = " . intval($id);
     $rs = $this->db->fetchRowsIntoMap($sql,'platform_id');

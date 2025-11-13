@@ -136,7 +136,7 @@ class tlReports extends tlObjectWithDB
    */ 
   public function get_count_builds($active=1, $open=0)
   {
-    $sql = " SELECT COUNT(0) FROM {$this->tables['builds']} builds " . 
+    $sql = " SELECT COUNT(0) FROM " . $this->tables['builds'] . " builds " . 
            " WHERE builds.testplan_id = {$this->testPlanID} ";
            
     if( $active )
@@ -159,7 +159,7 @@ class tlReports extends tlObjectWithDB
    */ 
   public function get_count_testcase4testplan()
   {
-    $sql = " SELECT COUNT(0) FROM {$this->tables['testplan_tcversions']} testplan_tcversions " .
+    $sql = " SELECT COUNT(0) FROM " . $this->tables['testplan_tcversions'] . " testplan_tcversions " .
            " WHERE testplan_id = {$this->testPlanID} ";
     return $this->db->fetchOneValue($sql);
   }

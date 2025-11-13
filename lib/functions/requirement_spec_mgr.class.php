@@ -216,9 +216,9 @@ function get_by_id($id,$options=null)
     	break;
     }
     $sql .= " FROM {$this->object_table} RSPEC " .
-			" JOIN {$this->tables['req_specs_revisions']} RSPEC_REV " .
+			" JOIN " . $this->tables['req_specs_revisions'] . " RSPEC_REV " .
 			" ON RSPEC_REV.parent_id = RSPEC.id " .
-			" JOIN {$this->tables['nodes_hierarchy']} NH_RSPEC " .
+			" JOIN " . $this->tables['nodes_hierarchy'] . " NH_RSPEC " .
 			" ON RSPEC.id = NH_RSPEC.id " .
 			" WHERE RSPEC.id = NH_RSPEC.id " .
 			" AND RSPEC_REV.id = {$childID} " .
@@ -323,7 +323,7 @@ function get_metrics($id)
   $getFilters = array('status' => NON_TESTABLE_REQ);
   $output['notTestable'] = $this->get_requirements_count($id,'all',null,$getFilters);
 
-  $sql = "/* $debugMsg */ SELECT count(0) AS cnt FROM {$this->tables['requirements']} WHERE srs_id={$id}";
+  $sql = "/* $debugMsg */ SELECT count(0) AS cnt FROM " . $this->tables['requirements'] . " WHERE srs_id={$id}";
   $output['total'] = $this->db->fetchFirstRowSingleColumn($sql,'cnt');
 
   $sql = "/* $debugMsg */ SELECT total_req FROM {$this->object_table} WHERE id={$id}";
@@ -334,8 +334,8 @@ function get_metrics($id)
   }
   
   $sql = "/* $debugMsg */ SELECT DISTINCT REQ.id " .
-         " FROM {$this->tables['requirements']} REQ " .
-         " JOIN {$this->tables['req_coverage']} REQ_COV ON REQ.id=REQ_COV.req_id" .
+         " FROM " . $this->tables['requirements'] . " REQ " .
+         " JOIN " . $this->tables['req_coverage'] . " REQ_COV ON REQ.id=REQ_COV.req_id" .
          " WHERE REQ.srs_id={$id} " ;
   $rs = $this->db->get_recordset($sql);
   if (!is_null($rs))
@@ -377,7 +377,7 @@ function get_all_in_testproject($tproject_id,$order_by=" ORDER BY title")
 	       " SELECT RSPEC.id,testproject_id,RSPEC.scope,RSPEC.total_req,RSPEC.type," .
            " RSPEC.author_id,RSPEC.creation_ts,RSPEC.modifier_id," .
            " RSPEC.modification_ts,NH.name AS title,NH.node_order " .
-	       " FROM {$this->object_table} RSPEC, {$this->tables['nodes_hierarchy']} NH " .
+	       " FROM {$this->object_table} RSPEC, " . $this->tables['nodes_hierarchy'] . " NH " .
 	       " WHERE NH.id=RSPEC.id" .
 	       " AND testproject_id={$tproject_id}";
 
@@ -450,7 +450,7 @@ function get_all_in_testproject($tproject_id,$order_by=" ORDER BY title")
     	if( $result['status_ok'] )
     	{
   		  // need to update node on tree
-    	  $sql = " UPDATE {$this->tables['nodes_hierarchy']} " .
+    	  $sql = " UPDATE " . $this->tables['nodes_hierarchy'] . " " .
   			       " SET name='" . $this->db->prepare_string($title) . "'";
 				if(isset($item['node_order']) &&  !is_null($item['node_order']) )
 				{
@@ -522,8 +522,8 @@ function delete($id)
   
   // delete revisions
   $sqlx = array();
-  $sqlx[] = "DELETE FROM {$this->tables['req_specs_revisions']} WHERE parent_id = {$id}";
-  $sqlx[] = "DELETE FROM {$this->tables['nodes_hierarchy']} WHERE parent_id = {$id}";
+  $sqlx[] = "DELETE FROM " . $this->tables['req_specs_revisions'] . " WHERE parent_id = {$id}";
+  $sqlx[] = "DELETE FROM " . $this->tables['nodes_hierarchy'] . " WHERE parent_id = {$id}";
   foreach($sqlx as $sql)
   {
     $result = $this->db->exec_query($sql);
@@ -532,7 +532,7 @@ function delete($id)
   // delete specification itself
   $sqlx = array();
   $sqlx[] = "DELETE FROM {$this->object_table} WHERE id = {$id}";
-  $sqlx[] = "DELETE FROM {$this->tables['nodes_hierarchy']} WHERE id = {$id}";
+  $sqlx[] = "DELETE FROM " . $this->tables['nodes_hierarchy'] . " WHERE id = {$id}";
   foreach($sqlx as $sql)
   {
     $result = $this->db->exec_query($sql);
@@ -608,7 +608,7 @@ function get_requirements($id, $range = 'all', $testcase_id = null, $options=nul
 	$tcase_filter = '';
   
   // First Step - get only req info
-	$sql = "/* $debugMsg */ SELECT NH_REQ.id FROM {$this->tables['nodes_hierarchy']} NH_REQ ";
+	$sql = "/* $debugMsg */ SELECT NH_REQ.id FROM " . $this->tables['nodes_hierarchy'] . " NH_REQ ";
   $addFields = '';
 	switch($range)
 	{
@@ -617,12 +617,12 @@ function get_requirements($id, $range = 'all', $testcase_id = null, $options=nul
 
 		case 'assigned':
       // $addFields = " ,U.login, REQ_COV.creation_ts";
-			$sql .= " JOIN {$this->tables['req_coverage']} REQ_COV ON REQ_COV.req_id=NH_REQ.id ";
+			$sql .= " JOIN " . $this->tables['req_coverage'] . " REQ_COV ON REQ_COV.req_id=NH_REQ.id ";
       if(!is_null($testcase_id))
       {       
         $tcase_filter = " AND REQ_COV.testcase_id={$testcase_id}";
       }
-      // $sql .= " LEFT OUTER JOIN {$this->tables['users']} U ON U.id = REQ_COV.author_id ";
+      // $sql .= " LEFT OUTER JOIN " . $this->tables['users'] . " U ON U.id = REQ_COV.author_id ";
 	 	break;
 	}
 
@@ -636,7 +636,7 @@ function get_requirements($id, $range = 'all', $testcase_id = null, $options=nul
 	{
 		$reqSet = array_keys($itemSet);
 		$sql = "/* $debugMsg */ SELECT MAX(NH_REQV.id) AS version_id" . 
-		       " FROM {$this->tables['nodes_hierarchy']} NH_REQV " .
+		       " FROM " . $this->tables['nodes_hierarchy'] . " NH_REQV " .
 		       " WHERE NH_REQV.parent_id IN (" . implode(",",$reqSet) . ") " .
 		       " GROUP BY NH_REQV.parent_id ";
 
@@ -700,7 +700,7 @@ function get_by_title($title,$tproject_id=null,$parent_id=null,$case_analysis=se
   		     " SELECT RSPEC.id,testproject_id,RSPEC.doc_id,RSPEC.scope,RSPEC.total_req,RSPEC.type," .
            " RSPEC.author_id,RSPEC.creation_ts,RSPEC.modifier_id," .
            " RSPEC.modification_ts,NH.name AS title " .
-  	       " FROM {$this->object_table} RSPEC, {$this->tables['nodes_hierarchy']} NH";
+  	       " FROM {$this->object_table} RSPEC, " . $this->tables['nodes_hierarchy'] . " NH";
 
     switch ($case_analysis)
     {
@@ -1632,10 +1632,10 @@ function getByDocID($doc_id,$tproject_id=null,$parent_id=null,$options=null)
 	// ( but really can be on a differente way ? ), in order to use a simple logic.
 	//
 	$sql_max =	" /* $debugMsg */ SELECT MAX(RSPEC_REV.id) AS rev_id" .
-				" FROM {$this->tables['req_specs']} RSPEC " .
-				" JOIN {$this->tables['req_specs_revisions']} RSPEC_REV " .
+				" FROM " . $this->tables['req_specs'] . " RSPEC " .
+				" JOIN " . $this->tables['req_specs_revisions'] . " RSPEC_REV " .
 				" ON RSPEC_REV.parent_id = RSPEC.id " .
-				" JOIN {$this->tables['nodes_hierarchy']} NH_RSPEC " .
+				" JOIN " . $this->tables['nodes_hierarchy'] . " NH_RSPEC " .
 				" ON NH_RSPEC.id = RSPEC.id " .
 				$where . ' GROUP BY RSPEC_REV.parent_id ';
 
@@ -1658,10 +1658,10 @@ function getByDocID($doc_id,$tproject_id=null,$parent_id=null,$options=null)
 			
 		}
 	
-		$sql .=	" FROM {$this->tables['req_specs']} RSPEC " .
-				" JOIN {$this->tables['req_specs_revisions']} RSPEC_REV " .
+		$sql .=	" FROM " . $this->tables['req_specs'] . " RSPEC " .
+				" JOIN " . $this->tables['req_specs_revisions'] . " RSPEC_REV " .
 				" ON RSPEC_REV.parent_id = RSPEC.id " .
-				" JOIN {$this->tables['nodes_hierarchy']} NH_RSPEC " .
+				" JOIN " . $this->tables['nodes_hierarchy'] . " NH_RSPEC " .
 				" ON NH_RSPEC.id = RSPEC.id ";
 				
 		$sql .= $where . ' AND RSPEC_REV.id IN (' . implode(",",array_keys($maxi)) . ') '; 
@@ -1863,7 +1863,7 @@ function getByDocID($doc_id,$tproject_id=null,$parent_id=null,$options=null)
 	function getFirstLevelInTestProject($tproject_id)
 	{
 		$debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
-	  	$sql = "/* $debugMsg */ SELECT * from {$this->tables['nodes_hierarchy']} " .
+	  	$sql = "/* $debugMsg */ SELECT * from " . $this->tables['nodes_hierarchy'] . " " .
 	  	       " WHERE parent_id = {$tproject_id} " .
 	  	       " AND node_type_id = {$this->node_types_descr_id['requirement_spec']} " .
 	  	       " ORDER BY node_order,id";
@@ -1908,7 +1908,7 @@ function getByDocID($doc_id,$tproject_id=null,$parent_id=null,$options=null)
 			$item[$field] = isset($item[$field]) ? $item[$field] : $default; 
 		}
 
-		$sql = "/* $debugMsg */ INSERT INTO {$this->tables['req_specs_revisions']} " .
+		$sql = "/* $debugMsg */ INSERT INTO " . $this->tables['req_specs_revisions'] . " " .
 		       " ($fields2insert) " . 
 	  	       " VALUES({$rspecID}" . "," . $ret['id'] . "," . intval($item['revision']) . "," .
 	  	       intval($item['status']) . ",'" . 
@@ -1922,7 +1922,7 @@ function getByDocID($doc_id,$tproject_id=null,$parent_id=null,$options=null)
 		$result = $this->db->exec_query($sql);
 		if ($result)
 		{
-			$sql = 	"/* $debugMsg */ UPDATE {$this->tables['nodes_hierarchy']} " .
+			$sql = 	"/* $debugMsg */ UPDATE " . $this->tables['nodes_hierarchy'] . " " .
 					" SET name='" . $this->db->prepare_string($item['name']) . "' " .
 	  	       		" WHERE id={$ret['id']} ";
 	  	    // echo $sql . '<br>';   		
@@ -1980,8 +1980,8 @@ function getByDocID($doc_id,$tproject_id=null,$parent_id=null,$options=null)
 		$field = $target_cfg[$child_type]['field'];
 		
 		$sql = " /* $debugMsg */ SELECT COALESCE(MAX($field),-1) AS $field " .
-		       " FROM {$this->tables[$table]} CHILD," .
-		       " {$this->tables['nodes_hierarchy']} NH WHERE ".
+		       " FROM " . $this->tables[$table] . " CHILD," .
+		       " " . $this->tables['nodes_hierarchy'] . " NH WHERE ".
 		       " NH.id = CHILD.id ".
 		       " AND NH.parent_id = {$id} ";
 
@@ -2002,8 +2002,8 @@ function getByDocID($doc_id,$tproject_id=null,$parent_id=null,$options=null)
 				break;
 			}
 		
-			$sql .= " FROM {$this->tables[$table]} CHILD," .
-			        " {$this->tables['nodes_hierarchy']} NH ".
+			$sql .= " FROM " . $this->tables[$table] . " CHILD," .
+			        " " . $this->tables['nodes_hierarchy'] . " NH ".
 			        " WHERE $field = {$max_verbose} AND NH.id = CHILD.id AND NH.parent_id = {$id}";
 	
 			$info = $this->db->fetchFirstRow($sql);
@@ -2023,7 +2023,7 @@ function getByDocID($doc_id,$tproject_id=null,$parent_id=null,$options=null)
 		$qty = 0;
 
 		$sql = 	" /* $debugMsg */ SELECT COUNT(0) AS qty" .
-				" FROM {$this->tables['req_specs_revisions']} RSPEC_REV" .
+				" FROM " . $this->tables['req_specs_revisions'] . " RSPEC_REV" .
 				" WHERE RSPEC_REV.parent_id = {$id} ";
 		
 		$dummy = $this->db->get_recordset($sql);
@@ -2048,7 +2048,7 @@ function getByDocID($doc_id,$tproject_id=null,$parent_id=null,$options=null)
     			" 		 RSREV.revision, RSREV.scope, " .
     			" 		 RSREV.status,RSREV.type,RSREV.name, RSREV.doc_id, " .
     			" COALESCE(RSREV.log_message,'') AS log_message" .
-    			" FROM {$this->tables['req_specs_revisions']}  RSREV " .
+    			" FROM " . $this->tables['req_specs_revisions'] . "  RSREV " .
 				" WHERE RSREV.parent_id = {$id} " .
 				" ORDER BY RSREV.revision {$my['options']['order_by_dir']} ";
 				
@@ -2202,8 +2202,8 @@ function getByDocID($doc_id,$tproject_id=null,$parent_id=null,$options=null)
 		
 		$sql = 	'/* $debugMsg */' .
 				" SELECT RSPEC_REV.*, RSPEC.testproject_id " .
-				" FROM {$this->tables['req_specs_revisions']} RSPEC_REV " .
-				" JOIN {$this->tables['req_specs']} RSPEC " .
+				" FROM " . $this->tables['req_specs_revisions'] . " RSPEC_REV " .
+				" JOIN " . $this->tables['req_specs'] . " RSPEC " .
 				" ON RSPEC.id = RSPEC_REV.parent_id " .
 				" WHERE RSPEC_REV.id={$id} ";
 				
@@ -2235,7 +2235,7 @@ function getByDocID($doc_id,$tproject_id=null,$parent_id=null,$options=null)
 		}
 		
 		$sql = '/* $debugMsg */' .
-				   " UPDATE {$this->tables['req_specs_revisions']} " .
+				   " UPDATE " . $this->tables['req_specs_revisions'] . " " .
 				   " SET scope = '" . $this->db->prepare_string($item['scope']) . "', " .
 				   "     modifier_id = " . $item['modifier_id'] . ", " .
 				   "     modification_ts = " . $this->db->db_now() . 	
@@ -2269,9 +2269,9 @@ function getByDocID($doc_id,$tproject_id=null,$parent_id=null,$options=null)
 
  
     $sql = "/* $debugMsg */ SELECT NH_REQ.id,U.login, REQ_COV.creation_ts " .
-           " FROM {$this->tables['nodes_hierarchy']} NH_REQ " .
-           " JOIN {$this->tables['req_coverage']} REQ_COV ON REQ_COV.req_id=NH_REQ.id " .
-           " LEFT OUTER JOIN {$this->tables['users']} U ON U.id = REQ_COV.author_id ";
+           " FROM " . $this->tables['nodes_hierarchy'] . " NH_REQ " .
+           " JOIN " . $this->tables['req_coverage'] . " REQ_COV ON REQ_COV.req_id=NH_REQ.id " .
+           " LEFT OUTER JOIN " . $this->tables['users'] . " U ON U.id = REQ_COV.author_id ";
     $sql .= " WHERE NH_REQ.parent_id={$id} " .
           " AND NH_REQ.node_type_id = {$this->node_types_descr_id['requirement']}";
     $itemSet = $this->db->fetchRowsIntoMap($sql,'id');

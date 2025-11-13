@@ -136,8 +136,8 @@ class tlRole extends tlDBObject
     
     if ($getFullDetails)
     {
-      $sql .= " LEFT OUTER JOIN {$this->tables['role_rights']} b ON a.id = b.role_id " . 
-              " LEFT OUTER JOIN {$this->tables['rights']}  c ON b.right_id = c.id ";
+      $sql .= " LEFT OUTER JOIN " . $this->tables['role_rights'] . " b ON a.id = b.role_id " . 
+              " LEFT OUTER JOIN " . $this->tables['rights'] . "  c ON b.right_id = c.id ";
     }
     
     $clauses = null;
@@ -304,7 +304,7 @@ class tlRole extends tlDBObject
     $tables = array('users','user_testproject_roles','user_testplan_roles');
     foreach($tables as $table)
     {
-      $sql = "UPDATE {$this->tables[$table]} SET role_id = {$newRole} WHERE role_id = {$this->dbID}";
+      $sql = "UPDATE " . $this->tables[$table] . " SET role_id = {$newRole} WHERE role_id = {$this->dbID}";
       $result = $result && ($db->exec_query($sql) ? true : false);
     }
     return $result ? tl::OK : tl::ERROR;
@@ -330,7 +330,7 @@ class tlRole extends tlDBObject
    **/
   protected function getUserIDsWithGlobalRole(&$db)
   {
-    $sql = "SELECT id FROM {$this->tables['users']} " .
+    $sql = "SELECT id FROM " . $this->tables['users'] . " " .
            " WHERE role_id = {$this->dbID}";
     $idSet = $db->fetchColumnsIntoArray($sql,"id");
     
@@ -345,8 +345,8 @@ class tlRole extends tlDBObject
    **/
   protected function getUserIDsWithTestProjectRole(&$db)
   {
-    $sql = "SELECT DISTINCT id FROM {$this->tables['users']} users," .
-           " {$this->tables['user_testproject_roles']} user_testproject_roles " .
+    $sql = "SELECT DISTINCT id FROM " . $this->tables['users'] . " users," .
+           " " . $this->tables['user_testproject_roles'] . " user_testproject_roles " .
            " WHERE users.id = user_testproject_roles.user_id";
     $sql .= " AND user_testproject_roles.role_id = {$this->dbID} ";
     $idSet = $db->fetchColumnsIntoArray($sql,"id");
@@ -362,8 +362,8 @@ class tlRole extends tlDBObject
    **/
   protected function getUserIDsWithTestPlanRole(&$db)
   {
-    $sql = "SELECT DISTINCT id FROM {$this->tables['users']} users," . 
-           " {$this->tables['user_testplan_roles']} user_testplan_roles " .
+    $sql = "SELECT DISTINCT id FROM " . $this->tables['users'] . " users," . 
+           " " . $this->tables['user_testplan_roles'] . " user_testplan_roles " .
            " WHERE  users.id = user_testplan_roles.user_id";
     $sql .= " AND user_testplan_roles.role_id = {$this->dbID}";
     $idSet = $db->fetchColumnsIntoArray($sql,"id");
@@ -458,7 +458,7 @@ class tlRole extends tlDBObject
       foreach($this->rights as $right)
       {
         $rightID = $right->dbID;
-        $sql = "INSERT INTO {$this->tables['role_rights']} (role_id,right_id) " .
+        $sql = "INSERT INTO " . $this->tables['role_rights'] . " (role_id,right_id) " .
                "VALUES ({$this->dbID},{$rightID})";
         $status_ok = $status_ok && ($db->exec_query($sql) ? 1 : 0);
       }
@@ -468,8 +468,8 @@ class tlRole extends tlDBObject
   
   protected function readRights(&$db)
   {
-    $sql = "SELECT right_id,description FROM {$this->tables['role_rights']} a " .
-           "JOIN {$this->tables['rights']} b ON a.right_id = b.id " .
+    $sql = "SELECT right_id,description FROM " . $this->tables['role_rights'] . " a " .
+           "JOIN " . $this->tables['rights'] . " b ON a.right_id = b.id " .
              "WHERE role_id = {$this->dbID}";
     $rightInfo = $db->get_recordset($sql);
     $this->rights = buildRightsArray($rightInfo);

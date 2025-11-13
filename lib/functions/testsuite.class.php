@@ -189,7 +189,7 @@ class testsuite extends tlObjectWithAttachments
       // get a new id
       $tsuite_id = $this->tree_manager->new_node($parent_id,$this->my_node_type,
                                                  $name,$node_order);
-      $sql = " INSERT INTO {$this->tables['testsuites']} (id,details) " .
+      $sql = " INSERT INTO " . $this->tables['testsuites'] . " (id,details) " .
              " VALUES ({$tsuite_id},'" . $this->db->prepare_string($details) . "')";
                    
       $result = $this->db->exec_query($sql);
@@ -217,14 +217,14 @@ class testsuite extends tlObjectWithAttachments
     $check = $this->tree_manager->nodeNameExists($name,$this->my_node_type,intval($id),$parent_id);
     if($check['status']==0)
     {
-      $sql = "/* $debugMsg */ UPDATE {$this->tables['testsuites']} " .
+      $sql = "/* $debugMsg */ UPDATE " . $this->tables['testsuites'] . " " .
              " SET details = '" . $this->db->prepare_string($details) . "'" .
              " WHERE id = {$id}";
       $result = $this->db->exec_query($sql);
         
       if ($result)
       {
-        $sql = "/* $debugMsg */ UPDATE {$this->tables['nodes_hierarchy']} " .
+        $sql = "/* $debugMsg */ UPDATE " . $this->tables['nodes_hierarchy'] . " " .
              " SET name='" .  $this->db->prepare_string($name) . "' ";
         if( !is_null($node_order) && intval($node_order) > 0 )
         {
@@ -289,7 +289,7 @@ class testsuite extends tlObjectWithAttachments
     $sql = "DELETE FROM {$this->object_table} WHERE id={$id}";
     $result = $this->db->exec_query($sql);
       
-    $sql = "DELETE FROM {$this->tables['nodes_hierarchy']} WHERE id={$id}";
+    $sql = "DELETE FROM " . $this->tables['nodes_hierarchy'] . " WHERE id={$id}";
     $result = $this->db->exec_query($sql);
   }
   
@@ -330,8 +330,8 @@ class testsuite extends tlObjectWithAttachments
     }
 
     $sql .= " NH.parent_id " .
-            " FROM {$this->tables['testsuites']} TS " .
-            " JOIN {$this->tables['nodes_hierarchy']} NH " .
+            " FROM " . $this->tables['testsuites'] . " TS " .
+            " JOIN " . $this->tables['nodes_hierarchy'] . " NH " .
             " ON NH.id = TS.id " .
             " WHERE NH.name = '" . $this->db->prepare_string($name) . "'";
     
@@ -374,8 +374,8 @@ class testsuite extends tlObjectWithAttachments
     $my['opt'] = array_merge($my['opt'],(array)$opt);
 
     $sql = "/* $debugMsg */ SELECT TS.*, NH.name, NH.node_type_id, NH.node_order, NH.parent_id " .
-           "  FROM {$this->tables['testsuites']} TS, " .
-           " {$this->tables['nodes_hierarchy']} NH   WHERE TS.id = NH.id AND TS.id "; 
+           "  FROM " . $this->tables['testsuites'] . " TS, " .
+           " " . $this->tables['nodes_hierarchy'] . " NH   WHERE TS.id = NH.id AND TS.id "; 
 
     $sql .= is_array($id) ? " IN (" . implode(',',$id) . ")" : " = {$id} ";
     $sql .= $my['opt']['orderByClause'];
@@ -410,8 +410,8 @@ class testsuite extends tlObjectWithAttachments
   function get_all()
   {
     $sql = " SELECT testsuites.*, nodes_hierarchy.name " .
-           " FROM {$this->tables['testsuites']} testsuites, " .
-           " {$this->tables['nodes_hierarchy']} nodes_hierarchy " . 
+           " FROM " . $this->tables['testsuites'] . " testsuites, " .
+           " " . $this->tables['nodes_hierarchy'] . " nodes_hierarchy " . 
            " WHERE testsuites.id = nodes_hierarchy.id";
            
     $recordset = $this->db->get_recordset($sql);
@@ -970,7 +970,7 @@ class testsuite extends tlObjectWithAttachments
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     
     $sql = "/* $debugMsg */ SELECT keyword_id,keywords.keyword, notes " .
-           " FROM {$this->tables['object_keywords']}, {$this->tables['keywords']} keywords " .
+           " FROM " . $this->tables['object_keywords'] . ", " . $this->tables['keywords'] . " keywords " .
            " WHERE keyword_id = keywords.id AND fk_id = {$id}";
     if (!is_null($kw_id))
     {
@@ -1007,7 +1007,7 @@ class testsuite extends tlObjectWithAttachments
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $sql = "/* $debugMsg */ SELECT keyword_id,keywords.keyword " .
-           " FROM {$this->tables['object_keywords']}, {$this->tables['keywords']} keywords " .
+           " FROM " . $this->tables['object_keywords'] . ", " . $this->tables['keywords'] . " keywords " .
            " WHERE keyword_id = keywords.id ";
 
     if (is_array($id))
@@ -1037,7 +1037,7 @@ class testsuite extends tlObjectWithAttachments
     $kw = $this->getKeywords($id,$kw_id);
     if( ($doLink = !($kw && count($kw ?? []))) )
     {
-      $sql = "/* $debugMsg */ INSERT INTO {$this->tables['object_keywords']} " .
+      $sql = "/* $debugMsg */ INSERT INTO " . $this->tables['object_keywords'] . " " .
              " (fk_id,fk_table,keyword_id) VALUES ($id,'nodes_hierarchy',$kw_id)";
           $status = $this->db->exec_query($sql) ? 1 : 0;
     }
@@ -1075,7 +1075,7 @@ class testsuite extends tlObjectWithAttachments
   */
   function deleteKeywords($id,$kw_id = null)
   {
-    $sql = " DELETE FROM {$this->tables['object_keywords']} WHERE fk_id = {$id} ";
+    $sql = " DELETE FROM " . $this->tables['object_keywords'] . " WHERE fk_id = {$id} ";
     if (!is_null($kw_id))
     {
       $sql .= " AND keyword_id = {$kw_id}";
@@ -1408,10 +1408,10 @@ class testsuite extends tlObjectWithAttachments
     if( !is_null($sourceItems) )
     {
       $sql = "/* $debugMsg */ " . 
-             " INSERT INTO {$this->tables['cfield_design_values']} " . 
+             " INSERT INTO " . $this->tables['cfield_design_values'] . " " . 
              " (field_id,value,node_id) " .
              " SELECT field_id,value,{$target_id} AS target_id" .
-             " FROM {$this->tables['cfield_design_values']} " .
+             " FROM " . $this->tables['cfield_design_values'] . " " .
              " WHERE node_id = {$source_id} ";
       $this->db->exec_query($sql);
     }
@@ -1525,7 +1525,7 @@ class testsuite extends tlObjectWithAttachments
     $id = $this->tree_manager->new_node($item->parentID,$this->my_node_type,
                                         $name,intval($item->order));
 
-    $sql = " INSERT INTO {$this->tables['testsuites']} (id,details) " .
+    $sql = " INSERT INTO " . $this->tables['testsuites'] . " (id,details) " .
            " VALUES ({$id},'" . $this->db->prepare_string($item->notes) . "')";
 
     $result = $this->db->exec_query($sql);       
@@ -1672,7 +1672,7 @@ class testsuite extends tlObjectWithAttachments
   function updateDetails($id,$details)
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
-    $sql = "/* $debugMsg */ UPDATE {$this->tables['testsuites']} " .
+    $sql = "/* $debugMsg */ UPDATE " . $this->tables['testsuites'] . " " .
            " SET details = '" . $this->db->prepare_string($details) . "'" .
            " WHERE id = " . intval($id);
     $result = $this->db->exec_query($sql);

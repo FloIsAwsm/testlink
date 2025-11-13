@@ -215,11 +215,11 @@ function get_by_id($id,$version_id=self::ALL_VERSIONS,$version_number=1,$options
          " NH_REQ.name AS title, REQ_SPEC.testproject_id, " .
          " NH_RSPEC.name AS req_spec_title, REQ_SPEC.doc_id AS req_spec_doc_id, NH_REQ.node_order " .
          " FROM {$this->object_table} REQ " .
-         " JOIN {$this->tables['nodes_hierarchy']} NH_REQ ON NH_REQ.id = REQ.id " .
-         " JOIN {$this->tables['nodes_hierarchy']} NH_REQV ON NH_REQV.parent_id = NH_REQ.id ".
-         " JOIN  {$this->tables['req_versions']} REQV ON REQV.id = NH_REQV.id " .  
-         " JOIN {$this->tables['req_specs']} REQ_SPEC ON REQ_SPEC.id = REQ.srs_id " .
-         " JOIN {$this->tables['nodes_hierarchy']} NH_RSPEC ON NH_RSPEC.id = REQ_SPEC.id " .
+         " JOIN " . $this->tables['nodes_hierarchy'] . " NH_REQ ON NH_REQ.id = REQ.id " .
+         " JOIN " . $this->tables['nodes_hierarchy'] . " NH_REQV ON NH_REQV.parent_id = NH_REQ.id ".
+         " JOIN  " . $this->tables['req_versions'] . " REQV ON REQV.id = NH_REQV.id " .  
+         " JOIN " . $this->tables['req_specs'] . " REQ_SPEC ON REQ_SPEC.id = REQ.srs_id " .
+         " JOIN " . $this->tables['nodes_hierarchy'] . " NH_RSPEC ON NH_RSPEC.id = REQ_SPEC.id " .
          $where_clause . $filter_clause . $my['options']['order_by'];
 
 
@@ -423,7 +423,7 @@ function create($srs_id,$reqdoc_id,$title, $scope, $user_id,
       if( $op['status_ok'] )
       {
         $sql =   "/* $debugMsg */ " .
-            "UPDATE {$this->tables['req_versions']} " .
+            "UPDATE " . $this->tables['req_versions'] . " " .
             " SET log_message='" . $this->db->prepare_string($log_message) . "'" .
             " WHERE id = " . intval($op['id']) ;
         $this->db->exec_query($sql);
@@ -496,7 +496,7 @@ function update($id,$version_id,$reqdoc_id,$title, $scope, $user_id, $status, $t
     
      $sql = array();
 
-      $q = "/* $debugMsg */ UPDATE {$this->tables['nodes_hierarchy']} " .
+      $q = "/* $debugMsg */ UPDATE " . $this->tables['nodes_hierarchy'] . " " .
            " SET name='" . $this->db->prepare_string($title) . "'";
       if( !is_null($node_order) )
       {
@@ -505,11 +505,11 @@ function update($id,$version_id,$reqdoc_id,$title, $scope, $user_id, $status, $t
        $sql[] = $q . " WHERE id={$id}";
        
 
-      $sql[] = "/* $debugMsg */ UPDATE {$this->tables['requirements']} " .
+      $sql[] = "/* $debugMsg */ UPDATE " . $this->tables['requirements'] . " " .
                " SET req_doc_id='" . $this->db->prepare_string($reqdoc_id) . "'" .
                " WHERE id={$id}";
       
-      $sql_temp = "/* $debugMsg */ UPDATE {$this->tables['req_versions']} " .
+      $sql_temp = "/* $debugMsg */ UPDATE " . $this->tables['req_versions'] . " " .
                   " SET scope='" . $this->db->prepare_string($scope) . "', " .
                   " status='" . $this->db->prepare_string($status) . "', " .
                   " expected_coverage={$expected_coverage}, " . 
@@ -600,7 +600,7 @@ function update($id,$version_id,$reqdoc_id,$title, $scope, $user_id, $status, $t
       $deleteAll = true;
     
       // I'm trying to speedup the next deletes
-      $sql="SELECT NH.id FROM {$this->tables['nodes_hierarchy']} NH WHERE NH.parent_id ";
+      $sql="SELECT NH.id FROM " . $this->tables['nodes_hierarchy'] . " NH WHERE NH.parent_id ";
       if( is_array($id) )
       {
         $sql .=  " IN (" .implode(',',$id) . ") ";
@@ -614,7 +614,7 @@ function update($id,$version_id,$reqdoc_id,$title, $scope, $user_id, $status, $t
       $children = array_keys($children_rs); 
 
       // delete dependencies with test specification
-      $sql = "DELETE FROM {$this->tables['req_coverage']} " . $where['coverage'];
+      $sql = "DELETE FROM " . $this->tables['req_coverage'] . " " . $where['coverage'];
       $result = $this->db->exec_query($sql);
 
       // also delete relations to other requirements
@@ -642,7 +642,7 @@ function update($id,$version_id,$reqdoc_id,$title, $scope, $user_id, $status, $t
       // 20130928 - As usual working with MySQL makes easier to be lazy and forget that
       //            agregate functions need GROUP BY 
       // How many versions are there? we will delete req also for all with COUNT(0) == 1
-      $sql = "SELECT COUNT(0) AS VQTY, parent_id FROM {$this->tables['nodes_hierarchy']} " . 
+      $sql = "SELECT COUNT(0) AS VQTY, parent_id FROM " . $this->tables['nodes_hierarchy'] . " " . 
              $where['iam_parent'] . ' GROUP BY parent_id';
 
       $rs = $this->db->fetchRowsIntoMap($sql,'parent_id');
@@ -660,7 +660,7 @@ function update($id,$version_id,$reqdoc_id,$title, $scope, $user_id, $status, $t
 
 
       $implosion = implode(',',$children);
-      $sql = "/* $debugMsg */ SELECT id from {$this->tables['nodes_hierarchy']} " .
+      $sql = "/* $debugMsg */ SELECT id from " . $this->tables['nodes_hierarchy'] . " " .
              " WHERE parent_id IN ( {$implosion} ) ";
              
       $revisionSet = $this->db->fetchRowsIntoMap($sql,'id');
@@ -668,20 +668,20 @@ function update($id,$version_id,$reqdoc_id,$title, $scope, $user_id, $status, $t
       {
           $this->cfield_mgr->remove_all_design_values_from_node(array_keys($revisionSet));
               
-          $sql = "DELETE FROM {$this->tables['req_revisions']} WHERE parent_id IN ( {$implosion} ) ";
+          $sql = "DELETE FROM " . $this->tables['req_revisions'] . " WHERE parent_id IN ( {$implosion} ) ";
           $result = $this->db->exec_query($sql);
               
-          $sql = "DELETE FROM {$this->tables['nodes_hierarchy']} WHERE parent_id IN ( {$implosion} ) ";
+          $sql = "DELETE FROM " . $this->tables['nodes_hierarchy'] . " WHERE parent_id IN ( {$implosion} ) ";
           $result = $this->db->exec_query($sql);
       }
       $this->cfield_mgr->remove_all_design_values_from_node((array)$children);
 
       $where['children'] = " WHERE id IN ( {$implosion} ) ";
 
-      $sql = "DELETE FROM {$this->tables['req_versions']} " . $where['children'];
+      $sql = "DELETE FROM " . $this->tables['req_versions'] . " " . $where['children'];
       $result = $this->db->exec_query($sql);
           
-      $sql = "DELETE FROM {$this->tables['nodes_hierarchy']} " . $where['children'];
+      $sql = "DELETE FROM " . $this->tables['nodes_hierarchy'] . " " . $where['children'];
       $result = $this->db->exec_query($sql);
 
 
@@ -693,7 +693,7 @@ function update($id,$version_id,$reqdoc_id,$title, $scope, $user_id, $status, $t
       $sql = "DELETE FROM {$this->object_table} " . $where['this'];
       $result = $this->db->exec_query($sql);
 
-      $sql = "DELETE FROM {$this->tables['nodes_hierarchy']} " . $where['this'];
+      $sql = "DELETE FROM " . $this->tables['nodes_hierarchy'] . " " . $where['this'];
       $result = $this->db->exec_query($sql);
     }
   
@@ -738,10 +738,10 @@ function get_coverage($id,$context=null,$options=null)
   $safe_id = intval($id);
   $common = array();
   
-  $common['join'] = " FROM {$this->tables['nodes_hierarchy']} NH_TC " .
-                    " JOIN {$this->tables['nodes_hierarchy']} NH_TCV ON NH_TCV.parent_id=NH_TC.id " .
-                    " JOIN {$this->tables['tcversions']} TCV ON TCV.id=NH_TCV.id " .
-                    " JOIN {$this->tables['req_coverage']} RC ON RC.testcase_id = NH_TC.id ";
+  $common['join'] = " FROM " . $this->tables['nodes_hierarchy'] . " NH_TC " .
+                    " JOIN " . $this->tables['nodes_hierarchy'] . " NH_TCV ON NH_TCV.parent_id=NH_TC.id " .
+                    " JOIN " . $this->tables['tcversions'] . " TCV ON TCV.id=NH_TCV.id " .
+                    " JOIN " . $this->tables['req_coverage'] . " RC ON RC.testcase_id = NH_TC.id ";
   $common['where'] = " WHERE RC.req_id={$safe_id} ";
 
   if(is_null($context))
@@ -749,7 +749,7 @@ function get_coverage($id,$context=null,$options=null)
     $sql = "/* $debugMsg - Static Coverage */ " . 
            " SELECT DISTINCT NH_TC.id,NH_TC.name,TCV.tc_external_id,U.login,RC.creation_ts" .
            $common['join'] . 
-           " LEFT OUTER JOIN {$this->tables['users']} U ON U.id = RC.author_id " .
+           " LEFT OUTER JOIN " . $this->tables['users'] . " U ON U.id = RC.author_id " .
            $common['where'];
   }
   else
@@ -758,7 +758,7 @@ function get_coverage($id,$context=null,$options=null)
     $sql = "/* $debugMsg - Dynamic Coverage */ " . 
            " SELECT DISTINCT NH_TC.id,NH_TC.name,TCV.tc_external_id" .
            $common['join'] .  
-           " JOIN {$this->tables['testplan_tcversions']} TPTCV ON TPTCV.tcversion_id = NH_TCV.id " .
+           " JOIN " . $this->tables['testplan_tcversions'] . " TPTCV ON TPTCV.tcversion_id = NH_TCV.id " .
            $common['where'] .  
            " AND TPTCV.testplan_id = " . intval($context['tplan_id']) .
            " AND TPTCV.platform_id = " . intval($context['platform_id']);
@@ -927,7 +927,7 @@ function create_tc_from_requirement($mixIdReq,$srs_id, $user_id, $tproject_id = 
         {
           // child test suite with this name, already exists on current parent ?
           // At first a failure we will not check anymore an proceed with deep create
-          $sql = "/* $debugMsg */ SELECT id,name FROM {$this->tables['nodes_hierarchy']} NH " .
+          $sql = "/* $debugMsg */ SELECT id,name FROM " . $this->tables['nodes_hierarchy'] . " NH " .
                  " WHERE name='" . $this->db->prepare_string($testsuite_name) . "' " .
                  " AND node_type_id=" . $node_descr_type['testsuite'] . 
                  " AND parent_id = {$parent_id} ";
@@ -957,7 +957,7 @@ function create_tc_from_requirement($mixIdReq,$srs_id, $user_id, $tproject_id = 
     // don't use req_spec as testsuite name
     // Warning:
     // We are not maintaining hierarchy !!!
-    $sql=" SELECT id FROM {$this->tables['nodes_hierarchy']} NH " .
+    $sql=" SELECT id FROM " . $this->tables['nodes_hierarchy'] . " NH " .
          " WHERE name='" . $this->db->prepare_string($auto_testsuite_name) . "' " .
          " AND parent_id=" . $tproject_id . " " .
          " AND node_type_id=" . $node_descr_type['testsuite'];
@@ -1087,7 +1087,7 @@ function create_tc_from_requirement($mixIdReq,$srs_id, $user_id, $tproject_id = 
     {
       $items = (array)$req_id;
       $in_clause = implode(",",$items);
-      $sql = " /* $debugMsg */ SELECT req_id,testcase_id FROM {$this->tables['req_coverage']} " .
+      $sql = " /* $debugMsg */ SELECT req_id,testcase_id FROM " . $this->tables['req_coverage'] . " " .
              " WHERE req_id IN ({$in_clause}) AND testcase_id = {$testcase_id}";
       $coverage = $this->db->fetchRowsIntoMap($sql,'req_id');
         
@@ -1097,7 +1097,7 @@ function create_tc_from_requirement($mixIdReq,$srs_id, $user_id, $tproject_id = 
       {
         if( is_null($coverage) || !isset($coverage[$items[$idx]]) )
         {
-          $sql = "INSERT INTO {$this->tables['req_coverage']} (req_id,testcase_id,author_id,creation_ts) " .
+          $sql = "INSERT INTO " . $this->tables['req_coverage'] . " (req_id,testcase_id,author_id,creation_ts) " .
                  "VALUES ({$items[$idx]},{$testcase_id},{$author_id},{$now})";
           $result = $this->db->exec_query($sql);
           if ($this->db->affected_rows() == 1)
@@ -1135,7 +1135,7 @@ function create_tc_from_requirement($mixIdReq,$srs_id, $user_id, $tproject_id = 
   function unassign_from_tcase($req_id,$testcase_id)
   {
     $output = 0;
-    $sql = " DELETE FROM {$this->tables['req_coverage']} " .
+    $sql = " DELETE FROM " . $this->tables['req_coverage'] . " " .
            " WHERE req_id={$req_id} " .
            " AND testcase_id={$testcase_id}";
   
@@ -1190,13 +1190,13 @@ function create_tc_from_requirement($mixIdReq,$srs_id, $user_id, $tproject_id = 
     
     // Get coverage for this set of requirements and testcase, to be used
     // to understand if insert if needed
-    $sql = " /* $debugMsg */ SELECT req_id,testcase_id FROM {$this->tables['req_coverage']} " .
+    $sql = " /* $debugMsg */ SELECT req_id,testcase_id FROM " . $this->tables['req_coverage'] . " " .
            " WHERE req_id IN ({$req_list}) AND testcase_id IN ({$tcase_list})";
     $coverage = $this->db->fetchMapRowsIntoMap($sql,'req_id','testcase_id');
    
    
     $now = $this->db->db_now();
-    $insert_sql = "INSERT INTO {$this->tables['req_coverage']} (req_id,testcase_id,author_id,creation_ts) ";
+    $insert_sql = "INSERT INTO " . $this->tables['req_coverage'] . " (req_id,testcase_id,author_id,creation_ts) ";
     foreach($tcaseSet as $tcid)
     {
       foreach($requirementSet as $reqid)
@@ -1226,8 +1226,8 @@ function create_tc_from_requirement($mixIdReq,$srs_id, $user_id, $tproject_id = 
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
 
     $sql = " /* $debugMsg */ SELECT nodes_hierarchy.id,nodes_hierarchy.name " .
-           " FROM {$this->tables['nodes_hierarchy']} nodes_hierarchy, " .
-           "      {$this->tables['req_coverage']} req_coverage " .
+           " FROM " . $this->tables['nodes_hierarchy'] . " nodes_hierarchy, " .
+           "      " . $this->tables['req_coverage'] . " req_coverage " .
            " WHERE req_coverage.testcase_id = nodes_hierarchy.id " .
            " AND  req_coverage.req_id={$req_id}";
 
@@ -1257,10 +1257,10 @@ function get_all_for_tcase($testcase_id, $srs_id = 'all')
     $sql = " /* $debugMsg */ SELECT REQ.id,REQ.req_doc_id,NHA.name AS title, " .
            " NHB.name AS req_spec_title,REQ_COVERAGE.testcase_id " .
            " FROM {$this->object_table} REQ, " .
-           "      {$this->tables['req_coverage']} REQ_COVERAGE," .
-           "      {$this->tables['nodes_hierarchy']} NHA," .
-           "      {$this->tables['nodes_hierarchy']} NHB," .
-           "      {$this->tables['req_specs']} RSPEC " ;
+           "      " . $this->tables['req_coverage'] . " REQ_COVERAGE," .
+           "      " . $this->tables['nodes_hierarchy'] . " NHA," .
+           "      " . $this->tables['nodes_hierarchy'] . " NHB," .
+           "      " . $this->tables['req_specs'] . " RSPEC " ;
     
     $idList = implode(",",(array)$testcase_id);
     $sql .= " WHERE REQ_COVERAGE.testcase_id  IN (" . $idList . ")";
@@ -1909,9 +1909,9 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
 
     $sql .= " FROM {$this->object_table} REQ " .
             " /* Get Req info from NH */ " .
-            " JOIN {$this->tables['nodes_hierarchy']} NH_REQ ON NH_REQ.id = REQ.id " .
-            " JOIN {$this->tables['req_specs']} REQ_SPEC ON REQ_SPEC.id = REQ.srs_id " .
-            " JOIN {$this->tables['nodes_hierarchy']} NH_RSPEC ON NH_RSPEC.id = REQ_SPEC.id " .
+            " JOIN " . $this->tables['nodes_hierarchy'] . " NH_REQ ON NH_REQ.id = REQ.id " .
+            " JOIN " . $this->tables['req_specs'] . " REQ_SPEC ON REQ_SPEC.id = REQ.srs_id " .
+            " JOIN " . $this->tables['nodes_hierarchy'] . " NH_RSPEC ON NH_RSPEC.id = REQ_SPEC.id " .
             " WHERE REQ.req_doc_id {$check_criteria} ";
       
     if( !is_null($tproject_id) )
@@ -2182,7 +2182,7 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
     
     $item_id = $this->tree_mgr->new_node($id,$this->node_types_descr_id['requirement_version']);
       
-    $sql = "/* $debugMsg */ INSERT INTO {$this->tables['req_versions']} " .
+    $sql = "/* $debugMsg */ INSERT INTO " . $this->tables['req_versions'] . " " .
            " (id,version,scope,status,type,expected_coverage,author_id,creation_ts) " . 
            " VALUES({$item_id},{$version},'" . trim($this->db->prepare_string($scope)) . "','" . 
            $this->db->prepare_string($status) . "','" . $this->db->prepare_string($type) . "'," .
@@ -2243,7 +2243,7 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
     
     // need to update log message in new created version
     $sql = "/* $debugMsg */ " .
-           " UPDATE {$this->tables['req_versions']} " .
+           " UPDATE " . $this->tables['req_versions'] . " " .
            " SET log_message = '" . trim($this->db->prepare_string($log_msg)) . "'" .
            " WHERE id={$version_id}";
     $this->db->exec_query($sql);    
@@ -2262,16 +2262,16 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
     $info = null;
   
     $sql = " /* $debugMsg */ SELECT MAX(version) AS version " .
-           " FROM {$this->tables['req_versions']} REQV," .
-           " {$this->tables['nodes_hierarchy']} NH WHERE ".
+           " FROM " . $this->tables['req_versions'] . " REQV," .
+           " " . $this->tables['nodes_hierarchy'] . " NH WHERE ".
            " NH.id = REQV.id ".
            " AND NH.parent_id = {$id} ";
   
     $max_version = $this->db->fetchFirstRowSingleColumn($sql,'version');
     if ($max_version)
     {
-      $sql = "/* $debugMsg */ SELECT REQV.* FROM {$this->tables['req_versions']} REQV," .
-             " {$this->tables['nodes_hierarchy']} NH ".
+      $sql = "/* $debugMsg */ SELECT REQV.* FROM " . $this->tables['req_versions'] . " REQV," .
+             " " . $this->tables['nodes_hierarchy'] . " NH ".
              " WHERE version = {$max_version} AND NH.id = REQV.id AND NH.parent_id = {$id}";
   
       $info = $this->db->fetchFirstRow($sql);
@@ -2316,12 +2316,12 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
     
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $now = $this->db->db_now();
-    $sql = "/* $debugMsg */ INSERT INTO {$this->tables['req_versions']} " .
+    $sql = "/* $debugMsg */ INSERT INTO " . $this->tables['req_versions'] . " " .
            " (id,version,author_id,creation_ts,scope,status,type,expected_coverage) " .
            " SELECT {$to_version_id} AS id, {$as_version_number} AS version, " .
            "        {$user_id} AS author_id, {$now} AS creation_ts," .
            "        scope,status,type,expected_coverage " .
-           " FROM {$this->tables['req_versions']} " .
+           " FROM " . $this->tables['req_versions'] . " " .
            " WHERE id=" . intval($from_version_id);
     $result = $this->db->exec_query($sql);
            
@@ -2365,7 +2365,7 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
     }
     $booleanValue = $booleanValue > 0 ? 1 : 0;
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
-    $sql = "/* $debugMsg */ UPDATE {$this->tables['req_versions']} " .
+    $sql = "/* $debugMsg */ UPDATE " . $this->tables['req_versions'] . " " .
              " SET {$field}={$booleanValue} WHERE id={$reqVersionID}";
   
       $result = $this->db->exec_query($sql);
@@ -2693,9 +2693,9 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
     }
     $sql .= " FROM {$this->object_table} REQ " .
              " /* Get Req info from NH */ " .
-             " JOIN {$this->tables['nodes_hierarchy']} NH_REQ ON NH_REQ.id = REQ.id " .
-             " JOIN {$this->tables['req_specs']} REQ_SPEC ON REQ_SPEC.id = REQ.srs_id " .
-             " JOIN {$this->tables['nodes_hierarchy']} NH_RSPEC ON NH_RSPEC.id = REQ_SPEC.id " .
+             " JOIN " . $this->tables['nodes_hierarchy'] . " NH_REQ ON NH_REQ.id = REQ.id " .
+             " JOIN " . $this->tables['req_specs'] . " REQ_SPEC ON REQ_SPEC.id = REQ.srs_id " .
+             " JOIN " . $this->tables['nodes_hierarchy'] . " NH_RSPEC ON NH_RSPEC.id = REQ_SPEC.id " .
         " WHERE {$where_clause} {$check_criteria} ";
       
       if( !is_null($tproject_id) )
@@ -2734,8 +2734,8 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
     $field = $target_cfg[$child_type]['field'];
     
     $sql = " /* $debugMsg */ SELECT COALESCE(MAX($field),-1) AS $field " .
-           " FROM {$this->tables[$table]} CHILD," .
-           " {$this->tables['nodes_hierarchy']} NH WHERE ".
+           " FROM " . $this->tables[$table] . " CHILD," .
+           " " . $this->tables['nodes_hierarchy'] . " NH WHERE ".
            " NH.id = CHILD.id ".
            " AND NH.parent_id = {$id} ";
     
@@ -2760,8 +2760,8 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
         break;
       }
     
-      $sql .= " FROM {$this->tables[$table]} CHILD," .
-              " {$this->tables['nodes_hierarchy']} NH ".
+      $sql .= " FROM " . $this->tables[$table] . " CHILD," .
+              " " . $this->tables['nodes_hierarchy'] . " NH ".
               " WHERE $field = {$max_verbose} AND NH.id = CHILD.id AND NH.parent_id = {$id}";
   
       $info = $this->db->fetchFirstRow($sql);
@@ -2799,7 +2799,7 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
         
       $this->copy_version_as_revision($parent_id,$item_id,$current_rev,$user_id,$tproject_id);
       $sql =   "/* $debugMsg */ " .
-          " UPDATE {$this->tables['req_revisions']} " .
+          " UPDATE " . $this->tables['req_revisions'] . " " .
           " SET name ='" . $this->db->prepare_string($req['title']) . "'," .
           "     req_doc_id ='" . $this->db->prepare_string($req['req_doc_id']) . "'" .
           " WHERE id = {$item_id} ";
@@ -2808,7 +2808,7 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
       $new_rev = $current_rev+1;
       $db_now = $this->db->db_now();
       $sql =   " /* $debugMsg */ " .
-          " UPDATE {$this->tables['req_versions']} " .
+          " UPDATE " . $this->tables['req_versions'] . " " .
           " SET revision = {$new_rev}, log_message=' " . $this->db->prepare_string($log_msg) . "'," .
               " creation_ts = {$db_now} ,author_id = {$user_id}, modifier_id = NULL, " .
               " modification_ts = ";
@@ -2829,14 +2829,14 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $sql =   '/* $debugMsg */' .
-        " INSERT INTO {$this->tables['req_revisions']} " .
+        " INSERT INTO " . $this->tables['req_revisions'] . " " .
         " (parent_id,id,revision,scope,status,type,active,is_open, " .
           "  expected_coverage,author_id,creation_ts,modifier_id,modification_ts,log_message) " .
           " SELECT REQV.id, {$item_id}, {$revision}, " .
         " REQV.scope,REQV.status,REQV.type,REQV.active,REQV.is_open, " .
           " REQV.expected_coverage,REQV.author_id,REQV.creation_ts,REQV.modifier_id," .
           " REQV.modification_ts,REQV.log_message" .
-          " FROM {$this->tables['req_versions']} REQV " .
+          " FROM " . $this->tables['req_versions'] . " REQV " .
           " WHERE REQV.id = {$parent_id} ";
       $this->db->exec_query($sql);
       
@@ -2871,8 +2871,8 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
     // First understand is we already have a revision
     $sql =   " /* $debugMsg */" . 
         " SELECT COUNT(0) AS qta_rev " . 
-        " FROM {$this->tables['req_revisions']} REQRV " .
-        " JOIN {$this->tables['nodes_hierarchy']} NH_REQV ON NH_REQV.id = REQRV.parent_id " .
+        " FROM " . $this->tables['req_revisions'] . " REQRV " .
+        " JOIN " . $this->tables['nodes_hierarchy'] . " NH_REQV ON NH_REQV.id = REQRV.parent_id " .
         " WHERE NH_REQV.parent_id = {$id} ";
         
     $rs = $this->db->get_recordset($sql);
@@ -2885,10 +2885,10 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
           "      REQV.revision, REQV.scope, " .
           "      REQV.status,REQV.type,REQV.expected_coverage,NH_REQ.name, REQ.req_doc_id, " .
           " COALESCE(REQV.log_message,'') AS log_message" .
-          " FROM {$this->tables['req_versions']}  REQV " .
-          " JOIN {$this->tables['nodes_hierarchy']} NH_REQV ON NH_REQV.id = REQV.id " .
-          " JOIN {$this->tables['nodes_hierarchy']} NH_REQ ON NH_REQ.id = NH_REQV.parent_id " .
-          " JOIN {$this->tables['requirements']} REQ ON REQ.id = NH_REQ.id " .
+          " FROM " . $this->tables['req_versions'] . "  REQV " .
+          " JOIN " . $this->tables['nodes_hierarchy'] . " NH_REQV ON NH_REQV.id = REQV.id " .
+          " JOIN " . $this->tables['nodes_hierarchy'] . " NH_REQ ON NH_REQ.id = NH_REQV.parent_id " .
+          " JOIN " . $this->tables['requirements'] . " REQ ON REQ.id = NH_REQ.id " .
           " WHERE NH_REQV.parent_id = {$id} ";
         
     if( $rs[0]['qta_rev'] > 0 )
@@ -2909,11 +2909,11 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
               "     REQRV.revision,REQRV.scope,REQRV.status,REQRV.type, " .
               "     REQRV.expected_coverage,REQRV.name,REQRV.req_doc_id, " .
               "     COALESCE(REQRV.log_message,'') as log_message" .
-              " FROM {$this->tables['req_versions']} REQV " .
-              " JOIN {$this->tables['nodes_hierarchy']} NH_REQV ON NH_REQV.id = REQV.id " .
-              " JOIN {$this->tables['nodes_hierarchy']} NH_REQ ON NH_REQ.id = NH_REQV.parent_id " .
-              " JOIN {$this->tables['requirements']} REQ ON REQ.id = NH_REQ.id " .
-              " JOIN {$this->tables['req_revisions']} REQRV " .
+              " FROM " . $this->tables['req_versions'] . " REQV " .
+              " JOIN " . $this->tables['nodes_hierarchy'] . " NH_REQV ON NH_REQV.id = REQV.id " .
+              " JOIN " . $this->tables['nodes_hierarchy'] . " NH_REQ ON NH_REQ.id = NH_REQV.parent_id " .
+              " JOIN " . $this->tables['requirements'] . " REQ ON REQ.id = NH_REQ.id " .
+              " JOIN " . $this->tables['req_revisions'] . " REQRV " .
               " ON REQRV.parent_id = REQV.id " . 
               " WHERE NH_REQV.parent_id = {$id} " .
               " ) " .
@@ -2987,11 +2987,11 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
            " REQV.modification_ts,REQV.revision,NH_REQ.name AS title, REQ_SPEC.testproject_id, " .
            " NH_RSPEC.name AS req_spec_title, REQ_SPEC.doc_id AS req_spec_doc_id, NH_REQ.node_order " .
            " FROM {$this->object_table} REQ " .
-           " JOIN {$this->tables['nodes_hierarchy']} NH_REQ ON NH_REQ.id = REQ.id " .
-           " JOIN {$this->tables['nodes_hierarchy']} NH_REQV ON NH_REQV.parent_id = NH_REQ.id ".
-           " JOIN  {$this->tables['req_versions']} REQV ON REQV.id = NH_REQV.id " .  
-           " JOIN {$this->tables['req_specs']} REQ_SPEC ON REQ_SPEC.id = REQ.srs_id " .
-           " JOIN {$this->tables['nodes_hierarchy']} NH_RSPEC ON NH_RSPEC.id = REQ_SPEC.id " .
+           " JOIN " . $this->tables['nodes_hierarchy'] . " NH_REQ ON NH_REQ.id = REQ.id " .
+           " JOIN " . $this->tables['nodes_hierarchy'] . " NH_REQV ON NH_REQV.parent_id = NH_REQ.id ".
+           " JOIN  " . $this->tables['req_versions'] . " REQV ON REQV.id = NH_REQV.id " .  
+           " JOIN " . $this->tables['req_specs'] . " REQ_SPEC ON REQ_SPEC.id = REQ.srs_id " .
+           " JOIN " . $this->tables['nodes_hierarchy'] . " NH_RSPEC ON NH_RSPEC.id = REQ_SPEC.id " .
            " WHERE REQV.id = " . intval($version_id);
 
     $dummy = $this->db->get_recordset($sql);
@@ -3031,13 +3031,13 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
            " REQRV.modification_ts,REQRV.revision, REQRV.id AS revision_id," .
            " NH_REQ.name AS title, REQ_SPEC.testproject_id, " .
            " NH_RSPEC.name AS req_spec_title, REQ_SPEC.doc_id AS req_spec_doc_id, NH_REQ.node_order " .
-           " FROM {$this->tables['req_revisions']} REQRV " .
-           " JOIN {$this->tables['req_versions']} REQV ON REQV.id = REQRV.parent_id ".
-           " JOIN {$this->tables['nodes_hierarchy']} NH_REQV ON NH_REQV.id = REQRV.parent_id ".
-           " JOIN {$this->tables['nodes_hierarchy']} NH_REQ ON NH_REQ.id = NH_REQV.parent_id " .
-           " JOIN {$this->tables['requirements']} REQ ON REQ.id = NH_REQ.id " .
-           " JOIN {$this->tables['req_specs']} REQ_SPEC ON REQ_SPEC.id = REQ.srs_id " .
-           " JOIN {$this->tables['nodes_hierarchy']} NH_RSPEC ON NH_RSPEC.id = REQ_SPEC.id " .
+           " FROM " . $this->tables['req_revisions'] . " REQRV " .
+           " JOIN " . $this->tables['req_versions'] . " REQV ON REQV.id = REQRV.parent_id ".
+           " JOIN " . $this->tables['nodes_hierarchy'] . " NH_REQV ON NH_REQV.id = REQRV.parent_id ".
+           " JOIN " . $this->tables['nodes_hierarchy'] . " NH_REQ ON NH_REQ.id = NH_REQV.parent_id " .
+           " JOIN " . $this->tables['requirements'] . " REQ ON REQ.id = NH_REQ.id " .
+           " JOIN " . $this->tables['req_specs'] . " REQ_SPEC ON REQ_SPEC.id = REQ.srs_id " .
+           " JOIN " . $this->tables['nodes_hierarchy'] . " NH_RSPEC ON NH_RSPEC.id = REQ_SPEC.id " .
            " WHERE REQRV.id = " . intval($revision_id);
     $dummy = $this->db->get_recordset($sql);
     
@@ -3091,10 +3091,10 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
               "      REQV.revision, REQV.scope, " .
               "      REQV.status,REQV.type,REQV.expected_coverage,NH_REQ.name, REQ.req_doc_id, " .
               " COALESCE(REQV.log_message,'') AS log_message, NH_REQ.name AS title " .
-              " FROM {$this->tables['req_versions']}  REQV " .
-              " JOIN {$this->tables['nodes_hierarchy']} NH_REQV ON NH_REQV.id = REQV.id " .
-              " JOIN {$this->tables['nodes_hierarchy']} NH_REQ ON NH_REQ.id = NH_REQV.parent_id " .
-              " JOIN {$this->tables['requirements']} REQ ON REQ.id = NH_REQ.id " .
+              " FROM " . $this->tables['req_versions'] . "  REQV " .
+              " JOIN " . $this->tables['nodes_hierarchy'] . " NH_REQV ON NH_REQV.id = REQV.id " .
+              " JOIN " . $this->tables['nodes_hierarchy'] . " NH_REQ ON NH_REQ.id = NH_REQV.parent_id " .
+              " JOIN " . $this->tables['requirements'] . " REQ ON REQ.id = NH_REQ.id " .
               " WHERE NH_REQV.id = {$version_id} AND REQV.revision = {$rev_number} "; 
 
       $sql .=  " UNION ALL ( " .
@@ -3105,11 +3105,11 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
             "     REQRV.revision,REQRV.scope,REQRV.status,REQRV.type, " .
             "     REQRV.expected_coverage,REQRV.name,REQRV.req_doc_id, " .
             "     COALESCE(REQRV.log_message,'') as log_message, NH_REQ.name AS title " .
-            " FROM {$this->tables['req_versions']} REQV " .
-            " JOIN {$this->tables['nodes_hierarchy']} NH_REQV ON NH_REQV.id = REQV.id " .
-            " JOIN {$this->tables['nodes_hierarchy']} NH_REQ ON NH_REQ.id = NH_REQV.parent_id " .
-            " JOIN {$this->tables['requirements']} REQ ON REQ.id = NH_REQ.id " .
-            " JOIN {$this->tables['req_revisions']} REQRV " .
+            " FROM " . $this->tables['req_versions'] . " REQV " .
+            " JOIN " . $this->tables['nodes_hierarchy'] . " NH_REQV ON NH_REQV.id = REQV.id " .
+            " JOIN " . $this->tables['nodes_hierarchy'] . " NH_REQ ON NH_REQ.id = NH_REQV.parent_id " .
+            " JOIN " . $this->tables['requirements'] . " REQ ON REQ.id = NH_REQ.id " .
+            " JOIN " . $this->tables['req_revisions'] . " REQRV " .
             " ON REQRV.parent_id = REQV.id " . 
             " WHERE NH_REQV.id = {$version_id} AND REQRV.revision = {$rev_number} ) ";
     
@@ -3124,11 +3124,11 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
                 "     REQRV.revision,REQRV.scope,REQRV.status,REQRV.type, " .
                 "     REQRV.expected_coverage,REQRV.name,REQRV.req_doc_id, " .
                 "     COALESCE(REQRV.log_message,'') as log_message, NH_REQ.name AS title " .
-                " FROM {$this->tables['req_versions']} REQV " .
-                " JOIN {$this->tables['nodes_hierarchy']} NH_REQV ON NH_REQV.id = REQV.id " .
-                " JOIN {$this->tables['nodes_hierarchy']} NH_REQ ON NH_REQ.id = NH_REQV.parent_id " .
-                " JOIN {$this->tables['requirements']} REQ ON REQ.id = NH_REQ.id " .
-                " JOIN {$this->tables['req_revisions']} REQRV " .
+                " FROM " . $this->tables['req_versions'] . " REQV " .
+                " JOIN " . $this->tables['nodes_hierarchy'] . " NH_REQV ON NH_REQV.id = REQV.id " .
+                " JOIN " . $this->tables['nodes_hierarchy'] . " NH_REQ ON NH_REQ.id = NH_REQV.parent_id " .
+                " JOIN " . $this->tables['requirements'] . " REQ ON REQ.id = NH_REQ.id " .
+                " JOIN " . $this->tables['req_revisions'] . " REQRV " .
                 " ON REQRV.parent_id = REQV.id " . 
                 " WHERE NH_REQV.id = {$version_id} AND REQRV.revision_id = " . intval($revision_access['id']);
     }
@@ -3285,16 +3285,16 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
 
     $where = "WHERE RSPEC.testproject_id = " . intval($context['tproject_id']);
     $sql = "/* $debugMsg */ " .
-         "SELECT DISTINCT REQ.id,REQ.req_doc_id FROM {$this->tables['requirements']} REQ " .
-         "JOIN {$this->tables['req_specs']} RSPEC ON RSPEC.id = REQ.srs_id ";
+         "SELECT DISTINCT REQ.id,REQ.req_doc_id FROM " . $this->tables['requirements'] . " REQ " .
+         "JOIN " . $this->tables['req_specs'] . " RSPEC ON RSPEC.id = REQ.srs_id ";
     
 
     if( isset($context['tplan_id']) )
     {
       
-      $sql .= "JOIN {$this->tables['req_coverage']} REQCOV ON REQCOV.req_id = REQ.id " .
-          "JOIN {$this->tables['nodes_hierarchy']} NH_TCV ON NH_TCV.parent_id = REQCOV.testcase_id " .
-          "JOIN {$this->tables['testplan_tcversions']} TPTCV ON TPTCV.tcversion_id = NH_TCV.id ";
+      $sql .= "JOIN " . $this->tables['req_coverage'] . " REQCOV ON REQCOV.req_id = REQ.id " .
+          "JOIN " . $this->tables['nodes_hierarchy'] . " NH_TCV ON NH_TCV.parent_id = REQCOV.testcase_id " .
+          "JOIN " . $this->tables['testplan_tcversions'] . " TPTCV ON TPTCV.tcversion_id = NH_TCV.id ";
     
       $where .= " AND TPTCV.testplan_id = " . intval($context['tplan_id']);
       if( isset($context['platform_id']) && intval($context['platform_id']) > 0 )
@@ -3666,18 +3666,18 @@ function getByIDBulkLatestVersionRevision($id,$opt=null)
          " NH_REQ.name AS title, REQ_SPEC.testproject_id, " .
          " NH_RSPEC.name AS req_spec_title, REQ_SPEC.doc_id AS req_spec_doc_id, NH_REQ.node_order " .
 
-         " FROM {$this->tables['nodes_hierarchy']} NH_REQV JOIN " . 
+         " FROM " . $this->tables['nodes_hierarchy'] . " NH_REQV JOIN " . 
          "( SELECT XNH_REQV.parent_id,MAX(XNH_REQV.id) AS LATEST_VERSION_ID " . 
-         "  FROM  {$this->tables['nodes_hierarchy']} XNH_REQV " . 
+         "  FROM  " . $this->tables['nodes_hierarchy'] . " XNH_REQV " . 
          "  WHERE XNH_REQV.parent_id {$in_clause} " .  
          "  GROUP BY XNH_REQV.parent_id ) ZAZA ON NH_REQV.id = ZAZA.LATEST_VERSION_ID " .
 
-         " JOIN {$this->tables['req_versions']} REQV ON REQV.id = NH_REQV.id " .  
+         " JOIN " . $this->tables['req_versions'] . " REQV ON REQV.id = NH_REQV.id " .  
          " JOIN {$this->object_table} REQ ON REQ.id = NH_REQV.parent_id " .
 
-         " JOIN {$this->tables['req_specs']} REQ_SPEC ON REQ_SPEC.id = REQ.srs_id " .
-         " JOIN {$this->tables['nodes_hierarchy']} NH_RSPEC ON NH_RSPEC.id = REQ_SPEC.id " .
-         " JOIN {$this->tables['nodes_hierarchy']} NH_REQ ON NH_REQ.id = REQ.id " .
+         " JOIN " . $this->tables['req_specs'] . " REQ_SPEC ON REQ_SPEC.id = REQ.srs_id " .
+         " JOIN " . $this->tables['nodes_hierarchy'] . " NH_RSPEC ON NH_RSPEC.id = REQ_SPEC.id " .
+         " JOIN " . $this->tables['nodes_hierarchy'] . " NH_REQ ON NH_REQ.id = REQ.id " .
          $where_clause;
 
 
@@ -3776,7 +3776,7 @@ function getCoverageCounter($id)
   $safe_id = intval($id);
   $sql = "/* $debugMsg */ " . 
            " SELECT COUNT(0) AS qty " .
-           " FROM {$this->tables['req_coverage']} " .
+           " FROM " . $this->tables['req_coverage'] . " " .
            " WHERE req_id = " . $safe_id;
 
 
@@ -3795,7 +3795,7 @@ function getCoverageCounterSet($itemSet)
   $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
   $sql = "/* $debugMsg */ " . 
            " SELECT req_id, COUNT(0) AS qty " .
-           " FROM {$this->tables['req_coverage']} " .
+           " FROM " . $this->tables['req_coverage'] . " " .
            " WHERE req_id IN (" . implode(',', $itemSet) . ")" .
            " GROUP BY req_id ";
 
@@ -3815,12 +3815,12 @@ function getCoverageCounterSet($itemSet)
     $inSet = implode(',',$itemSet);
 
     $sqlS = " $debugMsg SELECT COUNT(*) AS qty, source_id AS req_id " .
-            " FROM {$this->tables['req_relations']} " .
+            " FROM " . $this->tables['req_relations'] . " " .
             " WHERE source_id IN ({$inSet}) " .
             ' GROUP BY req_id ';
 
     $sqlD = " $debugMsg SELECT COUNT(*) AS qty, destination_id AS req_id " .
-            " FROM {$this->tables['req_relations']} " .
+            " FROM " . $this->tables['req_relations'] . " " .
             " WHERE destination_id IN ({$inSet}) " .
             ' GROUP BY req_id ';
 
@@ -3841,7 +3841,7 @@ function getCoverageCounterSet($itemSet)
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
 
-    $sql = "/* $debugMsg */ UPDATE {$this->tables['req_versions']} " .
+    $sql = "/* $debugMsg */ UPDATE " . $this->tables['req_versions'] . " " .
            " SET scope='" . $this->db->prepare_string($scope) . "'" .
            " WHERE id=" . intval($reqVersionID);
     $this->db->exec_query($sql);    

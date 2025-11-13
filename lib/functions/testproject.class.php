@@ -211,7 +211,7 @@ function update($id, $name, $color, $notes,$options,$active=null,
   if ($result)
   {
     // update related node
-    $sql = "UPDATE {$this->tables['nodes_hierarchy']} SET name='" .
+    $sql = "UPDATE " . $this->tables['nodes_hierarchy'] . " SET name='" .
            $this->db->prepare_string($name) .  "' WHERE id= {$safeID}";
     $result = $this->db->exec_query($sql);
   }
@@ -340,7 +340,7 @@ protected function getTestProject($condition = null, $opt=null)
       $doParse = false;
       $sql = "/* debugMsg */ SELECT testprojects.id ".
              " FROM {$this->object_table} testprojects, " .
-             " {$this->tables['nodes_hierarchy']} nodes_hierarchy".
+             " " . $this->tables['nodes_hierarchy'] . " nodes_hierarchy".
              " WHERE testprojects.id = nodes_hierarchy.id " .
              " AND nodes_hierarchy.node_type_id = " . 
              $this->tree_manager->node_descr_id['testproject'];
@@ -351,7 +351,7 @@ protected function getTestProject($condition = null, $opt=null)
       $doParse = true;
       $sql = "/* debugMsg */ SELECT testprojects.*, nodes_hierarchy.name ".
              " FROM {$this->object_table} testprojects, " .
-             " {$this->tables['nodes_hierarchy']} nodes_hierarchy".
+             " " . $this->tables['nodes_hierarchy'] . " nodes_hierarchy".
              " WHERE testprojects.id = nodes_hierarchy.id ";
              " AND nodes_hierarchy.node_type_id = " . 
                $this->tree_manager->node_descr_id['testproject'];
@@ -460,7 +460,7 @@ function get_all($filters=null,$options=null)
   
   $sql = "/* $debugMsg */ SELECT testprojects.*, nodes_hierarchy.name ".
          " FROM {$this->object_table} testprojects, " .
-         " {$this->tables['nodes_hierarchy']} nodes_hierarchy ".
+         " " . $this->tables['nodes_hierarchy'] . " nodes_hierarchy ".
          " WHERE testprojects.id = nodes_hierarchy.id ";
   
   if (!is_null($my['filters']['active']) )
@@ -543,7 +543,7 @@ function get_accessible_for_user($user_id,$opt = null,$filters = null)
   $safe_user_id = intval($user_id);
 
   // Get default/global role
-  $sql = "/* $debugMsg */ SELECT id,role_id FROM {$this->tables['users']} where id=" . $safe_user_id;
+  $sql = "/* $debugMsg */ SELECT id,role_id FROM " . $this->tables['users'] . " where id=" . $safe_user_id;
   $user_info = $this->db->get_recordset($sql);
   $globalRoleID = intval($user_info[0]['role_id']);
 
@@ -551,9 +551,9 @@ function get_accessible_for_user($user_id,$opt = null,$filters = null)
   $itf = '';
   if($my['opt']['add_issuetracker'])
   {
-    $itsql = " LEFT OUTER JOIN {$this->tables['testproject_issuetracker']} AS TIT " .
+    $itsql = " LEFT OUTER JOIN " . $this->tables['testproject_issuetracker'] . " AS TIT " .
              " ON TIT.testproject_id  = TPROJ.id " .
-             " LEFT OUTER JOIN {$this->tables['issuetrackers']} AS ITMD " .
+             " LEFT OUTER JOIN " . $this->tables['issuetrackers'] . " AS ITMD " .
              " ON ITMD.id = TIT.issuetracker_id ";     
     $itf = ",ITMD.name AS itname,ITMD.type AS ittype";
   }        
@@ -562,9 +562,9 @@ function get_accessible_for_user($user_id,$opt = null,$filters = null)
   $rmsf = '';
   if($my['opt']['add_reqmgrsystem'])
   {
-    $rmssql = " LEFT OUTER JOIN {$this->tables['testproject_reqmgrsystem']} AS TRMS " .
+    $rmssql = " LEFT OUTER JOIN " . $this->tables['testproject_reqmgrsystem'] . " AS TRMS " .
               " ON TRMS.testproject_id  = TPROJ.id " .
-              " LEFT OUTER JOIN {$this->tables['reqmgrsystems']} AS RMSMD " .
+              " LEFT OUTER JOIN " . $this->tables['reqmgrsystems'] . " AS RMSMD " .
               " ON RMSMD.id = TRMS.reqmgrsystem_id ";     
     $rmsf =   ",RMSMD.name AS rmsname,RMSMD.type AS rmstype";
   }        
@@ -586,10 +586,10 @@ function get_accessible_for_user($user_id,$opt = null,$filters = null)
   } 
   
   $sql = " /* $debugMsg */ SELECT {$cols} {$itf} {$rmsf} " .
-         " FROM {$this->tables['nodes_hierarchy']} NHTPROJ " .
+         " FROM " . $this->tables['nodes_hierarchy'] . " NHTPROJ " .
          " JOIN {$this->object_table} TPROJ ON NHTPROJ.id=TPROJ.id " .
-         " JOIN {$this->tables['users']} U ON U.id = {$safe_user_id} " .
-         " LEFT OUTER JOIN {$this->tables['user_testproject_roles']} UTR " .
+         " JOIN " . $this->tables['users'] . " U ON U.id = {$safe_user_id} " .
+         " LEFT OUTER JOIN " . $this->tables['user_testproject_roles'] . " UTR " .
          " ON TPROJ.id = UTR.testproject_id " .
          " AND UTR.user_id =" . $safe_user_id . $itsql . $rmssql .
          " WHERE 1=1 ";
@@ -982,7 +982,7 @@ function count_testcases($id)
    */
   function activate($id, $status)
   {
-    $sql = "UPDATE {$this->tables['testprojects']} SET active=" . $status . " WHERE id=" . $id;
+    $sql = "UPDATE " . $this->tables['testprojects'] . " SET active=" . $status . " WHERE id=" . $id;
     $result = $this->db->exec_query($sql);
 
     return $result ? 1 : 0;
@@ -1195,7 +1195,7 @@ function setPublicStatus($id,$status)
    */
   protected function getKeywordIDsFor($testproject_id)
   {
-    $query = " SELECT id FROM {$this->tables['keywords']}  " .
+    $query = " SELECT id FROM " . $this->tables['keywords'] . "  " .
              " WHERE testproject_id = {$testproject_id}" .
              " ORDER BY keyword ASC";
     $keywordIDs = $this->db->fetchColumnsIntoArray($query,'id');
@@ -1210,7 +1210,7 @@ function setPublicStatus($id,$status)
   {
     // seems that postgres PHP driver do not manage well UPPERCASE  in AS CLAUSE
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
-    $sql = "/* {$debugMsg} */ SELECT COUNT(0) AS qty FROM {$this->tables['keywords']}  " .
+    $sql = "/* {$debugMsg} */ SELECT COUNT(0) AS qty FROM " . $this->tables['keywords'] . "  " .
            " WHERE testproject_id = " . intval($id);
     $rs = $this->db->get_recordset($sql);
 
@@ -1383,12 +1383,12 @@ function setPublicStatus($id,$status)
     $additional_join='';
     if( $get_not_empty )
     {
-      $additional_table=", {$this->tables['requirements']} REQ ";
+      $additional_table=", " . $this->tables['requirements'] . " REQ ";
       $additional_join=" AND SRS.id = REQ.srs_id ";
     }
     $sql = " SELECT SRS.id,NH.name AS title " .
-           " FROM {$this->tables['req_specs']} SRS, " .
-           " {$this->tables['nodes_hierarchy']} NH " . 
+           " FROM " . $this->tables['req_specs'] . " SRS, " .
+           " " . $this->tables['nodes_hierarchy'] . " NH " . 
            $additional_table .
            " WHERE testproject_id={$tproject_id} " .
            " AND SRS.id=NH.id " .
@@ -1552,8 +1552,8 @@ function setPublicStatus($id,$status)
                 "RSPEC.modification_ts,NH.name AS title";
     
     $fields = is_null($fields) ? $fields2get : implode(',',$fields);
-    $sql = "  /* $debugMsg */ SELECT {$fields} FROM {$this->tables['req_specs']} RSPEC, " .
-           " {$this->tables['nodes_hierarchy']} NH , {$this->tables['requirements']} REQ " .
+    $sql = "  /* $debugMsg */ SELECT {$fields} FROM " . $this->tables['req_specs'] . " RSPEC, " .
+           " " . $this->tables['nodes_hierarchy'] . " NH , " . $this->tables['requirements'] . " REQ " .
            " WHERE testproject_id={$testproject_id} AND RSPEC.id=NH.id AND REQ.srs_id = RSPEC.id" ;
            
     if (!is_null($id))
@@ -1594,7 +1594,7 @@ function setPublicStatus($id,$status)
       $chk=$this->check_srs_title($testproject_id,$title,$ignore_case);
     if ($chk['status_ok'])
     {
-      $sql = "INSERT INTO {$this->tables['req_specs']} " .
+      $sql = "INSERT INTO " . $this->tables['req_specs'] . " " .
              " (testproject_id, title, scope, type, total_req, author_id, creation_ts)
               VALUES (" . $testproject_id . ",'" . $this->db->prepare_string($title) . "','" .
                           $this->db->prepare_string($scope) .  "','" . $this->db->prepare_string($type) . "','" .
@@ -1723,7 +1723,7 @@ function setPublicStatus($id,$status)
   {
     $my['opt'] = array('auditlog' => true);
     $my['opt'] = array_merge($my['opt'],(array)$opt);
-    $query = " DELETE FROM {$this->tables['user_testproject_roles']} " . 
+    $query = " DELETE FROM " . $this->tables['user_testproject_roles'] . " " . 
              " WHERE testproject_id = " . intval($tproject_id) ;
 
     if(!is_null($users))
@@ -1761,7 +1761,7 @@ function setPublicStatus($id,$status)
    **/
   function getUserRoleIDs($tproject_id)
   {
-    $query = "SELECT user_id,role_id FROM {$this->tables['user_testproject_roles']} " .
+    $query = "SELECT user_id,role_id FROM " . $this->tables['user_testproject_roles'] . " " .
       "WHERE testproject_id = {$tproject_id}";
     $roles = $this->db->fetchRowsIntoMap($query,'user_id');
     
@@ -1780,7 +1780,7 @@ function setPublicStatus($id,$status)
   function addUserRole($userID,$tproject_id,$roleID)
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__; 
-    $query = "/* debugMsg*/ INSERT INTO {$this->tables['user_testproject_roles']} " .
+    $query = "/* debugMsg*/ INSERT INTO " . $this->tables['user_testproject_roles'] . " " .
              " (user_id,testproject_id,role_id) VALUES ({$userID},{$tproject_id},{$roleID})";
     if($this->db->exec_query($query))
     {
@@ -1880,7 +1880,7 @@ function setPublicStatus($id,$status)
     $platform_mgr = new tlPlatform($this->db,$id);
     $platform_mgr->deleteByTestProject($id);
     
-    $a_sql[] = array("/* $debugMsg */ UPDATE {$this->tables['users']}  " . 
+    $a_sql[] = array("/* $debugMsg */ UPDATE " . $this->tables['users'] . "  " . 
                      " SET default_testproject_id = NULL " .
                      " WHERE default_testproject_id = {$id}",
                      'info_resetting_default_project_fails');
@@ -1931,7 +1931,7 @@ function setPublicStatus($id,$status)
     // attachments
     if (empty($error))
     {
-      $sql = "/* $debugMsg */ DELETE FROM {$this->tables['cfield_testprojects']} WHERE testproject_id = {$id} ";
+      $sql = "/* $debugMsg */ DELETE FROM " . $this->tables['cfield_testprojects'] . " WHERE testproject_id = {$id} ";
       $this->db->exec_query($sql);
       
       $sql = "/* $debugMsg */ DELETE FROM {$this->object_table} WHERE id = {$id}";
@@ -1955,7 +1955,7 @@ function setPublicStatus($id,$status)
     {
       // Delete test project with requirements defined crashed with memory exhausted
       $this->tree_manager->delete_subtree_objects($id,$id,'',array('testcase' => 'exclude_tcversion_nodes'));
-      $sql = "/* $debugMsg */ DELETE FROM {$this->tables['nodes_hierarchy']} WHERE id = {$id} ";
+      $sql = "/* $debugMsg */ DELETE FROM " . $this->tables['nodes_hierarchy'] . " WHERE id = {$id} ";
       $this->db->exec_query($sql);
 
       if($this->auditCfg->logEnabled)
@@ -2013,7 +2013,7 @@ function setPublicStatus($id,$status)
       break;
     }
     
-    $sql = "/* $debugMsg */  SELECT id,node_type_id from {$this->tables['nodes_hierarchy']} " .
+    $sql = "/* $debugMsg */  SELECT id,node_type_id from " . $this->tables['nodes_hierarchy'] . " " .
            " WHERE parent_id IN ({$idList})";
     $sql .= " AND node_type_id IN ({$tcNodeTypeID},{$tsuiteNodeTypeID}) "; 
     
@@ -2028,8 +2028,8 @@ function setPublicStatus($id,$status)
           if( $use_array )
           {
             $sql = " SELECT DISTINCT NH.parent_id, TCV.tc_external_id " . 
-                   " FROM {$this->tables['nodes_hierarchy']} NH " .
-                   " JOIN  {$this->tables['tcversions']} TCV ON TCV.id = NH.id " .
+                   " FROM " . $this->tables['nodes_hierarchy'] . " NH " .
+                   " JOIN  " . $this->tables['tcversions'] . " TCV ON TCV.id = NH.id " .
                    " WHERE NH.parent_id = {$row['id']} ";
             
             $rs = $this->db->fetchRowsIntoMap($sql,'parent_id');
@@ -2098,7 +2098,7 @@ function get_keywords_tcases($testproject_id, $keyword_id=0, $keyword_filter_typ
             $subquery = "AND testcase_id IN (" .
                         " SELECT FOXDOG.testcase_id FROM
                           ( SELECT COUNT(testcase_id) AS HITS,testcase_id
-                            FROM {$this->tables['keywords']} K, {$this->tables['testcase_keywords']}
+                            FROM " . $this->tables['keywords'] . " K, " . $this->tables['testcase_keywords'] . "
                             WHERE keyword_id = K.id
                             AND testproject_id = {$testproject_id}
                             {$keyword_filter}
@@ -2115,7 +2115,7 @@ function get_keywords_tcases($testproject_id, $keyword_id=0, $keyword_filter_typ
     
     $map_keywords = null;
     $sql = " SELECT testcase_id,keyword_id,keyword
-             FROM {$this->tables['keywords']} K, {$this->tables['testcase_keywords']}
+             FROM " . $this->tables['keywords'] . " K, " . $this->tables['testcase_keywords'] . "
              WHERE keyword_id = K.id
              AND testproject_id = {$testproject_id}
              {$keyword_filter} {$subquery}
@@ -2166,7 +2166,7 @@ function get_all_testplans($testproject_id,$filters=null,$options=null)
   }
   
   $sql = " SELECT {$my['options']['fields2get']} " .
-         " FROM {$this->tables['nodes_hierarchy']} NH,{$this->tables['testplans']} TPLAN";
+         " FROM " . $this->tables['nodes_hierarchy'] . " NH," . $this->tables['testplans'] . " TPLAN";
          
   $where = " WHERE NH.id=TPLAN.id ";
   $where .= " AND (testproject_id = " . $this->db->prepare_int($testproject_id) . " ";
@@ -2228,7 +2228,7 @@ function get_all_testplans($testproject_id,$filters=null,$options=null)
 function check_tplan_name_existence($tproject_id,$tplan_name,$case_sensitive=0)
 {
   $sql = " SELECT NH.id, NH.name, testproject_id " .
-         " FROM {$this->tables['nodes_hierarchy']} NH, {$this->tables['testplans']} testplans " .
+         " FROM " . $this->tables['nodes_hierarchy'] . " NH, " . $this->tables['testplans'] . " testplans " .
            " WHERE NH.id=testplans.id " .
            " AND testproject_id = {$tproject_id} ";
 
@@ -2308,12 +2308,12 @@ function getTCasesLinkedToAnyTPlan($id)
   
   // len of lines must be <= 100/110 as stated on development standard guide.
     $sql = " SELECT DISTINCT NHTCV.parent_id AS testcase_id " .
-           " FROM {$this->tables['nodes_hierarchy']} NHTCV " .
-           " JOIN {$this->tables['testplan_tcversions']} TPTCV " .
+           " FROM " . $this->tables['nodes_hierarchy'] . " NHTCV " .
+           " JOIN " . $this->tables['testplan_tcversions'] . " TPTCV " .
            " ON NHTCV.id = TPTCV.tcversion_id ";
     
     // get testplan id for target test�project, to get test case versions linked to testplan.
-    $sql .= " JOIN {$this->tables['nodes_hierarchy']} NHTPLAN " .
+    $sql .= " JOIN " . $this->tables['nodes_hierarchy'] . " NHTPLAN " .
             " ON TPTCV.testplan_id = NHTPLAN.id  " .
             " WHERE NHTPLAN.node_type_id = {$tplanNodeType} AND NHTPLAN.parent_id = " . intval($id);
     $rs = $this->db->fetchRowsIntoMap($sql,'testcase_id');
@@ -2353,10 +2353,10 @@ function getFreeTestCases($id,$options=null)
          $sql = " /* $debugMsg */ " .
               " SELECT MAX(TCV.version) AS version, TCV.tc_external_id, " .
                 " TCV.importance AS importance, NHTCV.parent_id AS id, NHTC.name " .
-                " FROM {$this->tables['tcversions']} TCV " .
-                " JOIN {$this->tables['nodes_hierarchy']} NHTCV " .
+                " FROM " . $this->tables['tcversions'] . " TCV " .
+                " JOIN " . $this->tables['nodes_hierarchy'] . " NHTCV " .
                 " ON NHTCV.id = TCV.id " .
-             " JOIN {$this->tables['nodes_hierarchy']} NHTC " .
+             " JOIN " . $this->tables['nodes_hierarchy'] . " NHTC " .
                 " ON NHTC.id = NHTCV.parent_id " .
              " WHERE NHTCV.parent_id IN ({$in_clause}) " .
              " GROUP BY NHTC.name,NHTCV.parent_id,TCV.tc_external_id,TCV.importance " . 
@@ -2423,12 +2423,12 @@ function get_linked_custom_fields($id,$node_type=null,$access_key='id')
     $hash_descr_id = $this->tree_manager->get_available_node_types();
     $node_type_id=$hash_descr_id[$node_type];
 
-    $additional_table=",{$this->tables['cfield_node_types']} CFNT ";
+    $additional_table="," . $this->tables['cfield_node_types'] . " CFNT ";
     $additional_join=" AND CFNT.field_id=CF.id AND CFNT.node_type_id={$node_type_id} ";
   }
   
   $sql="SELECT CF.*,CFTP.display_order " .
-       " FROM {$this->tables['custom_fields']} CF, {$this->tables['cfield_testprojects']} CFTP " .
+       " FROM " . $this->tables['custom_fields'] . " CF, " . $this->tables['cfield_testprojects'] . " CFTP " .
        $additional_table .
        " WHERE CF.id=CFTP.field_id " .
        " AND   CFTP.testproject_id={$id} " .
@@ -2481,7 +2481,7 @@ function copy_as($id,$new_id,$user_id,$new_name=null,$options=null)
   
   if(!is_null($new_name))
   {
-    $sql="/* $debugMsg */ UPDATE {$this->tables['nodes_hierarchy']} " .
+    $sql="/* $debugMsg */ UPDATE " . $this->tables['nodes_hierarchy'] . " " .
          "SET name='" . $this->db->prepare_string(trim($new_name)) . "' " .
          "WHERE id={$new_id}";
     $this->db->exec_query($sql);
@@ -2589,7 +2589,7 @@ private function copy_user_roles($source_id, $target_id)
 {
   $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
   
-  $sql = "/* $debugMsg */ SELECT * FROM {$this->tables['user_testproject_roles']} " .
+  $sql = "/* $debugMsg */ SELECT * FROM " . $this->tables['user_testproject_roles'] . " " .
          "WHERE testproject_id={$source_id} ";
   $rs=$this->db->get_recordset($sql);
 
@@ -2597,7 +2597,7 @@ private function copy_user_roles($source_id, $target_id)
   {
       foreach($rs as $elem)
       {
-          $sql="/* $debugMsg */ INSERT INTO {$this->tables['user_testproject_roles']}  " .
+          $sql="/* $debugMsg */ INSERT INTO " . $this->tables['user_testproject_roles'] . "  " .
                "(testproject_id,user_id,role_id) " .
                "VALUES({$target_id}," . $elem['user_id'] ."," . $elem['role_id'] . ")";
           $this->db->exec_query($sql);
@@ -2643,7 +2643,7 @@ private function copy_keywords($source_id, $target_id)
 {
   $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
   $old_new = null;
-  $sql = "/* $debugMsg */ SELECT * FROM {$this->tables['keywords']} " .
+  $sql = "/* $debugMsg */ SELECT * FROM " . $this->tables['keywords'] . " " .
        " WHERE testproject_id = {$source_id}";
        
   $itemSet = $this->db->fetchRowsIntoMap($sql,'id');
@@ -2670,7 +2670,7 @@ private function copy_cfields_assignments($source_id, $target_id)
 {
   $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $sql = "/* $debugMsg */ " . 
-           " SELECT field_id FROM {$this->tables['cfield_testprojects']} " .
+           " SELECT field_id FROM " . $this->tables['cfield_testprojects'] . " " .
            " WHERE testproject_id = {$source_id}";
     $row_set = $this->db->fetchRowsIntoMap($sql,'field_id');   
   if( !is_null($row_set) )
@@ -2892,7 +2892,7 @@ function _get_subtree_rec($node_id,&$pnode,$filters = null, $options = null)
     // Create invariant sql sentences
     $tfields = "NH.id, NH.parent_id, NH.name, NH.node_type_id, NH.node_order, '' AS external_id ";
     $staticSql = " SELECT DISTINCT {$tfields} " .
-                 " FROM {$this->tables['nodes_hierarchy']} NH ";
+                 " FROM " . $this->tables['nodes_hierarchy'] . " NH ";
     
   }
   $sql =  $staticSql . " WHERE NH.parent_id = {$node_id} " .
@@ -2945,15 +2945,15 @@ function _get_subtree_rec($node_id,&$pnode,$filters = null, $options = null)
     $filterOnTC = false;
     $glav = " /* Get LATEST ACTIVE tcversion ID */ " .  
             " SELECT MAX(TCVX.id) AS tcversion_id, NHTCX.parent_id AS tc_id " .
-            " FROM {$this->tables['tcversions']} TCVX " . 
-            " JOIN {$this->tables['nodes_hierarchy']} NHTCX " .
+            " FROM " . $this->tables['tcversions'] . " TCVX " . 
+            " JOIN " . $this->tables['nodes_hierarchy'] . " NHTCX " .
             " ON NHTCX.id = TCVX.id AND TCVX.active = 1 " .
             " WHERE NHTCX.parent_id IN (" . implode($tclist,',') . ")" .
             " GROUP BY NHTCX.parent_id,TCVX.tc_external_id  ";
 
     $ssx = " /* Get LATEST ACTIVE tcversion MAIN ATTRIBUTES */ " .
            " SELECT TCV.id AS tcversion_id, TCV.tc_external_id AS external_id, SQ.tc_id " .
-            " FROM {$this->tables['tcversions']} TCV " . 
+            " FROM " . $this->tables['tcversions'] . " TCV " . 
             " JOIN ( $glav ) SQ " .
             " ON TCV.id = SQ.tcversion_id ";
 
@@ -3084,9 +3084,9 @@ function getTCasesFilteredByKeywords($testproject_id, $keyword_id=0, $keyword_fi
   if(in_array(-1,$keySet) && $hasTCases)
   {  
     $sql = " /* WITHOUT KEYWORDS */ " . 
-           " SELECT NHTC.id AS testcase_id FROM {$this->tables['nodes_hierarchy']} NHTC " .  
+           " SELECT NHTC.id AS testcase_id FROM " . $this->tables['nodes_hierarchy'] . " NHTC " .  
            " WHERE NHTC.id IN (" . implode(',',$tcaseSet) . ") AND NOT EXISTS " .
-           " (SELECT 1 FROM {$this->tables['testcase_keywords']} TCK WHERE TCK.testcase_id = NHTC.id) ";
+           " (SELECT 1 FROM " . $this->tables['testcase_keywords'] . " TCK WHERE TCK.testcase_id = NHTC.id) ";
   }
   else
   {  
@@ -3099,10 +3099,10 @@ function getTCasesFilteredByKeywords($testproject_id, $keyword_id=0, $keyword_fi
         if($hasTCases)
         {
           $sql = " /* WITHOUT SPECIFIC KEYWORDS */ " . 
-                 " SELECT NHTC.id AS testcase_id FROM {$this->tables['nodes_hierarchy']} NHTC " .  
+                 " SELECT NHTC.id AS testcase_id FROM " . $this->tables['nodes_hierarchy'] . " NHTC " .  
                  " WHERE NHTC.id IN (" . implode(',',$tcaseSet) . ") " .
                  " AND NOT EXISTS " .
-                 " (SELECT 1 FROM {$this->tables['testcase_keywords']} TCK " . 
+                 " (SELECT 1 FROM " . $this->tables['testcase_keywords'] . " TCK " . 
                  "  WHERE TCK.testcase_id = NHTC.id AND {$keyword_filter} )";
         } 
       break;
@@ -3112,7 +3112,7 @@ function getTCasesFilteredByKeywords($testproject_id, $keyword_id=0, $keyword_fi
         $sql = " /* Filter Type = AND */ " .
                " SELECT FOXDOG.testcase_id FROM " .
                " ( SELECT COUNT(testcase_id) AS HITS,testcase_id " .
-               "   FROM {$this->tables['testcase_keywords']} " .
+               "   FROM " . $this->tables['testcase_keywords'] . " " .
                "   WHERE {$keyword_filter} " .
                "   GROUP BY testcase_id ) AS FOXDOG " . 
                " WHERE FOXDOG.HITS = " . count($keyword_id );
@@ -3123,7 +3123,7 @@ function getTCasesFilteredByKeywords($testproject_id, $keyword_id=0, $keyword_fi
       default:
         $sql = " /* Filter Type = OR */ " .
                " SELECT testcase_id " .
-               " FROM {$this->tables['testcase_keywords']} " .
+               " FROM " . $this->tables['testcase_keywords'] . " " .
                " WHERE {$keyword_filter} ";
       break;
     }
@@ -3255,10 +3255,10 @@ function getPublicAttr($id)
              " TCV.creation_ts, TCV.modification_ts, " . 
              " U.first  AS first_name, U.last AS last_name, U.login, ".
              " TCV.importance " .
-             " FROM {$this->tables['testprojects']} TPROJ,{$this->tables['nodes_hierarchy']} NHTC " .
-             " JOIN {$this->tables['nodes_hierarchy']} NHTCV ON NHTCV.parent_id = NHTC.id " .
-             " JOIN {$this->tables['tcversions']} TCV ON TCV.id = NHTCV.id " . 
-             " JOIN {$this->tables['users']} U ON U.id = TCV.author_id " .
+             " FROM " . $this->tables['testprojects'] . " TPROJ," . $this->tables['nodes_hierarchy'] . " NHTC " .
+             " JOIN " . $this->tables['nodes_hierarchy'] . " NHTCV ON NHTCV.parent_id = NHTC.id " .
+             " JOIN " . $this->tables['tcversions'] . " TCV ON TCV.id = NHTCV.id " . 
+             " JOIN " . $this->tables['users'] . " U ON U.id = TCV.author_id " .
              " WHERE TPROJ.id = {$safe['tproject_id']} " .
              " AND NHTC.id IN (" . implode(',', $target) . ")";
       
@@ -3501,8 +3501,8 @@ function getActiveTestPlansCount($id)
 {
   $debugMsg = $this->debugMsg . __FUNCTION__;
   $sql = "/* $debugMsg */ SELECT COUNT(0) AS qty".
-         " FROM {$this->tables['nodes_hierarchy']} NH_TPLAN " .
-         " JOIN {$this->tables['testplans']} TPLAN ON NH_TPLAN.id = TPLAN.id " .
+         " FROM " . $this->tables['nodes_hierarchy'] . " NH_TPLAN " .
+         " JOIN " . $this->tables['testplans'] . " TPLAN ON NH_TPLAN.id = TPLAN.id " .
          " WHERE NH_TPLAN.parent_id = " . $this->db->prepare_int($id) .
          " AND TPLAN.active = 1";
 
