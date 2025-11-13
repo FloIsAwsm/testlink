@@ -1194,8 +1194,8 @@ class testplan extends tlObjectWithAttachments
     $sql = " SELECT id AS execution_id FROM {$this->tables['executions']} " .
            " WHERE testplan_id = {$id} AND ${where_clause}";
     $exec_ids = $this->db->fetchRowsIntoMap($sql,'execution_id');
-    
-    if( !is_null($exec_ids) and count($exec_ids) > 0 )
+
+    if( count($exec_ids ?? []) > 0 )
     {
       // has executions
       $exec_ids = array_keys($exec_ids);
@@ -1216,7 +1216,7 @@ class testplan extends tlObjectWithAttachments
     $sql=" SELECT id AS link_id FROM {$this->tables['testplan_tcversions']} " .
        " WHERE testplan_id={$id} AND {$where_clause} ";
     $link_ids = $this->db->fetchRowsIntoMap($sql,'link_id');
-    $features = array_keys($link_ids);
+    $features = array_keys($link_ids ?? []);
     if( count($features) == 1)
     {
       $features=$features[0];
@@ -2036,7 +2036,7 @@ class testplan extends tlObjectWithAttachments
         
       $recordset = $this->db->get_recordset($sql);
       $myarray = array();
-      if (count($recordset) > 0)
+      if (count($recordset ?? []) > 0)
       {        
         $myarray = array($recordset[0]);
         $myarray = array_merge($myarray, $this->get_parenttestsuites($recordset[0]['parent_id'])); 
@@ -3186,8 +3186,8 @@ class testplan extends tlObjectWithAttachments
          " HAVING COUNT(EE.status)= {$num_exec} " ;
     
     $recordset = $this->db->fetchRowsIntoMap($sql,'tcase_id');
-    
-    if (count($first_results)) {
+
+    if (count($first_results ?? [])) {
       foreach ($first_results as $key => $value) {
         $recordset[$key] = $value;
       }

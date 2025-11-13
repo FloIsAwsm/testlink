@@ -1430,7 +1430,7 @@ class testsuite extends tlObjectWithAttachments
       $my['options'] = array_merge($my['options'], (array)$options);
       
       $subtree = $this->tree_manager->get_children($id, array('testcase' => 'exclude_me'));
-      if(!is_null($subtree) && count($subtree) > 0)
+      if(count($subtree ?? []) > 0)
       {
       foreach( $subtree as $the_key => $elem)
       {

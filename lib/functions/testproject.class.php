@@ -1858,7 +1858,7 @@ function setPublicStatus($id,$status)
     $this->deleteAttachments($id);
     
     $reqSpecSet=$reqspec_mgr->get_all_id_in_testproject($id);
-    if( !is_null($reqSpecSet) && count($reqSpecSet) > 0 )
+    if( count($reqSpecSet ?? []) > 0 )
     {
       foreach($reqSpecSet as $reqSpec)
       {
@@ -1867,7 +1867,7 @@ function setPublicStatus($id,$status)
     }
     
     $tplanSet = $this->get_all_testplans($id);
-    if( !is_null($tplanSet) && count($tplanSet) > 0 )
+    if( count($tplanSet ?? []) > 0 )
     {
       $tplan_mgr = new testplan($this->db);
       $items=array_keys($tplanSet);     
@@ -2276,7 +2276,7 @@ function get_first_level_test_suites($tproject_id,$mode='simple',$opt=null)
     break;
 
     case 'smarty_html_options':
-    if( !is_null($fl) && count($fl) > 0)
+    if( count($fl ?? []) > 0)
     {
       foreach($fl as $idx => $map)
       {
@@ -2346,8 +2346,8 @@ function getFreeTestCases($id,$options=null)
         $retval['allfree']=is_null($linked); 
         $free=$retval['allfree'] ? $all : array_diff_key($all,$linked);
     }
-    
-    if( !is_null($free) && count($free) > 0)
+
+    if( count($free ?? []) > 0)
     {
         $in_clause=implode(',',array_keys($free));
          $sql = " /* $debugMsg */ " .

@@ -249,7 +249,7 @@ function saveImportedTCData(&$db,$tcData,$tproject_id,$container_id,
     $tprojectHas['customFields']=!is_null($linkedCustomFields);                   
 
     $reqSpecSet = $tproject_mgr->getReqSpec($tproject_id,null,array('RSPEC.id','NH.name AS title','RSPEC.doc_id as rspec_doc_id', 'REQ.req_doc_id'),'req_doc_id');
-    $tprojectHas['reqSpec'] = (!is_null($reqSpecSet) && count($reqSpecSet) > 0);
+    $tprojectHas['reqSpec'] = (count($reqSpecSet ?? []) > 0);
 
     $getVersionOpt = array('output' => 'minimun');
     $tcasePrefix = $tproject_mgr->getTestCasePrefix($tproject_id);
@@ -654,7 +654,7 @@ function processRequirements(&$dbHandler,&$reqMgr,$tcaseName,$tcaseId,$tcReq,$re
                      " AND REQ.srs_id={$req_spec_id} ";     
                    
               $rsx=$dbHandler->get_recordset($sql);
-              if( $useit=((!is_null($rsx) && count($rsx) > 0) ? true : false) )
+              if( $useit=(count($rsx ?? []) > 0) )
               {
                 $cachedReqSpec[$value['req_spec_title']]['req'][$value['doc_id']]=$rsx[0]['id'];
               }  

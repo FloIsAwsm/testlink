@@ -74,10 +74,10 @@ switch($args->doAction)
         }
 
       }
-      
+
       foreach($features2 as $key => $values)
       {
-        if( count($features2[$key]) > 0 )
+        if( count($features2[$key] ?? []) > 0 )
         {
           $assignment_mgr->assign($values);
           $called[$key]=true;
@@ -117,7 +117,7 @@ switch($args->doAction)
       
       foreach($features2 as $key => $values)
       {
-        if( count($features2[$key]) > 0 )
+        if( count($features2[$key] ?? []) > 0 )
         {
           $assignment_mgr->delete_by_feature_id_and_build_id($values);
           $called[$key]=true;
