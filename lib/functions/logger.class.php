@@ -482,7 +482,7 @@ class tlTransaction extends tlDBObject
   {
     $this->_clean($options);
     $query = " SELECT id,entry_point,start_time,end_time,user_id,session_id " .
-             " FROM {$this->tables['transactions']} ";
+             " FROM " . $this->tables['transactions'] . " ";
     $clauses = null;
     
     if ($options & self::TLOBJ_O_SEARCH_BY_ID)
@@ -522,7 +522,7 @@ class tlTransaction extends tlDBObject
         $sessionID = "'".$db->prepare_string($this->sessionID)."'";
       }
             
-      $query = "/* $debugMsg */ INSERT INTO {$this->tables['transactions']} " .
+      $query = "/* $debugMsg */ INSERT INTO " . $this->tables['transactions'] . " " .
                "(entry_point,start_time,end_time,user_id,session_id) " .
                "VALUES ('{$entryPoint}',{$startTime},{$endTime},{$userID},{$sessionID})";
       $result = $db->exec_query($query);
@@ -535,7 +535,7 @@ class tlTransaction extends tlDBObject
     {
       $endTime = $db->prepare_int(time());
       $query = " /* $debugMsg */ " .
-               " UPDATE {$this->tables['transactions']} SET end_time = {$endTime} " . 
+               " UPDATE " . $this->tables['transactions'] . " SET end_time = {$endTime} " . 
                " WHERE id = " . intval($this->dbID);
       $result = $db->exec_query($query);
     }
@@ -658,10 +658,10 @@ class tlEventManager extends tlObjectWithDB
     
     if (!is_null($users))
     {
-      $usersFilter = " JOIN {$this->tables['transactions']}  T " .
+      $usersFilter = " JOIN " . $this->tables['transactions'] . "  T " .
                      " ON T.id = E.transaction_id AND T.user_id IN ({$users}) ";
     }
-    $query = "SELECT E.id FROM {$this->tables['events']} E {$usersFilter}";
+    $query = "SELECT E.id FROM " . $this->tables['events'] . " E {$usersFilter}";
     if ($clauses)
     {
       $query .= " WHERE " . implode(" AND ",$clauses);
@@ -687,7 +687,7 @@ class tlEventManager extends tlObjectWithDB
       $clauses[] = "fired_at < {$startTime}";
     }
       
-    $query = "DELETE FROM {$this->tables['events']} ";
+    $query = "DELETE FROM " . $this->tables['events'] . " ";
     if ($clauses)
     {
       $query .= " WHERE " . implode(" AND ",$clauses);
@@ -708,9 +708,9 @@ class tlEventManager extends tlObjectWithDB
     // Solution was found on:
     // http://stackoverflow.com/questions/4471277/mysql-delete-from-with-subquery-as-condition
     //
-    $subsql = " SELECT id FROM ( SELECT id FROM {$this->tables['transactions']} t " .
-              " WHERE (SELECT COUNT(0) FROM {$this->tables['events']} e WHERE e.transaction_id = t.id) = 0) XX";
-    $query = " DELETE FROM {$this->tables['transactions']} WHERE id IN ( {$subsql} )";
+    $subsql = " SELECT id FROM ( SELECT id FROM " . $this->tables['transactions'] . " t " .
+              " WHERE (SELECT COUNT(0) FROM " . $this->tables['events'] . " e WHERE e.transaction_id = t.id) = 0) XX";
+    $query = " DELETE FROM " . $this->tables['transactions'] . " WHERE id IN ( {$subsql} )";
     $this->db->exec_query($query);  
   }
 }
@@ -786,7 +786,7 @@ class tlEvent extends tlDBObject
   {
     $this->_clean($options);
     $query = " SELECT id,transaction_id,log_level,source,description,fired_at,object_id,object_type,activity " .
-             " FROM {$this->tables['events']} ";
+             " FROM " . $this->tables['events'] . " ";
     $clauses = null;
     
     if ($options & self::TLOBJ_O_SEARCH_BY_ID)
@@ -853,7 +853,7 @@ class tlEvent extends tlDBObject
 
 
       $query = "/* $debugMsg */ " .
-               "INSERT INTO {$this->tables['events']} (transaction_id,log_level,description,source," .
+               "INSERT INTO " . $this->tables['events'] . " (transaction_id,log_level,description,source," .
                "fired_at,object_id,object_type,activity) " .
                "VALUES ({$transactionID},{$logLevel},'{$description}',{$local->source}," .
                "{$firedAt},{$local->objectID},{$local->objectType},{$local->activityCode})";

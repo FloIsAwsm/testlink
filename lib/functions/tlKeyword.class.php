@@ -131,7 +131,7 @@ class tlKeyword extends tlDBObject implements iSerialization,iSerializationToXML
    */
   public function getReadFromDBQuery($ids,$options = self::TLOBJ_O_SEARCH_BY_ID)
   {
-    $query = " SELECT id,keyword,notes,testproject_id FROM {$this->tables['keywords']} ";
+    $query = " SELECT id,keyword,notes,testproject_id FROM " . $this->tables['keywords'] . " ";
     
     $clauses = null;
     if ($options & self::TLOBJ_O_SEARCH_BY_ID)
@@ -169,14 +169,14 @@ class tlKeyword extends tlDBObject implements iSerialization,iSerializationToXML
 
       if ($this->dbID)
       {
-        $query = "UPDATE {$this->tables['keywords']} " .
+        $query = "UPDATE " . $this->tables['keywords'] . " " .
                  " SET keyword = '{$name}',notes = '{$notes}',testproject_id = {$this->testprojectID}" .
              " WHERE id = {$this->dbID}";
         $result = $db->exec_query($query);
       }
       else
       {
-        $query = " INSERT INTO {$this->tables['keywords']} (keyword,testproject_id,notes) " .
+        $query = " INSERT INTO " . $this->tables['keywords'] . " (keyword,testproject_id,notes) " .
              " VALUES ('" . $name . "'," . $this->testprojectID . ",'" . $notes . "')";
         
         $result = $db->exec_query($query);
@@ -220,16 +220,16 @@ class tlKeyword extends tlDBObject implements iSerialization,iSerializationToXML
    */
   public function deleteFromDB(&$db)
   {
-    $sql = "DELETE FROM {$this->tables['testcase_keywords']} WHERE keyword_id = " . $this->dbID;
+    $sql = "DELETE FROM " . $this->tables['testcase_keywords'] . " WHERE keyword_id = " . $this->dbID;
     $result = $db->exec_query($sql);
     if ($result)
     {
-      $sql = "DELETE FROM {$this->tables['object_keywords']}  WHERE keyword_id = " . $this->dbID;
+      $sql = "DELETE FROM " . $this->tables['object_keywords'] . "  WHERE keyword_id = " . $this->dbID;
       $result = $db->exec_query($sql);
     }
     if ($result)
     {
-      $sql = "DELETE FROM {$this->tables['keywords']} WHERE id = " . $this->dbID;
+      $sql = "DELETE FROM " . $this->tables['keywords'] . " WHERE id = " . $this->dbID;
       $result = $db->exec_query($sql);
     }
     return $result ? tl::OK : tl::ERROR;  

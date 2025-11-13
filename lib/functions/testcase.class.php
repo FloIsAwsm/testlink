@@ -289,7 +289,7 @@ class testcase extends tlObjectWithAttachments
 
       if($ret['update_name'])
       {
-        $sql = " UPDATE {$this->tables['nodes_hierarchy']} SET name='" .
+        $sql = " UPDATE " . $this->tables['nodes_hierarchy'] . " SET name='" .
                $this->db->prepare_string($name) . "' WHERE id= " . intval($ret['id']);
         $this->db->exec_query($sql);       
       }  
@@ -597,7 +597,7 @@ class testcase extends tlObjectWithAttachments
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $tcase_version_id = $this->tree_manager->new_node($item->id,$this->node_types_descr_id['testcase_version']);
 
-    $sql = "/* $debugMsg */ INSERT INTO {$this->tables['tcversions']} " .
+    $sql = "/* $debugMsg */ INSERT INTO " . $this->tables['tcversions'] . " " .
            " (id,tc_external_id,version,summary,preconditions," . 
            "  author_id,creation_ts,execution_type,importance ";
 
@@ -696,8 +696,8 @@ class testcase extends tlObjectWithAttachments
     }
       
     $sql = " SELECT DISTINCT NHA.id,NHA.name,TCV.tc_external_id" .
-           " FROM {$this->tables['nodes_hierarchy']} NHA, " .
-           " {$this->tables['nodes_hierarchy']} NHB, {$this->tables['tcversions']} TCV  " .
+           " FROM " . $this->tables['nodes_hierarchy'] . " NHA, " .
+           " " . $this->tables['nodes_hierarchy'] . " NHB, " . $this->tables['tcversions'] . " TCV  " .
            " WHERE NHA.node_type_id = {$this->my_node_type} " .
            " AND NHB.parent_id=NHA.id " .
            " AND TCV.id=NHB.id " .
@@ -748,10 +748,10 @@ class testcase extends tlObjectWithAttachments
     $sql = "/* $debugMsg */ " .       
            " SELECT DISTINCT NH_TCASE.id,NH_TCASE.name,NH_TCASE_PARENT.id AS parent_id," .
            " NH_TCASE_PARENT.name AS tsuite_name, TCV.tc_external_id " .
-           " FROM {$this->tables['nodes_hierarchy']} NH_TCASE, " .
-           " {$this->tables['nodes_hierarchy']} NH_TCASE_PARENT, " .
-           " {$this->tables['nodes_hierarchy']} NH_TCVERSIONS," .
-           " {$this->tables['tcversions']}  TCV  " .
+           " FROM " . $this->tables['nodes_hierarchy'] . " NH_TCASE, " .
+           " " . $this->tables['nodes_hierarchy'] . " NH_TCASE_PARENT, " .
+           " " . $this->tables['nodes_hierarchy'] . " NH_TCVERSIONS," .
+           " " . $this->tables['tcversions'] . "  TCV  " .
            " WHERE NH_TCASE.node_type_id = {$this->my_node_type} " .
            " AND NH_TCASE.name = '{$this->db->prepare_string($name)}' " .
            " AND TCV.id=NH_TCVERSIONS.id " .
@@ -788,7 +788,7 @@ class testcase extends tlObjectWithAttachments
   function get_all()
   {
     $sql = " SELECT nodes_hierarchy.name, nodes_hierarchy.id
-             FROM  {$this->tables['nodes_hierarchy']} nodes_hierarchy
+             FROM  " . $this->tables['nodes_hierarchy'] . " nodes_hierarchy
              WHERE nodes_hierarchy.node_type_id={$my_node_type}";
     $recordset = $this->db->get_recordset($sql);
   
@@ -1019,7 +1019,7 @@ class testcase extends tlObjectWithAttachments
     {    
       if($my['opt']['blockIfExecuted'])
       {
-        $sql = " SELECT id FROM {$this->tables['executions']} " .
+        $sql = " SELECT id FROM " . $this->tables['executions'] . " " .
                " WHERE tcversion_id=" . $this->db->prepare_int($tcversion_id);
       
         $rs = $this->db->get_recordset($sql);
@@ -1033,10 +1033,10 @@ class testcase extends tlObjectWithAttachments
       }  
 
       $sql=array();
-      $sql[] = " UPDATE {$this->tables['nodes_hierarchy']} SET name='" .
+      $sql[] = " UPDATE " . $this->tables['nodes_hierarchy'] . " SET name='" .
                $this->db->prepare_string($name) . "' WHERE id= {$id}";
     
-      $dummy = " UPDATE {$this->tables['tcversions']} " .
+      $dummy = " UPDATE " . $this->tables['tcversions'] . " " .
                " SET summary='" . $this->db->prepare_string($summary) . "'," .
                " updater_id=" . $this->db->prepare_int($user_id) . ", " .
                " modification_ts = " . $this->db->db_now() . "," .
@@ -1110,7 +1110,7 @@ class testcase extends tlObjectWithAttachments
     {
       $a_keywords = explode(",",trim($keywords_id));
       $sql = " SELECT id,keyword " .
-           " FROM {$this->tables['keywords']} " .
+           " FROM " . $this->tables['keywords'] . " " .
            " WHERE id IN (" . implode(',',$a_keywords) . ")";
            
       $items['requested'] = $this->db->fetchColumnsIntoMap($sql,'id','keyword');
@@ -1207,8 +1207,8 @@ class testcase extends tlObjectWithAttachments
       // I'm trying to speedup the next deletes
       $sql="/* $debugMsg */ " . 
            " SELECT NH_TCV.id AS tcversion_id, NH_TCSTEPS.id AS step_id " .
-           " FROM {$this->tables['nodes_hierarchy']} NH_TCV " .
-           " LEFT OUTER JOIN {$this->tables['nodes_hierarchy']} NH_TCSTEPS " . 
+           " FROM " . $this->tables['nodes_hierarchy'] . " NH_TCV " .
+           " LEFT OUTER JOIN " . $this->tables['nodes_hierarchy'] . " NH_TCSTEPS " . 
            " ON NH_TCSTEPS.parent_id = NH_TCV.id ";
 
       if($version_id == self::ALL_VERSIONS)
@@ -1334,10 +1334,10 @@ class testcase extends tlObjectWithAttachments
                " SELECT NH.parent_id AS testcase_id, TTC.tcversion_id, TTC.testplan_id,  TTC.platform_id," . 
                " tcversions.id, {$fields2get} " .
              " NHB.name AS tplan_name " .
-             " FROM   {$this->tables['nodes_hierarchy']} NH," .
-             " {$this->tables['tcversions']} tcversions," .
-             " {$this->tables['testplan_tcversions']} TTC, " .
-             " {$this->tables['nodes_hierarchy']} NHB    " .
+             " FROM   " . $this->tables['nodes_hierarchy'] . " NH," .
+             " " . $this->tables['tcversions'] . " tcversions," .
+             " " . $this->tables['testplan_tcversions'] . " TTC, " .
+             " " . $this->tables['nodes_hierarchy'] . " NHB    " .
              " WHERE  TTC.tcversion_id = tcversions.id {$active_filter} " .
              " AND    tcversions.id = NH.id " . 
              " AND    NHB.id = TTC.testplan_id " .
@@ -1437,12 +1437,12 @@ class testcase extends tlObjectWithAttachments
 
     $this->cfield_mgr->remove_all_design_values_from_node($target_nodes);
 
-    $sql[] = "/* $debugMsg */ DELETE FROM {$this->tables['user_assignments']} " .
+    $sql[] = "/* $debugMsg */ DELETE FROM " . $this->tables['user_assignments'] . " " .
              " WHERE feature_id in (" .
-             " SELECT id FROM {$this->tables['testplan_tcversions']}  " .
+             " SELECT id FROM " . $this->tables['testplan_tcversions'] . "  " .
              " WHERE tcversion_id IN ({$tcversion_list}))";
     
-    $sql[]="/* $debugMsg */ DELETE FROM {$this->tables['testplan_tcversions']}  " .
+    $sql[]="/* $debugMsg */ DELETE FROM " . $this->tables['testplan_tcversions'] . "  " .
            " WHERE tcversion_id IN ({$tcversion_list})";
   
     // Multiple Test Case Steps Feature
@@ -1460,11 +1460,11 @@ class testcase extends tlObjectWithAttachments
         if( count($children['step']) > 0)
         { 
           $step_list=trim(implode(',',$children['step']));
-          $sql[]="/* $debugMsg */ DELETE FROM {$this->tables['tcsteps']}  " .
+          $sql[]="/* $debugMsg */ DELETE FROM " . $this->tables['tcsteps'] . "  " .
                  " WHERE id IN ({$step_list})";
         }
       }
-      $sql[]="/* $debugMsg */ DELETE FROM {$this->tables['tcversions']}  " .
+      $sql[]="/* $debugMsg */ DELETE FROM " . $this->tables['tcversions'] . "  " .
              " WHERE id IN ({$tcversion_list})";
 
       foreach ($sql as $the_stm)
@@ -1477,8 +1477,8 @@ class testcase extends tlObjectWithAttachments
         // Remove data that is related to Test Case => must be deleted when there is no more trace
         // of test case => when all version are deleted
         $sql = null;
-        $sql[]="/* $debugMsg */ DELETE FROM {$this->tables['testcase_keywords']} WHERE testcase_id = {$id}";
-        $sql[]="/* $debugMsg */ DELETE FROM {$this->tables['req_coverage']}  WHERE testcase_id = {$id}";
+        $sql[]="/* $debugMsg */ DELETE FROM " . $this->tables['testcase_keywords'] . " WHERE testcase_id = {$id}";
+        $sql[]="/* $debugMsg */ DELETE FROM " . $this->tables['req_coverage'] . "  WHERE testcase_id = {$id}";
 
         foreach ($sql as $the_stm)
         {
@@ -1510,27 +1510,27 @@ class testcase extends tlObjectWithAttachments
     {
       $tcversion_list=implode(',',$children['tcversion']);
       
-      $sql[]="/* $debugMsg */ DELETE FROM {$this->tables['execution_bugs']} " .
-             " WHERE execution_id IN (SELECT id FROM {$this->tables['executions']} " .
+      $sql[]="/* $debugMsg */ DELETE FROM " . $this->tables['execution_bugs'] . " " .
+             " WHERE execution_id IN (SELECT id FROM " . $this->tables['executions'] . " " .
                " WHERE tcversion_id IN ({$tcversion_list}))";
 
-          $sql[]="/* $debugMsg */ DELETE FROM {$this->tables['cfield_execution_values']}  " .
+          $sql[]="/* $debugMsg */ DELETE FROM " . $this->tables['cfield_execution_values'] . "  " .
                " WHERE tcversion_id IN ({$tcversion_list})";
 
-          $sql[]="/* $debugMsg */ DELETE FROM {$this->tables['executions']}  " .
+          $sql[]="/* $debugMsg */ DELETE FROM " . $this->tables['executions'] . "  " .
                " WHERE tcversion_id IN ({$tcversion_list})";
   
       }
       else
       {
-      $sql[]="/* $debugMsg */  DELETE FROM {$this->tables['execution_bugs']} " .
-               " WHERE execution_id IN (SELECT id FROM {$this->tables['executions']} " .
+      $sql[]="/* $debugMsg */  DELETE FROM " . $this->tables['execution_bugs'] . " " .
+               " WHERE execution_id IN (SELECT id FROM " . $this->tables['executions'] . " " .
                  " WHERE tcversion_id = {$version_id})";
   
-          $sql[]="/* $debugMsg */ DELETE FROM {$this->tables['cfield_execution_values']} " .
+          $sql[]="/* $debugMsg */ DELETE FROM " . $this->tables['cfield_execution_values'] . " " .
                " WHERE tcversion_id = {$version_id}";
   
-          $sql[]="/* $debugMsg */ DELETE FROM {$this->tables['executions']} " .
+          $sql[]="/* $debugMsg */ DELETE FROM " . $this->tables['executions'] . " " .
                " WHERE tcversion_id = {$version_id}";
       }
   
@@ -1831,8 +1831,8 @@ class testcase extends tlObjectWithAttachments
     
     
     $sql = "/* $debugMsg */ SELECT MAX(version) AS version " .
-           " FROM {$this->tables['tcversions']} TCV " .
-           " JOIN {$this->tables['nodes_hierarchy']} NH_TCV ON NH_TCV.id = TCV.id ".
+           " FROM " . $this->tables['tcversions'] . " TCV " .
+           " JOIN " . $this->tables['nodes_hierarchy'] . " NH_TCV ON NH_TCV.id = TCV.id ".
            " WHERE NH_TCV.parent_id = {$id} ";
 
     if( !is_null($my['options']['active']) )
@@ -1845,9 +1845,9 @@ class testcase extends tlObjectWithAttachments
     $tcInfo = null;
     if ($max_version)
     {
-      $sql = " SELECT {$fields2get} FROM {$this->tables['tcversions']} TCV " .
-             " JOIN {$this->tables['nodes_hierarchy']} NH_TCV ON NH_TCV.id = TCV.id ".
-             " JOIN {$this->tables['nodes_hierarchy']} NH_TC ON NH_TC.id = NH_TCV.parent_id ".
+      $sql = " SELECT {$fields2get} FROM " . $this->tables['tcversions'] . " TCV " .
+             " JOIN " . $this->tables['nodes_hierarchy'] . " NH_TCV ON NH_TCV.id = TCV.id ".
+             " JOIN " . $this->tables['nodes_hierarchy'] . " NH_TC ON NH_TC.id = NH_TCV.parent_id ".
              " WHERE TCV.version = {$max_version} ".
              " AND NH_TCV.parent_id = {$id}";
   
@@ -1879,14 +1879,14 @@ class testcase extends tlObjectWithAttachments
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $now = $this->db->db_now();
     $sql = "/* $debugMsg */ " . 
-           " INSERT INTO {$this->tables['tcversions']} " . 
+           " INSERT INTO " . $this->tables['tcversions'] . " " . 
            " (id,version,tc_external_id,author_id,creation_ts,summary, " . 
            "  importance,execution_type,preconditions,estimated_exec_duration) " .
            " SELECT {$to_tcversion_id} AS id, {$as_version_number} AS version, " .
            "        tc_external_id, " .
            "        {$user_id} AS author_id, {$now} AS creation_ts," .
            "        summary,importance,execution_type, preconditions,estimated_exec_duration " .
-           " FROM {$this->tables['tcversions']} " .
+           " FROM " . $this->tables['tcversions'] . " " .
            " WHERE id={$from_tcversion_id} ";
     $result = $this->db->exec_query($sql);  
      
@@ -1949,9 +1949,9 @@ class testcase extends tlObjectWithAttachments
     $sql = " /* $debugMsg */ SELECT nodes_hierarchy.parent_id AS testcase_id, ".
            " tcversions.*, users.first AS author_first_name, users.last AS author_last_name, " .
            " '' AS updater_first_name, '' AS updater_last_name " .
-           " FROM {$this->tables['nodes_hierarchy']} nodes_hierarchy " .
-           " JOIN {$this->tables['tcversions']} tcversions ON nodes_hierarchy.id = tcversions.id " .
-             " LEFT OUTER JOIN {$this->tables['users']} users ON tcversions.author_id = users.id " .
+           " FROM " . $this->tables['nodes_hierarchy'] . " nodes_hierarchy " .
+           " JOIN " . $this->tables['tcversions'] . " tcversions ON nodes_hierarchy.id = tcversions.id " .
+             " LEFT OUTER JOIN " . $this->tables['users'] . " users ON tcversions.author_id = users.id " .
              " {$where_clause} {$tcversion_id_filter} ORDER BY tcversions.version DESC";
     $recordset = $this->db->get_recordset($sql);
   
@@ -1960,7 +1960,7 @@ class testcase extends tlObjectWithAttachments
        // get the names
      $sql = " /* $debugMsg */ " . 
             " SELECT nodes_hierarchy.id AS testcase_id, nodes_hierarchy.name " .
-            " FROM {$this->tables['nodes_hierarchy']} nodes_hierarchy {$where_clause_names} ";
+            " FROM " . $this->tables['nodes_hierarchy'] . " nodes_hierarchy {$where_clause_names} ";
   
      $the_names = $this->db->get_recordset($sql);
        if($the_names)
@@ -1982,9 +1982,9 @@ class testcase extends tlObjectWithAttachments
   
      $sql = " /* $debugMsg */ " . 
             " SELECT updater_id, users.first AS updater_first_name, users.last  AS updater_last_name " .
-            " FROM {$this->tables['nodes_hierarchy']} nodes_hierarchy " .
-            " JOIN {$this->tables['tcversions']} tcversions ON nodes_hierarchy.id = tcversions.id " .
-              " LEFT OUTER JOIN {$this->tables['users']} users ON tcversions.updater_id = users.id " .
+            " FROM " . $this->tables['nodes_hierarchy'] . " nodes_hierarchy " .
+            " JOIN " . $this->tables['tcversions'] . " tcversions ON nodes_hierarchy.id = tcversions.id " .
+              " LEFT OUTER JOIN " . $this->tables['users'] . " users ON tcversions.updater_id = users.id " .
               " {$where_clause} and tcversions.updater_id IS NOT NULL ";
   
       $updaters = $this->db->get_recordset($sql);
@@ -2115,11 +2115,11 @@ class testcase extends tlObjectWithAttachments
                 NHTCV.parent_id AS testcase_id, TCV.*,
                 UB.first AS author_first_name,UB.last AS author_last_name,
                 UA.first AS updater_first_name,UA.last AS updater_last_name
-                FROM {$this->tables['nodes_hierarchy']} NHTCV
-                JOIN {$this->tables['nodes_hierarchy']} NHTC ON NHTCV.parent_id = NHTC.id
-                JOIN {$this->tables['tcversions']} TCV ON NHTCV.id = TCV.id
-                LEFT OUTER JOIN {$this->tables['users']} UB ON TCV.author_id = UB.id
-                LEFT OUTER JOIN {$this->tables['users']} UA ON TCV.updater_id = UA.id
+                FROM " . $this->tables['nodes_hierarchy'] . " NHTCV
+                JOIN " . $this->tables['nodes_hierarchy'] . " NHTC ON NHTCV.parent_id = NHTC.id
+                JOIN " . $this->tables['tcversions'] . " TCV ON NHTCV.id = TCV.id
+                LEFT OUTER JOIN " . $this->tables['users'] . " UB ON TCV.author_id = UB.id
+                LEFT OUTER JOIN " . $this->tables['users'] . " UA ON TCV.updater_id = UA.id
                 $where_clause $active_filter";
                 
             if(is_null($my['options']['order_by']))
@@ -2143,9 +2143,9 @@ class testcase extends tlObjectWithAttachments
         //                   
         $sql = "SELECT NHTC.name,NHTC.node_order,NHTC.parent_id AS testsuite_id,
                 NHTCV.parent_id AS testcase_id, {$tcversionFields}
-                FROM {$this->tables['nodes_hierarchy']} NHTCV
-                JOIN {$this->tables['nodes_hierarchy']} NHTC ON NHTCV.parent_id = NHTC.id
-                JOIN {$this->tables['tcversions']} TCV ON NHTCV.id = TCV.id
+                FROM " . $this->tables['nodes_hierarchy'] . " NHTCV
+                JOIN " . $this->tables['nodes_hierarchy'] . " NHTC ON NHTCV.parent_id = NHTC.id
+                JOIN " . $this->tables['tcversions'] . " TCV ON NHTCV.id = TCV.id
                 $where_clause $active_filter";
 
             if(is_null($my['options']['order_by']))
@@ -2162,9 +2162,9 @@ class testcase extends tlObjectWithAttachments
         $sql = " SELECT NHTC.name,NHTC.node_order,NHTCV.parent_id AS testcase_id, " . 
                " NHTC.parent_id AS testsuite_id, " .
                " TCV.version, TCV.id, TCV.tc_external_id " .
-               " FROM {$this->tables['nodes_hierarchy']} NHTCV " . 
-               " JOIN {$this->tables['nodes_hierarchy']} NHTC ON NHTCV.parent_id = NHTC.id " .
-               " JOIN {$this->tables['tcversions']} TCV ON NHTCV.id = TCV.id " .
+               " FROM " . $this->tables['nodes_hierarchy'] . " NHTCV " . 
+               " JOIN " . $this->tables['nodes_hierarchy'] . " NHTC ON NHTCV.parent_id = NHTC.id " .
+               " JOIN " . $this->tables['tcversions'] . " TCV ON NHTCV.id = TCV.id " .
                " {$where_clause} {$active_filter} ";
                  
         if(is_null($my['options']['order_by']))
@@ -2360,22 +2360,22 @@ class testcase extends tlObjectWithAttachments
       {
         $testplan_filter=" AND E.testplan_id = {$testplan_id} ";
       }
-      $execution_join=" LEFT OUTER JOIN {$this->tables['executions']} E " .
+      $execution_join=" LEFT OUTER JOIN " . $this->tables['executions'] . " E " .
                       " ON (E.tcversion_id = NH.id {$testplan_filter})";
   
     $sqlx=  " SELECT TCV.id,TCV.version " .
-              " FROM {$this->tables['nodes_hierarchy']} NHA " .
-              " JOIN {$this->tables['nodes_hierarchy']} NHB ON NHA.parent_id = NHB.id " .
-              " JOIN {$this->tables['tcversions']}  TCV ON NHA.id = TCV.id " .
+              " FROM " . $this->tables['nodes_hierarchy'] . " NHA " .
+              " JOIN " . $this->tables['nodes_hierarchy'] . " NHB ON NHA.parent_id = NHB.id " .
+              " JOIN " . $this->tables['tcversions'] . "  TCV ON NHA.id = TCV.id " .
               " WHERE  NHA.parent_id = {$id}";
               
     $version_id = $this->db->fetchRowsIntoMap($sqlx,'version');
   
     $sql="SELECT DISTINCT NH.id AS tcversion_id,T.tcversion_id AS linked, " .
          " E.tcversion_id AS executed,E.tcversion_number,TCV.version " .
-         " FROM   {$this->tables['nodes_hierarchy']} NH " .
-           " JOIN {$this->tables['tcversions']} TCV ON (TCV.id = NH.id ) " .
-         " LEFT OUTER JOIN {$this->tables['testplan_tcversions']} T ON T.tcversion_id = NH.id " .
+         " FROM   " . $this->tables['nodes_hierarchy'] . " NH " .
+           " JOIN " . $this->tables['tcversions'] . " TCV ON (TCV.id = NH.id ) " .
+         " LEFT OUTER JOIN " . $this->tables['testplan_tcversions'] . " T ON T.tcversion_id = NH.id " .
          " {$execution_join} WHERE  NH.parent_id = {$id} {$tcversion_filter} ORDER BY executed DESC";
   
     $rs = $this->db->get_recordset($sql);
@@ -2471,15 +2471,15 @@ class testcase extends tlObjectWithAttachments
     // Get info about tcversions of this test case
     $sqlx = "/* $debugMsg */ " .
             " SELECT TCV.id,TCV.version,TCV.active" .
-            " FROM {$this->tables['nodes_hierarchy']} NHA " .
-            " JOIN {$this->tables['nodes_hierarchy']} NHB ON NHA.parent_id = NHB.id " .
-            " JOIN {$this->tables['tcversions']}  TCV ON NHA.id = TCV.id ";
+            " FROM " . $this->tables['nodes_hierarchy'] . " NHA " .
+            " JOIN " . $this->tables['nodes_hierarchy'] . " NHB ON NHA.parent_id = NHB.id " .
+            " JOIN " . $this->tables['tcversions'] . "  TCV ON NHA.id = TCV.id ";
             
     $where_clause = " WHERE  NHA.parent_id = " . $this->db->prepare_int($id);
             
     if(!is_null($tplan_id))
     {
-          $sqlx .= " JOIN {$this->tables['testplan_tcversions']}  TTCV ON TTCV.tcversion_id = TCV.id ";
+          $sqlx .= " JOIN " . $this->tables['testplan_tcversions'] . "  TTCV ON TTCV.tcversion_id = TCV.id ";
           $where_clause .= " AND TTCV.tplan_id = " . $this->db->prepare_int($tplan_id); 
     }    
     $sqlx .= $where_clause; 
@@ -2490,13 +2490,13 @@ class testcase extends tlObjectWithAttachments
            " T.tcversion_id AS linked, T.platform_id, TCV.active, E.tcversion_id AS executed, " . 
            " E.testplan_id AS exec_on_tplan, E.tcversion_number, " .
            " T.testplan_id, NHB.name AS tplan_name, TCV.version, PLAT.name AS platform_name " .
-           " FROM   {$this->tables['nodes_hierarchy']} NH " .
-           " JOIN {$this->tables['testplan_tcversions']}  T ON T.tcversion_id = NH.id " .
-           " JOIN {$this->tables['tcversions']}  TCV ON T.tcversion_id = TCV.id " .
-           " JOIN {$this->tables['nodes_hierarchy']} NHB ON T.testplan_id = NHB.id " .
-           " LEFT OUTER JOIN {$this->tables['platforms']} PLAT " .
+           " FROM   " . $this->tables['nodes_hierarchy'] . " NH " .
+           " JOIN " . $this->tables['testplan_tcversions'] . "  T ON T.tcversion_id = NH.id " .
+           " JOIN " . $this->tables['tcversions'] . "  TCV ON T.tcversion_id = TCV.id " .
+           " JOIN " . $this->tables['nodes_hierarchy'] . " NHB ON T.testplan_id = NHB.id " .
+           " LEFT OUTER JOIN " . $this->tables['platforms'] . " PLAT " .
            " ON T.platform_id = PLAT.id " .
-           " LEFT OUTER JOIN {$this->tables['executions']} E " .
+           " LEFT OUTER JOIN " . $this->tables['executions'] . " E " .
            " ON (E.tcversion_id = NH.id AND E.testplan_id=T.testplan_id AND E.platform_id=T.platform_id ) " .
            " WHERE  NH.parent_id = " . $this->db->prepare_int($id);
       
@@ -2707,7 +2707,7 @@ class testcase extends tlObjectWithAttachments
     $tproject_id = $my['opt']['tproject_id'];
     if( !is_null($tproject_id) && !is_null($my['opt']['output']) )
     {  
-      $sql = " SELECT id,is_public  FROM {$this->tables['testprojects']} " .
+      $sql = " SELECT id,is_public  FROM " . $this->tables['testprojects'] . " " .
              " WHERE id = " . intval($tproject_id);
       $tproject_info = $this->db->get_recordset($sql);
       if( !is_null($tproject_info) )
@@ -2738,7 +2738,7 @@ class testcase extends tlObjectWithAttachments
       {
         // Check first if Test Project prefix is valid, if not abort
         $testCasePrefix = $this->db->prepare_string($rawTestCasePrefix);
-        $sql = "SELECT id,is_public  FROM {$this->tables['testprojects']} " .
+        $sql = "SELECT id,is_public  FROM " . $this->tables['testprojects'] . " " .
                "WHERE prefix = '" . $this->db->prepare_string($testCasePrefix) . "'";
         $tproject_info = $this->db->get_recordset($sql);
         if( $status_ok = !is_null($tproject_info) )
@@ -2762,8 +2762,8 @@ class testcase extends tlObjectWithAttachments
       // get all test cases with requested external ID on all test projects.
       // we do not have way to work only on one test project.
       $sql = " SELECT DISTINCT NHTCV.parent_id AS tcase_id" .
-             " FROM {$this->tables['tcversions']} TCV " .
-             " JOIN {$this->tables['nodes_hierarchy']} NHTCV " .
+             " FROM " . $this->tables['tcversions'] . " TCV " .
+             " JOIN " . $this->tables['nodes_hierarchy'] . " NHTCV " .
              " ON TCV.id = NHTCV.id " .
              " WHERE  TCV.tc_external_id = " . intval($externalID);
     
@@ -2821,7 +2821,7 @@ class testcase extends tlObjectWithAttachments
               $subquery = "AND testcase_id IN (" .
                           " SELECT MAFALDA.testcase_id FROM
                             ( SELECT COUNT(testcase_id) AS HITS,testcase_id
-                              FROM {$this->tables['keywords']} K, {$this->tables['testcase_keywords']}
+                              FROM " . $this->tables['keywords'] . " K, " . $this->tables['testcase_keywords'] . "
                               WHERE keyword_id = K.id
                               {$keyword_filter}
                               GROUP BY testcase_id ) AS MAFALDA " .
@@ -2837,7 +2837,7 @@ class testcase extends tlObjectWithAttachments
       
       $map_keywords = null;
       $sql = " SELECT testcase_id,keyword_id,keyword
-               FROM {$this->tables['keywords']} K, {$this->tables['testcase_keywords']}
+               FROM " . $this->tables['keywords'] . " K, " . $this->tables['testcase_keywords'] . "
                WHERE keyword_id = K.id
                {$testcase_filter}
                {$keyword_filter} {$subquery}
@@ -2865,7 +2865,7 @@ class testcase extends tlObjectWithAttachments
   function getKeywords($tcID,$kwID = null,$column = 'keyword_id',$orderByClause = null)
   {
     $sql = "SELECT keyword_id,keywords.keyword,keywords.notes,testcase_id
-            FROM {$this->tables['testcase_keywords']} testcase_keywords, {$this->tables['keywords']} keywords
+            FROM " . $this->tables['testcase_keywords'] . " testcase_keywords, " . $this->tables['keywords'] . " keywords
             WHERE keyword_id = keywords.id AND testcase_id ";
     $bCumulative = 0;
     if (is_array($tcID))
@@ -2925,8 +2925,8 @@ class testcase extends tlObjectWithAttachments
         $sql = "SELECT keyword_id,keywords.keyword";
       break;
     }
-    $sql .= " FROM {$this->tables['testcase_keywords']} testcase_keywords, " .
-            " {$this->tables['keywords']} keywords WHERE keyword_id = keywords.id ";
+    $sql .= " FROM " . $this->tables['testcase_keywords'] . " testcase_keywords, " .
+            " " . $this->tables['keywords'] . " keywords WHERE keyword_id = keywords.id ";
 
     if (is_array($id))
     {  
@@ -2970,7 +2970,7 @@ class testcase extends tlObjectWithAttachments
     }
     
     // Ok, ho ahead
-    $sql = " INSERT INTO {$this->tables['testcase_keywords']} (testcase_id,keyword_id) " .
+    $sql = " INSERT INTO " . $this->tables['testcase_keywords'] . " (testcase_id,keyword_id) " .
          " VALUES ($id,$kw_id)";
   
     $result = ($this->db->exec_query($sql) ? 1 : 0);
@@ -3065,7 +3065,7 @@ class testcase extends tlObjectWithAttachments
   */
   function deleteKeywords($tcID,$kwID = null,$audit=self::AUDIT_ON)
   {
-    $sql = " DELETE FROM {$this->tables['testcase_keywords']}  WHERE testcase_id = {$tcID} ";
+    $sql = " DELETE FROM " . $this->tables['testcase_keywords'] . "  WHERE testcase_id = {$tcID} ";
     if (!is_null($kwID))
     {
       if(is_array($kwID))
@@ -3239,15 +3239,15 @@ class testcase extends tlObjectWithAttachments
           e.build_id AS build_id,
           b.name AS build_name, b.active AS build_is_active, b.is_open AS build_is_open,
             e.platform_id,p.name AS platform_name
-        FROM {$this->tables['nodes_hierarchy']} NHA
-          JOIN {$this->tables['nodes_hierarchy']} NHB ON NHA.parent_id = NHB.id
-          JOIN {$this->tables['tcversions']} tcversions ON NHA.id = tcversions.id
-          JOIN {$this->tables['executions']} e ON NHA.id = e.tcversion_id
+        FROM " . $this->tables['nodes_hierarchy'] . " NHA
+          JOIN " . $this->tables['nodes_hierarchy'] . " NHB ON NHA.parent_id = NHB.id
+          JOIN " . $this->tables['tcversions'] . " tcversions ON NHA.id = tcversions.id
+          JOIN " . $this->tables['executions'] . " e ON NHA.id = e.tcversion_id
                                                AND e.testplan_id = {$tplan_id}
                                                {$filterBy['build_id']} {$filterBy['platform_id']}
-          JOIN {$this->tables['builds']}  b ON e.build_id=b.id
-          LEFT OUTER JOIN {$this->tables['users']} users ON users.id = e.tester_id
-          LEFT OUTER JOIN {$this->tables['platforms']} p ON p.id = e.platform_id
+          JOIN " . $this->tables['builds'] . "  b ON e.build_id=b.id
+          LEFT OUTER JOIN " . $this->tables['users'] . " users ON users.id = e.tester_id
+          LEFT OUTER JOIN " . $this->tables['platforms'] . " p ON p.id = e.platform_id
           $where_clause
           ORDER BY NHA.node_order ASC, NHA.parent_id ASC, execution_id {$my['options']['exec_id_order']}";
   
@@ -3401,8 +3401,8 @@ class testcase extends tlObjectWithAttachments
 
     $sql="/* $debugMsg */ " . 
          " SELECT COALESCE(MAX(e.id),0) AS execution_id {$add_fields}" .
-         " FROM {$this->tables['nodes_hierarchy']} NHA " .
-         " JOIN {$this->tables['executions']} e ON NHA.id = e.tcversion_id AND e.testplan_id = {$tplan_id} " .
+         " FROM " . $this->tables['nodes_hierarchy'] . " NHA " .
+         " JOIN " . $this->tables['executions'] . " e ON NHA.id = e.tcversion_id AND e.testplan_id = {$tplan_id} " .
          " {$filterBy['build_id']} {$filterBy['platform_id']}" .
          " AND e.status IS NOT NULL " .
          " $where_clause_1 {$group_by}";
@@ -3425,7 +3425,7 @@ class testcase extends tlObjectWithAttachments
       }
     }
       
-    $executions_join=" JOIN {$this->tables['executions']} e ON NHA.id = e.tcversion_id " .
+    $executions_join=" JOIN " . $this->tables['executions'] . " e ON NHA.id = e.tcversion_id " .
                      " AND e.testplan_id = {$tplan_id} {$and_exec_id} {$filterBy['build_id']} " .
                      " {$filterBy['platform_id']} ";
                      
@@ -3446,9 +3446,9 @@ class testcase extends tlObjectWithAttachments
         $sql= "/* $debugMsg */ SELECT e.id AS execution_id, " .
               " COALESCE(e.status,'{$status_not_run}') AS status, " .
               " e.execution_ts, e.build_id,e.tcversion_number," .
-              " FROM {$this->tables['nodes_hierarchy']} NHA" .
-              " JOIN {$this->tables['nodes_hierarchy']} NHB ON NHA.parent_id = NHB.id" .
-              " JOIN {$this->tables['tcversions']} tcversions ON NHA.id = tcversions.id" .
+              " FROM " . $this->tables['nodes_hierarchy'] . " NHA" .
+              " JOIN " . $this->tables['nodes_hierarchy'] . " NHB ON NHA.parent_id = NHB.id" .
+              " JOIN " . $this->tables['tcversions'] . " tcversions ON NHA.id = tcversions.id" .
               " {$executions_join}" .
               " $where_clause_2" .
               " ORDER BY NHB.parent_id ASC, NHA.parent_id ASC, execution_id DESC";
@@ -3471,14 +3471,14 @@ class testcase extends tlObjectWithAttachments
               " e.notes AS execution_notes, e.execution_ts, e.build_id,e.tcversion_number," .
               " builds.name AS build_name, builds.active AS build_is_active, builds.is_open AS build_is_open," .
               " e.platform_id,p.name AS platform_name" .
-              " FROM {$this->tables['nodes_hierarchy']} NHA" .
-              " JOIN {$this->tables['nodes_hierarchy']} NHB ON NHA.parent_id = NHB.id" .
-              " JOIN {$this->tables['tcversions']} tcversions ON NHA.id = tcversions.id" .
+              " FROM " . $this->tables['nodes_hierarchy'] . " NHA" .
+              " JOIN " . $this->tables['nodes_hierarchy'] . " NHB ON NHA.parent_id = NHB.id" .
+              " JOIN " . $this->tables['tcversions'] . " tcversions ON NHA.id = tcversions.id" .
               " {$executions_join}" .
-              " LEFT OUTER JOIN {$this->tables['builds']} builds ON builds.id = e.build_id" .
+              " LEFT OUTER JOIN " . $this->tables['builds'] . " builds ON builds.id = e.build_id" .
               "                 AND builds.testplan_id = {$tplan_id}" .
-              " LEFT OUTER JOIN {$this->tables['users']} users ON users.id = e.tester_id " .
-              " LEFT OUTER JOIN {$this->tables['platforms']} p ON p.id = e.platform_id" .
+              " LEFT OUTER JOIN " . $this->tables['users'] . " users ON users.id = e.tester_id " .
+              " LEFT OUTER JOIN " . $this->tables['platforms'] . " p ON p.id = e.platform_id" .
               " $where_clause_2" .
               " ORDER BY NHB.parent_id ASC, NHA.node_order ASC, NHA.parent_id ASC, execution_id DESC";
       break;
@@ -3784,8 +3784,8 @@ class testcase extends tlObjectWithAttachments
     // 20110622 - asimon - TICKET 4600: Blocked execution of testcases
     $sql =  "SELECT T.tcversion_id AS tcversion_id,T.id AS feature_id,T.platform_id, " .
             "       UA.user_id,UA.type,UA.status,UA.assigner_id ".
-            " FROM {$this->tables['testplan_tcversions']}  T " .
-            " LEFT OUTER JOIN {$this->tables['user_assignments']}  UA ON UA.feature_id = T.id " .
+            " FROM " . $this->tables['testplan_tcversions'] . "  T " .
+            " LEFT OUTER JOIN " . $this->tables['user_assignments'] . "  UA ON UA.feature_id = T.id " .
             " WHERE T.testplan_id={$tplan_id} AND UA.build_id = {$build_id} " .
             " AND   T.tcversion_id = {$tcversion_id} " .
             " AND   (UA.type=" . $this->assignment_types['testcase_execution']['id'] .
@@ -3854,16 +3854,16 @@ class testcase extends tlObjectWithAttachments
            " COALESCE(PLAT.name,'') AS platform_name, COALESCE(PLAT.id,0) AS platform_id, " .
            " (TPTCV.urgency * TCV.importance) AS priority, BUILDS.name as build_name, " .
            " BUILDS.id as build_id " .
-           " FROM {$this->tables['user_assignments']} UA " . 
-           " JOIN {$this->tables['testplan_tcversions']} TPTCV ON TPTCV.id = UA.feature_id " .
-           " JOIN {$this->tables['tcversions']} TCV ON TCV.id=TPTCV.tcversion_id " .
-           " JOIN {$this->tables['nodes_hierarchy']} NHTCV ON NHTCV.id = TCV.id " .
-           " JOIN {$this->tables['nodes_hierarchy']} NHTC ON NHTC.id = NHTCV.parent_id " .
-           " JOIN {$this->tables['nodes_hierarchy']} NHTPLAN ON  NHTPLAN.id=TPTCV.testplan_id " .
-           " JOIN {$this->tables['testprojects']} TPROJ ON  TPROJ.id = NHTPLAN.parent_id " .
-           " JOIN {$this->tables['testplans']} TPLAN ON  TPLAN.id = TPTCV.testplan_id " .
-           " JOIN {$this->tables['builds']} BUILDS ON  BUILDS.id = UA.build_id " .
-           " LEFT OUTER JOIN {$this->tables['platforms']} PLAT ON  PLAT.id = TPTCV.platform_id " .
+           " FROM " . $this->tables['user_assignments'] . " UA " . 
+           " JOIN " . $this->tables['testplan_tcversions'] . " TPTCV ON TPTCV.id = UA.feature_id " .
+           " JOIN " . $this->tables['tcversions'] . " TCV ON TCV.id=TPTCV.tcversion_id " .
+           " JOIN " . $this->tables['nodes_hierarchy'] . " NHTCV ON NHTCV.id = TCV.id " .
+           " JOIN " . $this->tables['nodes_hierarchy'] . " NHTC ON NHTC.id = NHTCV.parent_id " .
+           " JOIN " . $this->tables['nodes_hierarchy'] . " NHTPLAN ON  NHTPLAN.id=TPTCV.testplan_id " .
+           " JOIN " . $this->tables['testprojects'] . " TPROJ ON  TPROJ.id = NHTPLAN.parent_id " .
+           " JOIN " . $this->tables['testplans'] . " TPLAN ON  TPLAN.id = TPTCV.testplan_id " .
+           " JOIN " . $this->tables['builds'] . " BUILDS ON  BUILDS.id = UA.build_id " .
+           " LEFT OUTER JOIN " . $this->tables['platforms'] . " PLAT ON  PLAT.id = TPTCV.platform_id " .
            " WHERE UA.type={$this->assignment_types['testcase_execution']['id']} " .
            //" AND UA.user_id = {$user_id} " .
            " {$user_sql} " .
@@ -4004,7 +4004,7 @@ class testcase extends tlObjectWithAttachments
   function update_active_status($id,$tcversion_id,$active_status)
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
-    $sql =  " /* $debugMsg */ UPDATE {$this->tables['tcversions']} " .
+    $sql =  " /* $debugMsg */ UPDATE " . $this->tables['tcversions'] . " " .
         " SET active={$active_status}" .
           " WHERE id = {$tcversion_id}";
   
@@ -4040,10 +4040,10 @@ class testcase extends tlObjectWithAttachments
   function update_external_id($id,$external_id)
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
-    $sql =  "/* $debugMsg */ UPDATE {$this->tables['tcversions']} " .
+    $sql =  "/* $debugMsg */ UPDATE " . $this->tables['tcversions'] . " " .
         " SET tc_external_id={$external_id} " .
         " WHERE id IN (" .
-        " SELECT id FROM {$this->tables['nodes_hierarchy']} WHERE parent_id={$id} ) ";
+        " SELECT id FROM " . $this->tables['nodes_hierarchy'] . " WHERE parent_id={$id} ) ";
         
       $result=$this->db->exec_query($sql);
     return $result ? 1: 0;
@@ -4140,9 +4140,9 @@ class testcase extends tlObjectWithAttachments
     function deleteExecution($executionID)
     {
         $whereClause = " WHERE execution_id = {$executionID} "; 
-    $sql = array("DELETE FROM {$this->tables['execution_bugs']} {$whereClause} ", 
-                 "DELETE FROM {$this->tables['cfield_execution_values']} {$whereClause} ",
-                 "DELETE FROM {$this->tables['executions']} WHERE id = {$executionID}" );
+    $sql = array("DELETE FROM " . $this->tables['execution_bugs'] . " {$whereClause} ", 
+                 "DELETE FROM " . $this->tables['cfield_execution_values'] . " {$whereClause} ",
+                 "DELETE FROM " . $this->tables['executions'] . " WHERE id = {$executionID}" );
   
     foreach ($sql as $the_stm)
     {
@@ -4869,9 +4869,9 @@ class testcase extends tlObjectWithAttachments
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $sql = "/* $debugMsg */ " .
            " SELECT NH_TCASE.id, NH_TCASE.name, TCV.version, TCV.tc_external_id, TCV.id AS tcversion_id " .
-           " FROM {$this->tables['nodes_hierarchy']} NH_TCASE " .
-           " JOIN {$this->tables['nodes_hierarchy']} NH_TCV ON NH_TCV.parent_id = NH_TCASE.id" .
-           " JOIN {$this->tables['tcversions']} TCV ON  TCV.id = NH_TCV.id ";
+           " FROM " . $this->tables['nodes_hierarchy'] . " NH_TCASE " .
+           " JOIN " . $this->tables['nodes_hierarchy'] . " NH_TCV ON NH_TCV.parent_id = NH_TCASE.id" .
+           " JOIN " . $this->tables['tcversions'] . " TCV ON  TCV.id = NH_TCV.id ";
 
     $accessBy = array('number' => 'version', 'id' => 'id'); 
     $where_clause = '';
@@ -4906,7 +4906,7 @@ class testcase extends tlObjectWithAttachments
     $dummy = (isset($this->execution_types[$dummy])) ? $dummy : TESTCASE_EXECUTION_TYPE_MANUAL;
       
     $item_id = $this->tree_manager->new_node($tcversion_id,$this->node_types_descr_id['testcase_step']);
-    $sql = "/* $debugMsg */ INSERT INTO {$this->tables['tcsteps']} " .
+    $sql = "/* $debugMsg */ INSERT INTO " . $this->tables['tcsteps'] . " " .
            " (id,step_number,actions,expected_results,execution_type) " .
            " VALUES({$item_id},{$step_number},'" . $this->db->prepare_string($actions) . "','" .
            $this->db->prepare_string($expected_results) . "', " . $this->db->prepare_int($dummy) . ")";
@@ -4941,8 +4941,8 @@ class testcase extends tlObjectWithAttachments
     
     $sql = "/* $debugMsg */ " . 
            " SELECT TCSTEPS.{$my['options']['fields2get']} " .
-           " FROM {$this->tables['tcsteps']} TCSTEPS " .
-           " JOIN {$this->tables['nodes_hierarchy']} NH_STEPS " .
+           " FROM " . $this->tables['tcsteps'] . " TCSTEPS " .
+           " JOIN " . $this->tables['nodes_hierarchy'] . " NH_STEPS " .
            " ON NH_STEPS.id = TCSTEPS.id " . 
            " WHERE NH_STEPS.parent_id = {$safe_tcversion_id} {$step_filter} ORDER BY step_number";
 
@@ -4991,8 +4991,8 @@ class testcase extends tlObjectWithAttachments
     
     $sql = "/* $debugMsg */ " . 
            " SELECT {$my['options']['fields2get']} " .
-           " FROM {$this->tables['tcsteps']} TCSTEPS " .
-           " JOIN {$this->tables['nodes_hierarchy']} NH_STEPS " .
+           " FROM " . $this->tables['tcsteps'] . " TCSTEPS " .
+           " JOIN " . $this->tables['nodes_hierarchy'] . " NH_STEPS " .
            " ON NH_STEPS.id = TCSTEPS.id " . 
            " WHERE NH_STEPS.parent_id = {$safe_tcversion_id} {$step_filter} ORDER BY step_number";
 
@@ -5018,8 +5018,8 @@ class testcase extends tlObjectWithAttachments
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $sql = "/* $debugMsg */ " . 
-           " SELECT TCSTEPS.* FROM {$this->tables['tcsteps']} TCSTEPS " .
-           " JOIN {$this->tables['nodes_hierarchy']} NH_STEPS " .
+           " SELECT TCSTEPS.* FROM " . $this->tables['tcsteps'] . " TCSTEPS " .
+           " JOIN " . $this->tables['nodes_hierarchy'] . " NH_STEPS " .
            " ON NH_STEPS.id = TCSTEPS.id " . 
            " WHERE TCSTEPS.id = {$step_id} ";
     $result = $this->db->get_recordset($sql);
@@ -5032,8 +5032,8 @@ class testcase extends tlObjectWithAttachments
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $sql = "/* $debugMsg */ " . 
-           " SELECT TCSTEPS.id, TCSTEPS.step_number FROM {$this->tables['tcsteps']} TCSTEPS " .
-           " JOIN {$this->tables['nodes_hierarchy']} NH_STEPS " .
+           " SELECT TCSTEPS.id, TCSTEPS.step_number FROM " . $this->tables['tcsteps'] . " TCSTEPS " .
+           " JOIN " . $this->tables['nodes_hierarchy'] . " NH_STEPS " .
            " ON NH_STEPS.id = TCSTEPS.id " . 
            " WHERE NH_STEPS.parent_id = {$tcversion_id} ORDER BY step_number";
 
@@ -5051,8 +5051,8 @@ class testcase extends tlObjectWithAttachments
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $sql = "/* $debugMsg */ " . 
-           " SELECT MAX(TCSTEPS.step_number) AS max_step FROM {$this->tables['tcsteps']} TCSTEPS " .
-           " JOIN {$this->tables['nodes_hierarchy']} NH_STEPS " .
+           " SELECT MAX(TCSTEPS.step_number) AS max_step FROM " . $this->tables['tcsteps'] . " TCSTEPS " .
+           " JOIN " . $this->tables['nodes_hierarchy'] . " NH_STEPS " .
            " ON NH_STEPS.id = TCSTEPS.id " . 
            " WHERE NH_STEPS.parent_id = {$tcversion_id} ";
 
@@ -5075,8 +5075,8 @@ class testcase extends tlObjectWithAttachments
     $sql = array();
       $whereClause = " WHERE id IN (" . implode(',',(array)$step_id) . ")";
     
-    $sqlSet[] = "/* $debugMsg */ DELETE FROM {$this->tables['tcsteps']} {$whereClause} ";
-    $sqlSet[] = "/* $debugMsg */ DELETE FROM {$this->tables['nodes_hierarchy']} {$whereClause} ";
+    $sqlSet[] = "/* $debugMsg */ DELETE FROM " . $this->tables['tcsteps'] . " {$whereClause} ";
+    $sqlSet[] = "/* $debugMsg */ DELETE FROM " . $this->tables['nodes_hierarchy'] . " {$whereClause} ";
     foreach($sqlSet as $sql)
     {
       $this->db->exec_query($sql);
@@ -5096,7 +5096,7 @@ class testcase extends tlObjectWithAttachments
         
         foreach($step_number as $step_id => $value)
         {
-          $sql = "/* $debugMsg */ UPDATE {$this->tables['tcsteps']} " . 
+          $sql = "/* $debugMsg */ UPDATE " . $this->tables['tcsteps'] . " " . 
                " SET step_number = {$value} WHERE id = {$step_id} ";
           $this->db->exec_query($sql);      
         }
@@ -5111,7 +5111,7 @@ class testcase extends tlObjectWithAttachments
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
       $ret = array();
-    $sql = "/* $debugMsg */ UPDATE {$this->tables['tcsteps']} " .
+    $sql = "/* $debugMsg */ UPDATE " . $this->tables['tcsteps'] . " " .
            " SET step_number=" . $this->db->prepare_int($step_number) . "," .
            " actions='" . $this->db->prepare_string($actions) . "', " .
            " expected_results='" . $this->db->prepare_string($expected_results) . "', " .
@@ -5145,10 +5145,10 @@ class testcase extends tlObjectWithAttachments
     $sql = "/* $debugMsg */ " .       
            " SELECT DISTINCT NH_TCASE.id,NH_TCASE.name,NH_TCASE_PARENT.id AS parent_id," .
            " NH_TCASE_PARENT.name AS tsuite_name, TCV.tc_external_id " .
-           " FROM {$this->tables['nodes_hierarchy']} NH_TCASE, " .
-           " {$this->tables['nodes_hierarchy']} NH_TCASE_PARENT, " .
-           " {$this->tables['nodes_hierarchy']} NH_TCVERSIONS," .
-           " {$this->tables['tcversions']}  TCV  " .
+           " FROM " . $this->tables['nodes_hierarchy'] . " NH_TCASE, " .
+           " " . $this->tables['nodes_hierarchy'] . " NH_TCASE_PARENT, " .
+           " " . $this->tables['nodes_hierarchy'] . " NH_TCVERSIONS," .
+           " " . $this->tables['tcversions'] . "  TCV  " .
            " WHERE NH_TCVERSIONS.id=TCV.id " .
            " AND NH_TCVERSIONS.parent_id=NH_TCASE.id " .
            " AND NH_TCASE_PARENT.id=NH_TCASE.parent_id " .
@@ -5221,8 +5221,8 @@ class testcase extends tlObjectWithAttachments
       
     $sql = "/* $debugMsg */ " .       
            " {$maxClause}, NH_TCVERSION.parent_id AS testcase_id " .
-           " FROM {$this->tables['tcversions']} TCV " .
-           " JOIN {$this->tables['nodes_hierarchy']} NH_TCVERSION " .
+           " FROM " . $this->tables['tcversions'] . " TCV " .
+           " JOIN " . $this->tables['nodes_hierarchy'] . " NH_TCVERSION " .
            " ON NH_TCVERSION.id = TCV.id AND TCV.active=1 " .
            " AND NH_TCVERSION.parent_id IN ({$itemSet}) " .
            " GROUP BY NH_TCVERSION.parent_id " .
@@ -5281,7 +5281,7 @@ class testcase extends tlObjectWithAttachments
           $countmain++;     
         }
         $cfSelect = ", CFDV.field_id, CFDV.value ";
-        $cfJoin = " JOIN {$this->tables['cfield_design_values']} CFDV ON CFDV.node_id = TCV.id ";
+        $cfJoin = " JOIN " . $this->tables['cfield_design_values'] . " CFDV ON CFDV.node_id = TCV.id ";
         $cfQuery = " AND ({$cfQuery}) ";
       }
 
@@ -5289,8 +5289,8 @@ class testcase extends tlObjectWithAttachments
       $sql = "/* $debugMsg */ " .       
              " {$selectClause}, NH_TCVERSION.parent_id AS testcase_id, " .
              " TCV.version,TCV.execution_type,TCV.importance,TCV.status {$cfSelect} " .
-             " FROM {$this->tables['tcversions']} TCV " .
-             " JOIN {$this->tables['nodes_hierarchy']} NH_TCVERSION " .
+             " FROM " . $this->tables['tcversions'] . " TCV " .
+             " JOIN " . $this->tables['nodes_hierarchy'] . " NH_TCVERSION " .
              " ON NH_TCVERSION.id = TCV.id {$cfJoin} " .
              " AND NH_TCVERSION.id IN ({$keySet}) {$cfQuery}";
 
@@ -5353,8 +5353,8 @@ class testcase extends tlObjectWithAttachments
       
     $sql = "/* $debugMsg */ " .       
          " SELECT TCV.id AS tcversion_id, NH_TCVERSION.parent_id AS testcase_id, TCV.version " .
-         " FROM {$this->tables['tcversions']} TCV " .
-         " JOIN {$this->tables['nodes_hierarchy']} NH_TCVERSION " .
+         " FROM " . $this->tables['tcversions'] . " TCV " .
+         " JOIN " . $this->tables['nodes_hierarchy'] . " NH_TCVERSION " .
          " ON NH_TCVERSION.id = TCV.id AND TCV.execution_type={$exec_type}" .
          " AND NH_TCVERSION.id IN ({$itemSet}) ";
 
@@ -5377,8 +5377,8 @@ class testcase extends tlObjectWithAttachments
       
     $sql = "/* $debugMsg */ " .       
          " SELECT TCV.id AS tcversion_id, NH_TCVERSION.parent_id AS testcase_id, TCV.version " .
-         " FROM {$this->tables['tcversions']} TCV " .
-         " JOIN {$this->tables['nodes_hierarchy']} NH_TCVERSION " .
+         " FROM " . $this->tables['tcversions'] . " TCV " .
+         " JOIN " . $this->tables['nodes_hierarchy'] . " NH_TCVERSION " .
          " ON NH_TCVERSION.id = TCV.id ";
 
     if ( !is_null($filters) )
@@ -5442,7 +5442,7 @@ class testcase extends tlObjectWithAttachments
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $changed_ts = !is_null($time_stamp) ? $time_stamp : $this->db->db_now();
-    $sql = " UPDATE {$this->tables['tcversions']} " .
+    $sql = " UPDATE " . $this->tables['tcversions'] . " " .
            " SET updater_id=" . $this->db->prepare_int($user_id) . ", " .
          " modification_ts = " . $changed_ts . 
            " WHERE id = " . $this->db->prepare_int($tcversion_id); 
@@ -5487,9 +5487,9 @@ class testcase extends tlObjectWithAttachments
     $sql = "/* $debugMsg */ " .       
          " SELECT TCV.id AS tcversion_id, NH_TCVERSION.parent_id AS testcase_id, TCV.version," .
          " CFDV.field_id,CFDV.value " .
-         " FROM {$this->tables['tcversions']} TCV " .
-         " JOIN {$this->tables['nodes_hierarchy']} NH_TCVERSION ON NH_TCVERSION.id = TCV.id " .
-         " JOIN {$this->tables['cfield_design_values']} CFDV ON CFDV.node_id = TCV.id " .
+         " FROM " . $this->tables['tcversions'] . " TCV " .
+         " JOIN " . $this->tables['nodes_hierarchy'] . " NH_TCVERSION ON NH_TCVERSION.id = TCV.id " .
+         " JOIN " . $this->tables['cfield_design_values'] . " CFDV ON CFDV.node_id = TCV.id " .
          " AND NH_TCVERSION.id IN ({$itemSet}) AND ({$cf_query}) ";
 
     $recordset = $this->db->fetchRowsIntoMap($sql,$my['options']['access_key'],database::CUMULATIVE);
@@ -5593,28 +5593,28 @@ class testcase extends tlObjectWithAttachments
        " E.build_id AS build_id, B.name AS build_name, B.active AS build_is_active, " .
        " B.is_open AS build_is_open,E.platform_id, PLATF.name AS platform_name," .
        " E.testplan_id,NHTPLAN.name AS testplan_name,TPTCV.id AS feature_id " . 
-       " FROM {$this->tables['nodes_hierarchy']} NHTCV " .
-       " JOIN {$this->tables['nodes_hierarchy']} NHTC ON NHTC.id = NHTCV.parent_id " .
-       " JOIN {$this->tables['tcversions']} TCV ON TCV.id = NHTCV.id  " .
+       " FROM " . $this->tables['nodes_hierarchy'] . " NHTCV " .
+       " JOIN " . $this->tables['nodes_hierarchy'] . " NHTC ON NHTC.id = NHTCV.parent_id " .
+       " JOIN " . $this->tables['tcversions'] . " TCV ON TCV.id = NHTCV.id  " .
 
-       " JOIN {$this->tables['executions']} E " . 
+       " JOIN " . $this->tables['executions'] . " E " . 
        " ON E.tcversion_id = NHTCV.id " .
        $filterBy['testplan_id'] . $filterBy['build_id'] . 
        $filterBy['platform_id'] . $filterBy['tcversion_id'] .
 
        " /* To get build name */ " .
-       " JOIN {$this->tables['builds']} B ON B.id=E.build_id " .
+       " JOIN " . $this->tables['builds'] . " B ON B.id=E.build_id " .
 
        " /* To get test plan name */ " .
-       // " JOIN {$this->tables['testplans']} TPLAN ON TPLAN.id = E.testplan_id " .
-       " JOIN {$this->tables['nodes_hierarchy']} NHTPLAN ON NHTPLAN.id = E.testplan_id " .
+       // " JOIN " . $this->tables['testplans'] . " TPLAN ON TPLAN.id = E.testplan_id " .
+       " JOIN " . $this->tables['nodes_hierarchy'] . " NHTPLAN ON NHTPLAN.id = E.testplan_id " .
 
-       " JOIN {$this->tables['testplan_tcversions']} TPTCV " .
+       " JOIN " . $this->tables['testplan_tcversions'] . " TPTCV " .
        " ON  TPTCV.testplan_id = E.testplan_id " .
        " AND TPTCV.tcversion_id = E.tcversion_id " .
        " AND TPTCV.platform_id = E.platform_id " .
-       " LEFT OUTER JOIN {$this->tables['users']} U ON U.id = E.tester_id " .
-       " LEFT OUTER JOIN {$this->tables['platforms']} PLATF ON PLATF.id = E.platform_id  " .
+       " LEFT OUTER JOIN " . $this->tables['users'] . " U ON U.id = E.tester_id " .
+       " LEFT OUTER JOIN " . $this->tables['platforms'] . " PLATF ON PLATF.id = E.platform_id  " .
        $where_clause .
        " ORDER BY execution_id {$my['options']['exec_id_order']} ";
 
@@ -5676,12 +5676,12 @@ class testcase extends tlObjectWithAttachments
     // }
   
     $sql = "/* $debugMsg */ SELECT DISTINCT e.platform_id,p.name " .
-         " FROM {$this->tables['nodes_hierarchy']} NHTCV " . 
-           " JOIN {$this->tables['tcversions']} tcversions ON NHTCV.id = tcversions.id " .
-           " JOIN {$this->tables['executions']} e ON NHTCV.id = e.tcversion_id " .
+         " FROM " . $this->tables['nodes_hierarchy'] . " NHTCV " . 
+           " JOIN " . $this->tables['tcversions'] . " tcversions ON NHTCV.id = tcversions.id " .
+           " JOIN " . $this->tables['executions'] . " e ON NHTCV.id = e.tcversion_id " .
            " {$filterBy['tplan_id']} {$filterBy['build_id']} {$filterBy['platform_id']} " .
-           " JOIN {$this->tables['builds']}  b ON e.build_id=b.id " .
-           " LEFT OUTER JOIN {$this->tables['platforms']} p ON p.id = e.platform_id " .
+           " JOIN " . $this->tables['builds'] . "  b ON e.build_id=b.id " .
+           " LEFT OUTER JOIN " . $this->tables['platforms'] . " p ON p.id = e.platform_id " .
            $where_clause;
 
     $recordset = $this->db->fetchRowsIntoMap($sql,'platform_id');
@@ -5945,7 +5945,7 @@ class testcase extends tlObjectWithAttachments
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $execType = intval($value);
     $sql = "/* $debugMsg */ " . 
-           " UPDATE {$this->tables['tcversions']} " .
+           " UPDATE " . $this->tables['tcversions'] . " " .
            " SET execution_type=" . $this->db->prepare_int($execType) .  
            " WHERE id = " . $this->db->prepare_int($tcversionID); 
     $this->db->exec_query($sql);
@@ -5964,7 +5964,7 @@ class testcase extends tlObjectWithAttachments
     $safe = is_numeric($safe) ? $safe : null;
 
     $sql = "/* $debugMsg */ " . 
-           " UPDATE {$this->tables['tcversions']} " .
+           " UPDATE " . $this->tables['tcversions'] . " " .
            " SET estimated_exec_duration=" . ((is_null($safe) || $safe == '') ? 'NULL' : $safe) .  
            " WHERE id = " . $this->db->prepare_int($tcversionID); 
     $this->db->exec_query($sql);
@@ -6014,7 +6014,7 @@ class testcase extends tlObjectWithAttachments
     }
     else
     {                  
-      $addJoinLEX = " JOIN {$this->tables['nodes_hierarchy']} H2O " .
+      $addJoinLEX = " JOIN " . $this->tables['nodes_hierarchy'] . " H2O " .
                     " ON H2O.id = EE.tcversion_id ";
       $addWhereLEX = " AND H2O.parent_id = " . $safeIdentity['id'];
       $addWhere = " AND NHTC.id = " . $safeIdentity['id'];
@@ -6022,7 +6022,7 @@ class testcase extends tlObjectWithAttachments
 
     $sqlLEX = ' SELECT EE.tcversion_id,EE.testplan_id,EE.platform_id,EE.build_id,' .
               ' MAX(EE.id) AS id ' .
-              " FROM {$this->tables['executions']} EE " . 
+              " FROM " . $this->tables['executions'] . " EE " . 
               $addJoinLEX .
               ' WHERE EE.testplan_id = ' . $safeContext['tplan_id'] . 
               ' AND EE.platform_id = ' . $safeContext['platform_id'] . 
@@ -6042,10 +6042,10 @@ class testcase extends tlObjectWithAttachments
             $sql= "/* $debugMsg */ SELECT E.id AS execution_id, " .
               " COALESCE(E.status,'{$status_not_run}') AS status," .
               " NHTC.id AS testcase_id, TCV.id AS tcversion_id, E.execution_ts" .
-              " FROM {$this->tables['nodes_hierarchy']} NHTCV " .
-              " JOIN {$this->tables['testplan_tcversions']} TPTCV ON TPTCV.tcversion_id = NHTCV.id" .
-              " JOIN {$this->tables['nodes_hierarchy']} NHTC ON NHTC.id = NHTCV.parent_id " .
-              " JOIN {$this->tables['tcversions']} TCV ON TCV.id = NHTCV.id " .
+              " FROM " . $this->tables['nodes_hierarchy'] . " NHTCV " .
+              " JOIN " . $this->tables['testplan_tcversions'] . " TPTCV ON TPTCV.tcversion_id = NHTCV.id" .
+              " JOIN " . $this->tables['nodes_hierarchy'] . " NHTC ON NHTC.id = NHTCV.parent_id " .
+              " JOIN " . $this->tables['tcversions'] . " TCV ON TCV.id = NHTCV.id " .
             
               " LEFT OUTER JOIN ({$sqlLEX}) AS LEX " .
               " ON  LEX.testplan_id = TPTCV.testplan_id " .
@@ -6053,7 +6053,7 @@ class testcase extends tlObjectWithAttachments
               " AND LEX.tcversion_id = TPTCV.tcversion_id " .
               " AND LEX.build_id = {$safeContext['build_id']} " .
           
-              " LEFT OUTER JOIN {$this->tables['executions']} E " . 
+              " LEFT OUTER JOIN " . $this->tables['executions'] . " E " . 
               " ON E.id = LEX.id " .
       
               " WHERE TPTCV.testplan_id = {$safeContext['tplan_id']} " .
@@ -6081,10 +6081,10 @@ class testcase extends tlObjectWithAttachments
                 " E.notes AS execution_notes, E.execution_ts, E.build_id,E.tcversion_number," .
                 " B.name AS build_name, B.active AS build_is_active, B.is_open AS build_is_open," .
                 " COALESCE(PLATF.id,0) AS platform_id,PLATF.name AS platform_name, TPTCV.id AS feature_id " .
-                " FROM {$this->tables['nodes_hierarchy']} NHTCV " .
-                " JOIN {$this->tables['testplan_tcversions']} TPTCV ON TPTCV.tcversion_id = NHTCV.id" .
-                " JOIN {$this->tables['nodes_hierarchy']} NHTC ON NHTC.id = NHTCV.parent_id " .
-                " JOIN {$this->tables['tcversions']} TCV ON TCV.id = NHTCV.id " .
+                " FROM " . $this->tables['nodes_hierarchy'] . " NHTCV " .
+                " JOIN " . $this->tables['testplan_tcversions'] . " TPTCV ON TPTCV.tcversion_id = NHTCV.id" .
+                " JOIN " . $this->tables['nodes_hierarchy'] . " NHTC ON NHTC.id = NHTCV.parent_id " .
+                " JOIN " . $this->tables['tcversions'] . " TCV ON TCV.id = NHTCV.id " .
             
                 " LEFT OUTER JOIN ({$sqlLEX}) AS LEX " .
                 " ON  LEX.testplan_id = TPTCV.testplan_id " .
@@ -6092,12 +6092,12 @@ class testcase extends tlObjectWithAttachments
                 " AND LEX.tcversion_id = TPTCV.tcversion_id " .
                 " AND LEX.build_id = {$safeContext['build_id']} " .
           
-                " LEFT OUTER JOIN {$this->tables['executions']} E " . 
+                " LEFT OUTER JOIN " . $this->tables['executions'] . " E " . 
                 " ON E.id = LEX.id " .
       
-                " JOIN {$this->tables['builds']} B ON B.id = {$safeContext['build_id']} " .
-                " LEFT OUTER JOIN {$this->tables['users']} U ON U.id = E.tester_id " .
-                " LEFT OUTER JOIN {$this->tables['platforms']} PLATF ON PLATF.id = {$safeContext['platform_id']} " .
+                " JOIN " . $this->tables['builds'] . " B ON B.id = {$safeContext['build_id']} " .
+                " LEFT OUTER JOIN " . $this->tables['users'] . " U ON U.id = E.tester_id " .
+                " LEFT OUTER JOIN " . $this->tables['platforms'] . " PLATF ON PLATF.id = {$safeContext['platform_id']} " .
                 " WHERE TPTCV.testplan_id = {$safeContext['tplan_id']} " .
                 " AND TPTCV.platform_id = {$safeContext['platform_id']} " .
                 $addWhere .
@@ -6150,7 +6150,7 @@ class testcase extends tlObjectWithAttachments
     }
     else
     {                  
-      $addJoinLEX = " JOIN {$this->tables['nodes_hierarchy']} H2O " .
+      $addJoinLEX = " JOIN " . $this->tables['nodes_hierarchy'] . " H2O " .
                 " ON H2O.id = EE.tcversion_id ";
       $addWhereLEX = " AND H2O.parent_id = " . $safeIdentity['id'];
       $addWhere = " AND NHTC.id = " . $safeIdentity['id'];
@@ -6158,7 +6158,7 @@ class testcase extends tlObjectWithAttachments
 
     $sqlLEX = ' SELECT EE.tcversion_id,EE.testplan_id,EE.platform_id,' .
           ' MAX(EE.id) AS id ' .
-          " FROM {$this->tables['executions']} EE " . 
+          " FROM " . $this->tables['executions'] . " EE " . 
           $addJoinLEX .
           ' WHERE EE.testplan_id = ' . $safeContext['tplan_id'] . 
           ' AND EE.platform_id = ' . $safeContext['platform_id'] . 
@@ -6187,24 +6187,24 @@ class testcase extends tlObjectWithAttachments
               " E.notes AS execution_notes, E.execution_ts, E.build_id,E.tcversion_number," .
               " B.name AS build_name, B.active AS build_is_active, B.is_open AS build_is_open," .
               " COALESCE(PLATF.id,0) AS platform_id,PLATF.name AS platform_name, TPTCV.id AS feature_id " .
-              " FROM {$this->tables['nodes_hierarchy']} NHTCV " .
-              " JOIN {$this->tables['testplan_tcversions']} TPTCV ON TPTCV.tcversion_id = NHTCV.id" .
-              " JOIN {$this->tables['nodes_hierarchy']} NHTC ON NHTC.id = NHTCV.parent_id " .
-              " JOIN {$this->tables['tcversions']} TCV ON TCV.id = NHTCV.id " .
+              " FROM " . $this->tables['nodes_hierarchy'] . " NHTCV " .
+              " JOIN " . $this->tables['testplan_tcversions'] . " TPTCV ON TPTCV.tcversion_id = NHTCV.id" .
+              " JOIN " . $this->tables['nodes_hierarchy'] . " NHTC ON NHTC.id = NHTCV.parent_id " .
+              " JOIN " . $this->tables['tcversions'] . " TCV ON TCV.id = NHTCV.id " .
               
               " JOIN ({$sqlLEX}) AS LEX " .
               " ON  LEX.testplan_id = TPTCV.testplan_id " .
               " AND LEX.platform_id = TPTCV.platform_id " .
               " AND LEX.tcversion_id = TPTCV.tcversion_id " .
         
-              " JOIN {$this->tables['executions']} E " . 
+              " JOIN " . $this->tables['executions'] . " E " . 
               " ON E.id = LEX.id " .
       
-              " JOIN {$this->tables['builds']} B ON B.id = E.build_id " .
-              " JOIN {$this->tables['users']} U ON U.id = E.tester_id " .
+              " JOIN " . $this->tables['builds'] . " B ON B.id = E.build_id " .
+              " JOIN " . $this->tables['users'] . " U ON U.id = E.tester_id " .
                  
               " /* Left outer on Platforms because Test plan can have NO PLATFORMS */ " .
-              " LEFT OUTER JOIN {$this->tables['platforms']} PLATF " .
+              " LEFT OUTER JOIN " . $this->tables['platforms'] . " PLATF " .
               " ON PLATF.id = {$safeContext['platform_id']} " .
               " WHERE TPTCV.testplan_id = {$safeContext['tplan_id']} " .
               " AND TPTCV.platform_id = {$safeContext['platform_id']} " .
@@ -6230,21 +6230,21 @@ class testcase extends tlObjectWithAttachments
            " E.build_id AS build_id, B.name AS build_name, B.active AS build_is_active, " .
            " B.is_open AS build_is_open,E.platform_id, PLATF.name AS platform_name," .
            " E.testplan_id,NHTPLAN.name AS testplan_name,TPTCV.id AS feature_id " . 
-           " FROM {$this->tables['nodes_hierarchy']} NHTCV " .
-           " JOIN {$this->tables['nodes_hierarchy']} NHTC ON NHTC.id = NHTCV.parent_id " .
-           " JOIN {$this->tables['tcversions']} TCV ON TCV.id = NHTCV.id  " .
-           " JOIN {$this->tables['executions']} E " . 
+           " FROM " . $this->tables['nodes_hierarchy'] . " NHTCV " .
+           " JOIN " . $this->tables['nodes_hierarchy'] . " NHTC ON NHTC.id = NHTCV.parent_id " .
+           " JOIN " . $this->tables['tcversions'] . " TCV ON TCV.id = NHTCV.id  " .
+           " JOIN " . $this->tables['executions'] . " E " . 
            " ON E.tcversion_id = NHTCV.id " .
            " /* To get build name */ " .
-           " JOIN {$this->tables['builds']} B ON B.id=E.build_id " .
+           " JOIN " . $this->tables['builds'] . " B ON B.id=E.build_id " .
            " /* To get test plan name */ " .
-           " JOIN {$this->tables['nodes_hierarchy']} NHTPLAN ON NHTPLAN.id = E.testplan_id " .
-           " JOIN {$this->tables['testplan_tcversions']} TPTCV " .
+           " JOIN " . $this->tables['nodes_hierarchy'] . " NHTPLAN ON NHTPLAN.id = E.testplan_id " .
+           " JOIN " . $this->tables['testplan_tcversions'] . " TPTCV " .
            " ON  TPTCV.testplan_id = E.testplan_id " .
            " AND TPTCV.tcversion_id = E.tcversion_id " .
            " AND TPTCV.platform_id = E.platform_id " .
-           " LEFT OUTER JOIN {$this->tables['users']} U ON U.id = E.tester_id " .
-           " LEFT OUTER JOIN {$this->tables['platforms']} PLATF ON PLATF.id = E.platform_id  " .
+           " LEFT OUTER JOIN " . $this->tables['users'] . " U ON U.id = E.tester_id " .
+           " LEFT OUTER JOIN " . $this->tables['platforms'] . " PLATF ON PLATF.id = E.platform_id  " .
            " WHERE E.id = " . intval($execID) . " AND E.tcversion_id = " . intval($tcversionID);
     $rs = $this->db->get_recordset($sql);
     return ($rs ? $rs : null);
@@ -6288,8 +6288,8 @@ class testcase extends tlObjectWithAttachments
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $sql = "/* $debugMsg */ " . 
            " SELECT NH_TCV.parent_id AS tcase_id, NH_STEPS.parent_id AS tcversion_id" .
-           " FROM {$this->tables['nodes_hierarchy']} NH_STEPS " .
-           " JOIN {$this->tables['nodes_hierarchy']} NH_TCV ON NH_TCV.id = NH_STEPS.parent_id " .
+           " FROM " . $this->tables['nodes_hierarchy'] . " NH_STEPS " .
+           " JOIN " . $this->tables['nodes_hierarchy'] . " NH_TCV ON NH_TCV.id = NH_STEPS.parent_id " .
            " WHERE NH_STEPS.id = " . intval($step_id);
     $rs = $this->db->get_recordset($sql);
     return is_null($rs) ? $rs : $rs[0];
@@ -6611,7 +6611,7 @@ class testcase extends tlObjectWithAttachments
   function setImportance($tcversionID,$value)
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
-    $sql = " UPDATE {$this->tables['tcversions']} " .
+    $sql = " UPDATE " . $this->tables['tcversions'] . " " .
            " SET importance=" . $this->db->prepare_int($value) . 
            " WHERE id = " . $this->db->prepare_int($tcversionID); 
     $this->db->exec_query($sql);
@@ -6625,7 +6625,7 @@ class testcase extends tlObjectWithAttachments
   function setStatus($tcversionID,$value)
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
-    $sql = " UPDATE {$this->tables['tcversions']} " .
+    $sql = " UPDATE " . $this->tables['tcversions'] . " " .
            " SET status=" . $this->db->prepare_int($value) . 
            " WHERE id = " . $this->db->prepare_int($tcversionID); 
     $this->db->exec_query($sql);
@@ -6675,7 +6675,7 @@ class testcase extends tlObjectWithAttachments
     if( !is_null($dummy) )
     {
       $sqlSET = implode(",",$dummy);
-      $sql = "/* {$debugMsg} */ UPDATE {$this->tables['tcversions']} " .
+      $sql = "/* {$debugMsg} */ UPDATE " . $this->tables['tcversions'] . " " .
              "SET {$sqlSET} WHERE id={$tcversionID}";
               
       $this->db->exec_query($sql);
@@ -6735,7 +6735,7 @@ class testcase extends tlObjectWithAttachments
       $rs = $this->tree_manager->get_node_hierarchy_info($id);
       if( !is_null($rs) && $rs['node_type_id'] == $this->my_node_type)
       {
-        $sql = "/* {$debugMsg} */ UPDATE {$this->tables['nodes_hierarchy']} " .
+        $sql = "/* {$debugMsg} */ UPDATE " . $this->tables['nodes_hierarchy'] . " " .
                " SET name='" . $this->db->prepare_string($name) . "' " .
                " WHERE id= {$id}";
         $this->db->exec_query($sql);
@@ -6755,7 +6755,7 @@ class testcase extends tlObjectWithAttachments
    */
   function updateChangeAuditTrial($tcversion_id,$user_id)
   {
-    $sql = " UPDATE {$this->tables['tcversions']} " .
+    $sql = " UPDATE " . $this->tables['tcversions'] . " " .
            " SET updater_id=" . $this->db->prepare_int($user_id) . ", " .
            " modification_ts = " . $this->db->db_now() .
            " WHERE id = " . $this->db->prepare_int(intval($tcversion_id));         
@@ -6769,7 +6769,7 @@ class testcase extends tlObjectWithAttachments
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $sql = "/* {$debugMsg} */ " . 
-           " SELECT id, execution_id,tcstep_id,notes,status FROM {$this->tables['execution_tcsteps']} " .
+           " SELECT id, execution_id,tcstep_id,notes,status FROM " . $this->tables['execution_tcsteps'] . " " .
            " WHERE execution_id = " . intval($execution_id);
 
     $rs = $this->db->fetchRowsIntoMap($sql,'tcstep_id');       
@@ -6804,11 +6804,11 @@ class testcase extends tlObjectWithAttachments
 
     $tproject_mgr = new testproject($this->db);
 
-    $sql = " $debugMsg SELECT id, source_id, destination_id, relation_type, author_id, creation_ts " . 
-           " FROM {$this->tables['testcase_relations']} " .
-           " WHERE source_id=$safeID OR destination_id=$safeID " .
-           " ORDER BY id ASC ";
-   
+    $sql = $debugMsg . " SELECT id, source_id, destination_id, relation_type, author_id, creation_ts" .
+           " FROM " . $this->tables['testcase_relations'] .
+           " WHERE source_id=" . $safeID . " OR destination_id=" . $safeID .
+           " ORDER BY id ASC";
+
     $relSet['relations']= $this->db->get_recordset($sql);  
 
     if( !is_null($relSet['relations']) && count($relSet['relations']) > 0 )
@@ -6881,12 +6881,12 @@ class testcase extends tlObjectWithAttachments
   /**
    *
    */
-  public function deleteAllRelations($id) 
+  public function deleteAllRelations($id)
   {
     $debugMsg = "/* {$this->debugMsg}" . __FUNCTION__ . ' */';
     $id_list = implode(",", (array)$id);
-    $sql = " $debugMsg DELETE FROM {$this->tables['testcase_relations']} " . 
-           " WHERE source_id IN ($id_list) OR destination_id IN ($id_list) ";
+    $sql = $debugMsg . " DELETE FROM " . $this->tables['testcase_relations'] .
+           " WHERE source_id IN ($id_list) OR destination_id IN ($id_list)";
     $this->db->exec_query($sql);
   }
 
@@ -6910,14 +6910,14 @@ class testcase extends tlObjectWithAttachments
     $safe_first_id = intval($first_id);
     $safe_second_id = intval($second_id);
 
-    $sql = " $debugMsg SELECT COUNT(0) AS qty " .
-           " FROM {$this->tables['testcase_relations']} " .
-           " WHERE ((source_id=" . $safe_first_id . " AND destination_id=" . $safe_second_id . ") " . 
-           " OR (source_id=" . $safe_second_id . " AND destination_id=" . $safe_first_id .  ")) " . 
+    $sql = $debugMsg . " SELECT COUNT(0) AS qty" .
+           " FROM " . $this->tables['testcase_relations'] .
+           " WHERE ((source_id=" . $safe_first_id . " AND destination_id=" . $safe_second_id . ")" .
+           " OR (source_id=" . $safe_second_id . " AND destination_id=" . $safe_first_id . "))" .
            " AND relation_type=" . intval($rel_type_id);
-    
+
     $rs = $this->db->get_recordset($sql);
-    return($rs[0]['qty'] > 0);
+    return (!is_null($rs) && isset($rs[0]['qty']) && $rs[0]['qty'] > 0);
   }
 
   /**
@@ -6928,15 +6928,15 @@ class testcase extends tlObjectWithAttachments
    * 
    * @return integer $count
    */
-  public function getRelationsCount($id) 
+  public function getRelationsCount($id)
   {
     $debugMsg = "/* {$this->debugMsg}" . __FUNCTION__ . ' */';
     $safeID = intval($id);
-    $sql = " $debugMsg SELECT COUNT(*) AS qty " .
-           " FROM {$this->tables['testcase_relations']} " .
-           " WHERE source_id=$safeID OR destination_id=$safeID ";
+    $sql = $debugMsg . " SELECT COUNT(*) AS qty" .
+           " FROM " . $this->tables['testcase_relations'] .
+           " WHERE source_id=" . $safeID . " OR destination_id=" . $safeID;
     $rs = $this->db->get_recordset($sql);
-    return($rs[0]['qty']);
+    return (!is_null($rs) && isset($rs[0]['qty'])) ? $rs[0]['qty'] : 0;
   }
 
   /**
@@ -6958,9 +6958,9 @@ class testcase extends tlObjectWithAttachments
     {
 
       $time = is_null($ts) ? $this->db->db_now() : $ts;
-      $sql = " $debugMsg INSERT INTO {$this->tables['testcase_relations']} "  . 
-             " (source_id, destination_id, relation_type, author_id, creation_ts) " .
-             " values ($source_id, $destination_id, $type_id, $author_id, $time)";
+      $sql = $debugMsg . " INSERT INTO " . $this->tables['testcase_relations'] .
+             " (source_id, destination_id, relation_type, author_id, creation_ts)" .
+             " VALUES ($source_id, $destination_id, $type_id, $author_id, $time)";
       $this->db->exec_query($sql);
       $ret = array('status_ok' => true, 'msg' => 'relation_added');
     }  
@@ -6978,10 +6978,11 @@ class testcase extends tlObjectWithAttachments
    * 
    * @param int $id relation id
    */
-  public function deleteRelationByID($relID) 
+  public function deleteRelationByID($relID)
   {
     $debugMsg = "/* {$this->debugMsg}" . __FUNCTION__ . ' */';
-    $sql = " $debugMsg DELETE FROM {$this->tables['testcase_relations']} WHERE id=" . intval($relID);
+    $sql = $debugMsg . " DELETE FROM " . $this->tables['testcase_relations'] .
+           " WHERE id=" . intval($relID);
     $this->db->exec_query($sql);
   }
 
@@ -7096,7 +7097,7 @@ class testcase extends tlObjectWithAttachments
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $sql = "/* $debugMsg */ " . 
            " SELECT MAX(e.id) AS execution_id " .
-           " FROM {$this->tables['executions']} e " .
+           " FROM " . $this->tables['executions'] . " e " .
            " WHERE e.tcversion_id = " . intval($tcversion_id);       
 
 
@@ -7241,10 +7242,10 @@ class testcase extends tlObjectWithAttachments
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
 //    $children =
 
-    $sql = " UPDATE {$this->tables['tcversions']} " .
+    $sql = " UPDATE " . $this->tables['tcversions'] . " " .
            " SET {$attr} = " . $this->db->prepare_int($value) . 
            " WHERE id IN (" . 
-           "  SELECT NHTCV.id FROM {$this->tables['nodes_hierarchy']} NHTCV " .
+           "  SELECT NHTCV.id FROM " . $this->tables['nodes_hierarchy'] . " NHTCV " .
            "  WHERE NHTCV.parent_id = " . intval($id) . ")";
     $this->db->exec_query($sql);
   }

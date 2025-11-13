@@ -104,10 +104,10 @@ class tlTestPlanMetrics extends testplan
       for($importance=1; $importance <= 3; $importance++)
       {  
         $sql = "SELECT COUNT(DISTINCT(TPTCV.id )) " .
-          " FROM {$this->tables['testplan_tcversions']} TPTCV " .
-          " JOIN {$this->tables['executions']} E ON " .
+          " FROM " . $this->tables['testplan_tcversions'] . " TPTCV " .
+          " JOIN " . $this->tables['executions'] . " E ON " .
           " TPTCV.tcversion_id = E.tcversion_id " .
-          " JOIN {$this->tables['tcversions']} TCV ON " .
+          " JOIN " . $this->tables['tcversions'] . " TCV ON " .
           " TPTCV.tcversion_id = TCV.id " .
           " WHERE TPTCV.testplan_id = {$tplanID} " .
           " AND TPTCV.platform_id = E.platform_id " .
@@ -155,8 +155,8 @@ class tlTestPlanMetrics extends testplan
       for($importance=1; $importance <= 3; $importance++)
       {  
         // get total count of related TCs
-        $sql = "SELECT COUNT( TPTCV.id ) FROM {$this->tables['testplan_tcversions']} TPTCV " .
-            " JOIN {$this->tables['tcversions']} TCV ON TPTCV.tcversion_id = TCV.id " .
+        $sql = "SELECT COUNT( TPTCV.id ) FROM " . $this->tables['testplan_tcversions'] . " TPTCV " .
+            " JOIN " . $this->tables['tcversions'] . " TCV ON TPTCV.tcversion_id = TCV.id " .
             " WHERE TPTCV.testplan_id = " . $tplanID .
               " AND TCV.importance={$importance} AND TPTCV.urgency={$urgency}";
 
@@ -303,8 +303,8 @@ class tlTestPlanMetrics extends testplan
     $sqlUnionAB  =  "/* {$debugMsg} sqlUnionAB - executions */" . 
                   " SELECT DISTINCT UA.build_id, TPTCV.tcversion_id, TPTCV.platform_id, " . 
                   " COALESCE(E.status,'{$this->notRunStatusCode}') AS status " .
-                  " FROM {$this->tables['testplan_tcversions']} TPTCV " .
-                  " JOIN {$this->tables['user_assignments']} UA " .
+                  " FROM " . $this->tables['testplan_tcversions'] . " TPTCV " .
+                  " JOIN " . $this->tables['user_assignments'] . " UA " .
                   " ON UA.feature_id = TPTCV.id " .
                   " AND UA.build_id IN ({$builds->inClause}) AND UA.type = {$this->execTaskCode} " .
 
@@ -316,7 +316,7 @@ class tlTestPlanMetrics extends testplan
                   " AND LEBBP.testplan_id = " . $safe_id .
 
                   " /* Get execution status WRITTEN on DB */ " .
-                  " JOIN {$this->tables['executions']} E " .
+                  " JOIN " . $this->tables['executions'] . " E " .
                   " ON  E.id = LEBBP.id " .
                   " AND E.build_id = UA.build_id " .
       
@@ -326,8 +326,8 @@ class tlTestPlanMetrics extends testplan
     $sqlUnionBB  =  "/* {$debugMsg} sqlUnionBB - NOT RUN */" . 
                    " SELECT DISTINCT UA.build_id, TPTCV.tcversion_id, TPTCV.platform_id, " . 
                   " COALESCE(E.status,'{$this->notRunStatusCode}') AS status " .
-                  " FROM {$this->tables['testplan_tcversions']} TPTCV " .
-                  " JOIN {$this->tables['user_assignments']} UA " .
+                  " FROM " . $this->tables['testplan_tcversions'] . " TPTCV " .
+                  " JOIN " . $this->tables['user_assignments'] . " UA " .
                   " ON UA.feature_id = TPTCV.id " .
                   " AND UA.build_id IN ({$builds->inClause}) AND UA.type = {$this->execTaskCode} " .
 
@@ -341,7 +341,7 @@ class tlTestPlanMetrics extends testplan
                   " AND LEBBP.build_id = UA.build_id " .
 
                   " AND LEBBP.testplan_id = " . $safe_id .
-                  " LEFT OUTER JOIN {$this->tables['executions']} E " .
+                  " LEFT OUTER JOIN " . $this->tables['executions'] . " E " .
                   " ON  E.tcversion_id = TPTCV.tcversion_id " .
                   " AND E.testplan_id = TPTCV.testplan_id " .
                   " AND E.platform_id = TPTCV.platform_id " .
@@ -393,8 +393,8 @@ class tlTestPlanMetrics extends testplan
     $sql =  "/* $debugMsg */ ".
             " SELECT COUNT(0) AS qty, TT.build_id FROM ( " .
             " SELECT DISTINCT UA.build_id, UA.feature_id " . 
-            " FROM {$this->tables['user_assignments']} UA " .
-            " JOIN {$this->tables['testplan_tcversions']} TPTCV ON TPTCV.id = UA.feature_id " .
+            " FROM " . $this->tables['user_assignments'] . " UA " .
+            " JOIN " . $this->tables['testplan_tcversions'] . " TPTCV ON TPTCV.id = UA.feature_id " .
             " WHERE UA. build_id IN ( " . $builds->inClause . " ) " .
             " AND UA.type = {$this->execTaskCode} " . 
             " GROUP BY build_id,feature_id) TT " .
@@ -542,7 +542,7 @@ class tlTestPlanMetrics extends testplan
     $sqlUnionAK  =  "/* {$debugMsg} sqlUnionAK - executions */" . 
             " SELECT DISTINCT NHTCV.parent_id, TCK.keyword_id, TPTCV.platform_id," .
             " COALESCE(E.status,'{$this->notRunStatusCode}') AS status " .
-            " FROM {$this->tables['testplan_tcversions']} TPTCV " .
+            " FROM " . $this->tables['testplan_tcversions'] . " TPTCV " .
             
             $sqlStm['getAssignedFeatures'] .
 
@@ -554,13 +554,13 @@ class tlTestPlanMetrics extends testplan
             " AND LEBP.testplan_id = " . $safe_id .
 
             " /* Get execution status WRITTEN on DB */ " .
-            " JOIN {$this->tables['executions']} E " .
+            " JOIN " . $this->tables['executions'] . " E " .
             " ON  E.id = LEBP.id " .
 
             " /* Get ONLY Test case versions that has AT LEAST one Keyword assigned */ ".
-            " JOIN {$this->tables['nodes_hierarchy']} NHTCV " .
+            " JOIN " . $this->tables['nodes_hierarchy'] . " NHTCV " .
             " ON NHTCV.id = TPTCV.tcversion_id " .
-            " JOIN {$this->tables['testcase_keywords']} TCK " .
+            " JOIN " . $this->tables['testcase_keywords'] . " TCK " .
             " ON TCK.testcase_id = NHTCV.parent_id " .
           
             " WHERE TPTCV.testplan_id=" . $safe_id .
@@ -570,7 +570,7 @@ class tlTestPlanMetrics extends testplan
     $sqlUnionBK  =  "/* {$debugMsg} sqlUnionBK - NOT RUN */" . 
             " SELECT DISTINCT NHTCV.parent_id, TCK.keyword_id, TPTCV.platform_id," .
             " COALESCE(E.status,'{$this->notRunStatusCode}') AS status " .
-            " FROM {$this->tables['testplan_tcversions']} TPTCV " .
+            " FROM " . $this->tables['testplan_tcversions'] . " TPTCV " .
             
             $sqlStm['getAssignedFeatures'] .
 
@@ -580,16 +580,16 @@ class tlTestPlanMetrics extends testplan
             " AND LEBP.platform_id = TPTCV.platform_id " .
             " AND LEBP.tcversion_id = TPTCV.tcversion_id " .
             " AND LEBP.testplan_id = " . $safe_id .
-            " LEFT OUTER JOIN {$this->tables['executions']} E " .
+            " LEFT OUTER JOIN " . $this->tables['executions'] . " E " .
             " ON  E.tcversion_id = TPTCV.tcversion_id " .
             " AND E.testplan_id = TPTCV.testplan_id " .
             " AND E.platform_id = TPTCV.platform_id " .
             $builds->joinAdd .
 
             " /* Get ONLY Test case versions that has AT LEAST one Keyword assigned */ ".
-            " JOIN {$this->tables['nodes_hierarchy']} NHTCV " .
+            " JOIN " . $this->tables['nodes_hierarchy'] . " NHTCV " .
             " ON NHTCV.id = TPTCV.tcversion_id " .
-            " JOIN {$this->tables['testcase_keywords']} TCK " .
+            " JOIN " . $this->tables['testcase_keywords'] . " TCK " .
             " ON TCK.testcase_id = NHTCV.parent_id " .
 
             " /* FILTER BUILDS in set on target test plan */ " .
@@ -623,13 +623,13 @@ class tlTestPlanMetrics extends testplan
           " FROM " . 
           " ( /* Get test case,keyword pairs */ " .
           "  SELECT DISTINCT NHTCV.parent_id, TCK.keyword_id,TPTCV.platform_id " . 
-          "  FROM {$this->tables['user_assignments']} UA " .
-          "  JOIN {$this->tables['testplan_tcversions']} TPTCV ON TPTCV.id = UA.feature_id " .
+          "  FROM " . $this->tables['user_assignments'] . " UA " .
+          "  JOIN " . $this->tables['testplan_tcversions'] . " TPTCV ON TPTCV.id = UA.feature_id " .
           
           "  /* Get ONLY Test case versions that has AT LEAST one Keyword assigned */ ".
-          "  JOIN {$this->tables['nodes_hierarchy']} NHTCV " .
+          "  JOIN " . $this->tables['nodes_hierarchy'] . " NHTCV " .
           "  ON NHTCV.id = TPTCV.tcversion_id " .
-          "  JOIN {$this->tables['testcase_keywords']} TCK " .
+          "  JOIN " . $this->tables['testcase_keywords'] . " TCK " .
           "  ON TCK.testcase_id = NHTCV.parent_id " .
           "  WHERE UA. build_id IN ( " . $builds->inClause . " ) " .
           "  AND UA.type = {$execCode} ) AS SQK ".
@@ -642,12 +642,12 @@ class tlTestPlanMetrics extends testplan
           " FROM " . 
           " ( /* Get test case,keyword pairs */ " .
           "  SELECT DISTINCT NHTCV.parent_id, TCK.keyword_id,TPTCV.platform_id " . 
-          "  FROM {$this->tables['testplan_tcversions']} TPTCV " .
+          "  FROM " . $this->tables['testplan_tcversions'] . " TPTCV " .
           
           "  /* Get ONLY Test case versions that has AT LEAST one Keyword assigned */ ".
-          "  JOIN {$this->tables['nodes_hierarchy']} NHTCV " .
+          "  JOIN " . $this->tables['nodes_hierarchy'] . " NHTCV " .
           "  ON NHTCV.id = TPTCV.tcversion_id " .
-          "  JOIN {$this->tables['testcase_keywords']} TCK " .
+          "  JOIN " . $this->tables['testcase_keywords'] . " TCK " .
           "  ON TCK.testcase_id = NHTCV.parent_id " .
           "  WHERE TPTCV.testplan_id = " . $safe_id . " ) AS SQK ".
           " GROUP BY keyword_id";
@@ -695,7 +695,7 @@ class tlTestPlanMetrics extends testplan
     {
       $add2key='Active';
       $addOnWhere = ' AND TCV.active = 1 '; 
-      $addOnJoin = " JOIN {$this->tables['tcversions']} TCV ON TCV.id = TPTCV.tcversion_id ";
+      $addOnJoin = " JOIN " . $this->tables['tcversions'] . " TCV ON TCV.id = TPTCV.tcversion_id ";
     }
     $sqlUnionAP  = $union['exec' . $add2key];  
     $sqlUnionBP  =  $union['not_run' . $add2key];
@@ -712,7 +712,7 @@ class tlTestPlanMetrics extends testplan
     // get total test cases by Platform id ON TEST PLAN (With & WITHOUT tester assignment)
     $sql =   "/* $debugMsg */ ".
         " SELECT COUNT(0) AS qty, TPTCV.platform_id " . 
-        " FROM {$this->tables['testplan_tcversions']} TPTCV " .
+        " FROM " . $this->tables['testplan_tcversions'] . " TPTCV " .
         $addOnJoin .
         " WHERE TPTCV.testplan_id=" . $safe_id . $addOnWhere .
         " GROUP BY platform_id";
@@ -762,12 +762,12 @@ class tlTestPlanMetrics extends testplan
                   " SELECT (TPTCV.urgency * TCV.importance) AS urg_imp, " .
                   " TPTCV.tcversion_id, TPTCV.platform_id," .
                   " COALESCE(E.status,'{$this->notRunStatusCode}') AS status " .
-                  " FROM {$this->tables['testplan_tcversions']} TPTCV " .
+                  " FROM " . $this->tables['testplan_tcversions'] . " TPTCV " .
         
                   $sqlStm['getAssignedFeatures'] .
       
                   " /* Get importance  */ ".
-                  " JOIN {$this->tables['tcversions']} TCV " .
+                  " JOIN " . $this->tables['tcversions'] . " TCV " .
                   " ON TCV.id = TPTCV.tcversion_id " .
         
                   " /* GO FOR Absolute LATEST exec ID IGNORE BUILD */ " .
@@ -778,7 +778,7 @@ class tlTestPlanMetrics extends testplan
                   " AND LEBP.testplan_id = " . $safe_id .
   
                   " /* Get execution statuses that CAN BE WRITTEN TO DB */ " .
-                  " JOIN {$this->tables['executions']} E " .
+                  " JOIN " . $this->tables['executions'] . " E " .
                   " ON  E.id = LEBP.id " .
                   
                   // Without this we get duplicates ?? => 20121121 CONFIRMED at least with NOT RUN WE GET DUPS
@@ -793,12 +793,12 @@ class tlTestPlanMetrics extends testplan
                   " SELECT (TPTCV.urgency * TCV.importance) AS urg_imp, " .
                   " TPTCV.tcversion_id, TPTCV.platform_id," .
                   " COALESCE(E.status,'{$this->notRunStatusCode}') AS status " .
-                  " FROM {$this->tables['testplan_tcversions']} TPTCV " .
+                  " FROM " . $this->tables['testplan_tcversions'] . " TPTCV " .
                   
                   $sqlStm['getAssignedFeatures'] .
       
                   " /* Get importance  */ ".
-                  " JOIN {$this->tables['tcversions']} TCV " .
+                  " JOIN " . $this->tables['tcversions'] . " TCV " .
                   " ON TCV.id = TPTCV.tcversion_id " .
         
                   " /* Get REALLY NOT RUN => BOTH LE.id AND E.id ON LEFT OUTER see WHERE  */ " .
@@ -807,7 +807,7 @@ class tlTestPlanMetrics extends testplan
                   " AND LEBP.platform_id = TPTCV.platform_id " .
                   " AND LEBP.tcversion_id = TPTCV.tcversion_id " .
                   " AND LEBP.testplan_id = " . intval($id) .
-                  " LEFT OUTER JOIN {$this->tables['executions']} E " .
+                  " LEFT OUTER JOIN " . $this->tables['executions'] . " E " .
                   " ON  E.tcversion_id = TPTCV.tcversion_id " .
                   " AND E.testplan_id = TPTCV.testplan_id " .
                   " AND E.platform_id = TPTCV.platform_id " .
@@ -987,8 +987,8 @@ class tlTestPlanMetrics extends testplan
                     " SELECT /* DISTINCT */ UA.user_id, UA.build_id, TPTCV.tcversion_id, TPTCV.platform_id, " .
                     " COALESCE(E.status,'{$this->notRunStatusCode}') AS status, " .
                     " COALESCE(E.execution_duration,0) AS execution_duration " .
-                    " FROM {$this->tables['testplan_tcversions']} TPTCV " .
-                    " JOIN {$this->tables['user_assignments']} UA " .
+                    " FROM " . $this->tables['testplan_tcversions'] . " TPTCV " .
+                    " JOIN " . $this->tables['user_assignments'] . " UA " .
                     " ON UA.feature_id = TPTCV.id " .
                     " AND UA.build_id IN ({$builds->inClause}) AND UA.type = {$this->execTaskCode} " .
                     
@@ -1002,7 +1002,7 @@ class tlTestPlanMetrics extends testplan
                     " /* Without this piece we are including results for features without tester */ ".
                     " AND UA.feature_id = TPTCV.id AND UA.build_id = LEBBP.build_id " .
                     
-                    " LEFT OUTER JOIN {$this->tables['executions']} E " .
+                    " LEFT OUTER JOIN " . $this->tables['executions'] . " E " .
                     " ON  E.build_id = UA.build_id " .
                     " AND E.testplan_id = TPTCV.testplan_id " .
                     " AND E.platform_id = TPTCV.platform_id " .
@@ -1345,7 +1345,7 @@ class tlTestPlanMetrics extends testplan
     $sqlUnionAT  =  "/* {$debugMsg} sqlUnionAT - executions */" . 
             " SELECT NHTC.parent_id AS tsuite_id,TPTCV.platform_id," .
             " COALESCE(E.status,'{$this->notRunStatusCode}') AS status " .
-            " FROM {$this->tables['testplan_tcversions']} TPTCV " .
+            " FROM " . $this->tables['testplan_tcversions'] . " TPTCV " .
 
             $sqlStm['getAssignedFeatures'] .
             
@@ -1357,15 +1357,15 @@ class tlTestPlanMetrics extends testplan
             " AND LEBP.testplan_id = " . $safe_id .
 
             " /* Get execution status WRITTEN on DB */ " .
-            " JOIN {$this->tables['executions']} E " .
+            " JOIN " . $this->tables['executions'] . " E " .
             " ON  E.id = LEBP.id " .
 
             " /* Get Test Case info from Test Case Version */ " .
-            " JOIN {$this->tables['nodes_hierarchy']} NHTCV " .
+            " JOIN " . $this->tables['nodes_hierarchy'] . " NHTCV " .
             " ON  NHTCV.id = TPTCV.tcversion_id " .
 
             " /* Get Test Suite info from Test Case  */ " .
-            " JOIN {$this->tables['nodes_hierarchy']} NHTC " .
+            " JOIN " . $this->tables['nodes_hierarchy'] . " NHTC " .
             " ON  NHTC.id = NHTCV.parent_id " .
       
             " WHERE TPTCV.testplan_id=" . $safe_id .
@@ -1376,7 +1376,7 @@ class tlTestPlanMetrics extends testplan
     $sqlUnionBT  =  "/* {$debugMsg} sqlUnionBK - NOT RUN */" . 
             " SELECT NHTC.parent_id AS tsuite_id,TPTCV.platform_id," .
             " COALESCE(E.status,'{$this->notRunStatusCode}') AS status " .
-            " FROM {$this->tables['testplan_tcversions']} TPTCV " .
+            " FROM " . $this->tables['testplan_tcversions'] . " TPTCV " .
             
             $sqlStm['getAssignedFeatures'] .
 
@@ -1386,7 +1386,7 @@ class tlTestPlanMetrics extends testplan
             " AND LEBP.platform_id = TPTCV.platform_id " .
             " AND LEBP.tcversion_id = TPTCV.tcversion_id " .
             " AND LEBP.testplan_id = " . $safe_id .
-            " LEFT OUTER JOIN {$this->tables['executions']} E " .
+            " LEFT OUTER JOIN " . $this->tables['executions'] . " E " .
             " ON  E.tcversion_id = TPTCV.tcversion_id " .
             " AND E.testplan_id = TPTCV.testplan_id " .
             " AND E.platform_id = TPTCV.platform_id " .
@@ -1394,11 +1394,11 @@ class tlTestPlanMetrics extends testplan
             $builds->joinAdd .
 
             " /* Get Test Case info from Test Case Version */ " .
-            " JOIN {$this->tables['nodes_hierarchy']} NHTCV " .
+            " JOIN " . $this->tables['nodes_hierarchy'] . " NHTCV " .
             " ON  NHTCV.id = TPTCV.tcversion_id " .
 
             " /* Get Test Suite info from Test Case  */ " .
-            " JOIN {$this->tables['nodes_hierarchy']} NHTC " .
+            " JOIN " . $this->tables['nodes_hierarchy'] . " NHTC " .
             " ON  NHTC.id = NHTCV.parent_id " .
 
             " /* FILTER BUILDS in set on target test plan (not alway can be applied) */ " .
@@ -1594,7 +1594,7 @@ class tlTestPlanMetrics extends testplan
     if( $my['opt']['getOnlyAssigned'] )
     {
       $sql['getAssignedFeatures']   =  " /* Get feature id with Tester Assignment */ " .
-                                       " JOIN {$this->tables['user_assignments']} UA " .
+                                       " JOIN " . $this->tables['user_assignments'] . " UA " .
                                        " ON UA.feature_id = TPTCV.id " .
                                        " AND UA.build_id IN ({$bi->inClause}) " .
                                        " AND UA.type = {$this->execTaskCode} ";
@@ -1630,7 +1630,7 @@ class tlTestPlanMetrics extends testplan
 
     // Latest Execution IGNORING Build and Platform
     $sql['LE'] = " SELECT EE.tcversion_id,EE.testplan_id,MAX(EE.id) AS id " .
-                 " FROM {$this->tables['executions']} EE " . 
+                 " FROM " . $this->tables['executions'] . " EE " . 
                  " WHERE EE.testplan_id=" . intval($id) . 
                  " AND EE.build_id IN ({$bi->inClause}) " .
                  " GROUP BY EE.tcversion_id,EE.testplan_id ";
@@ -1638,14 +1638,14 @@ class tlTestPlanMetrics extends testplan
 
     // Latest Execution By Platform (ignore build)
     $sql['LEBP'] =   " SELECT EE.tcversion_id,EE.testplan_id,EE.platform_id,MAX(EE.id) AS id " .
-                    " FROM {$this->tables['executions']} EE " . 
+                    " FROM " . $this->tables['executions'] . " EE " . 
                      " WHERE EE.testplan_id=" . intval($id) . 
                     " AND EE.build_id IN ({$bi->inClause}) " .
                      " GROUP BY EE.tcversion_id,EE.testplan_id,EE.platform_id ";
 
     // Last Executions By Build (LEBB) (ignore platform)
     $sql['LEBB'] =   " SELECT EE.tcversion_id,EE.testplan_id,EE.build_id,MAX(EE.id) AS id " .
-                    " FROM {$this->tables['executions']} EE " . 
+                    " FROM " . $this->tables['executions'] . " EE " . 
                      " WHERE EE.testplan_id=" . intval($id) . 
                     " AND EE.build_id IN ({$bi->inClause}) " .
                      " GROUP BY EE.tcversion_id,EE.testplan_id,EE.build_id ";
@@ -1654,7 +1654,7 @@ class tlTestPlanMetrics extends testplan
     // Last Executions By Build and Platform (LEBBP)
     $sql['LEBBP'] = " SELECT EE.tcversion_id,EE.testplan_id,EE.platform_id,EE.build_id," .
                     " MAX(EE.id) AS id " .
-                    " FROM {$this->tables['executions']} EE " . 
+                    " FROM " . $this->tables['executions'] . " EE " . 
                      " WHERE EE.testplan_id=" . intval($id) . 
                     " AND EE.build_id IN ({$bi->inClause}) " .
                      " GROUP BY EE.tcversion_id,EE.testplan_id,EE.platform_id,EE.build_id ";
@@ -1739,7 +1739,7 @@ class tlTestPlanMetrics extends testplan
     $dummy['exec']  =  "/* {$debugMsg} sqlUnion - executions */" . 
                       " SELECT TPTCV.tcversion_id,TPTCV.platform_id, " .
                       " COALESCE(E.status,'{$this->notRunStatusCode}') AS status " .
-                      " FROM {$this->tables['testplan_tcversions']} TPTCV " .
+                      " FROM " . $this->tables['testplan_tcversions'] . " TPTCV " .
             
                       $sqlStm['getAssignedFeatures'] .
 
@@ -1751,7 +1751,7 @@ class tlTestPlanMetrics extends testplan
                       " AND LEBP.testplan_id = " . $safe_id .
 
                       " /* Get execution status WRITTEN on DB */ " .
-                      " JOIN {$this->tables['executions']} E " .
+                      " JOIN " . $this->tables['executions'] . " E " .
                       " ON  E.id = LEBP.id ";
     
     
@@ -1759,7 +1759,7 @@ class tlTestPlanMetrics extends testplan
 
     $union['execActive'] =  $dummy['exec'] .
                             " /* Used to filter ON ACTIVE TCVersion */ " .
-                            " JOIN {$this->tables['tcversions']} TCV " .
+                            " JOIN " . $this->tables['tcversions'] . " TCV " .
                             " ON  TCV.id = TPTCV.tcversion_id " .
                             " WHERE TPTCV.testplan_id=" . $safe_id . $builds->whereAddExec .
                             " AND TCV.active = 1 ";
@@ -1776,7 +1776,7 @@ class tlTestPlanMetrics extends testplan
     $dummy['not_run'] =  "/* {$debugMsg} sqlUnion - NOT RUN */" . 
               " SELECT TPTCV.tcversion_id,TPTCV.platform_id, " .
               " COALESCE(E.status,'{$this->notRunStatusCode}') AS status " .
-              " FROM {$this->tables['testplan_tcversions']} TPTCV " .
+              " FROM " . $this->tables['testplan_tcversions'] . " TPTCV " .
               
               $sqlStm['getAssignedFeatures'] .
     
@@ -1786,7 +1786,7 @@ class tlTestPlanMetrics extends testplan
               " AND LEBP.tcversion_id = TPTCV.tcversion_id " .
               " AND LEBP.platform_id = TPTCV.platform_id " .
               " AND LEBP.testplan_id = " . $safe_id .
-              " LEFT OUTER JOIN {$this->tables['executions']} E " .
+              " LEFT OUTER JOIN " . $this->tables['executions'] . " E " .
               " ON  E.tcversion_id = TPTCV.tcversion_id " .
               " AND E.testplan_id = TPTCV.testplan_id " .
               " AND E.platform_id = TPTCV.platform_id " .
@@ -1803,7 +1803,7 @@ class tlTestPlanMetrics extends testplan
 
               $union['not_runActive'] =  $dummy['not_run'] .
                   " /* Used to filter ON ACTIVE TCVersion */ " .
-                  " JOIN {$this->tables['tcversions']} TCV " .
+                  " JOIN " . $this->tables['tcversions'] . " TCV " .
                   " ON  TCV.id = TPTCV.tcversion_id " .
                   " WHERE TPTCV.testplan_id=" . $safe_id . 
                   $builds->whereAddNotRun .
@@ -1876,7 +1876,7 @@ class tlTestPlanMetrics extends testplan
               " E.build_id,E.tcversion_number AS version,TCV.tc_external_id AS external_id, " .
               " E.id AS executions_id, E.status AS status, " . $moreExecFields .
               " (TPTCV.urgency * TCV.importance) AS urg_imp " .
-              " FROM {$this->tables['testplan_tcversions']} TPTCV " .
+              " FROM " . $this->tables['testplan_tcversions'] . " TPTCV " .
   
               $sqlStm['getAssignedFeatures'] .
               
@@ -1888,20 +1888,20 @@ class tlTestPlanMetrics extends testplan
               " AND LEBBP.testplan_id = " . $safe_id .
 
               " /* Get execution status WRITTEN on DB */ " .
-              " JOIN {$this->tables['executions']} E " .
+              " JOIN " . $this->tables['executions'] . " E " .
               " ON  E.id = LEBBP.id " .
               " AND E.build_id = LEBBP.build_id " .
   
               " /* Get Test Case info from Test Case Version */ " .
-              " JOIN {$this->tables['nodes_hierarchy']} NHTCV " .
+              " JOIN " . $this->tables['nodes_hierarchy'] . " NHTCV " .
               " ON  NHTCV.id = TPTCV.tcversion_id " .
   
               " /* Get Test Suite info from Test Case  */ " .
-              " JOIN {$this->tables['nodes_hierarchy']} NHTC " .
+              " JOIN " . $this->tables['nodes_hierarchy'] . " NHTC " .
               " ON  NHTC.id = NHTCV.parent_id " .
               
               " /* Get Test Case Version attributes */ " .
-              " JOIN {$this->tables['tcversions']} TCV " .
+              " JOIN " . $this->tables['tcversions'] . " TCV " .
               // " ON  TCV.id = TPTCV.tcversion_id " .
               " ON  TCV.id = E.tcversion_id " . 
 
@@ -1918,12 +1918,12 @@ class tlTestPlanMetrics extends testplan
               " COALESCE(E.id,-1) AS executions_id, " .
               " COALESCE(E.status,'{$this->notRunStatusCode}') AS status, " . $moreExecFields . 
               " (TPTCV.urgency * TCV.importance) AS urg_imp " .
-              " FROM {$this->tables['testplan_tcversions']} TPTCV " .
+              " FROM " . $this->tables['testplan_tcversions'] . " TPTCV " .
   
               $sqlStm['getAssignedFeatures'] .
 
               " /* Needed to be able to put a value on build_id on output set  */ " .
-              " JOIN {$this->tables['builds']} BU " .
+              " JOIN " . $this->tables['builds'] . " BU " .
               " ON BU.id IN ({$builds->inClause}) " .
               
               " /* GO FOR Absolute LATEST exec ID On BUILD,PLATFORM */ " .
@@ -1935,22 +1935,22 @@ class tlTestPlanMetrics extends testplan
               " AND LEBBP.testplan_id = " . $safe_id .
 
               " /* Get execution status WRITTEN on DB */ " .
-              " LEFT OUTER JOIN {$this->tables['executions']} E " .
+              " LEFT OUTER JOIN " . $this->tables['executions'] . " E " .
               " ON  E.build_id = LEBBP.build_id " .
               " AND E.testplan_id = TPTCV.testplan_id " .
               " AND E.platform_id = TPTCV.platform_id " .
               " AND E.tcversion_id = TPTCV.tcversion_id " .
   
               " /* Get Test Case info from Test Case Version */ " .
-              " JOIN {$this->tables['nodes_hierarchy']} NHTCV " .
+              " JOIN " . $this->tables['nodes_hierarchy'] . " NHTCV " .
               " ON  NHTCV.id = TPTCV.tcversion_id " .
   
               " /* Get Test Suite info from Test Case  */ " .
-              " JOIN {$this->tables['nodes_hierarchy']} NHTC " .
+              " JOIN " . $this->tables['nodes_hierarchy'] . " NHTC " .
               " ON  NHTC.id = NHTCV.parent_id " .
 
               " /* Get Test Case Version attributes */ " .
-              " JOIN {$this->tables['tcversions']} TCV " .
+              " JOIN " . $this->tables['tcversions'] . " TCV " .
               " ON  TCV.id = TPTCV.tcversion_id " .
       
               " WHERE TPTCV.testplan_id=" . $safe_id .
@@ -1998,7 +1998,7 @@ class tlTestPlanMetrics extends testplan
             " TCV.version,TCV.tc_external_id AS external_id, " .
             " $fullEID AS full_external_id," .
             " (TPTCV.urgency * TCV.importance) AS urg_imp " .
-            " FROM {$this->tables['testplan_tcversions']} TPTCV " .
+            " FROM " . $this->tables['testplan_tcversions'] . " TPTCV " .
             
             " /* GO FOR Absolute LATEST exec ID On BUILD,PLATFORM */ " .
             " JOIN ({$sqlLEBBP}) AS LEBBP " .
@@ -2010,7 +2010,7 @@ class tlTestPlanMetrics extends testplan
             $sqlStm['getAssignedFeatures'] .
             
             " /* Get execution status WRITTEN on DB */ " .
-            " JOIN {$this->tables['executions']} E " .
+            " JOIN " . $this->tables['executions'] . " E " .
             " ON  E.id = LEBBP.id " .
             " AND E.build_id = LEBBP.build_id " .
             $builds->joinAdd .
@@ -2018,15 +2018,15 @@ class tlTestPlanMetrics extends testplan
 
             
             " /* Get Test Case info from Test Case Version */ " .
-            " JOIN {$this->tables['nodes_hierarchy']} NHTCV " .
+            " JOIN " . $this->tables['nodes_hierarchy'] . " NHTCV " .
             " ON  NHTCV.id = TPTCV.tcversion_id " .
             
             " /* Get Test Suite info from Test Case  */ " .
-            " JOIN {$this->tables['nodes_hierarchy']} NHTC " .
+            " JOIN " . $this->tables['nodes_hierarchy'] . " NHTC " .
             " ON  NHTC.id = NHTCV.parent_id " .
             
             " /* Get Test Case Version attributes */ " .
-            " JOIN {$this->tables['tcversions']} TCV " .
+            " JOIN " . $this->tables['tcversions'] . " TCV " .
             " ON  TCV.id = TPTCV.tcversion_id " .
 
             
@@ -2106,29 +2106,29 @@ class tlTestPlanMetrics extends testplan
         " TCV.version,TCV.tc_external_id AS external_id, " .
         " $fullEID AS full_external_id,UA.user_id," .
         " (TPTCV.urgency * TCV.importance) AS urg_imp, TCV.summary " .
-        " FROM {$this->tables['testplan_tcversions']} TPTCV " .
+        " FROM " . $this->tables['testplan_tcversions'] . " TPTCV " .
 
-        " JOIN {$this->tables['builds']} B " .
+        " JOIN " . $this->tables['builds'] . " B " .
         " ON  B.testplan_id = TPTCV.testplan_id " .
 
         " /* Get Test Case info from Test Case Version */ " .
-        " JOIN {$this->tables['nodes_hierarchy']} NHTCV " .
+        " JOIN " . $this->tables['nodes_hierarchy'] . " NHTCV " .
         " ON  NHTCV.id = TPTCV.tcversion_id " .
   
         " /* Get Test Suite info from Test Case  */ " .
-        " JOIN {$this->tables['nodes_hierarchy']} NHTC " .
+        " JOIN " . $this->tables['nodes_hierarchy'] . " NHTC " .
         " ON  NHTC.id = NHTCV.parent_id " .
         
         " /* Get Test Case Version attributes */ " .
-        " JOIN {$this->tables['tcversions']} TCV " .
+        " JOIN " . $this->tables['tcversions'] . " TCV " .
         " ON  TCV.id = TPTCV.tcversion_id " .
 
-        " JOIN {$this->tables['user_assignments']} UA " .
+        " JOIN " . $this->tables['user_assignments'] . " UA " .
         " ON  UA.feature_id = TPTCV.id " .
         " AND UA.build_id = B.id " .
         " AND UA.type = {$this->execTaskCode} " .
 
-        " LEFT OUTER JOIN {$this->tables['executions']} E " .
+        " LEFT OUTER JOIN " . $this->tables['executions'] . " E " .
         " ON  E.testplan_id = TPTCV.testplan_id " .
         " AND E.platform_id = TPTCV.platform_id " .
         " AND E.tcversion_id = TPTCV.tcversion_id " .
@@ -2192,20 +2192,20 @@ class tlTestPlanMetrics extends testplan
     // for EACH PLATFORM.
     $sqlc = "/* $debugMsg */ " .
             " SELECT count(0) AS TESTER_COUNTER ,A_NHTCV.parent_id AS tcase_id,A_TPTCV.platform_id  " .
-            " FROM {$this->tables['testplan_tcversions']} A_TPTCV " .
-            " JOIN {$this->tables['builds']} A_B ON A_B.testplan_id = A_TPTCV.testplan_id " .
+            " FROM " . $this->tables['testplan_tcversions'] . " A_TPTCV " .
+            " JOIN " . $this->tables['builds'] . " A_B ON A_B.testplan_id = A_TPTCV.testplan_id " .
             str_replace('B.active','A_B.active',$buildsCfg['statusClause']) .
             
-            " JOIN {$this->tables['nodes_hierarchy']} A_NHTCV ON " .
+            " JOIN " . $this->tables['nodes_hierarchy'] . " A_NHTCV ON " .
             " A_NHTCV.id = A_TPTCV.tcversion_id " .
             
-            " LEFT OUTER JOIN {$this->tables['executions']} A_E " .
+            " LEFT OUTER JOIN " . $this->tables['executions'] . " A_E " .
             " ON  A_E.testplan_id = A_TPTCV.testplan_id " .
             " AND A_E.platform_id = A_TPTCV.platform_id " .
             " AND A_E.tcversion_id = A_TPTCV.tcversion_id " .
             " AND A_E.build_id = A_B.id " .
             
-            " LEFT OUTER JOIN {$this->tables['user_assignments']} A_UA " .
+            " LEFT OUTER JOIN " . $this->tables['user_assignments'] . " A_UA " .
             " ON  A_UA.feature_id = A_TPTCV.id " .
             " AND A_UA.build_id = A_B.id " .
             " AND A_UA.type = {$this->execTaskCode} " .
@@ -2239,32 +2239,32 @@ class tlTestPlanMetrics extends testplan
         " TCV.version,TCV.tc_external_id AS external_id, " .
         " $fullEID AS full_external_id,UA.user_id," .
         " (TPTCV.urgency * TCV.importance) AS urg_imp, TCV.summary  " .
-        " FROM {$this->tables['testplan_tcversions']} TPTCV " .
+        " FROM " . $this->tables['testplan_tcversions'] . " TPTCV " .
 
-        " JOIN {$this->tables['builds']} B " .
+        " JOIN " . $this->tables['builds'] . " B " .
         " ON  B.testplan_id = TPTCV.testplan_id " .
 
         " /* Get Test Case info from Test Case Version */ " .
-        " JOIN {$this->tables['nodes_hierarchy']} NHTCV " .
+        " JOIN " . $this->tables['nodes_hierarchy'] . " NHTCV " .
         " ON  NHTCV.id = TPTCV.tcversion_id " .
   
         " /* Get Test Suite info from Test Case  */ " .
-        " JOIN {$this->tables['nodes_hierarchy']} NHTC " .
+        " JOIN " . $this->tables['nodes_hierarchy'] . " NHTC " .
         " ON  NHTC.id = NHTCV.parent_id " .
         
         " /* Get Test Case Version attributes */ " .
-        " JOIN {$this->tables['tcversions']} TCV " .
+        " JOIN " . $this->tables['tcversions'] . " TCV " .
         " ON  TCV.id = TPTCV.tcversion_id " .
 
         " JOIN ({$sqlc}) AS NR " .
         " ON  NR.tcase_id = NHTC.id " .
 
-        " LEFT OUTER JOIN {$this->tables['user_assignments']} UA " .
+        " LEFT OUTER JOIN " . $this->tables['user_assignments'] . " UA " .
         " ON  UA.feature_id = TPTCV.id " .
         " AND UA.build_id = B.id " .
         " AND UA.type = {$this->execTaskCode} " .
 
-        " LEFT OUTER JOIN {$this->tables['executions']} E " .
+        " LEFT OUTER JOIN " . $this->tables['executions'] . " E " .
         " ON  E.testplan_id = TPTCV.testplan_id " .
         " AND E.platform_id = TPTCV.platform_id " .
         " AND E.tcversion_id = TPTCV.tcversion_id " .
@@ -2304,7 +2304,7 @@ class tlTestPlanMetrics extends testplan
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $sql = " SELECT id,login,first,last " .
-         " FROM {$this->tables['users']}";
+         " FROM " . $this->tables['users'] . "";
 
     $inClause = '';
     if( !is_null($idSet) && ((array)$idSet >0))
@@ -2362,13 +2362,13 @@ class tlTestPlanMetrics extends testplan
               " TCV.tc_external_id AS external_id, " .
               " COALESCE(E.status,'" . $this->notRunStatusCode . "') AS exec_status " .
               
-                 " FROM {$this->tables['testplan_tcversions']} TPTCV " .                          
-                 " JOIN {$this->tables['tcversions']} TCV ON TCV.id = TPTCV.tcversion_id " .
-                 " JOIN {$this->tables['nodes_hierarchy']} NH_TCV ON NH_TCV.id = TPTCV.tcversion_id " .
-                 " JOIN {$this->tables['nodes_hierarchy']} NH_TCASE ON NH_TCASE.id = NH_TCV.parent_id " .
+                 " FROM " . $this->tables['testplan_tcversions'] . " TPTCV " .                          
+                 " JOIN " . $this->tables['tcversions'] . " TCV ON TCV.id = TPTCV.tcversion_id " .
+                 " JOIN " . $this->tables['nodes_hierarchy'] . " NH_TCV ON NH_TCV.id = TPTCV.tcversion_id " .
+                 " JOIN " . $this->tables['nodes_hierarchy'] . " NH_TCASE ON NH_TCASE.id = NH_TCV.parent_id " .
               $my['join']['ua'] .
               $my['join']['keywords'] .
-              " LEFT OUTER JOIN {$this->tables['platforms']} PLAT ON PLAT.id = TPTCV.platform_id " .
+              " LEFT OUTER JOIN " . $this->tables['platforms'] . " PLAT ON PLAT.id = TPTCV.platform_id " .
               
               " /* Get REALLY NOT RUN => BOTH LE.id AND E.id ON LEFT OUTER see WHERE  */ " .
               " LEFT OUTER JOIN ({$sqlLEX}) AS LEX " .
@@ -2376,7 +2376,7 @@ class tlTestPlanMetrics extends testplan
               " AND LEX.tcversion_id = TPTCV.tcversion_id " .
               " AND LEX.platform_id = TPTCV.platform_id " .
               " AND LEX.testplan_id = " . $safe['tplan_id'] .
-              " LEFT OUTER JOIN {$this->tables['executions']} E " .
+              " LEFT OUTER JOIN " . $this->tables['executions'] . " E " .
               " ON  E.tcversion_id = TPTCV.tcversion_id " .
               " AND E.testplan_id = TPTCV.testplan_id " .
               " AND E.platform_id = TPTCV.platform_id " .
@@ -2392,8 +2392,8 @@ class tlTestPlanMetrics extends testplan
     // executions
     $sex = "/* $debugMsg */" .
          "SELECT E.status,E.notes,E.tcversion_number,E.execution_ts,E.build_id,E.platform_id " .
-         "FROM {$this->tables['testplan_tcversions']} TPTCV " .
-         "JOIN {$this->tables['executions']} E " .
+         "FROM " . $this->tables['testplan_tcversions'] . " TPTCV " .
+         "JOIN " . $this->tables['executions'] . " E " .
          "ON E.tcversion_id = TPTCV.tcversion_id " .
          "AND E.testplan_id = TPTCV.testplan_id " .
          "AND E.platform_id = TPTCV.platform_id ";
@@ -2454,7 +2454,7 @@ class tlTestPlanMetrics extends testplan
     // ---------------------------------------------------------------------------------------------
     $sqlLEX = " SELECT EE.tcversion_id,EE.testplan_id,EE.platform_id,EE.build_id," .
           " MAX(EE.id) AS id " .
-          " FROM {$this->tables['executions']} EE " . 
+          " FROM " . $this->tables['executions'] . " EE " . 
           " WHERE EE.testplan_id = " . $tplanID;
   
     $key2check = array('builds' => 'build_id', 'platforms' => 'platform_id');

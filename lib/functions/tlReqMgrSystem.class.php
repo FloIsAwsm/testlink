@@ -144,7 +144,7 @@ class tlReqMgrSystem extends tlObject
     // need to check if name already exist
     if( is_null($this->getByName($system->name,array('output' => 'id')) ))
     {
-      $sql = "/* debugMsg */ INSERT  INTO {$this->tables['reqmgrsystems']} " .
+      $sql = "/* debugMsg */ INSERT  INTO " . $this->tables['reqmgrsystems'] . " " .
              " (name,cfg,type) " .
              " VALUES('" . $safeobj->name . "','" . $safeobj->cfg . "',{$safeobj->type})"; 
 
@@ -188,7 +188,7 @@ class tlReqMgrSystem extends tlObject
     
     if( $ret['status_ok'] )    
     {
-      $sql =  "UPDATE {$this->tables['reqmgrsystems']}  " .
+      $sql =  "UPDATE " . $this->tables['reqmgrsystems'] . "  " .
               " SET  name = '" . $safeobj->name. "'," . 
               "    cfg = '" . $safeobj->cfg . "'," .
               "       type = " . $safeobj->type . 
@@ -230,7 +230,7 @@ class tlReqMgrSystem extends tlObject
     $links = $this->getLinks($safeID);
     if( is_null($links) )
     {
-      $sql =  " /* $debugMsg */ DELETE FROM {$this->tables['reqmgrsystems']}  " .
+      $sql =  " /* $debugMsg */ DELETE FROM " . $this->tables['reqmgrsystems'] . "  " .
            " WHERE id = " . intval($safeID);
       $result = $this->db->exec_query($sql);
       $ret['msg'] .= sprintf($msg['ok'],$safeID);
@@ -313,7 +313,7 @@ class tlReqMgrSystem extends tlObject
      }
       
       
-    $sql .= " FROM {$this->tables['reqmgrsystems']} " . $where;
+    $sql .= " FROM " . $this->tables['reqmgrsystems'] . " " . $where;
     $rs = $this->db->get_recordset($sql);
     if( !is_null($rs) )
     {
@@ -394,13 +394,13 @@ class tlReqMgrSystem extends tlObject
         
         if( is_null($statusQuo) )
         {
-      $sql = "/* $debugMsg */ INSERT INTO {$this->tables['testproject_reqmgrsystem']} " .
+      $sql = "/* $debugMsg */ INSERT INTO " . $this->tables['testproject_reqmgrsystem'] . " " .
            " (testproject_id,reqmgrsystem_id) " .
            " VALUES(" . intval($tprojectID) . "," . intval($id) . ")";
     }
     else
     {
-      $sql = "/* $debugMsg */ UPDATE {$this->tables['testproject_reqmgrsystem']} " .
+      $sql = "/* $debugMsg */ UPDATE " . $this->tables['testproject_reqmgrsystem'] . " " .
            " SET reqmgrsystem_id = " . intval($id) .
            " WHERE testproject_id = " . intval($tprojectID);
     }
@@ -420,7 +420,7 @@ class tlReqMgrSystem extends tlObject
     {
       return;
         }
-    $sql = "/* $debugMsg */ DELETE FROM {$this->tables['testproject_reqmgrsystem']} " .
+    $sql = "/* $debugMsg */ DELETE FROM " . $this->tables['testproject_reqmgrsystem'] . " " .
               " WHERE testproject_id = " . intval($tprojectID) . 
               " AND reqmgrsystem_id = " . intval($id);
     $this->db->exec_query($sql);
@@ -446,8 +446,8 @@ class tlReqMgrSystem extends tlObject
 
     $sql = "/* $debugMsg */ " .
          " SELECT TPMGR.testproject_id, NHTPR.name AS testproject_name " .
-         " FROM {$this->tables['testproject_reqmgrsystem']} TPMGR" .
-         " LEFT OUTER JOIN {$this->tables['nodes_hierarchy']} NHTPR " .
+         " FROM " . $this->tables['testproject_reqmgrsystem'] . " TPMGR" .
+         " LEFT OUTER JOIN " . $this->tables['nodes_hierarchy'] . " NHTPR " .
          " ON NHTPR.id = TPMGR.testproject_id " . 
          " WHERE TPMGR.reqmgrsystem_id = " . intval($id);
     
@@ -472,8 +472,8 @@ class tlReqMgrSystem extends tlObject
     
     $sql = "/* $debugMsg */ " .
          " SELECT TPIT.testproject_id, NHTPR.name AS testproject_name, TPIT.reqmgrsystem_id " .
-         " FROM {$this->tables['testproject_reqmgrsystem']} TPIT" .
-         " LEFT OUTER JOIN {$this->tables['nodes_hierarchy']} NHTPR " .
+         " FROM " . $this->tables['testproject_reqmgrsystem'] . " TPIT" .
+         " LEFT OUTER JOIN " . $this->tables['nodes_hierarchy'] . " NHTPR " .
          " ON NHTPR.id = TPIT.testproject_id ";
          
     $ret = $this->db->fetchRowsIntoMap($sql,'testproject_id');
@@ -499,7 +499,7 @@ class tlReqMgrSystem extends tlObject
     $orderByClause = is_null($my['options']['orderByField']) ? '' : 'ORDER BY ' . $my['options']['orderByField']; 
     
     $sql = "/* debugMsg */ SELECT * {$add_fields} ";
-    $sql .= " FROM {$this->tables['reqmgrsystems']} {$orderByClause} ";
+    $sql .= " FROM " . $this->tables['reqmgrsystems'] . " {$orderByClause} ";
     $rs = $this->db->fetchRowsIntoMap($sql,'id');
 
     $lc = null;
@@ -509,8 +509,8 @@ class tlReqMgrSystem extends tlObject
       if( $my['options']['output'] == 'add_link_count' )
       {
         $sql = "/* debugMsg */ SELECT COUNT(0) AS lcount, ITD.id";
-        $sql .= " FROM {$this->tables['reqmgrsystems']} ITD " .
-                " JOIN {$this->tables['testproject_reqmgrsystem']} " .
+        $sql .= " FROM " . $this->tables['reqmgrsystems'] . " ITD " .
+                " JOIN " . $this->tables['testproject_reqmgrsystem'] . " " .
                 " ON reqmgrsystem_id = ITD.id " .
                 " GROUP BY ITD.id ";
         $lc = $this->db->fetchRowsIntoMap($sql,'id');
@@ -565,10 +565,10 @@ class tlReqMgrSystem extends tlObject
     $sql = "/* $debugMsg */ " .
          " SELECT TPIT.testproject_id, NHTPR.name AS testproject_name, " .
          " TPIT.reqmgrsystem_id,ITRK.name AS reqmgrsystem_name, ITRK.type" .
-         " FROM {$this->tables['testproject_reqmgrsystem']} TPIT" .
-         " JOIN {$this->tables['nodes_hierarchy']} NHTPR " .
+         " FROM " . $this->tables['testproject_reqmgrsystem'] . " TPIT" .
+         " JOIN " . $this->tables['nodes_hierarchy'] . " NHTPR " .
          " ON NHTPR.id = TPIT.testproject_id " . 
-         " JOIN {$this->tables['reqmgrsystems']} ITRK " .
+         " JOIN " . $this->tables['reqmgrsystems'] . " ITRK " .
          " ON ITRK.id = TPIT.reqmgrsystem_id " . 
          " WHERE TPIT.testproject_id = " . intval($tprojectID);
          

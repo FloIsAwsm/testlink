@@ -34,7 +34,7 @@ class testPlanUrgency extends testplan
    */
   public function setTestUrgency($testplan_id, $tc_id, $urgency)
   {
-    $sql = " UPDATE {$this->tables['testplan_tcversions']} SET urgency={$urgency} " .
+    $sql = " UPDATE " . $this->tables['testplan_tcversions'] . " SET urgency={$urgency} " .
            " WHERE testplan_id=" . $this->db->prepare_int($testplan_id) .
            " AND tcversion_id=" . $this->db->prepare_int($tc_id);
     $result = $this->db->exec_query($sql);
@@ -64,13 +64,13 @@ class testPlanUrgency extends testplan
    */ 
   public function setSuiteUrgency($testplan_id, $node_id, $urgency)
   {
-    $sql = " UPDATE {$this->tables['testplan_tcversions']} " . 
+    $sql = " UPDATE " . $this->tables['testplan_tcversions'] . " " . 
            " SET urgency=" . $this->db->prepare_int($urgency) .
            " WHERE testplan_id= " . $this->db->prepare_int($testplan_id) .
            " AND tcversion_id IN (" .
            " SELECT NHB.id " . 
-           " FROM {$this->tables['nodes_hierarchy']}  NHA, " .
-           " {$this->tables['nodes_hierarchy']} NHB, {$this->tables['node_types']} NT " .
+           " FROM " . $this->tables['nodes_hierarchy'] . "  NHA, " .
+           " " . $this->tables['nodes_hierarchy'] . " NHB, " . $this->tables['node_types'] . " NT " .
            " WHERE NHA.node_type_id = NT.id " .
            " AND NT.description='testcase' " . 
            " AND NHB.parent_id = NHA.id " . 
@@ -120,17 +120,17 @@ class testPlanUrgency extends testplan
       // Remember that test case execution task can be assigned to MULTIPLE USERS
       $moreFields = ',USERS.login AS assigned_to, USERS.first, USERS.last ';
 
-      $moreJoins = " LEFT JOIN {$this->tables['user_assignments']} UA " .
+      $moreJoins = " LEFT JOIN " . $this->tables['user_assignments'] . " UA " .
                     " ON UA.feature_id = TPTCV.id " .
                     " AND UA.type = " . $tasks['testcase_execution']['id'] .
                     " AND UA.build_id = " . $my['options']['build4testers'] .
-                    " LEFT JOIN {$this->tables['users']} USERS " .
+                    " LEFT JOIN " . $this->tables['users'] . " USERS " .
                     " ON USERS.id = UA.user_id ";
     }     
 
 
 
-    $sql = " SELECT testprojects.prefix  FROM {$this->tables['testprojects']} testprojects " .
+    $sql = " SELECT testprojects.prefix  FROM " . $this->tables['testprojects'] . " testprojects " .
            " WHERE testprojects.id = ";
     
     if( !is_null($testproject_id) )
@@ -139,7 +139,7 @@ class testPlanUrgency extends testplan
     }      
     else
     {
-      $sql .= "( SELECT parent_id AS testproject_id FROM {$this->tables['nodes_hierarchy']} " .
+      $sql .= "( SELECT parent_id AS testproject_id FROM " . $this->tables['nodes_hierarchy'] . " " .
               "  WHERE id=" . intval($testplan_id) . " ) ";
     }
     
@@ -150,11 +150,11 @@ class testPlanUrgency extends testplan
            " NHA.parent_id AS testcase_id, TCV.tc_external_id, TPTCV.tcversion_id,".
            " TPTCV.urgency, TCV.importance, (TCV.importance * TPTCV.urgency) AS priority" .
            $moreFields .
-           " FROM {$this->tables['nodes_hierarchy']} NHA " .
-           " JOIN {$this->tables['nodes_hierarchy']} NHB ON NHA.parent_id = NHB.id " .
-           " JOIN {$this->tables['testplan_tcversions']} TPTCV " .
+           " FROM " . $this->tables['nodes_hierarchy'] . " NHA " .
+           " JOIN " . $this->tables['nodes_hierarchy'] . " NHB ON NHA.parent_id = NHB.id " .
+           " JOIN " . $this->tables['testplan_tcversions'] . " TPTCV " .
            " ON TPTCV.tcversion_id=NHA.id " .
-           " JOIN {$this->tables['tcversions']}  TCV ON TCV.id = TPTCV.tcversion_id " .
+           " JOIN " . $this->tables['tcversions'] . "  TCV ON TCV.id = TPTCV.tcversion_id " .
            $moreJoins;
 
     $sql .= " WHERE TPTCV.testplan_id=" . $this->db->prepare_int($testplan_id) .
@@ -216,8 +216,8 @@ class testPlanUrgency extends testplan
     $sql .= " SELECT (urgency * importance) AS priority,  " .
             " urgency,importance, " .
             LOW . " AS priority_level, TPTCV.tcversion_id %CLAUSE%" .
-            " FROM {$this->tables['testplan_tcversions']} TPTCV " .
-            " JOIN {$this->tables['tcversions']} TCV ON TPTCV.tcversion_id = TCV.id " .
+            " FROM " . $this->tables['testplan_tcversions'] . " TPTCV " .
+            " JOIN " . $this->tables['tcversions'] . " TCV ON TPTCV.tcversion_id = TCV.id " .
             " WHERE TPTCV.testplan_id = {$testplan_id} {$sqlFilter}";
           
     switch($my['options']['details'])

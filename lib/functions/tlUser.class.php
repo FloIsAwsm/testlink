@@ -322,7 +322,7 @@ class tlUser extends tlDBObject
   public function readTestProjectRoles(&$db,$testProjectID = null)
   {
     $sql = "SELECT testproject_id,role_id " .
-           " FROM {$this->tables['user_testproject_roles']} user_testproject_roles " .
+           " FROM " . $this->tables['user_testproject_roles'] . " user_testproject_roles " .
            " WHERE user_id = " . intval($this->dbID);
     if ($testProjectID)
     {
@@ -365,7 +365,7 @@ class tlUser extends tlDBObject
   public function readTestPlanRoles(&$db,$testPlanID = null)
   {
     $sql = "SELECT testplan_id,role_id " . 
-           " FROM {$this->tables['user_testplan_roles']} user_testplan_roles " .
+           " FROM " . $this->tables['user_testplan_roles'] . " user_testplan_roles " .
            " WHERE user_id = " . intval($this->dbID);
     if ($testPlanID)
     {
@@ -430,7 +430,7 @@ class tlUser extends tlDBObject
           $t_cookie_string = null;
         }    
 
-        $sql = "/* debugMsg */ UPDATE {$this->tables['users']} " .
+        $sql = "/* debugMsg */ UPDATE " . $this->tables['users'] . " " .
                " SET first = '" . $db->prepare_string($this->firstName) . "'" .
                ", last = '" .  $db->prepare_string($this->lastName)    . "'" .
                ", email = '" . $db->prepare_string($this->emailAddress)   . "'" .
@@ -449,7 +449,7 @@ class tlUser extends tlDBObject
       }
       else
       {
-        $sql = "/* debugMsg */ INSERT INTO {$this->tables['users']} " .
+        $sql = "/* debugMsg */ INSERT INTO " . $this->tables['users'] . " " .
                " (login,password,cookie_string,first,last,email,role_id,locale,active,auth_method) " .
                " VALUES ('" . 
                $db->prepare_string($this->login) . "','" . $db->prepare_string($this->password) . "','" . 
@@ -509,7 +509,7 @@ class tlUser extends tlDBObject
    **/
   protected function deleteTestProjectRoles(&$db)
   {
-    $sql = "DELETE FROM {$this->tables['user_testproject_roles']} WHERE user_id = " . intval($this->dbID);
+    $sql = "DELETE FROM " . $this->tables['user_testproject_roles'] . " WHERE user_id = " . intval($this->dbID);
     return $db->exec_query($sql) ? tl::OK : tl::ERROR;
   }
 
@@ -679,8 +679,8 @@ class tlUser extends tlDBObject
    **/
   protected function getUserNamesWithTestPlanRole(&$db)
   {
-    $sql = "SELECT DISTINCT id FROM {$this->tables['users']} users," . 
-           " {$this->tables['user_testplan_roles']} user_testplan_roles " .
+    $sql = "SELECT DISTINCT id FROM " . $this->tables['users'] . " users," . 
+           " " . $this->tables['user_testplan_roles'] . " user_testplan_roles " .
            " WHERE  users.id = user_testplan_roles.user_id";
     $sql .= " AND user_testplan_roles.role_id = " . intval($this->dbID);
     $idSet = $db->fetchColumnsIntoArray($sql,"id");
@@ -714,18 +714,18 @@ class tlUser extends tlDBObject
     $output = array();
     
     //get users for default roles
-    $sql = "/* $debugMsg */ SELECT DISTINCT u.id,u.login,u.first,u.last FROM {$this->tables['users']} u" .
-         " JOIN {$this->tables['role_rights']} a ON a.role_id=u.role_id" .
-         " JOIN {$this->tables['rights']} b ON a.right_id = b.id " .
+    $sql = "/* $debugMsg */ SELECT DISTINCT u.id,u.login,u.first,u.last FROM " . $this->tables['users'] . " u" .
+         " JOIN " . $this->tables['role_rights'] . " a ON a.role_id=u.role_id" .
+         " JOIN " . $this->tables['rights'] . " b ON a.right_id = b.id " .
          " WHERE b.description='" . $db->prepare_string($rightNick) . "'";
     $defaultRoles = $db->fetchRowsIntoMap($sql,'id');
 
     // get users for project roles
-    $sql = "/* $debugMsg */ SELECT DISTINCT u.id,u.login,u.first,u.last FROM {$this->tables['users']} u" .
-         " JOIN {$this->tables['user_testproject_roles']} p ON p.user_id=u.id" .
+    $sql = "/* $debugMsg */ SELECT DISTINCT u.id,u.login,u.first,u.last FROM " . $this->tables['users'] . " u" .
+         " JOIN " . $this->tables['user_testproject_roles'] . " p ON p.user_id=u.id" .
          " AND p.testproject_id=" . intval($testprojectID) .
-         " JOIN {$this->tables['role_rights']} a ON a.role_id=p.role_id" .
-         " JOIN {$this->tables['rights']} b ON a.right_id = b.id " .
+         " JOIN " . $this->tables['role_rights'] . " a ON a.role_id=p.role_id" .
+         " JOIN " . $this->tables['rights'] . " b ON a.right_id = b.id " .
          " WHERE b.description='" . $db->prepare_string($rightNick) . "'";
     $projectRoles = $db->fetchRowsIntoMap($sql,'id');
     
@@ -764,7 +764,7 @@ class tlUser extends tlDBObject
   public function getNames(&$db,$idSet=null)
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
-    $sql = " SELECT id,login,first,last FROM {$this->tables['users']}";
+    $sql = " SELECT id,login,first,last FROM " . $this->tables['users'] . "";
 
     $inClause = '';
     if( !is_null($idSet) )
@@ -944,9 +944,9 @@ class tlUser extends tlDBObject
     }    
     
     $sql = " /* $debugTag */  SELECT {$fields2get} " .
-           " FROM {$this->tables['nodes_hierarchy']} NH" .
-           " JOIN {$this->tables['testplans']} TPLAN ON NH.id=TPLAN.id  " .
-           " LEFT OUTER JOIN {$this->tables['user_testplan_roles']} USER_TPLAN_ROLES" .
+           " FROM " . $this->tables['nodes_hierarchy'] . " NH" .
+           " JOIN " . $this->tables['testplans'] . " TPLAN ON NH.id=TPLAN.id  " .
+           " LEFT OUTER JOIN " . $this->tables['user_testplan_roles'] . " USER_TPLAN_ROLES" .
            " ON TPLAN.id = USER_TPLAN_ROLES.testplan_id " .
            " AND USER_TPLAN_ROLES.user_id = " . intval($this->dbID) .
            " WHERE testproject_id = " . intval($testprojectID) . " AND ";
@@ -1127,7 +1127,7 @@ class tlUser extends tlDBObject
   public function setActive(&$db,$value)
   {
     $booleanVal = intval($value) > 0 ? 1 : 0;
-    $sql = " UPDATE {$this->tables['users']} SET active = {$booleanVal} " .
+    $sql = " UPDATE " . $this->tables['users'] . " SET active = {$booleanVal} " .
            " WHERE id = " . intval($this->dbID);
     $result = $db->exec_query($sql);
     return tl::OK;
@@ -1166,7 +1166,7 @@ class tlUser extends tlDBObject
         $t_cookie_string = $this->auth_generate_unique_cookie_string($db);   
       }    
       
-      $sql = "UPDATE {$this->tables['users']} " .
+      $sql = "UPDATE " . $this->tables['users'] . " " .
                 " SET password = ". "'" . $db->prepare_string($this->password) . "'";
       
       if(!is_null($t_cookie_string) )

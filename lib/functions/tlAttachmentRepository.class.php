@@ -362,7 +362,7 @@ class tlAttachmentRepository extends tlObjectWithDB
   protected function getAttachmentContentFromFS($id)
   {
     $query = "SELECT file_size,compression_type,file_path " .
-             " FROM {$this->tables['attachments']} WHERE id = {$id}";
+             " FROM " . $this->tables['attachments'] . " WHERE id = {$id}";
     $row = $this->db->fetchFirstRow($query);
 
     $content = null;
@@ -396,7 +396,7 @@ class tlAttachmentRepository extends tlObjectWithDB
   public function getAttachmentContentFromDB($id)
   {
     $query = "SELECT content,file_size,compression_type " .
-             " FROM {$this->tables['attachments']} WHERE id = {$id}";
+             " FROM " . $this->tables['attachments'] . " WHERE id = {$id}";
     $row = $this->db->fetchFirstRow($query);
 
     $content = null;
@@ -513,7 +513,7 @@ class tlAttachmentRepository extends tlObjectWithDB
   {
     $order_by = $this->attachmentCfg->order_by;
 
-    $query = "SELECT id FROM {$this->tables['attachments']} WHERE fk_id = {$fkid} " .
+    $query = "SELECT id FROM " . $this->tables['attachments'] . " WHERE fk_id = {$fkid} " .
              " AND fk_table = '" . $this->db->prepare_string($fkTableName). "' " . $order_by;
     $attachmentIDs = $this->db->fetchColumnsIntoArray($query,'id');
 

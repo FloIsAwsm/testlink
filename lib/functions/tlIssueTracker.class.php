@@ -185,7 +185,7 @@ class tlIssueTracker extends tlObject
     // need to check if name already exist
     if( is_null($this->getByName($it->name,array('output' => 'id')) ))
     {
-      $sql =  "/* debugMsg */ INSERT  INTO {$this->tables['issuetrackers']} " .
+      $sql =  "/* debugMsg */ INSERT  INTO " . $this->tables['issuetrackers'] . " " .
               " (name,cfg,type) " .
               " VALUES('" . $safeobj->name . "','" . $safeobj->cfg . "',{$safeobj->type})"; 
 
@@ -240,7 +240,7 @@ class tlIssueTracker extends tlObject
 
     if( $ret['status_ok'] )   
     {
-      $sql =  "UPDATE {$this->tables['issuetrackers']}  " .
+      $sql =  "UPDATE " . $this->tables['issuetrackers'] . "  " .
               " SET name = '" . $safeobj->name. "'," . 
               "     cfg = '" . $safeobj->cfg . "'," .
               "     type = " . $safeobj->type . 
@@ -282,7 +282,7 @@ class tlIssueTracker extends tlObject
     $links = $this->getLinks($safeID);
     if( is_null($links) )
     {
-      $sql =  " /* $debugMsg */ DELETE FROM {$this->tables['issuetrackers']}  " .
+      $sql =  " /* $debugMsg */ DELETE FROM " . $this->tables['issuetrackers'] . "  " .
           " WHERE id = " . intval($safeID);
       $result = $this->db->exec_query($sql);
       $ret['msg'] .= sprintf($msg['ok'],$safeID);
@@ -365,7 +365,7 @@ class tlIssueTracker extends tlObject
     }
      
      
-    $sql .= " FROM {$this->tables['issuetrackers']} " . $where;
+    $sql .= " FROM " . $this->tables['issuetrackers'] . " " . $where;
     $rs = $this->db->get_recordset($sql);
     if( !is_null($rs) )
     {
@@ -446,13 +446,13 @@ class tlIssueTracker extends tlObject
         
         if( is_null($statusQuo) )
         {
-      $sql = "/* $debugMsg */ INSERT INTO {$this->tables['testproject_issuetracker']} " .
+      $sql = "/* $debugMsg */ INSERT INTO " . $this->tables['testproject_issuetracker'] . " " .
            " (testproject_id,issuetracker_id) " .
            " VALUES(" . intval($tprojectID) . "," . intval($id) . ")";
     }
     else
     {
-      $sql = "/* $debugMsg */ UPDATE {$this->tables['testproject_issuetracker']} " .
+      $sql = "/* $debugMsg */ UPDATE " . $this->tables['testproject_issuetracker'] . " " .
            " SET issuetracker_id = " . intval($id) .
            " WHERE testproject_id = " . intval($tprojectID);
     }
@@ -472,7 +472,7 @@ class tlIssueTracker extends tlObject
     {
       return;
         }
-    $sql = "/* $debugMsg */ DELETE FROM {$this->tables['testproject_issuetracker']} " .
+    $sql = "/* $debugMsg */ DELETE FROM " . $this->tables['testproject_issuetracker'] . " " .
              " WHERE testproject_id = " . intval($tprojectID) . 
              " AND issuetracker_id = " . intval($id);
     $this->db->exec_query($sql);
@@ -498,8 +498,8 @@ class tlIssueTracker extends tlObject
 
     $sql = "/* $debugMsg */ " .
          " SELECT TPIT.testproject_id, NHTPR.name AS testproject_name " .
-         " FROM {$this->tables['testproject_issuetracker']} TPIT" .
-         " LEFT OUTER JOIN {$this->tables['nodes_hierarchy']} NHTPR " .
+         " FROM " . $this->tables['testproject_issuetracker'] . " TPIT" .
+         " LEFT OUTER JOIN " . $this->tables['nodes_hierarchy'] . " NHTPR " .
          " ON NHTPR.id = TPIT.testproject_id " . 
          " WHERE TPIT.issuetracker_id = " . intval($id);
     
@@ -524,8 +524,8 @@ class tlIssueTracker extends tlObject
     
     $sql = "/* $debugMsg */ " .
          " SELECT TPIT.testproject_id, NHTPR.name AS testproject_name, TPIT.issuetracker_id " .
-         " FROM {$this->tables['testproject_issuetracker']} TPIT" .
-         " LEFT OUTER JOIN {$this->tables['nodes_hierarchy']} NHTPR " .
+         " FROM " . $this->tables['testproject_issuetracker'] . " TPIT" .
+         " LEFT OUTER JOIN " . $this->tables['nodes_hierarchy'] . " NHTPR " .
          " ON NHTPR.id = TPIT.testproject_id ";
          
     $ret = $this->db->fetchRowsIntoMap($sql,'testproject_id');
@@ -551,7 +551,7 @@ class tlIssueTracker extends tlObject
     $orderByClause = is_null($my['options']['orderByField']) ? '' : 'ORDER BY ' . $my['options']['orderByField']; 
     
     $sql = "/* debugMsg */ SELECT * {$add_fields} ";
-    $sql .= " FROM {$this->tables['issuetrackers']} {$orderByClause} ";
+    $sql .= " FROM " . $this->tables['issuetrackers'] . " {$orderByClause} ";
     $rs = $this->db->fetchRowsIntoMap($sql,'id');
 
     $lc = null;
@@ -561,8 +561,8 @@ class tlIssueTracker extends tlObject
       if( $my['options']['output'] == 'add_link_count' )
       {
         $sql = "/* debugMsg */ SELECT COUNT(0) AS lcount, ITD.id";
-        $sql .= " FROM {$this->tables['issuetrackers']} ITD " .
-                " JOIN {$this->tables['testproject_issuetracker']} " .
+        $sql .= " FROM " . $this->tables['issuetrackers'] . " ITD " .
+                " JOIN " . $this->tables['testproject_issuetracker'] . " " .
                 " ON issuetracker_id = ITD.id " .
                 " GROUP BY ITD.id ";
         $lc = $this->db->fetchRowsIntoMap($sql,'id');
@@ -614,10 +614,10 @@ class tlIssueTracker extends tlObject
     $sql = "/* $debugMsg */ " .
          " SELECT TPIT.testproject_id, NHTPR.name AS testproject_name, " .
          " TPIT.issuetracker_id,ITRK.name AS issuetracker_name, ITRK.type" .
-         " FROM {$this->tables['testproject_issuetracker']} TPIT" .
-         " JOIN {$this->tables['nodes_hierarchy']} NHTPR " .
+         " FROM " . $this->tables['testproject_issuetracker'] . " TPIT" .
+         " JOIN " . $this->tables['nodes_hierarchy'] . " NHTPR " .
          " ON NHTPR.id = TPIT.testproject_id " . 
-         " JOIN {$this->tables['issuetrackers']} ITRK " .
+         " JOIN " . $this->tables['issuetrackers'] . " ITRK " .
          " ON ITRK.id = TPIT.issuetracker_id " . 
          " WHERE TPIT.testproject_id = " . intval($tprojectID);
          

@@ -106,7 +106,7 @@ class tree extends tlObject
     static $nodeTypes;
     if( !$nodeTypes )
     {
-      $sql = " SELECT * FROM {$this->tables['node_types']} "; 
+      $sql = " SELECT * FROM " . $this->tables['node_types'] . " "; 
       $nodeTypes = $this->db->fetchColumnsIntoMap($sql,'description','id');
     }
     return $nodeTypes;
@@ -691,7 +691,7 @@ class tree extends tlObject
       }
       
       $sql = " SELECT NH.id, NH.node_order, NH.name " .
-             " FROM {$this->object_table} NH, {$this->tables['node_types']} NT " .
+             " FROM {$this->object_table} NH, " . $this->tables['node_types'] . " NT " .
              " WHERE NH.node_type_id=NT.id " .
              " AND NH.parent_id = {$parent_id} AND NH.id <> {$node_id} " . 
              $node_type_filter .
@@ -909,7 +909,7 @@ class tree extends tlObject
         case 'rspec':
           $sql = " SELECT OBT.id,name,parent_id,node_type_id,node_order,RSPEC.doc_id " .
                  " FROM {$this->object_table} AS OBT " .
-                 " JOIN {$this->tables['req_specs']} AS RSPEC ON RSPEC.id = OBT.id " .
+                 " JOIN " . $this->tables['req_specs'] . " AS RSPEC ON RSPEC.id = OBT.id " .
                  " WHERE parent_id = {$node_id} {$my['filters']['additionalWhereClause']}" .
                  " ORDER BY node_order,OBT.id";
       break;
@@ -925,7 +925,7 @@ class tree extends tlObject
           $sql="SELECT * FROM ( SELECT NH.node_order AS spec_order," . 
                "                NH.node_order AS node_order, NH.id, NH.parent_id," . 
                "                NH.name, NH.node_type_id, 0 AS tcversion_id" .
-               "                FROM {$this->object_table} NH, {$this->tables['node_types']} NT" .
+               "                FROM {$this->object_table} NH, " . $this->tables['node_types'] . " NT" .
                "                WHERE parent_id = {$node_id}" .
                "                AND NH.node_type_id=NT.id" .
                "                AND NT.description <> 'testcase' {$my['filters']['additionalWhereClause']}" .
@@ -934,7 +934,7 @@ class tree extends tlObject
                "                       T.node_order AS node_order, NHA.id, NHA.parent_id, " .
                "                       NHA.name, NHA.node_type_id, T.tcversion_id" .
                "                FROM {$this->object_table} NHA, {$this->object_table} NHB," .
-               "                     {$this->tables['testplan_tcversions']}  T,{$this->tables['node_types']} NT" .
+               "                     " . $this->tables['testplan_tcversions'] . "  T," . $this->tables['node_types'] . " NT" .
                "                WHERE NHA.id=NHB.parent_id " .
                "                AND NHA.node_type_id=NT.id" .
                "                AND NHB.id=T.tcversion_id " .
@@ -1091,15 +1091,15 @@ class tree extends tlObject
       $sql="SELECT * FROM ( SELECT NH.node_order AS spec_order," . 
            "                NH.node_order AS node_order, NH.id, NH.parent_id," . 
            "                NH.name, NH.node_type_id, 0 AS tcversion_id " .
-           "                FROM {$this->tables['nodes_hierarchy']}  NH" .
+           "                FROM " . $this->tables['nodes_hierarchy'] . "  NH" .
            "                WHERE parent_id = {$node_id} {$fclause} " .
            "                UNION" .
            "                SELECT NHA.node_order AS spec_order, " .
            "                       T.node_order AS node_order, NHA.id, NHA.parent_id, " .
            "                       NHA.name, NHA.node_type_id, T.tcversion_id " .
-           "                FROM {$this->tables['nodes_hierarchy']} NHA, " .
-           "                     {$this->tables['nodes_hierarchy']} NHB," .
-           "                     {$this->tables['testplan_tcversions']} T" .
+           "                FROM " . $this->tables['nodes_hierarchy'] . " NHA, " .
+           "                     " . $this->tables['nodes_hierarchy'] . " NHB," .
+           "                     " . $this->tables['testplan_tcversions'] . " T" .
            "                WHERE NHA.id=NHB.parent_id " .
            "                AND NHA.node_type_id = {$tcNodeTypeID}" .
            "                AND NHB.id=T.tcversion_id " .
@@ -1224,7 +1224,7 @@ class tree extends tlObject
       {
         $xitems = array_flip((array)$items);
         $xsql = " SELECT parent_id,id " . 
-                " FROM {$this->tables['nodes_hierarchy']} " . 
+                " FROM " . $this->tables['nodes_hierarchy'] . " " . 
                 " WHERE id IN (" . implode(',',array_keys($xitems)) . ")";
 
         $xmen = $this->db->fetchRowsIntoMap($xsql,'parent_id',database::CUMULATIVE);
@@ -1260,7 +1260,7 @@ class tree extends tlObject
         $unique_nodes=implode(',',array_unique($all_nodes));
 
         $sql="/* $debugMsg */ " . 
-             " SELECT id,name FROM {$this->tables['nodes_hierarchy']}  WHERE id IN ({$unique_nodes})"; 
+             " SELECT id,name FROM " . $this->tables['nodes_hierarchy'] . "  WHERE id IN ({$unique_nodes})"; 
         $decode=$this->db->fetchRowsIntoMap($sql,'id');
         
         foreach($path_to as $key => $elem)
@@ -1614,7 +1614,7 @@ class tree extends tlObject
     {
     }
     $sql = "/* $debugMsg */  " .
-           " SELECT id,node_type_id from {$this->tables['nodes_hierarchy']} " .
+           " SELECT id,node_type_id from " . $this->tables['nodes_hierarchy'] . " " .
            " WHERE parent_id IN ({$parentList})";
     $sql .= " AND node_type_id IN ({$coupleTypes['target']},{$coupleTypes['container']}) "; 
     
@@ -1649,7 +1649,7 @@ class tree extends tlObject
     $sql = "/* $debugMsg */ ";
     $sql .= " SELECT NH_MAIN.id,NH_MAIN.parent_id,NH_MAIN.name,NH_MAIN.node_type_id " .
             " FROM {$this->object_table} AS NH_MAIN " .
-            " JOIN {$this->tables['node_types']} AS NT ON NT.id = NH_MAIN.node_type_id ";
+            " JOIN " . $this->tables['node_types'] . " AS NT ON NT.id = NH_MAIN.node_type_id ";
             
     $where = " WHERE 1=1 ";
     foreach($attr as $key => $value)

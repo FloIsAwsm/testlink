@@ -141,7 +141,7 @@ class tlInventory extends tlObjectWithDB
 				$fields2get = ' * ';
 			break;
 		} 
-		$sql = "/* $debugMsg */ SELECT {$fields2get} FROM {$this->tables['inventory']} " .
+		$sql = "/* $debugMsg */ SELECT {$fields2get} FROM " . $this->tables['inventory'] . " " .
 				 " WHERE  testproject_id={$this->testProjectID}";
 		
 		$clauses = null;
@@ -209,7 +209,7 @@ class tlInventory extends tlObjectWithDB
 		$data_serialized = $db->prepare_string(serialize($this->inventoryContent)); // BUGID 3888
 		if (is_null($this->inventoryId) || ($this->inventoryId == 0))
 		{
-			$sql = "/* $debugMsg */ INSERT INTO {$this->tables['inventory']} (name," .
+			$sql = "/* $debugMsg */ INSERT INTO " . $this->tables['inventory'] . " (name," .
 					 " testproject_id,content,ipaddress,owner_id,creation_ts) " .
 					 " VALUES ('" . $name .	"'," . $this->testProjectID . ",'" . 
 					$data_serialized . "','" . $ip . "'," . $this->ownerId . "," . 
@@ -231,7 +231,7 @@ class tlInventory extends tlObjectWithDB
 		}
 		else
 		{
-			$sql = "/* $debugMsg */UPDATE {$this->tables['inventory']} " .
+			$sql = "/* $debugMsg */UPDATE " . $this->tables['inventory'] . " " .
 					 " SET name='{$name}', content='{$data_serialized}', " .
 				     " ipaddress='{$ip}', modification_ts=" . $this->db->db_now() .
 				     ", testproject_id={$this->testProjectID}, owner_id=" . $this->ownerId .
@@ -261,7 +261,7 @@ class tlInventory extends tlObjectWithDB
 	protected function deleteFromDB()
 	{
 		$debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
-		$sql = "/* $debugMsg */ DELETE FROM {$this->tables['inventory']} WHERE id = " . $this->inventoryId;
+		$sql = "/* $debugMsg */ DELETE FROM " . $this->tables['inventory'] . " WHERE id = " . $this->inventoryId;
 		$result = $this->db->exec_query($sql);
 		return $result ? tl::OK : tl::ERROR;	
 	}
@@ -367,7 +367,7 @@ class tlInventory extends tlObjectWithDB
 		if ($result == tl::OK)
 		{
 			
-			$sql = "/* $debugMsg */ SELECT id FROM {$this->tables['inventory']} " .
+			$sql = "/* $debugMsg */ SELECT id FROM " . $this->tables['inventory'] . " " .
 					 " WHERE name='" . $name.
 			         "' AND testproject_id={$this->testProjectID}";
 			         
@@ -385,7 +385,7 @@ class tlInventory extends tlObjectWithDB
 
 		if ($result == tl::OK && !empty($ipAddress))
 		{
-			$sql = "/* $debugMsg */ SELECT id FROM {$this->tables['inventory']} " .
+			$sql = "/* $debugMsg */ SELECT id FROM " . $this->tables['inventory'] . " " .
 					 " WHERE ipaddress='" . $ipAddress . 
 		    	     "' AND testproject_id={$this->testProjectID}";
 
@@ -411,7 +411,7 @@ class tlInventory extends tlObjectWithDB
 	{
 		$debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
 		$sql = " /* $debugMsg */ " .
-		       " SELECT id, name AS tproject_name FROM {$this->tables['nodes_hierarchy']} " .
+		       " SELECT id, name AS tproject_name FROM " . $this->tables['nodes_hierarchy'] . " " .
 		       " WHERE id = {$this->testProjectID} ";
   		$info = $this->db->fetchRowsIntoMap($sql,'id');
 		return $info;        
