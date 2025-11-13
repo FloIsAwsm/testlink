@@ -2393,11 +2393,12 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
 
     $tproject_mgr = new testproject($this->db);
 
-    $sql = " $debugMsg SELECT id, source_id, destination_id, relation_type, author_id, creation_ts " . 
-           " FROM {$this->tables['req_relations']} " .
-           " WHERE source_id=$id OR destination_id=$id " .
-           " ORDER BY id ASC ";
-   
+    $safeID = intval($id);
+    $sql = $debugMsg . " SELECT id, source_id, destination_id, relation_type, author_id, creation_ts" .
+           " FROM " . $this->tables['req_relations'] .
+           " WHERE source_id=" . $safeID . " OR destination_id=" . $safeID .
+           " ORDER BY id ASC";
+
     $relations['relations']= $this->db->get_recordset($sql);  
     if( !is_null($relations['relations']) && count($relations['relations']) > 0 )
     {
@@ -2464,15 +2465,17 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
    * @return true, if relation already exists, false if not
    */
   public function check_if_relation_exists($first_id, $second_id, $rel_type_id) {
-    
+
     $debugMsg = '/* Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__ . ' */';
-    $sql = " $debugMsg SELECT COUNT(0) AS qty " .
-         " FROM {$this->tables['req_relations']} " .
-         " WHERE ((source_id=$first_id AND destination_id=$second_id) " . 
-         " OR (source_id=$second_id AND destination_id=$first_id)) " . 
-         " AND relation_type=$rel_type_id";
+    $safe_first_id = intval($first_id);
+    $safe_second_id = intval($second_id);
+    $sql = $debugMsg . " SELECT COUNT(0) AS qty" .
+         " FROM " . $this->tables['req_relations'] .
+         " WHERE ((source_id=" . $safe_first_id . " AND destination_id=" . $safe_second_id . ")" .
+         " OR (source_id=" . $safe_second_id . " AND destination_id=" . $safe_first_id . "))" .
+         " AND relation_type=" . intval($rel_type_id);
     $rs = $this->db->get_recordset($sql);
-      return($rs[0]['qty'] > 0);
+    return (!is_null($rs) && isset($rs[0]['qty']) && $rs[0]['qty'] > 0);
   }
   
   
@@ -2486,15 +2489,15 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
    * 
    * @return integer $count
    */
-  public function count_relations($id) 
+  public function count_relations($id)
   {
     $debugMsg = '/* Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__ . ' */';
     $safeID = intval($id);
-    $sql = " $debugMsg SELECT COUNT(*) AS qty " .
-           " FROM {$this->tables['req_relations']} " .
-           " WHERE source_id={$safeID} OR destination_id={$safeID} ";
+    $sql = $debugMsg . " SELECT COUNT(*) AS qty" .
+           " FROM " . $this->tables['req_relations'] .
+           " WHERE source_id=" . $safeID . " OR destination_id=" . $safeID;
     $rs = $this->db->get_recordset($sql);
-    return($rs[0]['qty']);
+    return (!is_null($rs) && isset($rs[0]['qty'])) ? $rs[0]['qty'] : 0;
   }
   
   
@@ -2509,12 +2512,12 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
    * @param integer $author_id user's ID
    */
   public function add_relation($source_id, $destination_id, $type_id, $author_id) {
-    
+
     $debugMsg = '/* Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__ . ' */';
     $time = $this->db->db_now();
-    $sql = " $debugMsg INSERT INTO {$this->tables['req_relations']} "  . 
-         " (source_id, destination_id, relation_type, author_id, creation_ts) " .
-         " values ($source_id, $destination_id, $type_id, $author_id, $time)";
+    $sql = $debugMsg . " INSERT INTO " . $this->tables['req_relations'] .
+         " (source_id, destination_id, relation_type, author_id, creation_ts)" .
+         " VALUES ($source_id, $destination_id, $type_id, $author_id, $time)";
     $this->db->exec_query($sql);
   }
   
@@ -2527,9 +2530,10 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
    * @param int $id requirement relation id
    */
   public function delete_relation($id) {
-    
+
     $debugMsg = '/* Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__ . ' */';
-    $sql = " $debugMsg DELETE FROM {$this->tables['req_relations']} WHERE id=$id ";
+    $sql = $debugMsg . " DELETE FROM " . $this->tables['req_relations'] .
+         " WHERE id=" . intval($id);
     $this->db->exec_query($sql);
   }
   
@@ -2543,11 +2547,11 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
    * @param int $id requirement ID (can be array of IDs)
    */
   public function delete_all_relations($id) {
-    
+
     $debugMsg = '/* Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__ . ' */';
     $id_list = implode(",", (array)$id);
-    $sql = " $debugMsg DELETE FROM {$this->tables['req_relations']} " . 
-         " WHERE source_id IN ($id_list) OR destination_id IN ($id_list) ";
+    $sql = $debugMsg . " DELETE FROM " . $this->tables['req_relations'] .
+         " WHERE source_id IN ($id_list) OR destination_id IN ($id_list)";
     $this->db->exec_query($sql);
   }
   
