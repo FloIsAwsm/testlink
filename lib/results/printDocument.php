@@ -528,8 +528,8 @@ function getStatsRealExecTime(&$tplanMgr,&$lastExecBy,$tplanID,$decode)
   $stat = null;
   $executed_qty = 0;
   $items2use = array();
-  
-  if( count($lastExecBy) > 0 )
+
+  if( is_array($lastExecBy) && count($lastExecBy) > 0 )
   {
     // divide execution by Platform ID
     $p2loop = array_keys($lastExecBy);

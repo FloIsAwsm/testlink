@@ -234,7 +234,7 @@ function getAllUsersForGrid(&$dbHandler)
 
   // because we need to render this on EXT-JS, we have issues with <no rights> role
   // due to <, then we are going to escape values in description column
-  $loop2do = count($users);
+  $loop2do = count($users ?? []);
   for($idx=0; $idx < $loop2do; $idx++)
   {
     $users[$idx]['description'] = htmlentities($users[$idx]['description']);    
@@ -267,7 +267,7 @@ function getAllUsersForGrid(&$dbHandler)
  
 	if( config_get('demoMode') )
 	{
-  	$loop2do = count($users);
+  	$loop2do = count($users ?? []);
 	  $specialK = array_flip((array)config_get('demoSpecialUsers'));
   	for($idx=0; $idx < $loop2do; $idx++)
 	  {

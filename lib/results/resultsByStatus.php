@@ -113,7 +113,7 @@ $cfOnExec = $cfSet = null;
 
 // done here in order to get some config about images
 $smarty = new TLSmarty();
-if( !is_null($metrics) and count($metrics) > 0 )
+if( count($metrics ?? []) > 0 )
 {              
 
   if($args->addOpAccess)
