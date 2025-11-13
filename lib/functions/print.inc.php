@@ -551,12 +551,12 @@ function renderReqSpecTreeForPrinting(&$db, &$node, &$options,$tocPrefix, $rsCnt
     for($i = 0;$i < $children_qty ;$i++)
     {
       $current = $childNodes[$i];
-      if(is_null($current))
+      if(is_null($current) || $current === REMOVEME)
       {
         continue;
             }
-            
-      if (isset($current['node_type_id']) && 
+
+      if (isset($current['node_type_id']) &&
           $map_id_descr[$current['node_type_id']] == 'requirement_spec')
       {
           $rsCnt++;
@@ -820,7 +820,7 @@ function renderTestSpecTreeForPrinting(&$db,&$node,&$options,$env,$context,$tocP
     for($idx = 0;$idx < $children_qty ;$idx++)
     {
       $current = $childNodes[$idx];
-      if(is_null($current))
+      if(is_null($current) || $current === REMOVEME)
       {
         continue;
       }
