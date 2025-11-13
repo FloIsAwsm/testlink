@@ -6804,11 +6804,11 @@ class testcase extends tlObjectWithAttachments
 
     $tproject_mgr = new testproject($this->db);
 
-    $sql = " $debugMsg SELECT id, source_id, destination_id, relation_type, author_id, creation_ts " . 
-           " FROM {$this->tables['testcase_relations']} " .
-           " WHERE source_id=$safeID OR destination_id=$safeID " .
-           " ORDER BY id ASC ";
-   
+    $sql = $debugMsg . " SELECT id, source_id, destination_id, relation_type, author_id, creation_ts" .
+           " FROM " . $this->tables['testcase_relations'] .
+           " WHERE source_id=" . $safeID . " OR destination_id=" . $safeID .
+           " ORDER BY id ASC";
+
     $relSet['relations']= $this->db->get_recordset($sql);  
 
     if( !is_null($relSet['relations']) && count($relSet['relations']) > 0 )
@@ -6881,12 +6881,12 @@ class testcase extends tlObjectWithAttachments
   /**
    *
    */
-  public function deleteAllRelations($id) 
+  public function deleteAllRelations($id)
   {
     $debugMsg = "/* {$this->debugMsg}" . __FUNCTION__ . ' */';
     $id_list = implode(",", (array)$id);
-    $sql = " $debugMsg DELETE FROM {$this->tables['testcase_relations']} " . 
-           " WHERE source_id IN ($id_list) OR destination_id IN ($id_list) ";
+    $sql = $debugMsg . " DELETE FROM " . $this->tables['testcase_relations'] .
+           " WHERE source_id IN ($id_list) OR destination_id IN ($id_list)";
     $this->db->exec_query($sql);
   }
 
@@ -6910,14 +6910,14 @@ class testcase extends tlObjectWithAttachments
     $safe_first_id = intval($first_id);
     $safe_second_id = intval($second_id);
 
-    $sql = " $debugMsg SELECT COUNT(0) AS qty " .
-           " FROM {$this->tables['testcase_relations']} " .
-           " WHERE ((source_id=" . $safe_first_id . " AND destination_id=" . $safe_second_id . ") " . 
-           " OR (source_id=" . $safe_second_id . " AND destination_id=" . $safe_first_id .  ")) " . 
+    $sql = $debugMsg . " SELECT COUNT(0) AS qty" .
+           " FROM " . $this->tables['testcase_relations'] .
+           " WHERE ((source_id=" . $safe_first_id . " AND destination_id=" . $safe_second_id . ")" .
+           " OR (source_id=" . $safe_second_id . " AND destination_id=" . $safe_first_id . "))" .
            " AND relation_type=" . intval($rel_type_id);
-    
+
     $rs = $this->db->get_recordset($sql);
-    return($rs[0]['qty'] > 0);
+    return (!is_null($rs) && isset($rs[0]['qty']) && $rs[0]['qty'] > 0);
   }
 
   /**
@@ -6928,15 +6928,15 @@ class testcase extends tlObjectWithAttachments
    * 
    * @return integer $count
    */
-  public function getRelationsCount($id) 
+  public function getRelationsCount($id)
   {
     $debugMsg = "/* {$this->debugMsg}" . __FUNCTION__ . ' */';
     $safeID = intval($id);
-    $sql = " $debugMsg SELECT COUNT(*) AS qty " .
-           " FROM {$this->tables['testcase_relations']} " .
-           " WHERE source_id=$safeID OR destination_id=$safeID ";
+    $sql = $debugMsg . " SELECT COUNT(*) AS qty" .
+           " FROM " . $this->tables['testcase_relations'] .
+           " WHERE source_id=" . $safeID . " OR destination_id=" . $safeID;
     $rs = $this->db->get_recordset($sql);
-    return($rs[0]['qty']);
+    return (!is_null($rs) && isset($rs[0]['qty'])) ? $rs[0]['qty'] : 0;
   }
 
   /**
@@ -6958,9 +6958,9 @@ class testcase extends tlObjectWithAttachments
     {
 
       $time = is_null($ts) ? $this->db->db_now() : $ts;
-      $sql = " $debugMsg INSERT INTO {$this->tables['testcase_relations']} "  . 
-             " (source_id, destination_id, relation_type, author_id, creation_ts) " .
-             " values ($source_id, $destination_id, $type_id, $author_id, $time)";
+      $sql = $debugMsg . " INSERT INTO " . $this->tables['testcase_relations'] .
+             " (source_id, destination_id, relation_type, author_id, creation_ts)" .
+             " VALUES ($source_id, $destination_id, $type_id, $author_id, $time)";
       $this->db->exec_query($sql);
       $ret = array('status_ok' => true, 'msg' => 'relation_added');
     }  
@@ -6978,10 +6978,11 @@ class testcase extends tlObjectWithAttachments
    * 
    * @param int $id relation id
    */
-  public function deleteRelationByID($relID) 
+  public function deleteRelationByID($relID)
   {
     $debugMsg = "/* {$this->debugMsg}" . __FUNCTION__ . ' */';
-    $sql = " $debugMsg DELETE FROM {$this->tables['testcase_relations']} WHERE id=" . intval($relID);
+    $sql = $debugMsg . " DELETE FROM " . $this->tables['testcase_relations'] .
+           " WHERE id=" . intval($relID);
     $this->db->exec_query($sql);
   }
 
