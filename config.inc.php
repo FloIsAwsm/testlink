@@ -85,21 +85,22 @@ require_once(TL_ABS_PATH . 'cfg' . DIRECTORY_SEPARATOR . 'const.inc.php');
 
 
 // ----------------------------------------------------------------------------
-/** @var string used to have (when needed) a possibility to identify different TL instances
-    @since 1.9.4 used on mail subject when mail logger is used
+/**
+ * Used to have (when needed) a possibility to identify different TL instances
+ * @since 1.9.4 used on mail subject when mail logger is used
  */
 $tlCfg->instance_id = 'Main TestLink Instance';
 
 /* [LOCALIZATION] */
 
-/** @var string Default localization for users */
+/** Default localization for users */
 // The value must be available in $$tlCfg->locales (see cfg/const.inc.php).
 // Note: An attempt will be done to establish the default locale
 // automatically using $_SERVER['HTTP_ACCEPT_LANGUAGE']
 $tlCfg->default_language = 'en_GB';
 
 /**
- * @var string Charset 'UTF-8' is only officially supported charset (Require
+ * Charset 'UTF-8' is only officially supported charset (Require
  * MySQL version >= 4.1) 'ISO-8859-1' or another Charset could be set for
  * backward compatability by experienced users. However we have not resources
  * to support such patches.
@@ -107,19 +108,19 @@ $tlCfg->default_language = 'en_GB';
 $tlCfg->charset = 'UTF-8';
 
 /**
- * @var string characters used to surround a description in the user interface
+ * Characters used to surround a description in the user interface
  * (for example role)
  **/
 $tlCfg->gui_separator_open =  '[';
 $tlCfg->gui_separator_close = ']';
 $tlCfg->gui_room = '[ %s ]';
 
-/** @var string Title separators are used when componing an title using several strings */
+/** Title separators are used when componing an title using several strings */
 $tlCfg->gui_title_separator_1 = ' : '; // object : name (Test Specification : My best product)
 $tlCfg->gui_title_separator_2 = ' - '; // parent - child
 
 /**
- * @var string delimiter used to create DOC ID in this way:
+ * Delimiter used to create DOC ID in this way:
  * <test_project_Prefix> . g_testcase_cfg->glue_character . <doc_id>
  * Could not be empty
  */
@@ -146,7 +147,7 @@ $tlCfg->force_https = false;
 
 
 /**
- * @var integer Set the session timeout for inactivity [minutes].
+ * Set the session timeout for inactivity [minutes].
  * Default high value disables this feature.
  */
 $tlCfg->sessionInactivityTimeout = 9900;
@@ -178,24 +179,25 @@ $tlCfg->notifications->userSignUp->to->users = null; // i.e. array('login01','lo
 /** Error reporting - do we want php errors to show up for users */
 error_reporting(E_ALL);
 
-/** @var string Default level of logging (NONE, ERROR, INFO, DEBUG, EXTENDED) 
- *  is not used by tlLogger, we need to change this in future.
+/**
+ * Default level of logging (NONE, ERROR, INFO, DEBUG, EXTENDED)
+ * is not used by tlLogger, we need to change this in future.
  */
 $tlCfg->log_level = 'ERROR';
 
-/** @var boolean show smarty debug window */
+/** Show smarty debug window */
 $tlCfg->smarty_debug = false;
 
-/** 
- *  @var string Path to store logs - 
- *  for security reasons (see http://itsecuritysolutions.org/2012-08-13-TestLink-1.9.3-multiple-vulnerabilities/)
- *  put it out of reach via web or configure access denied.
+/**
+ * Path to store logs -
+ * for security reasons (see http://itsecuritysolutions.org/2012-08-13-TestLink-1.9.3-multiple-vulnerabilities/)
+ * put it out of reach via web or configure access denied.
  */
 $tlCfg->log_path = 'C:\xampp\htdocs\testlink\logs'; /* unix example */
 
 
 /**
- * @var string How to warning user when security weak points exists.
+ * How to warning user when security weak points exists.
  *
  * 'SCREEN': messages will displayed on login screen, and tl desktop (default)
  * 'FILE': a file with a list is created but users are not notified via GUI
@@ -230,16 +232,18 @@ $g_loggerCfg = array('mail' => array('enable' => false));
 $g_removeEventsOlderThan = 30;
                             
 
-/**  @var map keys: 'all' + values present on proprety of logger class $loggerTypeDomain
- *                  values can be only these defined on logger.class.php 
- *   @since 1.9.4                                  
- *   example array('all' => array('INFO','AUDIT'),
+/**
+ * Logger filter configuration
+ * keys: 'all' + values present on proprety of logger class $loggerTypeDomain
+ * values can be only these defined on logger.class.php
+ * @since 1.9.4
+ * example array('all' => array('INFO','AUDIT'),
  *                 'mail' =>  array('ERROR'))
  *
  *   $tlCfg->loggerFilter = array('db' => array('DEBUG','AUDIT','WARNING','ERROR'),
  *                                'file' => array('NONE'));
  *
- */                            
+ */
 $tlCfg->loggerFilter = null; // default defined on logger.class.php ;                            
 
 // ----------------------------------------------------------------------------
@@ -473,7 +477,7 @@ $tlCfg->gui->op_area_display->req = 'none'; // 'inline'
 
 
 /**
- * @var string Availability of Test Project specific background colour
+ * Availability of Test Project specific background colour
  * 'background'  -> standard behaviour for 1.6.x you can have a different
  *                  background colour for every test project.
  * 'none'        -> new behaviour no background color change
@@ -763,7 +767,7 @@ $tlCfg->exec_cfg->show_history_all_platforms = FALSE;
 // different models for the attachments management on execution page
 // $att_model_m1 ->  shows upload button and title
 // $att_model_m2 ->  hides upload button and title
-$tlCfg->exec_cfg->att_model = $att_model_m2;   //defined in const.inc.php
+$tlCfg->exec_cfg->att_model = $att_model_m2 ?? null;   //defined in const.inc.php
 
 
 // ENABLED -> test cases will be coloured according to test case status
@@ -1554,7 +1558,7 @@ $tlCfg->urgencyImportance->threshold['low'] = 3;
 $tlCfg->urgencyImportance->threshold['high'] = 6;
 
 /**
- * @var boolean Demo mode disables some functionality
+ * Demo mode disables some functionality
  * user edit disable
  * role create ENABLED
  * user create ENABLED

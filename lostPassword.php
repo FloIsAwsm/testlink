@@ -36,7 +36,7 @@ if ($args->login != "")
     // need to know if auth method for user allows reset
     $user = new tlUser(intval($userID));
     $user->readFromDB($db);
-    if(tlUser::isPasswordMgtExternal($user->authentication,$user->authentication))
+    if(tlUser::isPasswordMgtExternal($user->authentication))
     {
 
       $gui->external_password_mgmt = 1;
@@ -63,8 +63,8 @@ if(!$gui->external_password_mgmt && $userID)
   else if ($result['status'] == tlUser::E_EMAILLENGTH)
   {
     $gui->note = lang_get('mail_empty_address');
-  } 
-  else if ($note != "")
+  }
+  else if ($gui->note != "")
   {
     $gui->note = getUserErrorMessage($result['status']);
   } 

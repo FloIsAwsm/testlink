@@ -260,16 +260,16 @@ $g_field_size->bug_id = 16;
  */
 define('TL_LOCALIZE_TAG','LOCALIZE: ');
 
-/** @var string Default format of date */
+/** Default format of date */
 $tlCfg->date_format ='%d/%m/%Y';
 
-/** @var string Default format of datetime */
+/** Default format of datetime */
 $tlCfg->timestamp_format = '%d/%m/%Y %H:%M:%S';
 
 
-/** 
- * @var array List of supported localizations (used in user preferences to choose one)
- * DEV: Please Maintain the alphabetical order when adding new locales. 
+/**
+ * List of supported localizations (used in user preferences to choose one)
+ * DEV: Please Maintain the alphabetical order when adding new locales.
  *      Also check inc.ext_js_tpl to set localization for ExtJS Components.
  **/
 $tlCfg->locales = array('cs_CZ' => 'Czech','de_DE' => 'German','en_GB' => 'English (wide/UK)',
@@ -283,7 +283,7 @@ $tlCfg->locales = array('cs_CZ' => 'Czech','de_DE' => 'German','en_GB' => 'Engli
  * Format of date - see strftime() in PHP manual
  * NOTE: setting according local is done in testlinkInitPage() using setDateTimeFormats()
  */
-/** @var array Localized format of date */
+/** Localized format of date */
 $tlCfg->locales_date_format = array('cs_CZ' => '%d.%m.%Y','de_DE' => '%d.%m.%Y','en_GB' => '%d/%m/%Y',
                                     'en_US' => '%m/%d/%Y','es_AR' => '%d/%m/%Y','es_ES' => '%d/%m/%Y',
                                     'fi_FI' => '%d/%m/%Y','fr_FR' => '%d/%m/%Y','id_ID' => '%d/%m/%Y',
@@ -291,7 +291,7 @@ $tlCfg->locales_date_format = array('cs_CZ' => '%d.%m.%Y','de_DE' => '%d.%m.%Y',
                                     'nl_NL' => '%d-%m-%Y','pl_PL' => '%d.%m.%Y','pt_BR' => '%d/%m/%Y',
                                     'ru_RU' => '%d/%m/%Y','zh_CN' => '%Y-%m-%d'); 
 
-/** @var array Localized format of full timestamp */
+/** Localized format of full timestamp */
 $tlCfg->locales_timestamp_format = array('cs_CZ' => '%d.%m.%Y %H:%M:%S','de_DE' => '%d.%m.%Y %H:%M:%S',
                                          'en_GB' => '%d/%m/%Y %H:%M:%S','en_US' => '%m/%d/%Y %H:%M:%S',
                                          'es_AR' => '%d/%m/%Y %H:%M:%S','es_ES' => '%d/%m/%Y %H:%M:%S',
@@ -302,7 +302,7 @@ $tlCfg->locales_timestamp_format = array('cs_CZ' => '%d.%m.%Y %H:%M:%S','de_DE' 
                                          'pt_BR' => '%d/%m/%Y %H:%M:%S','ru_RU' => '%d/%m/%Y %H:%M:%S',
                                          'zh_CN' => '%Y-%m-%d %H:%M:%S'); 
 
-/** @var array localized date format for smarty templates (html_select_date function) 
+/** Localized date format for smarty templates (html_select_date function)
  * deprecated since use of datepicker */
 $tlCfg->locales_html_select_date_field_order = array('cs_CZ' => 'dmY','de_DE' => 'dmY','en_GB' => 'dmY',
                                                      'en_US' => 'mdY','es_AR' => 'dmY','es_ES' => 'dmY','fi_FI' => 'dmY',
@@ -360,27 +360,27 @@ $att_model_m2->show_upload_column = true;
  * DO NOT define Custom test status(es) in this file - use custom_config.inc.php
  */
 
-/** 
- * @var array List of Test Case execution results (status_key -> DB code). 
- * The code is used in DB to store results (not GUI).  
+/**
+ * List of Test Case execution results (status_key -> DB code).
+ * The code is used in DB to store results (not GUI).
  * Do not do localisation here, i.e do not change "passed" by your national language.
- */ 
+ */
 $tlCfg->results['status_code'] = array('failed' => 'f','blocked' => 'b','passed' => 'p','not_run' => 'n',
                                        'not_available' => 'x','unknown' => 'u','all' => 'a'); 
 
 
-/** 
+/**
  * Used to get localized string to show to users
  * Order is important, because this will be display order on GUI
- * 
- * @var array key: status ID
- * value: id to use with lang_get() to get the string, from strings.txt (or custom_strings.txt)
- * 
+ *
+ * Array with key: status ID and value: id to use with lang_get()
+ * to get the string, from strings.txt (or custom_strings.txt)
+ *
  * @example use the next code to get localized string of a status
  * <code>
  *    $results_cfg = config_get('results');
  *    lang_get($results_cfg['status_label']["passed"]);
- * </code>        
+ * </code>
  */
 $tlCfg->results['status_label'] = array('not_run' => 'test_status_not_run',
                                         'passed' => 'test_status_passed',
@@ -412,9 +412,8 @@ $tlCfg->results['status_label_for_exec_ui'] = array('not_run' => 'test_status_no
                                                     'failed'  => 'test_status_failed',
                                                     'blocked' => 'test_status_blocked');
 
-/** 
+/**
  * Selected execution result by default. Values is key from $tlCfg->results['status_label']
- * @var string 
  **/
 $tlCfg->results['default_status'] = 'not_run';
 
@@ -515,22 +514,22 @@ define( 'ERROR_LDAP_START_TLS_FAILED',1405);
 // --------------------------------------------------------------------------------------
 /* [Priority, Urgency, Importance] */
 
-/** @var array importance levels */
+/** Importance levels */
 $tlCfg->importance_levels = array(HIGH => 3,MEDIUM => 2,LOW => 1);
 $tlCfg->importance['code_label'] = array(HIGH => 'high',MEDIUM => 'medium',LOW => 'low');
 
 
-/** @var integer Default Test case Importance offered in GUI */
+/** Default Test case Importance offered in GUI */
 $tlCfg->testcase_importance_default = MEDIUM;
 
-/** @var integer Default Test case Urgency offered in GUI */
+/** Default Test case Urgency offered in GUI */
 $tlCfg->testcase_urgency_default = MEDIUM;
 
-/** 
- * @var array Used to get localized string to show to users
+/**
+ * Used to get localized string to show to users
  * key: numeric code
  * value: id to use with lang_get() to get the string, from strings.txt (or custom_strings.txt)
- * @since 1.8 
+ * @since 1.8
  */
 $tlCfg->urgency['code_label'] = array(HIGH => 'urgency_high',MEDIUM => 'urgency_medium',LOW => 'urgency_low');
 
@@ -561,9 +560,9 @@ define('TL_REVIEW_STATUS_REVIEW',   3);
 define('TL_REVIEW_STATUS_OBSOLETE', 4); 
 define('TL_REVIEW_STATUS_FUTURE',   5); 
 
-/** 
- * @var array localization identifiers for review states
- * @since 2.0 
+/**
+ * Localization identifiers for review states
+ * @since 2.0
  **/
 $tlCfg->text_status_labels = array(
     TL_REVIEW_STATUS_DRAFT => 'review_status_draft', 
@@ -625,8 +624,8 @@ define('TL_REQ_TYPE_CONSTRAIN','6');
 define('TL_REQ_TYPE_SYSTEM_FUNCTION','7');
 
 
-/** 
- * @var array localization identifiers for requirements types 
+/**
+ * Localization identifiers for requirements types
  * @since TestLink 1.9
  **/
 $tlCfg->req_cfg->type_labels = array(
@@ -711,7 +710,7 @@ $tlCfg->req_cfg->rel_type_description = array(TL_REQ_REL_TYPE_PARENT_CHILD => 'p
  * Working in this way configuration is simplified.
  *
  * @since TestLink 1.9
- **/
+ */
 $tlCfg->req_cfg->type_expected_coverage = array(TL_REQ_TYPE_INFO => false);
 
 
