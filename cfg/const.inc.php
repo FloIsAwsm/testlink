@@ -51,6 +51,10 @@ ini_set('include_path',ini_get('include_path') . PATH_SEPARATOR .
 /** Localization directory base */
 define('TL_LOCALE_PATH', TL_ABS_PATH . 'locale/');
 
+/** Initialize global configuration object */
+if (!isset($tlCfg)) {
+    $tlCfg = new stdClass();
+}
 
 // --------------------------------------------------------------------------------------
 /* [GENERAL MAGIC NUMBERS] */

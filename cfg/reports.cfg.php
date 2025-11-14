@@ -1,18 +1,23 @@
 <?php
 /**
- * TestLink Open Source Project - http://testlink.sourceforge.net/ 
- * This script is distributed under the GNU General Public License 2 or later. 
+ * TestLink Open Source Project - http://testlink.sourceforge.net/
+ * This script is distributed under the GNU General Public License 2 or later.
  *
  * @filesource	reports.cfg.php
  * @author 		Martin Havlat
  *
- * SCOPE: Definition of report/metrics menu 
- * 
+ * SCOPE: Definition of report/metrics menu
+ *
  * @internal revisions
  * @since 1.9.11
  *
- * 
+ *
  */
+
+/** Initialize global configuration object if not already initialized */
+if (!isset($tlCfg)) {
+    $tlCfg = new stdClass();
+}
 
 /** type of documents */
 define('DOC_TEST_SPEC', 'testspec');

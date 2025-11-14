@@ -194,11 +194,12 @@ class testplan extends tlObjectWithAttachments
     // seems OK => go
     $active_status = intval($item->active) > 0 ? 1 : 0;
     $public_status = intval($item->is_public) > 0 ? 1 : 0;
+    $api_key = md5(rand()) . md5(rand());
 
     $id = $this->tree_manager->new_node($item->testProjectID,$this->node_types_descr_id['testplan'],$name);
-    $sql = "/* $debugMsg */ " . 
+    $sql = "/* $debugMsg */ " .
            " INSERT INTO " . $this->tables['testplans'] . " (id,notes,api_key,testproject_id,active,is_public) " .
-           " VALUES ( {$id} " . ", '" . $this->db->prepare_string($item->notes) . "'," . 
+           " VALUES ( {$id} " . ", '" . $this->db->prepare_string($item->notes) . "'," .
              "'" .  $this->db->prepare_string($api_key) . "'," .
               $item->testProjectID . "," . $active_status . "," . $public_status . ")";
     $result = $this->db->exec_query($sql);
@@ -1593,18 +1594,19 @@ class testplan extends tlObjectWithAttachments
           $sql .= ",urgency ";
           $sql_values  .= ",{$elem['urgency']}";
         }
-        $sql .= " ) " . $sql_values . " ) ";  
-             
+        $sql .= " ) " . $sql_values . " ) ";
+
         // to avoid warnings
+        $new_feature_id = 0;
         $doIt = !isset($already_linked_versions[$platform_id]);
-        if ($doIt || !in_array($tcversion_id, $already_linked_versions[$platform_id])) 
+        if ($doIt || !in_array($tcversion_id, $already_linked_versions[$platform_id]))
         {
           $this->db->exec_query($sql);
           $new_feature_id = $this->db->insert_id($this->tables['testplan_tcversions']);
           $already_linked_versions[$platform_id][] = $tcversion_id;
         }
-        
-        if($my['options']['copy_assigned_to'] && $elem['tester'] > 0)
+
+        if($my['options']['copy_assigned_to'] && $elem['tester'] > 0 && $new_feature_id > 0)
         {
           $features_map = array();
           $feature_id=$new_feature_id;
@@ -1981,16 +1983,17 @@ class testplan extends tlObjectWithAttachments
     
     // At this point there may be duplicates
     $dup_track = array();
+    $finalset = array();
     foreach($superset as $value)
     {
       if (!array_key_exists($value['id'],$dup_track))
       {
         $dup_track[$value['id']] = true;
         $finalset[] = $value;
-      }        
-    }    
-    
-    // Needs to be alphabetical based upon name attribute 
+      }
+    }
+
+    // Needs to be alphabetical based upon name attribute
     usort($finalset, array("testplan", "compare_name"));
     return $finalset;
   }
@@ -2225,12 +2228,13 @@ class testplan extends tlObjectWithAttachments
   function _natsort_builds($builds_map)
   {
     // BUGID - sort in natural order (see natsort in PHP manual)
+    $build_names = array();
     foreach($builds_map as $key => $value)
     {
       $vk[$value['name']]=$key;
       $build_names[$key]=$value['name'];
     }
-    
+
     natsort($build_names);
     $build_num=count($builds_map);
     foreach($build_names as $key => $value)
@@ -2379,6 +2383,7 @@ class testplan extends tlObjectWithAttachments
   function get_linked_cfields_at_design($id,$parent_id=null,$show_on_execution=null)
   {
     $path_len=0;
+    $the_path = array();
     if( is_null($parent_id) )
     {
       // Need to get testplan parent (testproject id) in order to get custom fields
@@ -2411,6 +2416,7 @@ class testplan extends tlObjectWithAttachments
   function get_linked_cfields_at_execution($id,$parent_id=null,$show_on_execution=null)
   {
     $path_len=0;
+    $the_path = array();
     if( is_null($parent_id) )
     {
       // Need to get testplan parent (testproject id) in order to get custom fields
@@ -2997,14 +3003,15 @@ class testplan extends tlObjectWithAttachments
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $total_time = array('platform' => array(), 'totalMinutes' => 0, 'totalTestCases' => 0);
     $targetSet = array();
+    $sql = "";
     $cf_info = $this->cfield_mgr->get_by_name('CF_EXEC_TIME');
-    
+
     // CF exists ?
     if( ($status_ok=!is_null($cf_info)) )
     {
       $cfield_id=key($cf_info);
     }
-    
+
 
     if( $status_ok)
     {
@@ -3150,14 +3157,14 @@ class testplan extends tlObjectWithAttachments
     $num_exec = count($buildSet);
     $build_in = implode(",", $buildSet);
     $status_in = implode("',", (array)$status);
-    
+
     $tcversionPlatformString = "";
     $executionPlatformString = "";
-    if($platformid) {
-      $tcversionPlatformString = "AND T.platform_id=$platformid";
-      $executionPlatformString = "AND E.platform_id=$platformid";
-    }  
-        
+    if($platformID) {
+      $tcversionPlatformString = "AND T.platform_id=$platformID";
+      $executionPlatformString = "AND E.platform_id=$platformID";
+    }
+
     $first_results = null;
     if( in_array($this->notRunStatusCode, (array)$status) )
     {
