@@ -2012,8 +2012,16 @@ class TestlinkXMLRPCServer extends IXR_Server
   {
     $operation=__FUNCTION__;
     $msg_prefix="({$operation}) - ";
-      
-    $keywordSet='';
+
+    // Initialize all variables to avoid undefined variable errors
+    $keywordSet = '';
+    $status_ok = false;
+    $author_id = null;
+    $opt = [];
+    $options = [];
+    $op_result = null;
+    $resultInfo = [];
+
     $this->_setArgs($args);
     $checkFunctions = array('authenticate','checkTestProjectID','checkTestSuiteID','checkTestCaseName');
     $status_ok = $this->_runChecks($checkFunctions,$msg_prefix) && 
