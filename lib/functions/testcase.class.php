@@ -363,6 +363,7 @@ class testcase extends tlObjectWithAttachments
       switch($my['options']['importLogic']['hitCriteria'])
       {
         case 'externalID':
+          $info = null;
           if( ($sf = intval($my['options']['external_id'])) > 0 )
           {
             // check if already exists a test case with this external id
@@ -446,6 +447,7 @@ class testcase extends tlObjectWithAttachments
               {
                 case 'stringPrefix':
                   $doIt = true;
+                  $target = $name;
                   while($doIt)
                   {
                     if( $doIt = !is_null($itemSet) )
@@ -789,9 +791,9 @@ class testcase extends tlObjectWithAttachments
   {
     $sql = " SELECT nodes_hierarchy.name, nodes_hierarchy.id
              FROM  " . $this->tables['nodes_hierarchy'] . " nodes_hierarchy
-             WHERE nodes_hierarchy.node_type_id={$my_node_type}";
+             WHERE nodes_hierarchy.node_type_id={$this->my_node_type}";
     $recordset = $this->db->get_recordset($sql);
-  
+
     return $recordset;
   }
   
@@ -1326,7 +1328,8 @@ class testcase extends tlObjectWithAttachments
       break;
 
     }
-    
+
+    $recordset = null;
     switch ($exec_status)
     {
       case "ALL":
@@ -1552,7 +1555,7 @@ class testcase extends tlObjectWithAttachments
   */
   function formatTestCaseIdentity($id,$external_id)
   {
-      $path2root=$this->tree_manager->get_path($tc_id);
+      $path2root=$this->tree_manager->get_path($id);
       $tproject_id=$path2root[0]['parent_id'];
       $tcasePrefix=$this->tproject_mgr->getTestCasePrefix($tproject_id);
   }
@@ -2202,17 +2205,18 @@ class testcase extends tlObjectWithAttachments
     }
 
     // Control improvements
+    $recordset = null;
     if( !$version_id_is_array && $version_id == self::LATEST_VERSION)
     {
       // But, how performance wise can be do this, instead of using MAX(version)
-      // and a group by? 
-      //           
+      // and a group by?
+      //
       // if $id was a list then this will return something USELESS
-      //           
+      //
       if( is_null($tcid_list) )
-      {         
+      {
         $recordset = array($this->db->fetchFirstRow($sql));
-      } 
+      }
       else
       {
         // Write to event viewer ???
