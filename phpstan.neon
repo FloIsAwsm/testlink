@@ -19,6 +19,3 @@ parameters:
         - '#Function mssql_.*? not found#'
         - '#Path in require_once\(\) .* is not a file or it does not exist#'
         - '#Path in include_once\(\) .* is not a file or it does not exist#'
-
-    # Use baseline for tracking existing errors
-    baseline: phpstan-baseline.neon
