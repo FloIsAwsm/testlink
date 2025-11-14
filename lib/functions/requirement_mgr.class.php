@@ -141,7 +141,7 @@ function get_by_id($id,$version_id=self::ALL_VERSIONS,$version_number=1,$options
 {
   static $debugMsg;
   static $userCache;  // key: user id, value: display name
-  static $lables;
+  static $labels; // Fixed typo: was $lables
   static $user_keys;
 
   if(!$debugMsg)
@@ -3641,7 +3641,7 @@ function getByIDBulkLatestVersionRevision($id,$opt=null)
 {
   static $debugMsg;
   static $userCache;  // key: user id, value: display name
-  static $lables;
+  static $labels; // Fixed typo: was $lables
   static $user_keys;
 
   if(!$debugMsg)
