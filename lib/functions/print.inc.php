@@ -353,7 +353,12 @@ function renderReqSpecNodeForPrinting(&$db, &$node, &$options, $tocPrefix, $rsLe
     $tplan_mgr = new testplan($db);
     $nodeTypes = array_flip($tplan_mgr->tree_manager->get_available_node_types());
   }
-  
+
+  // Initialize to avoid undefined variable warnings
+  $spec = null;
+  $spec_id = null;
+  $who = null;
+
   switch($nodeTypes[$node['node_type_id']])
   {
     case 'requirement_spec_revision':
@@ -362,14 +367,14 @@ function renderReqSpecNodeForPrinting(&$db, &$node, &$options, $tocPrefix, $rsLe
       $who = array('parent_id' => $spec['parent_id'],'item_id' => $spec['id'],
                    'tproject_id' => $spec['testproject_id']);
     break;
-    
+
     case 'requirement_spec':
       $spec = $req_spec_mgr->get_by_id($node['id']);
       $spec_id = $spec['id'];
       $who = array('parent_id' => $spec['id'],'item_id' => $spec['revision_id'],
                    'tproject_id' => $spec['testproject_id']);
     break;
-  } 
+  }
   $name = htmlspecialchars($spec['doc_id'] . $title_separator . $spec['title']);
   
   $docHeadingNumbering = '';

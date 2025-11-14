@@ -661,14 +661,16 @@ class testsuite extends tlObjectWithAttachments
       $this->inlineImageProcessing($new_tsuite_id,$tsuite_info['details'],$oldToNew);
     }
 
+    // Initialize to avoid undefined variable warning
+    $kmap = null;
     if( $my['options']['copyKeywords'] )
     {
       $kmap = isset($my['mappings']['keywords']) ? $my['mappings']['keywords'] : null;
       $this->copy_keyword_assignment($id,$new_tsuite_id,$kmap);
     }
     $this->copy_cfields_values($id,$new_tsuite_id);
-    
-    
+
+
     $my['filters'] = array('exclude_children_of' => array('testcase' => 'exclude my children'));
     $subtree = $this->tree_manager->get_subtree($id,$my['filters']);
     if (!is_null($subtree))
@@ -685,15 +687,15 @@ class testsuite extends tlObjectWithAttachments
             $tcOp = $tcase_mgr->copy_to($elem['id'],$the_parent_id,$user_id,$copyTCaseOpt, $my['mappings']);
             $op['mappings'] += $tcOp['mappings'];
           break;
-            
+
           case $this->node_types_descr_id['testsuite']:
             $tsuite_info = $this->get_by_id($elem['id']);
             $ret = $this->create($the_parent_id,$tsuite_info['name'],
-                                 $tsuite_info['details'],$tsuite_info['node_order']);      
-            
+                                 $tsuite_info['details'],$tsuite_info['node_order']);
+
             $parent_decode[$elem['id']] = $ret['id'];
-            $op['mappings'][$elem['id']] = $ret['id']; 
-                
+            $op['mappings'][$elem['id']] = $ret['id'];
+
             $oldToNew = $this->copy_attachments($elem['id'],$ret['id']);
             $inlineImg = null;
             if(!is_null($oldToNew))
@@ -848,13 +850,16 @@ class testsuite extends tlObjectWithAttachments
   function get_children_testcases($id, $details = 'simple', $options=null)
   {
     $testcases=null;
-    $only_id=($details=='only_id') ? true : false;                    
+    $only_id=($details=='only_id') ? true : false;
     $subtree=$this->tree_manager->get_children($id,array('testsuite' => 'exclude_me'));
     $doit=!is_null($subtree);
-    
+
     $opt = array('getKeywords' => false);
     $opt = array_merge($opt,(array)$options);
 
+    // Initialize to avoid undefined variable warnings
+    $tsuite = null;
+    $tsuiteName = '';
 
     if($doit)
     {
@@ -1428,15 +1433,17 @@ class testsuite extends tlObjectWithAttachments
       $itemSet = null;
       $my['options'] = array('details' => 'full');
       $my['options'] = array_merge($my['options'], (array)$options);
-      
+
       $subtree = $this->tree_manager->get_children($id, array('testcase' => 'exclude_me'));
       if(count($subtree ?? []) > 0)
       {
+      // Initialize to avoid undefined variable warning
+      $itemKeys = array();
       foreach( $subtree as $the_key => $elem)
       {
           $itemKeys[] = $elem['id'];
       }
-      
+
       if($my['options']['details'] == 'full')
       {
           $itemSet = $this->get_by_id($itemKeys, array('orderByClause' => 'ORDER BY node_order'));
@@ -1585,17 +1592,19 @@ class testsuite extends tlObjectWithAttachments
     static $attSet;
     static $targetTag;
 
+    // Initialize to avoid undefined variable warnings
+    $beginTag = '[tlInlineImage]';
+    $endTag = '[/tlInlineImage]';
+
     if(!$attSet || !isset($attSet[$id]))
     {
       $attSet[$id] = $this->attachmentRepository->getAttachmentInfosFor($id,$this->attachmentTableName,'id');
-      $beginTag = '[tlInlineImage]';
-      $endTag = '[/tlInlineImage]';
-    }  
+    }
 
     if(is_null($attSet[$id]))
     {
       return;
-    } 
+    }
 
     // $href = '<a href="Javascript:openTCW(\'%s\',%s);">%s:%s' . " $versionTag (link)<p></a>";
     // second \'%s\' needed if I want to use Latest as indication, need to understand
@@ -1603,7 +1612,7 @@ class testsuite extends tlObjectWithAttachments
     //
     // CRITIC: skipCheck is needed to render OK when creating report on Pseudo-Word format.
     $bhref = is_null($basehref) ? $_SESSION['basehref'] : $basehref;
-    $img = '<p><img src="' . $bhref . '/lib/attachments/attachmentdownload.php?skipCheck=1&id=%id%"></p>'; 
+    $img = '<p><img src="' . $bhref . '/lib/attachments/attachmentdownload.php?skipCheck=1&id=%id%"></p>';
 
     $key2check = array('details');
     $rse = &$item2render;
@@ -1687,15 +1696,18 @@ class testsuite extends tlObjectWithAttachments
   {
     // get all attachments, then check is there are images
     $att = $this->attachmentRepository->getAttachmentInfosFor($id,$this->attachmentTableName,'id');
+
+    // Initialize to avoid undefined variable warning
+    $inlineImg = null;
     foreach($rosettaStone as $oid => $nid)
     {
       if($att[$nid]['is_image'])
       {
         $needle = str_replace($nid,$oid,$att[$nid]['inlineString']);
         $inlineImg[] = array('needle' => $needle, 'rep' => $att[$nid]['inlineString']);
-      }  
-    }  
-    
+      }
+    }
+
     if( !is_null($inlineImg) )
     {
       $dex = $details;

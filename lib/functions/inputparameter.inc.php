@@ -140,13 +140,17 @@ function I_PARAMS($paramInfo,&$args = null)
 	{
 		$source = $info[0];
 		$type = $info[1];
-		for($i = 1;$i <= $MAX_NUM_OF_PARAMS;$i++)  
+
+		// Initialize parameter variables to avoid undefined variable warnings
+		$p1 = $p2 = $p3 = $p4 = $p5 = null;
+		for($i = 1;$i <= $MAX_NUM_OF_PARAMS;$i++)
 		{
 			$varName = "p{$i}";
 			$value = isset($info[$i+1]) ? $info[$i+1] : null;
 			$$varName = $value;
 		}
-		
+
+		$value = null; // Initialize to avoid undefined variable warning
 		switch($type)
 		{
 			case tlInputParameter::ARRAY_INT:

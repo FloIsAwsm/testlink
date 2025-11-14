@@ -44,6 +44,10 @@ if ($args->doUpload)
     {
       if (move_uploaded_file($source, $dest))
       {
+        // Initialize to avoid undefined variable warnings
+        $pcheck_fn = null;
+        $pimport_fn = null;
+
         switch($args->importType)
         {
           case 'XML':
@@ -51,7 +55,7 @@ if ($args->doUpload)
             $pimport_fn="importExecutionResultsFromXML";
           break;
         }
-        
+
         if ($pcheck_fn)
         {
           $gui->file_check=$pcheck_fn($dest);
@@ -209,10 +213,14 @@ function saveImportedResultData(&$db,$resultData,$context,$options)
   $user->readFromDB($db);
   
   $tcase_mgr=new testcase($db);
-  
+
   $resultMap=array();
   $tplan_mgr=null;
   $tc_qty=($resultData ? count($resultData ?? []) : 0);
+
+  // Initialize to avoid undefined variable warnings
+  $tproject_mgr = null;
+  $build_mgr = null;
 
   if($tc_qty)
   {
@@ -220,14 +228,14 @@ function saveImportedResultData(&$db,$resultData,$context,$options)
     $tproject_mgr=new testproject($db);
     $build_mgr=new build_mgr($db);
   }
-  
+
   // Need to do checks on common settings
   //
   // test project exists
   //
-  // test plan id: 
+  // test plan id:
   //              belongs to target test project
-  //              is active 
+  //              is active
   // build id:
   //          belongs to target test plan
   //          is open
@@ -239,10 +247,10 @@ function saveImportedResultData(&$db,$resultData,$context,$options)
   //          if presente is valid i.e. inside the TL domain
   //
   $checks = array();
-  $checks['status_ok'] = true;    
+  $checks['status_ok'] = true;
   $checks['msg'] = null;
   $dummy = null;
-  
+
   if( !is_null($context->tprojectID) && intval($context->tprojectID) > 0)
   {
     $dummy = array($tproject_mgr->get_by_id($context->tprojectID,array('output' => 'existsByID')));
@@ -345,24 +353,28 @@ function saveImportedResultData(&$db,$resultData,$context,$options)
   for($idx=0; $doIt && $idx < $tc_qty;$idx++)
   {
     $tester_id = 0;
-    $tester_name = '';  
+    $tester_name = '';
     $using_external_id = false;
     $message = null;
     $status_ok = true;
     $tcase_exec = $resultData[$idx];
-    
+
+    // Initialize to avoid undefined variable warnings
+    $tcase_id = null;
+    $tcase_external_id = null;
+
     // New attribute "execution type" makes old XML import files incompatible
     // Important NOTICE:
     // tcase_exec is passed BY REFERENCE to allow check_exec_values()change execution type if needed
     //
     $checks = check_exec_values($db,$tcase_mgr,$user_mgr,$tcaseCfg,$tcase_exec,$columnDef['execution_bugs']);
-    $status_ok = $checks['status_ok'];    
+    $status_ok = $checks['status_ok'];
     if($status_ok)
     {
       $tcase_id = $checks['tcase_id'];
       $tcase_external_id = trim($tcase_exec['tcase_external_id']);
       $tester_id = $checks['tester_id'];
-        
+
       // external_id has precedence over internal id
       $using_external_id = ($tcase_external_id != "");
     } 
@@ -427,12 +439,13 @@ function saveImportedResultData(&$db,$resultData,$context,$options)
                       'build_id' => $context->buildID);
         $lexInfo = $tcase_mgr->getLatestExecSingleContext($idCard,$exco,array('output' => 'timestamp'));
         $doInsert = true;
+        $msgTxt = $l10n['import_results_ok']; // Initialize to default value
         if(!is_null($lexInfo))
         {
           $tts = $lexInfo[$tcase_id][0]['execution_ts'];
           $doInsert = ($lexInfo[$tcase_id][0]['execution_ts'] != trim($execution_ts,"'"));
           $msgTxt = $l10n['import_results_skipped'];
-        }  
+        }
 
         if( $doInsert )
         {
@@ -710,35 +723,38 @@ function init_args(&$dbHandler)
 function check_exec_values(&$db,&$tcase_mgr,&$user_mgr,$tcaseCfg,&$execValues,&$columnDef)
 {
   $tables = tlObjectWithDB::getDBTables(array('users','execution_bugs'));
-  $checks=array('status_ok' => false, 'tcase_id' => 0, 'tester_id' => 0, 'msg' => array()); 
+  $checks=array('status_ok' => false, 'tcase_id' => 0, 'tester_id' => 0, 'msg' => array());
   $tcase_id=$execValues['tcase_id'];
   $tcase_external_id=trim($execValues['tcase_external_id']);
   $using_external_id = ($tcase_external_id != ""); // external_id has precedence over internal id
 
+  // Initialize to avoid undefined variable warning
+  $identity = '';
+
   if($using_external_id)
   {
-    // need to get internal id  
+    // need to get internal id
     $checks['tcase_id'] = $tcase_mgr->getInternalID($tcase_external_id);
     $checks['status_ok'] = intval($checks['tcase_id']) > 0 ? true : false;
     if(!$checks['status_ok'])
     {
-       $checks['msg'][]=sprintf(lang_get('tcase_external_id_do_not_exists'),$tcase_external_id); 
+       $checks['msg'][]=sprintf(lang_get('tcase_external_id_do_not_exists'),$tcase_external_id);
     }
   }
   else
   {
-    // before using internal id, I want to check it's a number  
+    // before using internal id, I want to check it's a number
     $checks['tcase_id'] = $tcase_id;
     $checks['status_ok'] = intval($checks['tcase_id']) > 0 ? true : false;
     if(!$checks['status_ok'])
     {
-      $checks['msg'][]=sprintf(lang_get('tcase_id_is_not_number'),$tcase_id); 
+      $checks['msg'][]=sprintf(lang_get('tcase_id_is_not_number'),$tcase_id);
     }
   }
   if($checks['status_ok'])
   {
-    // useful for user feedback 
-    $identity=$using_external_id ? $tcase_external_id : $checks['tcase_id']; 
+    // useful for user feedback
+    $identity=$using_external_id ? $tcase_external_id : $checks['tcase_id'];
   }
  
   if($checks['status_ok'] && $execValues['timestamp'] != '' )
