@@ -2453,12 +2453,12 @@ class TestlinkXMLRPCServer extends IXR_Server
     if($status)
     {
       $status &=$this->checkTestPlanID($messagePrefix);
-          
-      if($status && $this->_isTestCaseIDPresent($messagePrefix))
+
+      if($status && $this->_isTestCaseIDPresent())
       {
         $status &=$this->_checkTCIDAndTPIDValid(null,$messagePrefix);
       }
-      if($status && $this->_isBuildIDPresent($messagePrefix))  
+      if($status && $this->_isBuildIDPresent())
       {
         $status &=$this->checkBuildID($messagePrefix);
       }

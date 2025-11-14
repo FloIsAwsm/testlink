@@ -1738,7 +1738,7 @@ function get_linked_cfields($id,$child_id,$parent_id=null)
 */
 function html_table_of_custom_field_inputs($id,$version_id,$parent_id=null,$name_suffix='', $input_values = null)
 {
-  $cf_map = $this->get_linked_cfields($id,$version_id,$parent_id,$name_suffix);
+  $cf_map = $this->get_linked_cfields($id,$version_id,$parent_id);
   $cf_smarty = $this->cfield_mgr->html_table_inputs($cf_map,$name_suffix,$input_values);
   return $cf_smarty;
 }
@@ -3134,12 +3134,12 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
     }
 
     $rs = $this->db->get_recordset($sql);
-    
-    if(!is_null() && $my['opt']['renderImageInline'])
+
+    if(!is_null($rs) && $my['opt']['renderImageInline'])
     {
       $k2l = array_keys($rs);
       foreach($k2l as $akx)
-      { 
+      {
         $this->renderImageAttachments($rs[$akx]['req_id'],$rs[$akx]);
       } 
       reset($rs);
@@ -3837,14 +3837,14 @@ function getCoverageCounterSet($itemSet)
    *
    *
    */
-  function updateScope($reqVersionID)
+  function updateScope($reqVersionID, $scope)
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
 
     $sql = "/* $debugMsg */ UPDATE " . $this->tables['req_versions'] . " " .
            " SET scope='" . $this->db->prepare_string($scope) . "'" .
            " WHERE id=" . intval($reqVersionID);
-    $this->db->exec_query($sql);    
+    $this->db->exec_query($sql);
   }
 
 

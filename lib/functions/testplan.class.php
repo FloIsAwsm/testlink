@@ -1641,7 +1641,7 @@ class testplan extends tlObjectWithAttachments
         20070519 - franciscom
         changed date to target_date, because date is an Oracle reverved word.
 */
-  private function copy_milestones($tplan_id,$new_tplan_id)
+  private function copy_milestones($tplan_id,$new_tplan_id,$mappings = null)
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $rs=$this->get_milestones($tplan_id);
@@ -1688,11 +1688,12 @@ class testplan extends tlObjectWithAttachments
 
   /**
    * Copy user roles to a new Test Plan
-   * 
+   *
    * @param int $source_id original Test Plan id
    * @param int $target_id new Test Plan id
+   * @param array $mappings optional mappings (unused but kept for consistency)
    */
-  private function copy_user_roles($source_id, $target_id)
+  private function copy_user_roles($source_id, $target_id, $mappings = null)
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $sql = "/* $debugMsg */ SELECT user_id,role_id FROM " . $this->tables['user_testplan_roles'] . " " .
@@ -3289,8 +3290,9 @@ class testplan extends tlObjectWithAttachments
    *
    * @param int $source_id original Test Plan id
    * @param int $target_id new Test Plan id
+   * @param array $mappings optional mappings (unused but kept for consistency)
    */
-  private function copy_attachments($source_id, $target_id)
+  private function copy_attachments($source_id, $target_id, $mappings = null)
   {
       $this->attachmentRepository->copyAttachments($source_id,$target_id,$this->attachmentTableName);
   }

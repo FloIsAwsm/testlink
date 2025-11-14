@@ -3589,7 +3589,7 @@ class testcase extends tlObjectWithAttachments
     $testCaseVersionID = $tc_data[0]['id'];
     if (!$tproject_id)
     {
-      $tproject_id = $this->getTestProjectFromTestCase($tcase_id);
+      $tproject_id = $this->getTestProjectFromTestCase($tcase_id, null);
     }
 
     if (isset($optExport['CFIELDS']) && $optExport['CFIELDS'])

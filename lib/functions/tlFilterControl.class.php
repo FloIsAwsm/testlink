@@ -485,7 +485,7 @@ abstract class tlFilterControl extends tlObjectWithDB
   public abstract function build_tree_menu(&$gui);
 
 
-  protected abstract function getCustomFields();
+  protected abstract function getCustomFields($application_area = null);
 
 
 } // end of class

@@ -588,8 +588,8 @@ class tlUser extends tlDBObject
       return self::S_PWDMGTEXTERNAL;
     }
 
-    if ($this->getPassword($pwd) == $this->encryptPassword($pwd,$this->authentication))
-    {  
+    if ($this->getPassword() == $this->encryptPassword($pwd,$this->authentication))
+    {
       return tl::OK;
     }
     return self::E_PWDDONTMATCH;    
