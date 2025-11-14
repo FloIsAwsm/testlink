@@ -21,39 +21,40 @@
  */
 function getDirSqlFiles($dirPath, $add_dirpath=0)
 {
-$aFileSets=array(); 
-$my_dir_path = '';	
+$aFileSets=array();
+$my_dir_path = '';
 
 foreach( $dirPath as $the_dir)
 {
+  $filesArr = array();
   if ( $add_dirpath )
   {
     $my_dir_path = $the_dir;
-  }    		           
+  }
 
-  if ($handle = opendir($the_dir)) 
+  if ($handle = opendir($the_dir))
   {
       clearstatcache();
-      while (false !== ($file = readdir($handle))) 
+      while (false !== ($file = readdir($handle)))
       {
           $is_folder=is_dir($the_dir . $file);
           // needed because is_dir() cached result. See PHP Manual
           clearstatcache();
-          
+
           if ($file != "." && $file != ".." && !$is_folder)
           {
              // 20071021 - use only is extension sql
              $file=trim($file);
              $path_parts=pathinfo($file);
              if( isset($path_parts['extension']) && $path_parts['extension'] == 'sql' )
-             {   
+             {
                $filesArr[] = $my_dir_path . $file;
-             }  
-          } 
+             }
+          }
       }
       closedir($handle);
-  }  
-  
+  }
+
   sort($filesArr);
   reset($filesArr);
   $aFileSets[]=$filesArr;
@@ -95,6 +96,7 @@ function getTableList($db)
 function getUserList(&$db,$db_type)
 {
    $users=null;
+   $result=null;
    switch($db_type)
    {
       case 'mysql':
@@ -246,6 +248,9 @@ switch($db_type)
 
 }
 
+$msg = '';
+$op = null;
+
 if( $try_create_user==1)
 {
   $user_list = getUserList($db,$db_type);
@@ -253,17 +258,17 @@ if( $try_create_user==1)
   $msg = "ko - fatal error - can't get db server user list !!!";
 }
 
-if ($try_create_user==1 && !is_null($user_list) && count($user_list) > 0) 
+if ($try_create_user==1 && !is_null($user_list) && count($user_list) > 0)
 {
 
     $user_list = array_map('strtolower', $user_list);
     $user_exists=in_array($login_lc, $user_list);
-    if (!$user_exists) 
+    if (!$user_exists)
     {
     	$msg = '';
     	switch($db_type)
     	{
-        
+
         case 'mssql':
         $op = _mssql_make_user_with_grants($db,$the_host,$db_name,$login,$passwd);
         _mssql_set_passwd($db,$login,$passwd);
@@ -279,7 +284,7 @@ if ($try_create_user==1 && !is_null($user_list) && count($user_list) > 0)
         $op = _mysql_make_user($db,$the_host,$db_name,$login,$passwd);
         break;
 
-      }  
+      }
     }
     else
     {
@@ -290,7 +295,7 @@ if ($try_create_user==1 && !is_null($user_list) && count($user_list) > 0)
         case 'mysql':
         $op = _mysql_assign_grants($db,$the_host,$db_name,$login,$passwd);
         break;
-        
+
         case 'postgres':
         $op = _postgres_assign_grants($db,$the_host,$db_name,$login,$passwd);
         break;
@@ -299,16 +304,19 @@ if ($try_create_user==1 && !is_null($user_list) && count($user_list) > 0)
         $op = _mssql_assign_grants($db,$the_host,$db_name,$login,$passwd);
         break;
 
-      }  
-      
+      }
+
     }
-    if( !$op->status_ok )
+    if( $op && !$op->status_ok )
     {
-       $msg .= " but ...";    
-    } 
-    $msg .= " " . $op->msg;    
-    
-    
+       $msg .= " but ...";
+    }
+    if( $op )
+    {
+      $msg .= " " . $op->msg;
+    }
+
+
 }
 
 if( !is_null($db) )
