@@ -1641,7 +1641,7 @@ class testplan extends tlObjectWithAttachments
         20070519 - franciscom
         changed date to target_date, because date is an Oracle reverved word.
 */
-  private function copy_milestones($tplan_id,$new_tplan_id)
+  private function copy_milestones($tplan_id,$new_tplan_id,$mappings = null)
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $rs=$this->get_milestones($tplan_id);
@@ -1688,11 +1688,12 @@ class testplan extends tlObjectWithAttachments
 
   /**
    * Copy user roles to a new Test Plan
-   * 
+   *
    * @param int $source_id original Test Plan id
    * @param int $target_id new Test Plan id
+   * @param array $mappings optional mappings (unused but kept for consistency)
    */
-  private function copy_user_roles($source_id, $target_id)
+  private function copy_user_roles($source_id, $target_id, $mappings = null)
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $sql = "/* $debugMsg */ SELECT user_id,role_id FROM " . $this->tables['user_testplan_roles'] . " " .
@@ -2237,6 +2238,7 @@ class testplan extends tlObjectWithAttachments
 
     natsort($build_names);
     $build_num=count($builds_map);
+    $dummy = array(); // Initialize to avoid undefined variable warning
     foreach($build_names as $key => $value)
     {
       $dummy[$key]=$builds_map[$key];
@@ -3288,8 +3290,9 @@ class testplan extends tlObjectWithAttachments
    *
    * @param int $source_id original Test Plan id
    * @param int $target_id new Test Plan id
+   * @param array $mappings optional mappings (unused but kept for consistency)
    */
-  private function copy_attachments($source_id, $target_id)
+  private function copy_attachments($source_id, $target_id, $mappings = null)
   {
       $this->attachmentRepository->copyAttachments($source_id,$target_id,$this->attachmentTableName);
   }
@@ -3424,6 +3427,7 @@ class testplan extends tlObjectWithAttachments
   public function getStatusForReports()
   {
     // This will be used to create dynamically counters if user add new status
+    $code_verbose = array(); // Initialize to avoid undefined variable warning
     foreach( $this->resultsCfg['status_label_for_exec_ui'] as $tc_status_verbose => $label)
     {
       $code_verbose[$this->resultsCfg['status_code'][$tc_status_verbose]] = $tc_status_verbose;
@@ -4846,6 +4850,7 @@ class testplan extends tlObjectWithAttachments
     $hitsFoundOn['notRun'] = count($hits['notRun']) > 0;
     $hitsFoundOn['otherStatus'] = count($hits['otherStatus']) > 0;
 
+    $items = null; // Initialize to avoid undefined variable warning
     if($hitsFoundOn['notRun'] && $hitsFoundOn['otherStatus'])
     {
       $items = array_merge(array_keys($hits['notRun']), array_keys($hits['otherStatus']));
@@ -4859,7 +4864,7 @@ class testplan extends tlObjectWithAttachments
       $items = array_keys($hits['otherStatus']);
     }
 
-        
+
     return is_null($items) ? $items : array_flip($items);
   } 
 
@@ -5654,6 +5659,7 @@ class testplan extends tlObjectWithAttachments
     
     $fields['ua'] = " UA.build_id AS assigned_build_id, UA.user_id,UA.type,UA.status,UA.assigner_id ";
 
+    $more_exec_fields = ''; // Initialize to avoid undefined variable warning
     $default_fields['exec'] = " E.id AS exec_id, E.tcversion_number," .
                           " E.tcversion_id AS executed, E.testplan_id AS exec_on_tplan, {$more_exec_fields}" .
                        " E.execution_type AS execution_run_type, " .
@@ -5808,10 +5814,17 @@ class testplan extends tlObjectWithAttachments
           $filterBuildActiveStatus .
              " GROUP BY EE.tcversion_id,EE.testplan_id,EE.platform_id,EE.build_id ";
 
-    unset($dummy);
-    unset($buildsInClause);
-    unset($filterBuildActiveStatus);
-    
+    // Only unset if variables were actually set
+    if(isset($dummy)) {
+      unset($dummy);
+    }
+    if(isset($buildsInClause)) {
+      unset($buildsInClause);
+    }
+    if(isset($filterBuildActiveStatus)) {
+      unset($filterBuildActiveStatus);
+    }
+
     return $sqlLEBBP;
   }
 
@@ -6659,12 +6672,13 @@ class testplan extends tlObjectWithAttachments
            " LEFT OUTER JOIN " . $this->tables['platforms'] . " PLAT ON PLAT.id = TPTCV.platform_id ";
 
     $sql .= " WHERE TPTCV.testplan_id={$safe['tplan']} {$addWhere['platform']} {$addWhere['tsuite']} ";
+    $rs = null; // Initialize to avoid undefined variable warning
     switch($my['options']['output'])
     {
       case 'array':
         $rs = $this->db->get_recordset($sql);
       break;
-      
+
       case 'map':
       if($platQty == 1)
       {
@@ -6699,7 +6713,8 @@ class testplan extends tlObjectWithAttachments
     {
       $my[$mk] = array_merge($my[$mk], (array)$$mk);
     }
-        
+
+    $tplan_tcases = null; // Initialize to avoid undefined variable warning
     if( !is_null($sql2do = $this->getLinkedTCVersionsSQL($id,$my['filters'],$my['options'])) )
     {
       // need to document better
@@ -6984,13 +6999,13 @@ class testplan extends tlObjectWithAttachments
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
 
     $my['opt'] = array('active' => null, 'open' => null);
-    $my['opt'] = array_merge($my['opt'],(array)$options);
+    $my['opt'] = array_merge($my['opt'],(array)$filters); // Fixed: was using undefined $options variable
 
-
+    $sql = null; // Initialize to avoid undefined variable warning
     switch($criteria)
     {
       case 'maxID':
-        $sql = " /* $debugMsg */ " . 
+        $sql = " /* $debugMsg */ " .
                " SELECT MAX(id) AS id,testplan_id, name, notes, active, is_open," .
                " release_date,closed_on_date " .
                " FROM " . $this->tables['builds'] . " WHERE testplan_id = {$id} " ;
@@ -7005,7 +7020,7 @@ class testplan extends tlObjectWithAttachments
     {
       $sql .= " AND is_open = " . intval($my['opt']['open']) . " ";
     }
-    
+
     $rs = $this->db->get_recordset($sql);
     
     return $rs;

@@ -514,7 +514,7 @@ class reqCommands
     $target_req_spec = $this->reqSpecMgr->get_by_id($argsObj->containerID);
     $itemID = current($argsObj->itemSet);
     $argsObj->req_id = $itemID;
-    $obj = $this->copy($argsObj);
+    $obj = $this->copy($argsObj, $request);
     $obj->req = null;
     $obj->req_spec_id = $argsObj->req_spec_id;
       

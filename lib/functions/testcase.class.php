@@ -2109,6 +2109,7 @@ class testcase extends tlObjectWithAttachments
       }
     }
   
+    $sql = null; // Initialize to avoid undefined variable warning
     switch($my['options']['output'])
     {
       case 'full':
@@ -3225,6 +3226,7 @@ class testcase extends tlObjectWithAttachments
         }
         else
         {
+            $exec_id_list = $my['options']['exec_to_exclude'];
             $where_clause  .= " AND e.id <> {$exec_id_list} ";
         }
     }
@@ -3587,7 +3589,7 @@ class testcase extends tlObjectWithAttachments
     $testCaseVersionID = $tc_data[0]['id'];
     if (!$tproject_id)
     {
-      $tproject_id = $this->getTestProjectFromTestCase($tcase_id);
+      $tproject_id = $this->getTestProjectFromTestCase($tcase_id, null);
     }
 
     if (isset($optExport['CFIELDS']) && $optExport['CFIELDS'])
@@ -4084,13 +4086,14 @@ class testcase extends tlObjectWithAttachments
     $itemSet=$req_mgr->get_all_for_tcase($from);
     if( !is_null($itemSet) )
     {
+      $items = array(); // Initialize to avoid undefined variable warning
       $loop2do=count($itemSet);
       for($idx=0; $idx < $loop2do; $idx++)
       {
         if( isset($mappings[$itemSet[$idx]['id']]) )
         {
                   $items[$idx]=$mappings[$itemSet[$idx]['id']];
-                }       
+                }
                 else
                 {
           $items[$idx]=$itemSet[$idx]['id'];
@@ -4361,23 +4364,24 @@ class testcase extends tlObjectWithAttachments
     $cf_smarty = '';
     $cf_scope=trim($scope);
     $method_name='get_linked_cfields_at_' . $cf_scope;
-    
+
+    $cf_map = null; // Initialize to avoid undefined variable warning
     switch($cf_scope)
     {
       case 'testplan_design':
-        $cf_map = $this->$method_name($id,$parent_id,null,$link_id,null,$tproject_id);    
+        $cf_map = $this->$method_name($id,$parent_id,null,$link_id,null,$tproject_id);
       break;
-      
+
       case 'design':
-        $cf_map = $this->$method_name($id,$link_id,$parent_id,$filters,$tproject_id);    
+        $cf_map = $this->$method_name($id,$link_id,$parent_id,$filters,$tproject_id);
       break;
-            
+
       case 'execution':
-        $cf_map = $this->$method_name($id,$parent_id,null,$link_id,$tplan_id,$tproject_id);    
+        $cf_map = $this->$method_name($id,$parent_id,null,$link_id,$tplan_id,$tproject_id);
       break;
-            
+
     }
-    
+
     if(!is_null($cf_map))
     {
       $cf_smarty = $this->cfield_mgr->html_table_inputs($cf_map,$name_suffix,$input_values);
@@ -4483,24 +4487,25 @@ class testcase extends tlObjectWithAttachments
       $location = $filters[$filterKey];
     }
 
+    $cf_map = null; // Initialize to avoid undefined variable warning
     switch($scope)
     {
       case 'design':
         $cf_map = $this->get_linked_cfields_at_design($id,$link_id,null,$filters,$tproject_id);
       break;
-      
+
       case 'testplan_design':
         $cf_map = $this->get_linked_cfields_at_testplan_design($id,null,$filters,$link_id,
                                                                $testplan_id,$tproject_id);
       break;
-      
+
       case 'execution':
         $cf_map = $this->get_linked_cfields_at_execution($id,null,$filters,$execution_id,
                                                          $testplan_id,$tproject_id,$location);
       break;
-    }   
+    }
     $show_cf = config_get('custom_fields')->show_custom_fields_without_value;
-      
+
     if(!is_null($cf_map))
     {
       foreach($cf_map as $cf_id => $cf_info)
@@ -5207,23 +5212,25 @@ class testcase extends tlObjectWithAttachments
 
     $my['options'] = array( 'max_field' => 'tcversion_id', 'access_key' => 'tcversion_id');
     $my['options'] = array_merge($my['options'], (array)$options);
-      
-      
-      
+
+
+    // Initialize to avoid undefined variable warnings
+    $maxClause = '';
+    $selectClause = '';
     switch($my['options']['max_field'])
     {
       case 'version':
         $maxClause = " SELECT MAX(TCV.version) AS version ";
         $selectClause = " SELECT TCV.version AS version ";
-      break;  
+      break;
 
       case 'tcversion_id':
         $maxClause = " SELECT MAX(TCV.id) AS tcversion_id ";
         $selectClause = " SELECT TCV.id AS tcversion_id ";
-      break;  
+      break;
     }
-      
-    $sql = "/* $debugMsg */ " .       
+
+    $sql = "/* $debugMsg */ " .
            " {$maxClause}, NH_TCVERSION.parent_id AS testcase_id " .
            " FROM " . $this->tables['tcversions'] . " TCV " .
            " JOIN " . $this->tables['nodes_hierarchy'] . " NH_TCVERSION " .

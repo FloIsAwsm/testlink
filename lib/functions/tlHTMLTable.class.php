@@ -27,10 +27,10 @@ require_once('table.class.php');
  */
 class tlHTMLTable extends tlTable
 {
-	public function __construct($columns, $data)
+	public function __construct($columns, $data, $tableID = '')
 	{
 		// Save those for faster access in renderStatus() and renderPriority()
-		parent::__construct($columns, $data);
+		parent::__construct($columns, $data, $tableID);
 		$resultsCfg = config_get('results');
 		$this->code_status = $resultsCfg['code_status'];
 		$this->status_color = $resultsCfg['charts']['status_colour'];

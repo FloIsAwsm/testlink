@@ -346,8 +346,8 @@ class tlTestCaseFilterControl extends tlFilterControl {
     // all required objects has been created
     $this->init_filters();
 
-    $this->initTreeOptions($this->mode);
-    
+    $this->initTreeOptions();
+
     // delete any filter settings that may be left from previous calls in session
     // Session data has been designed to provide an unidirectional channel
     // between the left pane where tree lives and right pane.
