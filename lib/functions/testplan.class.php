@@ -2797,6 +2797,9 @@ class testplan extends tlObjectWithAttachments
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $estimated = array('platform' => array(), 'totalMinutes' => 0, 'totalTestCases' => 0);
+    $status_ok = false;
+    $cfield_id = null;
+    $tcVersionIDSet = array();
     $cf_info = $this->cfield_mgr->get_by_name('CF_ESTIMATED_EXEC_TIME');
     
     // CF exists ?
@@ -2946,9 +2949,9 @@ class testplan extends tlObjectWithAttachments
       // we will compute time for ALL linked and executed test cases,
       // BUT USING ONLY TIME SPEND for LAST executed TCVERSION
       $options = array('addExecInfo' => true);
-      $executed = $this->getLTCVNewGeneration($id,$filters,$options); 
+      $executed = $this->getLTCVNewGeneration($id,$filters,$options);
 
-      if( ($status_ok = !is_null($executed)) )
+      if( !is_null($executed) )
       {
         $tc2loop = array_keys($executed);
         foreach($tc2loop as $tcase_id)
@@ -3005,6 +3008,8 @@ class testplan extends tlObjectWithAttachments
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $total_time = array('platform' => array(), 'totalMinutes' => 0, 'totalTestCases' => 0);
     $targetSet = array();
+    $status_ok = false;
+    $cfield_id = null;
     $sql = "";
     $cf_info = $this->cfield_mgr->get_by_name('CF_EXEC_TIME');
 

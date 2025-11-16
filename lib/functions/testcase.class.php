@@ -2516,10 +2516,10 @@ class testcase extends tlObjectWithAttachments
 
     $sql .= " ORDER BY version,tplan_name";
     $rs = $this->db->get_recordset($sql);
-    
+
     // set right tcversion_id, based on tcversion_number,version comparison
-    $item_not_executed = null;
-    $item_executed = null;
+    $item_not_executed = array();
+    $item_executed = array();
     $link_info = null;
     $in_set = null;
 
