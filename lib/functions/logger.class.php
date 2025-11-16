@@ -85,12 +85,14 @@ class tlLogger extends tlObject
   protected $loggerTypeClass = array('db' => null, 'file' => null, 'mail' => null);
   protected $loggerTypeDomain;
   protected $logLevelFilter = null;
+
+  /** @var database Database connection object */
   protected $db = null;
-    
-  public function __construct(&$db)
+
+  public function __construct(database $db)
   {
     parent::__construct();
-    
+
     $this->loggerTypeDomain = array_flip(array_keys($this->loggerTypeClass));
     foreach($this->loggerTypeClass as $id => $className)
     {
@@ -98,7 +100,7 @@ class tlLogger extends tlObject
       if( is_null($className) )
       {
         $class2call = 'tl' . strtoupper($id) . 'Logger';
-      } 
+      }
       $this->loggers[$id] = new $class2call($db);
     }
     
@@ -411,8 +413,8 @@ class tlTransaction extends tlDBObject
   public $sessionID = null;
 
   protected $events = null;
-   
-  public function __construct(&$db)
+
+  public function __construct(database $db)
   {
     parent::__construct($db);
   }
@@ -589,12 +591,12 @@ class tlTransaction extends tlDBObject
 class tlEventManager extends tlObjectWithDB
 {
   private static $s_instance;
-  public function __construct(&$db)
+  public function __construct(database $db)
   {
     parent::__construct($db);
   }
-  
-    public static function create(&$db)
+
+    public static function create(database $db)
     {
       if (!isset(self::$s_instance))
       {
@@ -900,7 +902,7 @@ class tlDBLogger extends tlObjectWithDB
   protected $pendingTransaction = null;
   protected $doLogging = true;
 
-  public function __construct(&$db)
+  public function __construct(database $db)
   {
     parent::__construct($db);
   }
@@ -1217,9 +1219,9 @@ class tlMailLogger extends tlObjectWithDB
   private $from_email;
   private $return_path_email;
   private $configIsOK;
-  
-  
-  public function __construct(&$db)
+
+
+  public function __construct(database $db)
   {
     parent::__construct($db);
     $this->sendto_email = config_get('tl_admin_email');

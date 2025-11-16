@@ -28,10 +28,10 @@
  */
 class tlTestPlanMetrics extends testplan
 {
-  /** @var resource references passed in by constructor */
-  var  $db = null;
+  /** @var database Database connection object */
+  public $db = null;
 
-  /** @var object class references passed in by constructor */
+  /** @var testplan Test plan manager */
   private $tplanMgr = null;
   private $testPlanID = -1;
   private  $tprojectID = -1;
@@ -44,11 +44,11 @@ class tlTestPlanMetrics extends testplan
   private $statusCode;
   
 
-  /** 
-   * class constructor 
-   * @param resource &$db reference to database handler
-   **/    
-  function __construct(&$db)
+  /**
+   * Class constructor
+   * @param database $db Database object (not a reference in PHP 8)
+   **/
+  public function __construct(database $db)
   {
     $this->resultsCfg = config_get('results');
     $this->testCaseCfg = config_get('testcase_cfg');

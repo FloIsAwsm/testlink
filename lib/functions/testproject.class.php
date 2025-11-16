@@ -28,10 +28,14 @@ class testproject extends tlObjectWithAttachments
   const TESTCASE_PREFIX_MAXLEN = 16; // must be changed if field dimension changes
   const GET_NOT_EMPTY_REQSPEC = 1;
   const GET_EMPTY_REQSPEC = 0;
-  
-  /** @var database handler */
+
+  /** @var database Database connection object */
   public $db;
+
+  /** @var tree Tree manager for hierarchy */
   public $tree_manager;
+
+  /** @var cfield_mgr Custom fields manager */
   public $cfield_mgr;
 
   // Node Types (NT)
@@ -41,18 +45,18 @@ class testproject extends tlObjectWithAttachments
 
   public $debugMsg;
 
-  /** 
+  /**
    * Class constructor
-   * 
-   * @param resource &$db reference to database handler
+   *
+   * @param database $db Database object (not a reference in PHP 8)
    */
-  function __construct(&$db)
+  public function __construct(database $db)
   {
-    $this->db = &$db;
+    $this->db = $db;
     $this->tree_manager = new tree($this->db);
-    $this->cfield_mgr=new cfield_mgr($this->db);
+    $this->cfield_mgr = new cfield_mgr($this->db);
     $this->debugMsg = 'Class:' . __CLASS__ . ' - Method: ';
-    tlObjectWithAttachments::__construct($this->db,'nodes_hierarchy');
+    tlObjectWithAttachments::__construct($this->db, 'nodes_hierarchy');
     $this->object_table = $this->tables['testprojects'];
   }
 
