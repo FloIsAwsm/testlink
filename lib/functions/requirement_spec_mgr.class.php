@@ -19,11 +19,16 @@ class requirement_spec_mgr extends tlObjectWithAttachments
 {
   const CASE_SENSITIVE=0;
   const CASE_INSENSITIVE=1;
-  
+
+  /** @var database Database connection object */
   public $db;
+
+  /** @var cfield_mgr Custom fields manager */
   public $cfield_mgr;
+
+  /** @var tree Tree manager for hierarchy */
   public $tree_mgr;
-  
+
   public $import_file_types = array("XML" => "XML");
   public $export_file_types = array("XML" => "XML");
   public $my_node_type;
@@ -31,22 +36,22 @@ class requirement_spec_mgr extends tlObjectWithAttachments
   public $node_types_id_descr;
   public $attachmentTableName;
   public $field_size;
+
+  /** @var requirement_mgr Requirements manager */
   public $req_mgr;
   public $relationsCfg;
 
-  /*
-    contructor
-
-    args: db: reference to db object
-
-    returns: instance of requirement_spec_mgr
-
-  */
-  function __construct(&$db)
+  /**
+   * Constructor for requirement_spec_mgr
+   *
+   * @param database $db Database object (not a reference in PHP 8)
+   * @return instance of requirement_spec_mgr
+   */
+  public function __construct(database $db)
   {
-    $this->db = &$db;
+    $this->db = $db;
     $this->cfield_mgr = new cfield_mgr($this->db);
-    $this->tree_mgr =  new tree($this->db);
+    $this->tree_mgr = new tree($this->db);
     $this->req_mgr = new requirement_mgr($this->db);
 
     $this->node_types_descr_id = $this->tree_mgr->get_available_node_types();
@@ -54,7 +59,7 @@ class requirement_spec_mgr extends tlObjectWithAttachments
     $this->my_node_type = $this->node_types_descr_id['requirement_spec'];
 
     $this->attachmentTableName = 'req_specs';
-    tlObjectWithAttachments::__construct($this->db,$this->attachmentTableName);
+    tlObjectWithAttachments::__construct($this->db, $this->attachmentTableName);
     $this->object_table=$this->tables['req_specs'];
 
     $this->field_size = config_get('field_size');

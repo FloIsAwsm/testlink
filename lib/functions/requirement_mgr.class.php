@@ -20,10 +20,17 @@
 require_once( dirname(__FILE__) . '/attachments.inc.php');
 class requirement_mgr extends tlObjectWithAttachments
 {
+  /** @var database Database connection object */
   public $db;
+
+  /** @var cfield_mgr Custom fields manager */
   public $cfield_mgr;
+
   public $my_node_type;
+
+  /** @var tree Tree manager for hierarchy */
   public $tree_mgr;
+
   public $node_types_descr_id;
   public $node_types_id_descr;
   public $attachmentTableName;
@@ -52,23 +59,20 @@ class requirement_mgr extends tlObjectWithAttachments
     
 
 
-  /*
-    function: requirement_mgr
-              contructor
-
-    args: db: reference to db object
-
-    returns: instance of requirement_mgr
-
-  */
-  function __construct(&$db)
+  /**
+   * Constructor for requirement_mgr
+   *
+   * @param database $db Database object (not a reference in PHP 8)
+   * @return instance of requirement_mgr
+   */
+  public function __construct(database $db)
   {
-    $this->db = &$db;
-    $this->cfield_mgr=new cfield_mgr($this->db);
-    $this->tree_mgr =  new tree($this->db);
-    
+    $this->db = $db;
+    $this->cfield_mgr = new cfield_mgr($this->db);
+    $this->tree_mgr = new tree($this->db);
+
     $this->attachmentTableName = 'requirements';
-    tlObjectWithAttachments::__construct($this->db,$this->attachmentTableName);
+    tlObjectWithAttachments::__construct($this->db, $this->attachmentTableName);
 
     $this->node_types_descr_id= $this->tree_mgr->get_available_node_types();
     $this->node_types_id_descr=array_flip($this->node_types_descr_id);

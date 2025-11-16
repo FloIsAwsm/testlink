@@ -60,23 +60,23 @@ class tree extends tlObject
   public $ROOT_NODE_TYPE_ID = 1;
   public $ROOT_NODE_PARENT_ID = NULL;
 
-  /** @var resource database handler */
+  /** @var database Database connection object */
   public $db;
 
   /**
-   * Class costructor
-   * @param resource &$db reference to database handler
+   * Class constructor
+   * @param database $db Database object (not a reference in PHP 8)
    */
-  function __construct(&$db) 
+  public function __construct(database $db)
   {
-    if( !is_object($db) )
+    if (!is_object($db))
     {
       $msg = __METHOD__ . ' :: FATAL Error $db IS NOT AN Object';
       throw new Exception($msg);
     }
-    
+
     parent::__construct();
-    $this->db = &$db;
+    $this->db = $db;
     $this->object_table = $this->tables['nodes_hierarchy'];
 
     $this->node_tables = $this->node_tables_by['name'];
