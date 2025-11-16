@@ -1169,6 +1169,7 @@ class TestlinkXMLRPCServer extends IXR_Server
     $operation=__FUNCTION__;
     $msg_prefix="({$operation}) - ";
     $status_ok=true;
+    $build_info = null;  // Initialize to avoid undefined variable error
     $this->_setArgs($args);
     $resultInfo=array();
 
@@ -1783,13 +1784,13 @@ class TestlinkXMLRPCServer extends IXR_Server
           }
       }
 
-      if( $status_ok ) 
+      if( $status_ok )
       {
           $status_ok=!empty($prefix);
           if(!$status_ok)
-          {     
-             $this->errors[] = new IXR_Error(TESTPROJECT_TESTCASEPREFIX_IS_EMPTY, 
-                                             $msg_prefix . $check_op['msg']);
+          {
+             $this->errors[] = new IXR_Error(TESTPROJECT_TESTCASEPREFIX_IS_EMPTY,
+                                             $msg_prefix . "Test case prefix cannot be empty");
           }
       }
 
@@ -2012,8 +2013,16 @@ class TestlinkXMLRPCServer extends IXR_Server
   {
     $operation=__FUNCTION__;
     $msg_prefix="({$operation}) - ";
-      
-    $keywordSet='';
+
+    // Initialize all variables to avoid undefined variable errors
+    $keywordSet = '';
+    $status_ok = false;
+    $author_id = null;
+    $opt = [];
+    $options = [];
+    $op_result = null;
+    $resultInfo = [];
+
     $this->_setArgs($args);
     $checkFunctions = array('authenticate','checkTestProjectID','checkTestSuiteID','checkTestCaseName');
     $status_ok = $this->_runChecks($checkFunctions,$msg_prefix) && 
@@ -2519,7 +2528,7 @@ class TestlinkXMLRPCServer extends IXR_Server
       }
       else 
       {
-        $this->errors[] = new IXR_Error($ret['error_code'], $msg_prefix . $ret['error_msg']); 
+        $this->errors[] = new IXR_Error($ret['error_code'], $messagePrefix . $ret['error_msg']); 
       }           
     }
         
@@ -2865,7 +2874,7 @@ class TestlinkXMLRPCServer extends IXR_Server
           $tproject_info = $this->tprojectMgr->get_by_id($tproject_id);
           $msg = sprintf(TPLAN_TPROJECT_KO_STR,$tplan_info['name'],$tplan_id,
                                                $tproject_info['name'],$tproject_id);  
-          $this->errors[] = new IXR_Error(TPLAN_TPROJECT_KO,$msg_prefix . $msg); 
+          $this->errors[] = new IXR_Error(TPLAN_TPROJECT_KO,$messagePrefix . $msg); 
        }
                   
     } 
@@ -2876,7 +2885,7 @@ class TestlinkXMLRPCServer extends IXR_Server
       $ret = $this->checkTestCaseAncestry();
       if( !$ret['status_ok'] )
       {
-        $this->errors[] = new IXR_Error($ret['error_code'], $msg_prefix . $ret['error_msg']); 
+        $this->errors[] = new IXR_Error($ret['error_code'], $messagePrefix . $ret['error_msg']); 
       }           
     }
         
@@ -2896,8 +2905,10 @@ class TestlinkXMLRPCServer extends IXR_Server
       {
         $status_ok=false;
         $tcase_info=$this->tcaseMgr->get_by_id($tcase_id);
+        // Use external ID from tcase_info if available, otherwise use id
+        $tcase_external_id = isset($tcase_info[0]['tc_external_id']) ? $tcase_info[0]['tc_external_id'] : $tcase_id;
         $msg = sprintf(TCASE_VERSION_NUMBER_KO_STR,$version_number,$tcase_external_id,$tcase_info[0]['name']);  
-        $this->errors[] = new IXR_Error(TCASE_VERSION_NUMBER_KO,$msg_prefix . $msg); 
+        $this->errors[] = new IXR_Error(TCASE_VERSION_NUMBER_KO,$messagePrefix . $msg); 
       }                  
                    
     }     
@@ -2952,7 +2963,7 @@ class TestlinkXMLRPCServer extends IXR_Server
         else
         {
           $msg = sprintf(MISSING_PLATFORMID_BUT_NEEDED_STR,$tplan_info['name'],$tplan_id);  
-          $this->errors[] = new IXR_Error(MISSING_PLATFORMID_BUT_NEEDED,$msg_prefix . $msg); 
+          $this->errors[] = new IXR_Error(MISSING_PLATFORMID_BUT_NEEDED,$messagePrefix . $msg); 
           $status_ok = false;
         }
       }
@@ -3010,7 +3021,7 @@ class TestlinkXMLRPCServer extends IXR_Server
             $platform_name = $rs[$target_tcversion[$version_number]['id']][$platform_id]['name'];
             $msg = sprintf(LINKED_FEATURE_ALREADY_EXISTS_STR,$tplan_info['name'],$tplan_id,
                            $platform_name, $platform_id);  
-            $this->errors[] = new IXR_Error(LINKED_FEATURE_ALREADY_EXISTS,$msg_prefix . $msg); 
+            $this->errors[] = new IXR_Error(LINKED_FEATURE_ALREADY_EXISTS,$messagePrefix . $msg); 
             $status_ok = false;
           }
         }  
@@ -3023,7 +3034,7 @@ class TestlinkXMLRPCServer extends IXR_Server
           $other_version = $all_tcversions[$linked_tcversion]['version'];
           $msg = sprintf(OTHER_VERSION_IS_ALREADY_LINKED_STR,$other_version,$version_number,
                          $tplan_info['name'],$tplan_id);
-          $this->errors[] = new IXR_Error(OTHER_VERSION_IS_ALREADY_LINKED,$msg_prefix . $msg); 
+          $this->errors[] = new IXR_Error(OTHER_VERSION_IS_ALREADY_LINKED,$messagePrefix . $msg); 
           $status_ok = false;
         }
         
@@ -3136,7 +3147,7 @@ class TestlinkXMLRPCServer extends IXR_Server
       $status_ok=$ret['status_ok'];
       if( !$status_ok )
       {
-        $this->errors[] = new IXR_Error($ret['error_code'], $msg_prefix . $ret['error_msg']); 
+        $this->errors[] = new IXR_Error($ret['error_code'], $messagePrefix . $ret['error_msg']); 
       }           
     }
        
@@ -3146,7 +3157,7 @@ class TestlinkXMLRPCServer extends IXR_Server
       $status_ok=$ret['status_ok'];
       if( !$status_ok )
       {
-        $this->errors[] = new IXR_Error($ret['error_code'], $msg_prefix . $ret['error_msg']); 
+        $this->errors[] = new IXR_Error($ret['error_code'], $messagePrefix . $ret['error_msg']); 
       }           
     }
        
@@ -3602,8 +3613,8 @@ public function getTestCaseAttachments($args)
                 $names[$key]=$this->_isParamPresent($key,$msg_prefix,self::SET_ERROR) ? trim($this->args[$key]) : '';
                 if($names[$key]=='')
                 {
-                    $status_ok=false;    
-                    breack;
+                    $status_ok=false;
+                    break;
                 }
             }
         }
@@ -6003,7 +6014,7 @@ protected function createAttachmentTempFile()
           $ret = $this->checkTestCaseVersionNumberAncestry();
           if( !($status_ok = $ret['status_ok']) )
           {
-            $this->errors[] = new IXR_Error($ret['error_code'], $msg_prefix . $ret['error_msg']); 
+            $this->errors[] = new IXR_Error($ret['error_code'], $messagePrefix . $ret['error_msg']); 
           }
         }
         if( $status_ok )

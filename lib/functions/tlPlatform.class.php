@@ -29,13 +29,11 @@ class tlPlatform extends tlObjectWithDB
 
 
   /**
-   * @param $db database object
-   * @param $tproject_id to work on. If null (default) the project in session
-   *                     is used
-     * DO NOT USE this kind of code is not accepted have this kind of global coupling
-     * for lazy users
+   * Constructor
+   * @param database $db Database object (not a reference in PHP 8)
+   * @param int|null $tproject_id Test project ID to work on. If null (default) the project in session is used
    */
-  public function __construct(&$db, $tproject_id = null)
+  public function __construct(database $db, $tproject_id = null)
   {
     parent::__construct($db);
     $this->tproject_id = $tproject_id;

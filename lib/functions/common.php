@@ -534,16 +534,20 @@ function redirect($url, $level = 'location')
 
 /**
  * Security parser for input strings
- * 
- * @param string $parameter
- * @return string cleaned parameter
+ * Removes slashes from input data
+ *
+ * Note: magic_quotes_gpc was removed in PHP 7.0, so this function
+ * always processes input in PHP 8.
+ *
+ * @param string|array $parameter Input data to clean
+ * @param bool $bGPC Kept for backward compatibility (no longer used in PHP 8)
+ * @return string|array Cleaned parameter with slashes removed
  */
 function strings_stripSlashes($parameter,$bGPC = true)
 {
-  if ($bGPC && !ini_get('magic_quotes_gpc'))
-  { 
-    return $parameter;
-  }
+  // magic_quotes_gpc was removed in PHP 7.0
+  // In PHP 8, this function always processes input
+  // $bGPC parameter kept for backward compatibility but is no longer checked
 
   if (is_array($parameter))
   {
@@ -553,21 +557,21 @@ function strings_stripSlashes($parameter,$bGPC = true)
       foreach($parameter as $key=>$value)
       {
         if (is_array($value))
-        {  
+        {
           $retParameter[$key] = strings_stripSlashes($value,$bGPC);
         }
         else
-        {  
+        {
           $retParameter[$key] = stripslashes($value);
-        }  
+        }
       }
     }
     return $retParameter;
   }
   else
-  {  
+  {
     return stripslashes($parameter);
-  }  
+  }
 }
 
 

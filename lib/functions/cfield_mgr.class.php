@@ -51,10 +51,10 @@ class cfield_mgr extends tlObject
   const ENABLED = 1;
   const DISABLED = 0;
     
-	/** @var resource the database handler */
+	/** @var database Database connection object */
 	public $db;
 
-	/** @var object tree class */
+	/** @var tree Tree manager for hierarchy */
 	public $tree_manager;
 
   /**
@@ -200,14 +200,14 @@ class cfield_mgr extends tlObject
     
 	/**
 	 * Class constructor
-	 * 
-	 * @param resource &$db reference to the database handler
+	 *
+	 * @param database $db Database object (not a reference in PHP 8)
 	 */
-	function __construct(&$db)
+	public function __construct(database $db)
 	{
-   	parent::__construct();
+		parent::__construct();
 
-		$this->db = &$db;
+		$this->db = $db;
 		$this->tree_manager = new tree($this->db);
 
 		$cfConfig = config_get('custom_fields');

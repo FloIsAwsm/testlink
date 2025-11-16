@@ -109,15 +109,15 @@ class tlRole extends tlDBObject
     return tl::OK;
   }
   
-  /* Read a role from the database 
-   * @param $db resource [ref] the database connection
+  /* Read a role from the database
+   * @param database $db Database connection object
    * @param $options integer any combination of TLOBJ_O_ or ROLE_O - Flags
-   * 
+   *
    * @return integer returns tl::OK on success, tl::ERROR else
-   * 
+   *
    * @see lib/functions/iDBSerialization#readFromDB($db, $options)
    */
-  public function readFromDB(&$db,$options = self::TLOBJ_O_SEARCH_BY_ID)
+  public function readFromDB(database $db,$options = self::TLOBJ_O_SEARCH_BY_ID)
   {
     if ($this->readFromCache() >= tl::OK)
     {  
@@ -178,10 +178,10 @@ class tlRole extends tlDBObject
     return $readSucceeded;
   }
 
-  /** 
-   * @param resource &$db reference to database handler
-   **/    
-  public function writeToDB(&$db)
+  /**
+   * @param database $db Database connection object
+   **/
+  public function writeToDB(database $db)
   {
     //@TODO schlundus, now i removed the potentially modified object from the cache
     //another optimization could be: read the new contents if storing was successfully into the
@@ -225,10 +225,10 @@ class tlRole extends tlDBObject
     return $result;
   }
   
-  /** 
-   * @param resource &$db reference to database handler
-   **/    
-  public function checkDetails(&$db)
+  /**
+   * @param database $db Database connection object
+   **/
+  public function checkDetails(database $db)
   {
     $this->name = trim($this->name);
     $this->description = trim($this->description);
@@ -246,10 +246,10 @@ class tlRole extends tlDBObject
     return $result;
   }
   
-  /** 
-   * @param resource &$db reference to database handler
-   **/    
-  static public function doesRoleExist(&$db,$name,$id)
+  /**
+   * @param database $db Database connection object
+   **/
+  static public function doesRoleExist(database $db,$name,$id)
   {
     $role = new tlRole();
     $role->name = $name;
@@ -276,10 +276,10 @@ class tlRole extends tlDBObject
     return $displayName;
   }
   
-  /** 
-   * @param resource &$db reference to database handler
-   **/    
-  public function deleteFromDB(&$db)
+  /**
+   * @param database $db Database connection object
+   **/
+  public function deleteFromDB(database $db)
   {
     $this->removeFromCache();
  
@@ -295,10 +295,10 @@ class tlRole extends tlDBObject
     return $result;
   }
   
-  /** 
-   * @param resource &$db reference to database handler
-   **/    
-  protected function replaceUserRolesWith(&$db,$newRole)
+  /**
+   * @param database $db Database connection object
+   **/
+  protected function replaceUserRolesWith(database $db,$newRole)
   {
     $result = true;
     $tables = array('users','user_testproject_roles','user_testplan_roles');
@@ -313,10 +313,10 @@ class tlRole extends tlDBObject
   /**
    * Gets all users with a certain global role
    *
-   * @param resource &$db reference to database handler
+   * @param database $db Database connection object
    * @return array assoc map with the user ids as the keys
    **/
-  public function getUsersWithGlobalRole(&$db)
+  public function getUsersWithGlobalRole(database $db)
   {
     $idSet = $this->getUserIDsWithGlobalRole($db);
     return self::createObjectsFromDB($db,$idSet,"tlUser",true,self::TLOBJ_O_GET_DETAIL_MINIMUM);
@@ -325,10 +325,10 @@ class tlRole extends tlDBObject
   /**
    * Gets all userids of users with a certain global role  @TODO WRITE RIGHT COMMENTS FROM START
    *
-   * @param resource &$db reference to database handler
+   * @param database $db Database connection object
    * @return array of userids
    **/
-  protected function getUserIDsWithGlobalRole(&$db)
+  protected function getUserIDsWithGlobalRole(database $db)
   {
     $sql = "SELECT id FROM " . $this->tables['users'] . " " .
            " WHERE role_id = {$this->dbID}";
@@ -340,10 +340,10 @@ class tlRole extends tlDBObject
   /**
    * Gets all userids of users with a certain testproject role @TODO WRITE RIGHT COMMENTS FROM START
    *
-   * @param resource &$db reference to database handler
+   * @param database $db Database connection object
    * @return array returns array of userids
    **/
-  protected function getUserIDsWithTestProjectRole(&$db)
+  protected function getUserIDsWithTestProjectRole(database $db)
   {
     $sql = "SELECT DISTINCT id FROM " . $this->tables['users'] . " users," .
            " " . $this->tables['user_testproject_roles'] . " user_testproject_roles " .
@@ -357,10 +357,10 @@ class tlRole extends tlDBObject
   /**
    * Gets all userids of users with a certain testplan role @TODO WRITE RIGHT COMMENTS FROM START
    *
-   * @param resource &$db reference to database handler
+   * @param database $db Database connection object
    * @return array returns array of userids
    **/
-  protected function getUserIDsWithTestPlanRole(&$db)
+  protected function getUserIDsWithTestPlanRole(database $db)
   {
     $sql = "SELECT DISTINCT id FROM " . $this->tables['users'] . " users," . 
            " " . $this->tables['user_testplan_roles'] . " user_testplan_roles " .
@@ -375,10 +375,10 @@ class tlRole extends tlDBObject
   /**
    * Gets all users with a certain testproject role
    *
-   * @param resource &$db reference to database handler
+   * @param database $db Database connection object
    * @return array returns assoc map with the userids as the keys
    **/
-  protected function getUsersWithTestProjectRole(&$db)
+  protected function getUsersWithTestProjectRole(database $db)
   {
     $idSet = $this->getUserIDsWithTestProjectRole($db);
     return self::createObjectsFromDB($db,$idSet,"tlUser",true,self::TLOBJ_O_GET_DETAIL_MINIMUM);
@@ -388,10 +388,10 @@ class tlRole extends tlDBObject
   /**
    * Gets all users with a certain testplan role
    *
-   * @param resource &$db reference to database handler
+   * @param database $db Database connection object
    * @return array returns assoc map with the userids as the keys
    **/
-  protected function getUsersWithTestPlanRole(&$db)
+  protected function getUsersWithTestPlanRole(database $db)
   {
     $idSet = $this->getUserIDsWithTestPlanRole($db);
     return self::createObjectsFromDB($db,$idSet,"tlUser",true,self::TLOBJ_O_GET_DETAIL_MINIMUM);
@@ -401,10 +401,10 @@ class tlRole extends tlDBObject
   /**
    * Gets all users which have a certain global,testplan or testproject role
    *
-   * @param resource &$db reference to database handler
+   * @param database $db Database connection object
    * @return array returns assoc map with the userids as the keys
    **/
-  public function getAllUsersWithRole(&$db)
+  public function getAllUsersWithRole(database $db)
   {
     $global_users = $this->getUserIDsWithGlobalRole($db);
     $tplan_users = $this->getUserIDsWithTestPlanRole($db);
@@ -435,13 +435,13 @@ class tlRole extends tlDBObject
     return $status;
   }
   
-  /** 
+  /**
    * Delete the rights of a role from the db
-   * 
-   * @param resource &$db reference to database handler
+   *
+   * @param database $db Database connection object
    * @return returns tl::OK on success, tl::ERROR else
    */
-  protected function deleteRightsFromDB(&$db)
+  protected function deleteRightsFromDB(database $db)
   {
     $tablename = $this->tables['role_rights'];
     $sql = "DELETE FROM {$tablename} WHERE role_id = {$this->dbID}";
@@ -450,7 +450,7 @@ class tlRole extends tlDBObject
     return $result ? tl::OK : tl::ERROR;
   }
 
-  protected function addRightsToDB(&$db)
+  protected function addRightsToDB(database $db)
   {
     $status_ok = 1;
     if ($this->rights)
@@ -466,7 +466,7 @@ class tlRole extends tlDBObject
     return $status_ok ? tl::OK : tl::ERROR;
   }
   
-  protected function readRights(&$db)
+  protected function readRights(database $db)
   {
     $sql = "SELECT right_id,description FROM " . $this->tables['role_rights'] . " a " .
            "JOIN " . $this->tables['rights'] . " b ON a.right_id = b.id " .
@@ -490,12 +490,12 @@ class tlRole extends tlDBObject
     return $rights;
   }
   
-  static public function getByID(&$db,$id,$detailLevel = self::TLOBJ_O_GET_DETAIL_FULL)
+  static public function getByID(database $db,$id,$detailLevel = self::TLOBJ_O_GET_DETAIL_FULL)
   {
     return tlDBObject::createObjectFromDB($db,$id,__CLASS__,self::TLOBJ_O_SEARCH_BY_ID,$detailLevel);
   }
   
-  static public function getAll(&$db,$whereClause = null,$column = null,
+  static public function getAll(database $db,$whereClause = null,$column = null,
                                 $orderBy = null,$detailLevel = self::TLOBJ_O_GET_DETAIL_FULL)
   {
     $tables  = tlObject::getDBTables("roles");
@@ -513,7 +513,7 @@ class tlRole extends tlDBObject
     return $roles;
   }
   
-  static public function getByIDs(&$db,$ids,$detailLevel = self::TLOBJ_O_GET_DETAIL_FULL)
+  static public function getByIDs(database $db,$ids,$detailLevel = self::TLOBJ_O_GET_DETAIL_FULL)
   {
     return self::handleNotImplementedMethod(__FUNCTION__);
   }
@@ -524,7 +524,7 @@ class tlRole extends tlDBObject
    * if there is no colour configured for role '' is returned as colour.
    *
    */
-  static public function getRoleColourCfg(&$db)
+  static public function getRoleColourCfg(database $db)
   {
       $role_colour = config_get('role_colour');
     $tables  = tlObject::getDBTables("roles");
