@@ -70,28 +70,28 @@ class database
   private $logQueries=0;
   
   // timer analysis
-  function microtime_float() 
+  function microtime_float(): float
   {
     list( $usec, $sec ) = explode( " ", microtime() );
     return ( (float)$usec + (float)$sec );
   }
   
-  function setLogEnabled($value)
+  function setLogEnabled($value): void
   {
       $this->logEnabled=$value ? 1 : 0;
   }
-  
-  function getLogEnabled($value)
+
+  function getLogEnabled($value): int
   {
       return $this->logEnabled;
   }
-  
-  function setLogQueries($value)
+
+  function setLogQueries($value): void
   {
       $this->logQueries = $value ? 1 : 0;
   }
-  
-  function getLogQueries($value)
+
+  function getLogQueries($value): int
   {
       return $this->logQueries;
   }
@@ -154,7 +154,7 @@ class database
 
 
   // access to the ADODB object
-  function get_dbmgr_object()
+  function get_dbmgr_object(): object
   {
     return($this->db);
   }
