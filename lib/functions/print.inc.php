@@ -512,13 +512,13 @@ function renderReqSpecNodeForPrinting(&$db, &$node, &$options, $tocPrefix, $rsLe
  * @return string $output HTML Code
  */
 function renderReqSpecTreeForPrinting(&$db, &$node, &$options,$tocPrefix, $rsCnt, $rstLevel, $user_id,
-                                      $tplan_id = 0, $tprojectID = 0) 
+                                      $tplan_id = 0, $tprojectID = 0)
 {
-  
+
   static $tree_mgr;
   static $map_id_descr;
   static $tplan_mgr;
-  $code = null;
+  $code = '';
 
   if(!$tree_mgr)
   { 
@@ -788,7 +788,7 @@ function renderTestSpecTreeForPrinting(&$db,&$node,&$options,$env,$context,$tocP
   static $tree_mgr;
   static $id_descr;
   static $tplan_mgr;
-  $code = null;
+  $code = '';
    
   if(!$tree_mgr)
   { 
@@ -911,11 +911,11 @@ function renderTestCaseForPrinting(&$db,&$node,&$options,$env,$context,$indentLe
   static $force = null;
   static $bugInterfaceOn = false;
   static $its;
-  static $buildCfields;  
+  static $buildCfields;
   static $statusL10N;
   static $docRepo;
 
-  $code = null;
+  $code = '';
   $tcInfo = null;
   $tcResultInfo = null;
   $tcase_pieces = null;
@@ -1622,9 +1622,9 @@ function renderTestSuiteNodeForPrinting(&$db,&$node,$env,&$options,$context,$toc
 
     $title_separator = config_get('gui_title_separator_1');
     $cfieldFormatting = array('table_css_style' => 'class="cf"');
-  }  
+  }
 
-  $code = null;
+  $code = '';
   $name = isset($node['name']) ? htmlspecialchars($node['name']) : '';
   $cfields = array('design' => '');
     
