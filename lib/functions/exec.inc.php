@@ -51,13 +51,13 @@ function createResultsMenu()
 /**
  * write execution result to DB
  * 
- * @param resource &$db reference to database handler
+ * @param database $db Database connection object
  * @param obj &$exec_signature object with tproject_id,tplan_id,build_id,platform_id,user_id
  * 
  * @internal revisions
  * 
  */
-function write_execution(&$db,&$exec_signature,&$exec_data,&$issueTracker)
+function write_execution(database $db,&$exec_signature,&$exec_data,&$issueTracker)
 {
   static $docRepo;
 
@@ -296,7 +296,7 @@ function write_execution(&$db,&$exec_signature,&$exec_data,&$issueTracker)
  * DELETE + INSERT => this way we will not add duplicates
  *
  */
-function write_execution_bug(&$db,$exec_id, $bug_id,$just_delete=false)
+function write_execution_bug(database $db,$exec_id, $bug_id,$just_delete=false)
 {
   $execution_bugs = DB_TABLE_PREFIX . 'execution_bugs';
   
@@ -322,13 +322,13 @@ function write_execution_bug(&$db,$exec_id, $bug_id,$just_delete=false)
 /**
  * get data about bug from external tool
  * 
- * @param resource &$db reference to database handler
+ * @param database $db Database connection object
  * @param object &$bug_interface reference to instance of bugTracker class
  * @param integer $execution_id Identifier of execution record
  * 
  * @return array list of 'bug_id' with values: build_name,link_to_bts,isResolved
  */
-function get_bugs_for_exec(&$db,&$bug_interface,$execution_id,$raw = null)
+function get_bugs_for_exec(database $db,&$bug_interface,$execution_id,$raw = null)
 {
   $tables = tlObjectWithDB::getDBTables(array('executions','execution_bugs','builds'));
   $bug_list=array();
@@ -382,12 +382,12 @@ function get_bugs_for_exec(&$db,&$bug_interface,$execution_id,$raw = null)
 /**
  * get data about one test execution
  * 
- * @param resource &$db reference to database handler
+ * @param database $db Database connection object
  * @param datatype $execution_id
  * 
  * @return array all values of executions DB table in format field=>value
  */
-function get_execution(&$dbHandler,$execution_id,$opt=null)
+function get_execution(database $dbHandler,$execution_id,$opt=null)
 {
   $my = array('options' => array('output' => 'raw'));
   $my['options'] = array_merge($my['options'], (array)$opt);
@@ -424,7 +424,7 @@ function get_execution(&$dbHandler,$execution_id,$opt=null)
 /** 
  * delete one test execution from database (include child data and relations)
  * 
- * @param resource &$db reference to database handler
+ * @param database $db Database connection object
  * @param datatype $execution_id
  * 
  * @return boolean result of delete
@@ -432,7 +432,7 @@ function get_execution(&$dbHandler,$execution_id,$opt=null)
  * @TODO delete attachments FROM DISK when are saved on Filesystem
  * @TODO run SQL as transaction if database engine allows 
  **/
-function delete_execution(&$db,$exec_id)
+function delete_execution(database $db,$exec_id)
 {
   $tables = tlObjectWithDB::getDBTables(
               array('executions','execution_bugs','cfield_execution_values',
@@ -498,7 +498,7 @@ function delete_execution(&$db,$exec_id)
  * @param $notes string the execution notes to set
  * @return unknown_type
  */
-function updateExecutionNotes(&$db,$execID,$notes)
+function updateExecutionNotes(database $db,$execID,$notes)
 {
   $table = tlObjectWithDB::getDBTables('executions');
   $sql = "UPDATE {$table['executions']} " .
@@ -511,13 +511,13 @@ function updateExecutionNotes(&$db,$execID,$notes)
 /**
  * get data about bug from external tool
  * 
- * @param resource &$db reference to database handler
+ * @param database $db Database connection object
  * @param object &$bug_interface reference to instance of bugTracker class
  * @param integer $execution_id Identifier of execution record
  * 
  * @return array list of 'bug_id' with values: build_name,link_to_bts,isResolved
  */
-function getBugsForExecutions(&$db,&$bug_interface,$execSet,$raw = null)
+function getBugsForExecutions(database $db,&$bug_interface,$execSet,$raw = null)
 {
   $tables = tlObjectWithDB::getDBTables(array('executions','execution_bugs','builds'));
   $bugSet = array();
@@ -627,7 +627,7 @@ function addIssue($dbHandler,$argsObj,$itsObj)
  * copy issues from execution to another execution
  *
  */
-function copyIssues(&$dbHandler,$source,$dest)
+function copyIssues(database $dbHandler,$source,$dest)
 {
   $debugMsg = 'FILE:: ' . __FILE__ . ' :: FUNCTION:: ' . __FUNCTION__;
 

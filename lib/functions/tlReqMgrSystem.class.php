@@ -21,7 +21,7 @@
 class tlReqMgrSystem extends tlObject
 {
     
-  /** @var resource the database handler */
+  /** @var database Database connection object */
   public $db;
 
   public $types = null;
@@ -35,14 +35,14 @@ class tlReqMgrSystem extends tlObject
     
   /**
    * Class constructor
-   * 
-   * @param resource &$db reference to the database handler
+   *
+   * @param database $db Database connection object
    */
-  function __construct(&$db)
+  public function __construct(database $db)
   {
     parent::__construct();
     $this->getTypes(); // populate types property
-    $this->db = &$db;
+    $this->db = $db;
   }
 
 

@@ -62,11 +62,11 @@ class tlInventory extends tlObjectWithDB
 	
 	/**
 	 * Class constructor
-	 * 
-	 * @param integer $testProjectID test Project identifier
-	 * @param integer $dbHandler the database connection handler
+	 *
+	 * @param int $testProjectID test Project identifier
+	 * @param database|null $dbHandler Database object (can be null)
 	 */
-	function __construct($testProjectID, &$dbHandler = null)
+	public function __construct($testProjectID, ?database $dbHandler = null)
 	{
 		parent::__construct($dbHandler);
 		$this->testProjectID = $testProjectID;

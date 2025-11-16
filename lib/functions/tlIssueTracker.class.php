@@ -20,8 +20,8 @@
  */
 class tlIssueTracker extends tlObject
 {
-    
-  /** @var resource the database handler */
+
+  /** @var database Database connection object */
   public $db;
 
   public $types = null;
@@ -57,16 +57,16 @@ class tlIssueTracker extends tlObject
     
   /**
    * Class constructor
-   * 
-   * @param resource &$db reference to the database handler
+   *
+   * @param database $db Database object (not a reference in PHP 8)
    */
-  function __construct(&$db)
+  public function __construct(database $db)
   {
     parent::__construct();
 
     // populate types property
     $this->getTypes();
-    $this->db = &$db;
+    $this->db = $db;
   }
 
 
