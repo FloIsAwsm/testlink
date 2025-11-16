@@ -23,7 +23,7 @@
  */
   
 // Connect and bind to the LDAP directory
-function ldap_connect_bind( $p_binddn = '', $p_password = '', $context = '') 
+function ldap_connect_bind( $p_binddn = '', $p_password = '', $context = '' ): object 
 {
   $ret = new stdClass();
   $ret->status = 0;
@@ -135,7 +135,7 @@ function ldap_connect_bind( $p_binddn = '', $p_password = '', $context = '')
 
 // ----------------------------------------------------------------------------
 // Attempt to authenticate the user against the LDAP directory
-function ldap_authenticate( $p_login_name, $p_password ) 
+function ldap_authenticate( $p_login_name, $p_password ): object|false 
 {
   # if password is empty and ldap allows anonymous login, then
   # the user will be able to login, hence, we need to check
@@ -217,7 +217,7 @@ function ldap_authenticate( $p_login_name, $p_password )
  * @param string $p_string The string to escape.
  * @return string The escaped string.
  */
-function ldap_escape_string( $p_string ) 
+function ldap_escape_string( $p_string ): string 
 {
   $t_find = array( '\\', '*', '(', ')', '/', "\x00" );
   $t_replace = array( '\5c', '\2a', '\28', '\29', '\2f', '\00' );
@@ -247,9 +247,9 @@ function ldap_escape_string( $p_string )
  *
  * @param string $p_username The user name.
  * @param string $p_field The LDAP field name.
- * @return string The field value or null if not found.
+ * @return string|null The field value or null if not found.
  */
-function ldap_get_field_from_username( $p_username, $p_field ) {
+function ldap_get_field_from_username( $p_username, $p_field ): ?string {
 
   $authCfg = config_get('authentication');
   $t_ldap_organization = $authCfg['ldap_organization'];

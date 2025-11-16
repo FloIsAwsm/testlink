@@ -29,9 +29,9 @@ if(!isset($_SESSION))
 /**
  * Stores key/value in session.
  *
- * @return true if item was stored in session, otherwise false
+ * @return bool true if item was stored in session, otherwise false
  */
-function store_in_session($key,$value)
+function store_in_session($key,$value): bool
 {
   if (isset($_SESSION))
   {
@@ -45,9 +45,9 @@ function store_in_session($key,$value)
  * Removes a key from session.
  *
  * @param unknown_type $key
- * @return true if item was removed, otherwise false
+ * @return bool true if item was removed, otherwise false
  */
-function unset_session($key)
+function unset_session($key): bool
 {
   if (isset($_SESSION))
   {
@@ -59,25 +59,25 @@ function unset_session($key)
 }
 
 /**
- * Gets a value from session by its key. If the session cannot be found, it 
+ * Gets a value from session by its key. If the session cannot be found, it
  * return false.
  *
  * @param unknown_type $key
- * @return unknown|boolean
+ * @return mixed
  */
-function get_from_session($key)
+function get_from_session($key): mixed
 {
   // if there no session data, no CSRF risk
-  return isset($_SESSION) ? $_SESSION[$key] : false;
+  return isset($_SESSION[$key]) ? $_SESSION[$key] : false;
 }
 
 /**
  * Generates a CSRF token for a unique form name
  *
  * @param unknown_type $unique_form_name unique form name
- * @return CSRF token
+ * @return string CSRF token
  */
-function csrfguard_generate_token($unique_form_name)
+function csrfguard_generate_token($unique_form_name): string
 {
   if (function_exists("hash_algos") and in_array("sha512",hash_algos()))
   {
@@ -109,9 +109,9 @@ function csrfguard_generate_token($unique_form_name)
  *
  * @param unknown_type $unique_form_name unique form name
  * @param unknown_type $token_value value of the CSRF token
- * @return true if token is valid, otherwise false
+ * @return bool true if token is valid, otherwise false
  */
-function csrfguard_validate_token($unique_form_name,$token_value)
+function csrfguard_validate_token($unique_form_name,$token_value): bool
 {
   $token=get_from_session($unique_form_name);
   if ($token===false)
@@ -131,15 +131,15 @@ function csrfguard_validate_token($unique_form_name,$token_value)
 }
 
 /**
- * Replaces via regex the content of a HTML form, adding extra hidden fields 
+ * Replaces via regex the content of a HTML form, adding extra hidden fields
  * for CSRF security.
  * <p>
  * In case you would like to skip this, you can add a <em>nocsrf</em> field.
  *
  * @param unknown_type $form_data_html HTML content
- * @return html content with modified forms that include CSRF hidden tokens
+ * @return string html content with modified forms that include CSRF hidden tokens
  */
-function csrfguard_replace_forms($form_data_html)
+function csrfguard_replace_forms($form_data_html): string
 {
   $count=preg_match_all("/<form(.*?)>(.*?)<\\/form>/is",$form_data_html,$matches,PREG_SET_ORDER);
   if (is_array($matches))
@@ -162,12 +162,12 @@ function csrfguard_replace_forms($form_data_html)
 }
 
 /**
- * Validates the CSRF tokens found in $_POST variable. Raoses user 
+ * Validates the CSRF tokens found in $_POST variable. Raises user
  * errors if the token is not found or invalid.
  *
- * @return true if validated correctly, otherwise false
+ * @return void
  */
-function csrfguard_start()
+function csrfguard_start(): void
 {
   if (count($_POST))
   {
@@ -191,14 +191,14 @@ function csrfguard_start()
 }
 
 /**
- * Applies CSRF filter on Smarty template content. Can be 
+ * Applies CSRF filter on Smarty template content. Can be
  * used as a output filter.
  *
  * @param string $source
  * @param Smarty $smarty
- * @return CSRF filtered content
+ * @return string CSRF filtered content
  */
-function smarty_csrf_filter($source, &$smarty) 
+function smarty_csrf_filter($source, &$smarty): string 
 {
   return csrfguard_replace_forms($source);
 }
