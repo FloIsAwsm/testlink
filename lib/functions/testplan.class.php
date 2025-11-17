@@ -5820,9 +5820,6 @@ class testplan extends tlObjectWithAttachments
              " GROUP BY EE.tcversion_id,EE.testplan_id,EE.platform_id,EE.build_id ";
 
     // Only unset if variables were actually set
-    if(isset($dummy)) {
-      unset($dummy);
-    }
     if(isset($buildsInClause)) {
       unset($buildsInClause);
     }

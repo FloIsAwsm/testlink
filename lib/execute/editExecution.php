@@ -37,8 +37,8 @@ switch ($args->doAction)
 $map = get_execution($db,$args->exec_id);
 $owebeditor->Value = $map[0]['notes'];
 
-// order on script is critic 
-$gui = initializeGui($args,$tcase_mgr);
+// order on script is critic
+$gui = initializeGui($db,$args,$tcase_mgr);
 $cols = intval(isset($editorCfg['cols']) ? $editorCfg['cols'] : 60);
 $rows = intval(isset($editorCfg['rows']) ? $editorCfg['rows'] : 10); 
 $gui->notes = $owebeditor->CreateHTML($rows,$cols);
@@ -86,7 +86,7 @@ function init_args()
 /**
  *
  */
-function initializeGui(&$argsObj,&$tcaseMgr)
+function initializeGui(&$db,&$argsObj,&$tcaseMgr)
 {
   $guiObj = new stdClass();
   $guiObj->exec_id = $argsObj->exec_id;

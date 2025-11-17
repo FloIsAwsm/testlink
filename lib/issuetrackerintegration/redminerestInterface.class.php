@@ -276,7 +276,7 @@ class redminerestInterface extends issueTrackerInterface
 	function getIssueSummaryHTMLString($issueID)
 	{
     $issue = $this->getIssue($issueID);
-    return $issue->summaryHTMLString;
+    return !is_null($issue) ? $issue->summaryHTMLString : '';
 	}
 
   /**
@@ -404,14 +404,14 @@ class redminerestInterface extends issueTrackerInterface
       $issueXmlObj = new SimpleXMLElement('<?xml version="1.0"?><issue></issue>');
       $issueXmlObj->addChild('notes', htmlspecialchars($noteText));
       $op = $this->APIClient->addIssueNoteFromSimpleXML($issueID,$issueXmlObj);
-      $ret = array('status_ok' => true, 'id' => (string)$op->id, 
-                   'msg' => sprintf(lang_get('redmine_bug_created'),$summary,$issueXmlObj->project_id));
+      $ret = array('status_ok' => true, 'id' => (string)$op->id,
+                   'msg' => sprintf(lang_get('redmine_bug_created'),$issueID,$issueXmlObj->project_id));
      }
      catch (Exception $e)
      {
        $msg = "REDMINE Add Note to Ticket FAILURE => " . $e->getMessage();
        tLog($msg, 'WARNING');
-       $ret = array('status_ok' => false, 'id' => -1, 'msg' => $msg . ' - serialized issue:' . serialize($issue));
+       $ret = array('status_ok' => false, 'id' => -1, 'msg' => $msg . ' - issue ID:' . $issueID);
      }
      return $ret;
   }  

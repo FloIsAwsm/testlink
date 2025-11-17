@@ -352,7 +352,6 @@ function get_by_id($id,$version_id=self::ALL_VERSIONS,$version_number=1,$options
 
   unset($recordset);
   unset($my);
-  unset($dummy);
   return $rs;
 }
 
@@ -3763,11 +3762,10 @@ function getByIDBulkLatestVersionRevision($id,$opt=null)
       }
     }  
 
-  }    
+  }
 
   unset($recordset);
   unset($my);
-  unset($dummy);
 
   return $rs;
 }
