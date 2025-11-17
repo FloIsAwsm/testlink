@@ -1839,15 +1839,15 @@ function getData(string|int $id): ?array { }
 ## 📊 PROGRESS TRACKING
 
 ### Overall Progress
-**Last Updated:** 2025-11-17 (Phase 1 ✅, Phase 2 ✅, Phase 4 ✅ 100%, Phase 5 🟢 52%)
+**Last Updated:** 2025-11-17 (Phase 1 ✅, Phase 2 ✅, Phase 4 ✅ 100%, Phase 5 🟢 74%)
 
 | Category | Total Errors | Fixed | Remaining | % Complete |
 |----------|--------------|-------|-----------|------------|
 | Undefined Variables | 460 | ~80 | ~380 | 17% |
 | Database Types | 400 | **400** ✅ | **0** | **100%** 🎉 |
 | Function Signatures | 100 | 0 | 100 | 0% |
-| Return Types | 80 | **42** | **38** | **52%** |
-| **TOTAL** | **1040** | **~522** | **~518** | **50%** |
+| Return Types | 80 | **59** | **21** | **74%** |
+| **TOTAL** | **1040** | **~539** | **~501** | **52%** |
 
 ### Phase Status
 
@@ -1857,10 +1857,10 @@ function getData(string|int $id): ?array { }
 | Phase 2: Core API | ✅ **COMPLETE** | 2025-11-14 | 2025-11-17 | **2025-11-17** |
 | Phase 3: Function Sigs | 🔴 NOT STARTED | TBD | TBD | - |
 | Phase 4: Database Types | ✅ **COMPLETE** 🎉 | 2025-11-14 | 2025-11-16 | **2025-11-16** |
-| Phase 5: Return Types | 🟡 **52% COMPLETE** | 2025-11-16 | TBD | - |
+| Phase 5: Return Types | 🟢 **74% COMPLETE** | 2025-11-16 | TBD | - |
 
 **Strategy Change:** Jumped to Phase 4 (database types) as it fixes the most critical
-functionality blockers. Phase 2 (API) completed - all 5 files fixed (100%). Phase 5 (Return Types) in progress with 5 files completed (52% of total return type errors).
+functionality blockers. Phase 2 (API) completed - all 5 files fixed (100%). Phase 5 (Return Types) in progress with 6 files completed (74% of total return type errors).
 
 ### File-by-File Progress
 
@@ -1945,13 +1945,14 @@ functionality blockers. Phase 2 (API) completed - all 5 files fixed (100%). Phas
   - tlRole.class.php: Fixed 20+ method signatures with database type hints
   - exec.inc.php: Fixed 8 function signatures (procedural code)
 
-#### Phase 5 Files (Week 6) - 🟡 **52% COMPLETE** (5 files started)
+#### Phase 5 Files (Week 6) - 🟢 **74% COMPLETE** (6 files completed)
 - [x] lib/functions/csrf.php - ✅ FIXED (commit 943b9b1 - 8 functions)
 - [x] lib/functions/ldap_api.php - ✅ FIXED (commit 943b9b1 - 4 functions)
 - [x] lib/functions/database.class.php - ✅ FIXED (commit 7f94ddf - 6 methods)
 - [x] lib/functions/tlUser.class.php - ✅ FIXED (commit 7f94ddf - 5 methods)
-- [x] lib/functions/testproject.class.php - ✅ FIXED (19 methods)
-- [ ] Remaining files with return type issues (~39 errors remaining)
+- [x] lib/functions/testproject.class.php - ✅ FIXED (commit 697aa3f - 19 methods)
+- [x] lib/functions/testcase.class.php - ✅ FIXED (17 methods)
+- [ ] Remaining files with return type issues (~21 errors remaining)
 
 **Phase 5 Current Status:**
 - csrf.php: Added return types to 8 functions (bool, mixed, string, void)
@@ -1959,6 +1960,7 @@ functionality blockers. Phase 2 (API) completed - all 5 files fixed (100%). Phas
 - database.class.php: Added return types to 6 methods (float, void, int, object)
 - tlUser.class.php: Added return types to 5 methods (string, string|int, int)
 - testproject.class.php: Added return types to 19 methods (void, ?array, mixed, array, int)
+- testcase.class.php: Added return types to 17 methods (array, void, object, string, mixed, bool, int)
 
 **Commits:**
 - 943b9b1: Phase 5: Add return type declarations to csrf.php and ldap_api.php

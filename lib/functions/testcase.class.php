@@ -594,7 +594,7 @@ class testcase extends tlObjectWithAttachments
     rev: 
  
   */
- private function createVersion($item)
+ private function createVersion($item): array
  {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $tcase_version_id = $this->tree_manager->new_node($item->id,$this->node_types_descr_id['testcase_version']);
@@ -1098,7 +1098,7 @@ class testcase extends tlObjectWithAttachments
     returns: 
   
   */
-  private function updateKeywordAssignment($id,$keywords_id)
+  private function updateKeywordAssignment($id,$keywords_id): void
   {
     
     // To avoid false loggings, check is delete is needed
@@ -1141,7 +1141,7 @@ class testcase extends tlObjectWithAttachments
     returns: 
   
   */
-  function logKeywordChanges($old,$new)
+  function logKeywordChanges($old,$new): void
   {
   
      // try to understand the really new
@@ -4104,10 +4104,10 @@ class testcase extends tlObjectWithAttachments
   }
   
   /**
-   * 
+   *
    *
    */
-  private function getShowViewerActions($mode)
+  private function getShowViewerActions($mode): object
   {
     // fine grain control of operations
     $viewerActions= new stdClass();
@@ -4144,7 +4144,7 @@ class testcase extends tlObjectWithAttachments
      * given an executio id delete execution and related data.
      *
      */
-    function deleteExecution($executionID)
+    function deleteExecution($executionID): void
     {
         $whereClause = " WHERE execution_id = {$executionID} "; 
     $sql = array("DELETE FROM " . $this->tables['execution_bugs'] . " {$whereClause} ", 
@@ -6263,7 +6263,7 @@ class testcase extends tlObjectWithAttachments
   
 
 
-  public function getAuditSignature($context,$options = null)
+  public function getAuditSignature($context,$options = null): string
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
 
@@ -6287,14 +6287,14 @@ class testcase extends tlObjectWithAttachments
   /**
    *
    */
-  public function getTestSuite($id)
+  public function getTestSuite($id): mixed
   {
     $dummy = $this->tree_manager->get_node_hierarchy_info($id);
     return $dummy['parent_id'];
   }
 
 
-  function getIdCardByStepID($step_id)
+  function getIdCardByStepID($step_id): mixed
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $sql = "/* $debugMsg */ " . 
@@ -6310,7 +6310,7 @@ class testcase extends tlObjectWithAttachments
   /**
    *
    */
-  private function initShowGui($guiObj,$grantsObj,$id,$idCard)
+  private function initShowGui($guiObj,$grantsObj,$id,$idCard): object
   {   
     $goo = is_null($guiObj) ? new stdClass() : $guiObj;
 
@@ -6441,7 +6441,7 @@ class testcase extends tlObjectWithAttachments
   /**
    *
    */
-  private function initShowGuiActions(&$gui)
+  private function initShowGuiActions(&$gui): void
   {
   
     $gui->deleteStepAction = "lib/testcases/tcEdit.php?tproject_id=$gui->tproject_id&show_mode=$gui->show_mode" . 
@@ -6800,7 +6800,7 @@ class testcase extends tlObjectWithAttachments
   /**
    *
    */
-  public function getRelations($id) 
+  public function getRelations($id): array 
   {
     $debugMsg = "/* {$this->debugMsg}" . __FUNCTION__ . ' */';
 
@@ -6877,7 +6877,7 @@ class testcase extends tlObjectWithAttachments
   /**
    *
    */
-  public static function getRelationLabels() 
+  public static function getRelationLabels(): array 
   {
     $cfg = config_get('testcase_cfg');
     $labels = $cfg->relations->type_labels;
@@ -6892,7 +6892,7 @@ class testcase extends tlObjectWithAttachments
   /**
    *
    */
-  public function deleteAllRelations($id)
+  public function deleteAllRelations($id): void
   {
     $debugMsg = "/* {$this->debugMsg}" . __FUNCTION__ . ' */';
     $id_list = implode(",", (array)$id);
@@ -6905,16 +6905,16 @@ class testcase extends tlObjectWithAttachments
 
   /**
    * checks if there is a relation of a given type between two requirements
-   * 
+   *
    * @author Andreas Simon
-   * 
+   *
    * @param integer $first_id   ID to check
    * @param integer $second_id  ID to check
    * @param integer $rel_type_id relation type ID to check
-   * 
+   *
    * @return true, if relation already exists, false if not
    */
-  public function relationExits($first_id, $second_id, $rel_type_id) 
+  public function relationExits($first_id, $second_id, $rel_type_id): bool 
   {
     $debugMsg = "/* {$this->debugMsg}" . __FUNCTION__ . ' */';
 
@@ -6934,12 +6934,12 @@ class testcase extends tlObjectWithAttachments
   /**
    * Get count of all relations, no matter if it is source or destination
    * or what type of relation it is.
-   * 
+   *
    * @param integer $id requirement ID to check
-   * 
+   *
    * @return integer $count
    */
-  public function getRelationsCount($id)
+  public function getRelationsCount($id): int
   {
     $debugMsg = "/* {$this->debugMsg}" . __FUNCTION__ . ' */';
     $safeID = intval($id);
@@ -6952,15 +6952,15 @@ class testcase extends tlObjectWithAttachments
 
   /**
    * add a relation of a given type
-   * 
+   *
    * @author Andreas Simon
-   * 
+   *
    * @param integer $source_id ID of source requirement
    * @param integer $destination_id ID of destination requirement
    * @param integer $type_id relation type ID to set
    * @param integer $author_id user's ID
    */
-  public function addRelation($source_id, $destination_id, $type_id, $author_id, $ts=null) 
+  public function addRelation($source_id, $destination_id, $type_id, $author_id, $ts=null): array 
   {
     $debugMsg = "/* {$this->debugMsg}" . __FUNCTION__ . ' */';
 
@@ -6984,12 +6984,12 @@ class testcase extends tlObjectWithAttachments
 
   /**
    * delete an existing relation
-   * 
+   *
    * @author Andreas Simon
-   * 
+   *
    * @param int $id relation id
    */
-  public function deleteRelationByID($relID)
+  public function deleteRelationByID($relID): void
   {
     $debugMsg = "/* {$this->debugMsg}" . __FUNCTION__ . ' */';
     $sql = $debugMsg . " DELETE FROM " . $this->tables['testcase_relations'] .
@@ -6998,10 +6998,10 @@ class testcase extends tlObjectWithAttachments
   }
 
   /**
-   * 
+   *
    * @return array $htmlSelect info needed to create select box on multiple templates
    */
-  function getRelationTypeDomainForHTMLSelect() 
+  function getRelationTypeDomainForHTMLSelect(): array 
   {
     
     $htmlSelect = array('items' => array(), 'selected' => null, 'equal_relations' => array());
