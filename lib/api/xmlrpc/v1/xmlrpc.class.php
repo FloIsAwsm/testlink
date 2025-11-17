@@ -3278,15 +3278,15 @@ class TestlinkXMLRPCServer extends IXR_Server
                   {
                       $status_ok=false;
                       $req_info = $this->reqMgr->get_by_id($req_id,requirement_mgr::LATEST_VERSION);
-                      
+
                       if( is_null($req_info) )
                       {
                           $msg = sprintf(REQ_KO_STR,$req_id);
                           $error_code=REQ_KO;
                       }
-                      else 
-                      {  
-                          $req_info = $req_inf[0];
+                      else
+                      {
+                          $req_info = $req_info[0];
                           $msg = sprintf(REQ_REQSPEC_KO_STR,$req_info['req_doc_id'],$req_info['title'],$req_id,
                                          $reqspec_info['title'],$req_spec_id);
                           $error_code=REQ_REQSPEC_KO;

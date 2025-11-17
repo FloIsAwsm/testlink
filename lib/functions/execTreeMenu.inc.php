@@ -365,7 +365,8 @@ function prepareExecTreeNode(&$db,&$node,&$map_node_tccount,&$tplan_tcases = nul
     $my['filters'] = array_merge($my['filters'], (array)$filters);
 
   }
-    
+
+  $filtersApplied = !empty($filters);
   $tcase_counters = array_fill_keys($status_descr_list, 0);
   $node_type = isset($node['node_type']) ? $node['node_type'] : null;
 

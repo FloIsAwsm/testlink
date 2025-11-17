@@ -1,9 +1,9 @@
 # PHPStan Error Fixes - Progress Tracker
 
 **Total New Errors:** 309
-**Status:** In Progress (Batches 1-12 Complete - 177+ errors fixed)
+**Status:** In Progress (Batches 1-13 Complete - 181+ errors fixed)
 **Started:** 2025-11-17
-**Last Updated:** 2025-11-17 (Batch 12 complete)
+**Last Updated:** 2025-11-17 (Batch 13 complete)
 
 ## Batch Progress
 
@@ -43,7 +43,10 @@ Files: treeMenu.inc.php (4 errors), tlUser.class.php (3 errors)
 ### ✅ Batch 12 (Complete - 6+ errors)
 Files: csv.inc.php (1 error), requirement_mgr.class.php (2 errors), xmlrpc.class.php (1 error), tlRestApi.class.php (2 errors)
 
-**Total Fixed: 177+ errors (~57% complete)**
+### ✅ Batch 13 (Complete - 4+ errors)
+Files: xmlrpc.class.php (1 error), assignment_mgr.class.php (1 error), execTreeMenu.inc.php (1 error), tlTestPlanMetrics.class.php (1 error)
+
+**Total Fixed: 181+ errors (~59% complete)**
 
 ---
 
@@ -288,3 +291,55 @@ Used PHPStan baseline file (`phpstan-baseline.neon`) to identify errors:
 2. Look for more typos and scope issues
 3. Focus on files with multiple errors for efficiency
 4. Consider addressing "always true/false" logic errors
+
+---
+
+## Notes and Findings (Batch 13)
+
+### Errors Fixed
+- **Batch 13**: 4 errors across 4 files
+- **Total Batches**: 13 batches completed
+- **Total Errors Fixed**: 181+ errors (~59% of 309)
+
+### Specific Fixes in Batch 13
+
+#### 1. lib/api/xmlrpc/v1/xmlrpc.class.php (1 error)
+- **Line 3289**: Fixed typo `$req_inf` → `$req_info`
+- **Type**: Variable name typo
+- **Impact**: High - would cause undefined variable error when processing requirement info
+
+#### 2. lib/functions/assignment_mgr.class.php (1 error)
+- **Line 360**: Fixed undefined variable `$copy_all_types` → `$my['opt']['copy_all_types']`
+- **Type**: Variable reference error
+- **Impact**: High - would cause undefined variable error when copying assignments
+
+#### 3. lib/functions/execTreeMenu.inc.php (1 error)
+- **Line 369**: Added initialization `$filtersApplied = !empty($filters);`
+- **Root cause**: Variable used but never defined
+- **Type**: Missing initialization
+- **Impact**: High - would cause undefined variable error when building execution tree with filters
+
+#### 4. lib/functions/tlTestPlanMetrics.class.php (1 error)
+- **Line 635**: Fixed variable reference `$execCode` → `$this->execTaskCode`
+- **Type**: Variable name typo (missing `$this->` and incorrect name)
+- **Impact**: High - would cause undefined variable error in SQL query construction
+
+### Key Findings
+
+#### Real Bugs Found
+All 4 errors fixed in this batch were real bugs:
+1. **Typos** (2): Variable name typos in xmlrpc.class.php and tlTestPlanMetrics.class.php
+2. **Wrong variable reference** (1): Using incorrect variable name in assignment_mgr.class.php
+3. **Missing initialization** (1): Variable used without being defined in execTreeMenu.inc.php
+
+#### Error Discovery Method
+Continued systematic review of PHPStan baseline file:
+- Searched for "Undefined variable" errors
+- Validated each error by examining source code
+- Fixed clear bugs with high impact
+
+### Next Steps for Batch 14
+1. Continue addressing remaining undefined variable errors
+2. Look for more typos and variable reference errors
+3. Consider tackling logic errors ("always true/false")
+4. Focus on high-impact files (core functions, APIs)

@@ -632,7 +632,7 @@ class tlTestPlanMetrics extends testplan
           "  JOIN " . $this->tables['testcase_keywords'] . " TCK " .
           "  ON TCK.testcase_id = NHTCV.parent_id " .
           "  WHERE UA. build_id IN ( " . $builds->inClause . " ) " .
-          "  AND UA.type = {$execCode} ) AS SQK ".
+          "  AND UA.type = {$this->execTaskCode} ) AS SQK ".
           " GROUP BY keyword_id";
     }
     else
