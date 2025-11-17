@@ -1,9 +1,9 @@
 # PHPStan Error Fixes - Progress Tracker
 
 **Total New Errors:** 309
-**Status:** In Progress (Batches 1-10 Complete - 164+ errors fixed)
+**Status:** In Progress (Batches 1-11 Complete - 171+ errors fixed)
 **Started:** 2025-11-17
-**Last Updated:** 2025-11-17 (Batch 10 complete)
+**Last Updated:** 2025-11-17 (Batch 11 complete)
 
 ## Batch Progress
 
@@ -37,7 +37,10 @@ Files: testplan.class.php (15+ errors), tlTestCaseFilterControl.class.php (2 err
 ### ✅ Batch 10 (Complete - 17+ errors)
 Files: testcase.class.php (13+ errors), specview.php (2 errors), print.inc.php (2 errors)
 
-**Total Fixed: 164+ errors (~53% complete)**
+### ✅ Batch 11 (Complete - 7+ errors)
+Files: treeMenu.inc.php (4 errors), tlUser.class.php (3 errors)
+
+**Total Fixed: 171+ errors (~55% complete)**
 
 ---
 
