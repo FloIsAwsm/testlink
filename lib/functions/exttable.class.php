@@ -180,7 +180,7 @@ class tlExtTable extends tlTable
    */
   function buildContent()
   {
-    if( !is_null($this->data) ) // to avoid warnings on foreach
+    if( !empty($this->data) ) // to avoid warnings on foreach
     {
       foreach ($this->data as &$row) {
         // Use only column values from each row (makes every index numeric)
