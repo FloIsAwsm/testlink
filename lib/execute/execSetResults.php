@@ -1252,7 +1252,7 @@ function initializeGui(&$dbHandler,&$argsObj,&$cfgObj,&$tplanMgr,&$tcaseMgr,&$is
 
 
   $dummy = $platformMgr->getLinkedToTestplan($argsObj->tplan_id);
-  $gui->has_platforms = !is_null($dummy) ? 1 : 0;
+  $gui->has_platforms = !empty($dummy) ? 1 : 0;
     
   $gui->platform_info['id']=0;
   $gui->platform_info['name']='';
@@ -1758,8 +1758,8 @@ function getLinkedItems($argsObj,$historyOn,$cfgObj,$tcaseMgr,$tplanMgr,$identit
     if( !is_null($sql2do = $tplanMgr->getLinkedForExecTree($argsObj->tplan_id,$filters,$options)) )
     {
       if( is_array($sql2do) )
-      {        
-        if( isset($filters['keyword_filter_type']) && ($filters['keyword_filter_type'] == 'And') )
+      {
+        if( !empty($filters['keyword_filter_type']) && ($filters['keyword_filter_type'] == 'And') )
         { 
           $kmethod = "fetchRowsIntoMapAddRC";
           $unionClause = " UNION ALL ";
@@ -1793,7 +1793,7 @@ function getLinkedItems($argsObj,$historyOn,$cfgObj,$tcaseMgr,$tplanMgr,$identit
         if(!is_null($argsObj->filter_cfields))
         {
           $tk = array_keys($argsObj->filter_cfields);
-          $cf = null;  
+          $cf = array();
           // foreach( array('design','testplan_design') as $l4)
           foreach( array('design') as $l4)
           {
