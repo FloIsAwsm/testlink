@@ -1855,7 +1855,7 @@ function getData(string|int $id): ?array { }
 |-------|--------|------------|-------------|---------------------|
 | Phase 1: Critical Config | ✅ **COMPLETE** | 2025-11-14 | 2025-11-14 | 2025-11-14 |
 | Phase 2: Core API | ✅ **COMPLETE** | 2025-11-14 | 2025-11-17 | **2025-11-17** |
-| Phase 3: Function Sigs | 🔴 NOT STARTED | TBD | TBD | - |
+| Phase 3: Function Sigs | 🟡 **IN PROGRESS** | 2025-11-17 | TBD | - |
 | Phase 4: Database Types | ✅ **COMPLETE** 🎉 | 2025-11-14 | 2025-11-16 | **2025-11-16** |
 | Phase 5: Return Types | ✅ **COMPLETE** 🎉 | 2025-11-16 | 2025-11-17 | **2025-11-17** |
 
