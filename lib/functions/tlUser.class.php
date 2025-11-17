@@ -660,13 +660,13 @@ class tlUser extends tlDBObject
     $tprojects_role = $this->tprojectRoles;
     $tplans_role = $this->tplanRoles;
     $effective_role = $this->globalRole;
-    if(!is_null($tplans_role) && isset($tplans_role[$tplan_id]))
+    if(!empty($tplans_role) && isset($tplans_role[$tplan_id]))
     {
-      $effective_role = $tplans_role[$tplan_id];  
+      $effective_role = $tplans_role[$tplan_id];
     }
-    else if(!is_null($tprojects_role) && isset($tprojects_role[$tproject_id]))
+    else if(!empty($tprojects_role) && isset($tprojects_role[$tproject_id]))
     {
-      $effective_role = $tprojects_role[$tproject_id];  
+      $effective_role = $tprojects_role[$tproject_id];
     }
     return $effective_role;
   }
@@ -1351,11 +1351,11 @@ class tlUser extends tlDBObject
     $myContext = array('tproject_id' => 0, 'tplan_id' => 0);
     $myContext = array_merge($myContext, $context);
 
-    if( $doExit = (is_null($myContext) || $myContext['tproject_id'] == 0) )
+    if( $doExit = ($myContext['tproject_id'] == 0) )
     {
       logAuditEvent(TLS("audit_security_no_environment",$myContext['script']), $action,$this->dbID,"users");
     }
-     
+
     if( !$doExit )
     {
       foreach($rightsToCheck as $verboseRight)

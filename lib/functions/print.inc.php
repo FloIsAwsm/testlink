@@ -1308,7 +1308,7 @@ function renderTestCaseForPrinting(&$db,&$node,&$options,$env,$context,$indentLe
                 $attachInfo = getAttachmentInfos($docRepo,$sxni[$tcInfo[$key][$ydx]['id']]['id'],
                                                  $tables['execution_tcsteps'],true,1);
 
-                if( !is_null($attachInfo) )
+                if( !empty($attachInfo) )
                 {
                   $code .= '<tr><td colspan="' . $td_colspan . '">';
                   $code .= '<b>' . $labels['exec_attachments'] . '</b><br>';
@@ -1535,7 +1535,7 @@ function renderTestCaseForPrinting(&$db,&$node,&$options,$env,$context,$indentLe
       // Get Execution Attachments
       $execAttachInfo = getAttachmentInfos($docRepo,$exec_info[0]['execution_id'],$tables['executions'],true,1);
 
-      if( !is_null($execAttachInfo) )
+      if( !empty($execAttachInfo) )
       {
         $code .= '<tr><td colspan="' . $cfg['tableColspan'] . '">';
         $code .= '<b>' . $labels['exec_attachments'] . '</b><br>';

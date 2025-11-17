@@ -730,13 +730,13 @@ function getTestSpecFromNode(&$dbHandler,&$tcaseMgr,&$linkedItems,$masterContain
             }
             reset($allowedSet);
           }
-             
+
           $setToRemove = array_diff_key($tcversionSet,$allowedSet);
-          if( !is_null($setToRemove) &&  count($setToRemove) > 0 )
+          if( !empty($setToRemove) )
           {
             foreach($setToRemove as $key => $value)
             {
-              $tspecKey = $itemSet[$value['testcase_id']];  
+              $tspecKey = $itemSet[$value['testcase_id']];
               $test_spec[$tspecKey]=null; 
             }
           }
@@ -1224,9 +1224,9 @@ function getPlatforms($db,$tproject_id,$testplan_id)
     $platforms = $platform_mgr->getLinkedToTestplan($testplan_id);
   }
 
-  if( is_null($platforms) )
+  if( empty($platforms) )
   {
-    // need to create fake data for platform 0 in order 
+    // need to create fake data for platform 0 in order
     // to have only simple logic
     // $platforms= array( 'id' => 0, 'name' => '');
     $platforms[0] = array( 'id' => 0, 'name' => '');

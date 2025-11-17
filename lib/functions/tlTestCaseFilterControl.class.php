@@ -689,8 +689,8 @@ class tlTestCaseFilterControl extends tlFilterControl {
    * @author Andreas Simon
    * @return $tl::OK
    */
-  public function save_session_data() {   
-    if (!isset($_SESSION[$this->mode]) || is_null($_SESSION[$this->mode]) || !is_array($_SESSION[$this->mode])) {
+  public function save_session_data() {
+    if (!isset($_SESSION[$this->mode]) || !is_array($_SESSION[$this->mode])) {
       $_SESSION[$this->mode] = array();
     }
     
@@ -1288,7 +1288,7 @@ class tlTestCaseFilterControl extends tlFilterControl {
     $key = 'setting_platform';
     $platformSet = $this->platform_mgr->getLinkedToTestplanAsMap($testplan_id);
 
-    if( is_null($platformSet) )
+    if( empty($platformSet) )
     {
       // Brute force bye, bye !! >>--->
       $this->settings[$key] = false;
