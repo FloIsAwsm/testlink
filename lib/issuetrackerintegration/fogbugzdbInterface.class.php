@@ -141,18 +141,18 @@ class fogbugzdbInterface extends issueTrackerInterface
 		$str = htmlspecialchars($issue->id);
 		if (!is_null($issue) )
 		{
-			//strike through all bugs that have a closed status.. 
+			//strike through all bugs that have a closed status..
 			if( $issue->statusCode > 1 )
-			{	
+			{
 				if( $issue->openStatus )
 				{
 					// strike through and bold all bugs that have a resolved status
-					$str = "<b>[resolv.]</b> [$issue->statusVerbose] <del>" . $id . "</del>";
+					$str = "<b>[resolv.]</b> [$issue->statusVerbose] <del>" . $issue->id . "</del>";
 				}
 				else
 				{
-					$str = "[closed] [$issue->statusVerbose] <del>" . $id . "</del>";
-				}	
+					$str = "[closed] [$issue->statusVerbose] <del>" . $issue->id . "</del>";
+				}
 			}
 			else
 			{

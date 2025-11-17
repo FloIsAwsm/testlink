@@ -343,6 +343,8 @@ function doCreate($argsObj,&$tprojectMgr)
     $op->$key=$check_op[$key];
   }
 
+  $new_id = -1; // Initialize to avoid undefined variable warning
+
   if($op->status_ok)
   {
     try 
