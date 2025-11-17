@@ -49,7 +49,7 @@ function getFileExtension($fName,$default)
  * get the contents of a file
  *
  * @param string $fName the name of the file to read
- * @return string the file contents
+ * @return string|false|null the file contents, or false/null on error
  **/
 function getFileContents($fName)
 {

@@ -467,7 +467,7 @@ function testlinkInitPage(&$db, $initProject = FALSE, $dontCheckSession = false,
 
   doSessionStart();
   setPaths();
-  if( isset($_SESSION['locale']) && !is_null($_SESSION['locale']) )
+  if( !empty($_SESSION['locale']) )
   {
     setDateTimeFormats($_SESSION['locale']);
   } 
@@ -611,7 +611,7 @@ function check_string($str2check, $regexp_forbidden_chars)
 {
   $status_ok = 1;
 
-  if( $regexp_forbidden_chars != '' && !is_null($regexp_forbidden_chars))
+  if( !empty($regexp_forbidden_chars) )
   {
     if (preg_match($regexp_forbidden_chars, $str2check))
     {
@@ -1020,12 +1020,10 @@ function tlSubStr($str,$start,$length = null)
   if ($length === null)
   {
     $length = iconv_strlen($str,$charset);
-  } 
-  // BUGID 3951: replaced iconv_substr() by mb_substr()
-  $function_call = "mb_substr";
-  if (function_exists('iconv_substr') && version_compare(PHP_VERSION, '5.2.0') >= 0) {
-    $function_call = "iconv_substr";
   }
+  // BUGID 3951: replaced iconv_substr() by mb_substr()
+  // PHP 8.2+ always has iconv_substr, version check removed
+  $function_call = function_exists('iconv_substr') ? "iconv_substr" : "mb_substr";
   return $function_call($str,$start,$length,$charset);
 }
 
@@ -1128,7 +1126,7 @@ function setUpEnvForRemoteAccess(&$dbHandler,$apikey,$rightsCheck=null,$opt=null
   }
 
   doSessionStart($my['opt']['setPaths']);
-  if( isset($_SESSION['locale']) && !is_null($_SESSION['locale']) )
+  if( !empty($_SESSION['locale']) )
   {
     setDateTimeFormats($_SESSION['locale']);
   } 
@@ -1283,7 +1281,7 @@ function setUpEnvForAnonymousAccess(&$dbHandler,$apikey,$rightsCheck=null,$opt=n
   }
 
   doSessionStart($my['opt']['setPaths']);
-  if( isset($_SESSION['locale']) && !is_null($_SESSION['locale']) )
+  if( !empty($_SESSION['locale']) )
   {
     setDateTimeFormats($_SESSION['locale']);
   } 
