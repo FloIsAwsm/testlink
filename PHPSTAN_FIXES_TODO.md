@@ -1,9 +1,9 @@
 # PHPStan Error Fixes - Progress Tracker
 
 **Total New Errors:** 309
-**Status:** In Progress (Batches 1-5 Complete - 98+ errors fixed)
+**Status:** In Progress (Batches 1-6 Complete - 99+ errors fixed)
 **Started:** 2025-11-17
-**Last Updated:** 2025-11-17 (Batch 5 complete)
+**Last Updated:** 2025-11-17 (Batch 6 complete)
 
 ## Batch Progress
 
@@ -22,7 +22,10 @@ Files: execDashboard.php, execSetResults.php, assignment_mgr.class.php
 ### ✅ Batch 5 (Complete - 3+ errors)
 Files: xmlrpc.class.php, cfield_mgr.class.php
 
-**Total Fixed: 98+ errors (~32% complete)**
+### ✅ Batch 6 (Complete - 1+ error)
+Files: tlRestApi.class.php
+
+**Total Fixed: 99+ errors (~32% complete)**
 
 ---
 
@@ -43,10 +46,10 @@ Files: xmlrpc.class.php, cfield_mgr.class.php
 ## Files to Fix
 
 ### 1. lib/api/rest/v1/tlRestApi.class.php (2 errors)
-- [ ] Line 293: Comparison ">" between 0 and 0 is always false
-- [ ] Line 293: Result of && is always false
+- [x] Line 293: Comparison ">" between 0 and 0 is always false - Fixed: Changed count() > 0 to !empty()
+- [x] Line 293: Result of && is always false - Fixed by above change
 
-**Status:** Pending
+**Status:** ✅ Complete (Batch 6)
 **Priority:** Medium
 
 ---
