@@ -119,18 +119,12 @@ if ($args->compare_selected_versions)
 		
 
 		//are there any changes? then display! if not, nothing to show here
-<<<<<<< Updated upstream
-		if ($gui->diff[$key]["count"] > 0) {
+		if ($gui->diff[$key]["count"] > 0)
+		{
 			$gui->diff[$key]["message"] = sprintf($labels["num_changes"], $localized_key,$gui->diff[$key]["count"]);
-		} else {
-=======
-		if ($gui->diff[$key]["count"] > 0) 
+		}
+		else
 		{
-			$gui->diff[$key]["message"] = sprintf($labels["num_changes"], $localized_key,$diff[$key]["count"]);
-		} 
-		else 
-		{
->>>>>>> Stashed changes
 			$gui->diff[$key]["message"] = sprintf($labels["no_changes"], $localized_key);
 		}
 	}	

@@ -89,10 +89,11 @@ class tlLogger extends tlObject
   /** @var database Database connection object */
   protected $db = null;
 
-  public function __construct(database $db)
+  public function __construct(?database $db)
   {
     parent::__construct();
 
+    $this->db = $db;
     $this->loggerTypeDomain = array_flip(array_keys($this->loggerTypeClass));
     foreach($this->loggerTypeClass as $id => $className)
     {
@@ -103,13 +104,13 @@ class tlLogger extends tlObject
       }
       $this->loggers[$id] = new $class2call($db);
     }
-    
+
     // CRITICAL - this controls logLevel that is written to db.
     // IMHO using this config we will also change what is displayed in Event Viewer GUI
     $this->setLogLevelFilter(self::ERROR | self::WARNING | self::AUDIT | self::L18N);
     $this->loggers['mail']->setLogLevelFilter(self::ERROR | self::WARNING);
-    
-    $this->eventManager = tlEventManager::create($db);
+
+    $this->eventManager = $db ? tlEventManager::create($db) : null;
   }
 
   public function __destruct()
@@ -120,20 +121,29 @@ class tlLogger extends tlObject
   public function getAuditEventsFor($objectIDs = null,$objectTypes = null,$activityCodes = null,
                                     $limit = -1,$startTime = null,$endTime = null, $users = null)
   {
+    if (!$this->eventManager) {
+      return null;
+    }
     return $this->eventManager->getEventsFor(tlLogger::AUDIT,$objectIDs,$objectTypes,$activityCodes,
                                              $limit,$startTime,$endTime,$users);
   }
-  
+
   public function getEventsFor($logLevels = null,$objectIDs = null,$objectTypes = null,
                                $activityCodes = null,$limit = -1,$startTime = null,
                                $endTime = null, $users = null)
   {
+    if (!$this->eventManager) {
+      return null;
+    }
     return $this->eventManager->getEventsFor($logLevels,$objectIDs,$objectTypes,$activityCodes,
                                               $limit,$startTime,$endTime,$users);
   }
-  
+
   public function deleteEventsFor($logLevels = null,$startTime = null)
   {
+    if (!$this->eventManager) {
+      return null;
+    }
     return $this->eventManager->deleteEventsFor($logLevels,$startTime);
   }
   
@@ -300,7 +310,7 @@ class tlLogger extends tlObject
    * create the logger for TestLink
    * @param resource &$db reference to database handler
    */
-  static public function create(&$db)
+  static public function create($db)
   {
     if (!isset(self::$s_instance))
     {
@@ -362,6 +372,14 @@ class tlLogger extends tlObject
     }
     $sessionID = $userID ? session_id() : null;
 
+    // Check if db is available globally if not set
+    if (!$this->db) {
+      global $db;
+      if ($db) {
+        $this->db = $db;
+      }
+    }
+
     $t = new tlTransaction($this->db);
     $this->transactions[$name] = &$t;
     $t->initialize($this->loggers,$entryPoint,$name,$userID,$sessionID);
@@ -414,7 +432,7 @@ class tlTransaction extends tlDBObject
 
   protected $events = null;
 
-  public function __construct(database $db)
+  public function __construct(?database $db)
   {
     parent::__construct($db);
   }
@@ -591,12 +609,12 @@ class tlTransaction extends tlDBObject
 class tlEventManager extends tlObjectWithDB
 {
   private static $s_instance;
-  public function __construct(database $db)
+  public function __construct(?database $db)
   {
     parent::__construct($db);
   }
 
-    public static function create(database $db)
+    public static function create(?database $db)
     {
       if (!isset(self::$s_instance))
       {
@@ -902,7 +920,7 @@ class tlDBLogger extends tlObjectWithDB
   protected $pendingTransaction = null;
   protected $doLogging = true;
 
-  public function __construct(database $db)
+  public function __construct(?database $db)
   {
     parent::__construct($db);
   }
@@ -1210,18 +1228,18 @@ class tlMailLogger extends tlObjectWithDB
 {
 
   public $logLevelFilter = null;
-  
+
   static protected $eventFormatString = "\t[%timestamp][%errorlevel][%sessionid][%source]\n\t\t%description\n";
 
   protected $doLogging = true;
-  
+
   private $sendto_email;
   private $from_email;
   private $return_path_email;
   private $configIsOK;
 
 
-  public function __construct(database $db)
+  public function __construct(?database $db)
   {
     parent::__construct($db);
     $this->sendto_email = config_get('tl_admin_email');
