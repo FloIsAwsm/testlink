@@ -531,7 +531,7 @@ class tlRequirementFilterControl extends tlFilterControl
   /**
    *
    */ 
-  protected function getCustomFields()
+  protected function getCustomFields($application_area = null)
   {
     if (!$this->req_mgr) 
     {
