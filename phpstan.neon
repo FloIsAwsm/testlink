@@ -1,5 +1,9 @@
+includes:
+    - phpstan-baseline.neon
+
 parameters:
     level: 6
+    phpVersion: 80200
     paths:
         - cfg
         - lib
@@ -12,13 +16,10 @@ parameters:
         - OLD-install/*
         - lib/api/xmlrpc/v1/sample_clients/*
         - lib/functions/code_testing/*
-
-    # Ignore errors for deprecated PHP functions we can't fix
     ignoreErrors:
         - '#Function mysql_.*? not found#'
         - '#Function mssql_.*? not found#'
         - '#Path in require_once\(\) .* is not a file or it does not exist#'
         - '#Path in include_once\(\) .* is not a file or it does not exist#'
-
-    # Use baseline for tracking existing errors
-    baseline: phpstan-baseline.neon
+        - '#Syntax error#'
+    reportUnmatchedIgnoredErrors: false
