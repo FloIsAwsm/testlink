@@ -239,10 +239,10 @@ function update($id, $name, $color, $notes,$options,$active=null,
 
 /**
  * Set session data related to a Test project
- * 
+ *
  * @param integer $projectId Project ID; zero causes unset data
  */
-public function setSessionProject($projectId)
+public function setSessionProject($projectId): void
 {
   $tproject_info = null;
   
@@ -297,10 +297,10 @@ public function setSessionProject($projectId)
 
 /**
  * Unserialize project options
- * 
- * @param array $recorset produced by getTestProject() 
+ *
+ * @param array $recorset produced by getTestProject()
  */
-protected function parseTestProjectRecordset(&$recordset)
+protected function parseTestProjectRecordset(&$recordset): void
 {
   if (count($recordset ?? []) > 0)
   {
@@ -319,11 +319,11 @@ protected function parseTestProjectRecordset(&$recordset)
 
 /**
  * Get Test project data according to parameter with unique value
- * 
+ *
  * @param string $condition (optional) additional SQL condition(s)
  * @return array map with test project info; null if query fails
  */
-protected function getTestProject($condition = null, $opt=null)
+protected function getTestProject($condition = null, $opt=null): ?array
 {
   $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
 
@@ -377,13 +377,13 @@ protected function getTestProject($condition = null, $opt=null)
 
 /**
  * Get Test project data according to name
- * 
- * @param string $name 
+ *
+ * @param string $name
  * @param string $addClause (optional) additional SQL condition(s)
- * 
+ *
  * @return array map with test project info; null if query fails
  */
-public function get_by_name($name, $addClause = null, $opt=null)
+public function get_by_name($name, $addClause = null, $opt=null): ?array
 {
   $condition = "nodes_hierarchy.name='" . $this->db->prepare_string($name) . "'";
   $condition .= is_null($addClause) ? '' : " AND {$addClause} ";
@@ -394,11 +394,11 @@ public function get_by_name($name, $addClause = null, $opt=null)
 
 /**
  * Get Test project data according to ID
- * 
+ *
  * @param integer $id test project
  * @return array map with test project info; null if query fails
  */
-public function get_by_id($id, $opt=null)
+public function get_by_id($id, $opt=null): mixed
 {
   $condition = "testprojects.id=". intval($id);
   $result = $this->getTestProject($condition,$opt);
@@ -408,13 +408,13 @@ public function get_by_id($id, $opt=null)
 
 /**
  * Get Test project data according to prefix
- * 
- * @param string $prefix 
+ *
+ * @param string $prefix
  * @param string $addClause optional additional SQL 'AND filter' clause
- * 
+ *
  * @return array map with test project info; null if query fails
  */
-public function get_by_prefix($prefix, $addClause = null)
+public function get_by_prefix($prefix, $addClause = null): mixed
 {
     $safe_prefix = $this->db->prepare_string($prefix);
   $condition = "testprojects.prefix='{$safe_prefix}'";
@@ -427,11 +427,11 @@ public function get_by_prefix($prefix, $addClause = null)
 
 /**
  * Get Test project data according to APIKEY
- * 
+ *
  * @param string 64 chars
  * @return array map with test project info; null if query fails
  */
-public function getByAPIKey($apiKey, $opt=null)
+public function getByAPIKey($apiKey, $opt=null): mixed
 {
   $condition = "testprojects.api_key='{$apiKey}'";
   $result = $this->getTestProject($condition,$opt);
@@ -1090,7 +1090,7 @@ function setPublicStatus($id,$status)
    * @param string $notes
    *
    **/
-  public function addKeyword($testprojectID,$keyword,$notes)
+  public function addKeyword($testprojectID,$keyword,$notes): array
   {
     $kw = new tlKeyword();
     $kw->initialize(null,$testprojectID,$keyword,$notes);
@@ -1113,7 +1113,7 @@ function setPublicStatus($id,$status)
    * @param type $notes
    *
    **/
-  function updateKeyword($testprojectID,$id,$keyword,$notes)
+  function updateKeyword($testprojectID,$id,$keyword,$notes): int
   {
     $kw = new tlKeyword($id);
     $kw->initialize($id,$testprojectID,$keyword,$notes);
@@ -1130,7 +1130,7 @@ function setPublicStatus($id,$status)
    *
    * @param type $kwid
    **/
-  public function getKeyword($id)
+  public function getKeyword($id): mixed
   {
     return tlKeyword::getByID($this->db,$id);
   }
@@ -1140,13 +1140,13 @@ function setPublicStatus($id,$status)
    *
    * @param int $tprojectID the test project id
    * @param int $keywordID [default = null] the optional keyword id
-   * 
+   *
    * @return array, every elemen is map with following structure:
    *                id
    *                keyword
    *                notes
    **/
-  public function getKeywords($testproject_id)
+  public function getKeywords($testproject_id): mixed
   {
     $ids = $this->getKeywordIDsFor($testproject_id);
 
@@ -1161,7 +1161,7 @@ function setPublicStatus($id,$status)
    *
    * @todo should we now increment the tcversion also?
    **/
-  function deleteKeyword($id)
+  function deleteKeyword($id): int
   {
     $result = tl::ERROR;
     $keyword = $this->getKeyword($id);
@@ -1179,7 +1179,7 @@ function setPublicStatus($id,$status)
   /**
    * delete Keywords
    */
-  function deleteKeywords($testproject_id)
+  function deleteKeywords($testproject_id): int
   {
     $result = tl::OK;
     $kwIDs = $this->getKeywordIDsFor($testproject_id);
@@ -1194,10 +1194,10 @@ function setPublicStatus($id,$status)
 
 
   /**
-   * 
+   *
    *
    */
-  protected function getKeywordIDsFor($testproject_id)
+  protected function getKeywordIDsFor($testproject_id): mixed
   {
     $query = " SELECT id FROM " . $this->tables['keywords'] . "  " .
              " WHERE testproject_id = {$testproject_id}" .
@@ -1544,10 +1544,10 @@ function setPublicStatus($id,$status)
    *         modification_ts
    *
    * @author Martin Havlat
-   * @internal revisions 
-   *       
+   * @internal revisions
+   *
    **/
-  public function getReqSpec($testproject_id, $id = null, $fields=null,$access_key=null)
+  public function getReqSpec($testproject_id, $id = null, $fields=null,$access_key=null): mixed
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
 
@@ -2585,11 +2585,11 @@ public function count_all_requirements($tp_id) {
 
 /**
  * Copy user roles to a new Test Project
- * 
+ *
  * @param int $source_id original Test Project identificator
  * @param int $target_id new Test Project identificator
  */
-private function copy_user_roles($source_id, $target_id)
+private function copy_user_roles($source_id, $target_id): void
 {
   $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
   
@@ -2612,11 +2612,11 @@ private function copy_user_roles($source_id, $target_id)
 
 /**
  * Copy platforms
- * 
+ *
  * @param int $source_id original Test Project identificator
  * @param int $target_id new Test Project identificator
  */
-private function copy_platforms($source_id, $target_id)
+private function copy_platforms($source_id, $target_id): mixed
 {
   $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
   $platform_mgr = new tlPlatform($this->db,$source_id);
@@ -2639,11 +2639,11 @@ private function copy_platforms($source_id, $target_id)
 
 /**
  * Copy platforms
- * 
+ *
  * @param int $source_id original Test Project identificator
  * @param int $target_id new Test Project identificator
  */
-private function copy_keywords($source_id, $target_id)
+private function copy_keywords($source_id, $target_id): mixed
 {
   $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
   $old_new = null;
@@ -2667,10 +2667,10 @@ private function copy_keywords($source_id, $target_id)
 
 
 /**
- * 
+ *
  *
  */
-private function copy_cfields_assignments($source_id, $target_id)
+private function copy_cfields_assignments($source_id, $target_id): void
 {
   $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $sql = "/* $debugMsg */ " . 
