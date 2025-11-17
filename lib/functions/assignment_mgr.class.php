@@ -456,10 +456,10 @@ class assignment_mgr extends tlObjectWithDB
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $rs = null;
-    
-    if(is_null($assignmentType) || !is_numeric($assignmentType) )
+
+    if(!is_int($assignmentType))
     {
-      throw new Exception(__METHOD__ . ' assignmentType can not be NULL or not numeric ');  
+      throw new Exception(__METHOD__ . ' assignmentType must be an integer');
     }
     $sql =  "/* $debugMsg */ ".
             " SELECT UA.user_id,UA.feature_id ".
