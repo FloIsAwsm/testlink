@@ -398,8 +398,8 @@ class jirasoapInterface extends issueTrackerInterface
     {
 
       $op = $this->APIClient->createIssue($this->authToken, $issue);
-      $ret = array('status_ok' => true, 'id' => $op->key, 
-                   'msg' => sprintf(lang_get('jira_bug_created'),$summary,$issue['project']));
+      $ret = array('status_ok' => true, 'id' => $op->key,
+                   'msg' => sprintf(lang_get('jira_bug_created'),$issue['summary'],$issue['project']));
     }
     catch (Exception $e)
     {

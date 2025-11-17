@@ -307,6 +307,7 @@ class jirarestInterface extends issueTrackerInterface
    */
   public function addIssue($summary,$description,$opt=null)
   {
+    $issue = array(); // Initialize to avoid undefined variable in catch block
     try
     {
       $issue = array('fields' =>

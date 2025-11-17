@@ -206,6 +206,10 @@ function init_args(&$dbHandler,&$viewerCfg,$cfgObj)
 
   getTestProjectSettings($db,$args,$cfgObj['testcase']->glue_character);
 
+  // Initialize managers before use
+  $tprojectMgr = new testproject($dbHandler);
+  $tcaseMgr = new testcase($dbHandler);
+
   // on 1.9.x this will always be 0, because we do not manage test project id
   // on request.
   // I prefer to add the check before this will be the standard way to work on 2.0
@@ -213,26 +217,25 @@ function init_args(&$dbHandler,&$viewerCfg,$cfgObj)
   //{
     // try with session
   //  $args->tproject_id = isset($_SESSION['testprojectID']) ? intval($_SESSION['testprojectID']) : 0;
-  //}  
+  //}
   if($args->tproject_id <= 0 &&  strlen($args->tcaseExternalID) > 0 )
   {
     // parse to get JUST prefix, find the last glue char
-    $gluePos = strrpos($args->tcaseExternalID, $cfgObj->glue_character); 
+    $gluePos = strrpos($args->tcaseExternalID, $cfgObj->glue_character);
     $status_ok = ($gluePos !== false);
     if($status_ok)
     {
       $tcasePrefix = substr($args->tcaseExternalID, 0, $gluePos);
     }
-    $dummy = $tprojectMgr->get_by_prefix($tcasePrefix); 
+    $dummy = $tprojectMgr->get_by_prefix($tcasePrefix);
 
-    $tcaseMgr = new testcase($dbHandler);
     $args->tcase_id = $tcaseMgr->getInternalID($args->tcaseExternalID);
     $tcinfo = $tcaseMgr->get_basic_info($args->tcase_id,array('number' => $args->tcaseVersionNumber));
     if(!is_null($tcinfo))
     {
       $args->tcversion_id = $tcinfo[0]['tcversion_id'];
     }
-    unset($tcaseMgr); 
+ 
   }
   else
   {
@@ -253,10 +256,6 @@ function init_args(&$dbHandler,&$viewerCfg,$cfgObj)
   // For more information about the data accessed in session here, see the comment
   // in the file header of lib/functions/tlTestCaseFilterControl.class.php.
   $args->refreshTree = getSettingFromFormNameSpace('edit_mode','setting_refresh_tree_on_action');
-
-
-  $tprojectMgr = new testproject($dbHandler);
-  $tcaseMgr = new testcase($dbHandler);
 
   // For lazy users that do not provide test case external id as PREFIX-NN, but just NN
   // we try to help adding $args->tcasePrefix, that we can get on call
@@ -369,13 +368,13 @@ function getTestProjectSettings(&$dbHandler,&$argsObj,$glue)
     $dummy = $tprojectMgr->get_by_prefix($tcasePrefix); 
 
     $tcaseMgr = new testcase($dbHandler);
-    $args->tcase_id = $tcaseMgr->getInternalID($args->tcaseExternalID);
-    $tcinfo = $tcaseMgr->get_basic_info($args->tcase_id,array('number' => $args->tcaseVersionNumber));
+    $argsObj->tcase_id = $tcaseMgr->getInternalID($argsObj->tcaseExternalID);
+    $tcinfo = $tcaseMgr->get_basic_info($argsObj->tcase_id,array('number' => $argsObj->tcaseVersionNumber));
     if(!is_null($tcinfo))
     {
-      $args->tcversion_id = $tcinfo[0]['tcversion_id'];
+      $argsObj->tcversion_id = $tcinfo[0]['tcversion_id'];
     }
-    unset($tcaseMgr); 
+ 
   }
   else
   {
