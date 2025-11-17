@@ -1,9 +1,9 @@
 # PHPStan Error Fixes - Progress Tracker
 
 **Total New Errors:** 309
-**Status:** In Progress (Batches 1-16 Complete - 200+ errors fixed)
+**Status:** In Progress (Batches 1-17 Complete - 216+ errors fixed)
 **Started:** 2025-11-17
-**Last Updated:** 2025-11-17 (Batch 16 complete)
+**Last Updated:** 2025-11-17 (Batch 17 complete)
 
 ## Batch Progress
 
@@ -55,7 +55,10 @@ Files: editExecution.php (1 error), ldap_api.php (1 error), requirement_mgr.clas
 ### ✅ Batch 16 (Complete - 12 errors)
 Files: redminerestInterface.class.php (2 errors), rolesEdit.php (2 errors), editExecution.php (1 error), table.class.php (1 error), requirement_mgr.class.php (2 errors), testplan.class.php (1 error), xmlrpc.class.php (3 errors)
 
-**Details:**
+### ✅ Batch 17 (Complete - 16+ errors)
+Files: reqMgrSystemInterface.class.php (5 errors), tcImport.php (3 errors), tcCreateFromIssue.php (3 errors), tcCreateFromIssueMantisXML.php (1 error), jirasoapInterface.class.php (1 error), jirarestInterface.class.php (1 error), archiveDataNew.php (2+ errors)
+
+**Details for Batch 16:**
 1. **redminerestInterface.class.php** (2 errors - Medium impact)
    - Line 279: Added null check for $issue in getIssueSummaryHTMLString()
    - Lines 408, 414: Fixed undefined $summary and $issue variables in addNote() method
@@ -82,7 +85,36 @@ Files: redminerestInterface.class.php (2 errors), rolesEdit.php (2 errors), edit
    - Line 3236: Initialized $error_code in checkReqSpecQuality()
    - Line 6874: Initialized $errorCode in checkTestCaseSetIdentity()
 
-**Total Fixed: 200+ errors (~65% complete)**
+**Details for Batch 17:**
+1. **reqMgrSystemInterface.class.php** (5 errors - High impact)
+   - Line 117: Fixed undefined $type → $this->type in connect()
+   - Lines 122-124: Removed dead code (properties self-assigning)
+   - Line 145: Fixed undefined $server → $this->server in getProjects()
+   - Line 165: Fixed undefined $serverConnection → $this->serverConnection in getBaselines()
+
+2. **tcImport.php** (3 errors - Medium impact)
+   - Lines 139-141: Replaced dynamic variable creation ($$varname) with explicit assignments
+   - Fixed undefined $useRecursion, $importIntoProject, $duplicateLogic for PHPStan
+
+3. **tcCreateFromIssue.php** (3 errors - Medium impact)
+   - Lines 138-140: Same fix as tcImport.php
+   - Made variables explicit for static analysis
+
+4. **tcCreateFromIssueMantisXML.php** (1 error - Medium impact)
+   - Line 119: Fixed undefined $duplicateLogic with explicit assignment
+
+5. **jirasoapInterface.class.php** (1 error - High impact)
+   - Line 402: Fixed undefined $summary → $issue['summary'] in addIssueFromArray()
+
+6. **jirarestInterface.class.php** (1 error - High impact)
+   - Line 310: Initialize $issue before try block to prevent undefined in catch block
+
+7. **archiveDataNew.php** (4+ errors - High impact)
+   - Lines 210-211: Fixed undefined $tprojectMgr and $tcaseMgr by moving initialization before use
+   - Lines 371, 375: Fixed $args → $argsObj naming bug in getTestProjectSettings()
+   - Removed duplicate object creations and unset() calls
+
+**Total Fixed: 216+ errors (~70% complete)**
 
 ---
 
