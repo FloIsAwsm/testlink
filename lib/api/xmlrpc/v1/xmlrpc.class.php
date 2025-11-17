@@ -1368,12 +1368,12 @@ class TestlinkXMLRPCServer extends IXR_Server
           $sql = "SELECT * FROM {$this->tables['executions']} WHERE id=" . $targetID;
           $resultInfo[0] = $this->dbObj->fetchFirstRow($sql);
 
-          if($options->getBugs)
+          if(!empty($options->getBugs))
           {
             $resultInfo[0]['bugs'] = array();
-            $sql = " SELECT DISTINCT bug_id FROM {$this->tables['execution_bugs']} " . 
+            $sql = " SELECT DISTINCT bug_id FROM {$this->tables['execution_bugs']} " .
                    " WHERE execution_id = " . $targetID;
-            $resultInfo[0]['bugs'] = (array)$this->dbObj->get_recordset($sql);       
+            $resultInfo[0]['bugs'] = (array)$this->dbObj->get_recordset($sql);
           }  
         }  
       }
@@ -2423,7 +2423,7 @@ class TestlinkXMLRPCServer extends IXR_Server
     {
       $keywordSet = null;
       $keywordList = $this->getKeywordSet($tplanInfo['parent_id']);
-      if( !is_null($keywordList) )
+      if( $keywordList !== '' && !is_null($keywordList) )
       {
         $keywordSet = explode(",",$keywordList);
       }

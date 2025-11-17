@@ -903,7 +903,7 @@ class cfield_mgr extends tlObject
          " ORDER BY CF.name";
 
     $map = $this->db->fetchRowsIntoMap($sql,'id');
-    if(!is_null($map) && !is_null($opt))
+    if(!empty($map) && !is_null($opt))
     {  
       $k2l = array_keys($map);
       foreach($k2l as $key)
