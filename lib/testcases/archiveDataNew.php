@@ -205,7 +205,6 @@ function init_args(&$dbHandler,&$viewerCfg,$cfgObj)
 
 
   getTestProjectSettings($db,$args,$cfgObj['testcase']->glue_character);
-asdf
 
   // on 1.9.x this will always be 0, because we do not manage test project id
   // on request.
