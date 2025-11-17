@@ -666,9 +666,9 @@ function update($id,$version_id,$reqdoc_id,$title, $scope, $user_id, $status, $t
       $implosion = implode(',',$children);
       $sql = "/* $debugMsg */ SELECT id from " . $this->tables['nodes_hierarchy'] . " " .
              " WHERE parent_id IN ( {$implosion} ) ";
-             
+
       $revisionSet = $this->db->fetchRowsIntoMap($sql,'id');
-      if( !is_null($revisionSet) )
+      if( !empty($revisionSet) )
       {
           $this->cfield_mgr->remove_all_design_values_from_node(array_keys($revisionSet));
               
@@ -1099,7 +1099,7 @@ function create_tc_from_requirement($mixIdReq,$srs_id, $user_id, $tproject_id = 
       $tcInfo = $this->tree_mgr->get_node_hierarchy_info($testcase_id);
       for($idx=0; $idx < $loop2do; $idx++)
       {
-        if( is_null($coverage) || !isset($coverage[$items[$idx]]) )
+        if( empty($coverage) || !isset($coverage[$items[$idx]]) )
         {
           $sql = "INSERT INTO " . $this->tables['req_coverage'] . " (req_id,testcase_id,author_id,creation_ts) " .
                  "VALUES ({$items[$idx]},{$testcase_id},{$author_id},{$now})";
@@ -2038,7 +2038,7 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
           // Seems that when we call this function during Test Project Copy
           // we do not use this piece
           $linked_items = $this->get_coverage($id);
-          if( !is_null($linked_items) )
+          if( !empty($linked_items) )
           {
             foreach($linked_items as $value)
             {
@@ -3608,7 +3608,7 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
     {
       $tproject_mgr = new testproject($this->db);
       $info=$tproject_mgr->get_by_name($req_project);
-      if ( !is_null($info) ) // is project found ?
+      if ( !empty($info) ) // is project found ?
       {
         $tproject_id =  $info[0]['id'];
         $reqs = $this->getByDocID($doc_id, $tproject_id, $parent_id, $options);
@@ -3695,7 +3695,7 @@ function getByIDBulkLatestVersionRevision($id,$opt=null)
   // new dBug($recordset);
 
 
-  if(!is_null($recordset))
+  if(!empty($recordset))
   {
     // Decode users
     $rs = $recordset;

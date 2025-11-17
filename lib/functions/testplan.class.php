@@ -801,7 +801,7 @@ class testplan extends tlObjectWithAttachments
          " AND platform_id = " . intval($platformID) ;
          
     $linked_items = $this->db->fetchRowsIntoMap($sql,'id');
-    return !is_null($linked_items) ? key($linked_items) : -1;
+    return !empty($linked_items) ? key($linked_items) : -1;
   }
 
 
@@ -1149,7 +1149,7 @@ class testplan extends tlObjectWithAttachments
   function unlink_tcversions($id,&$items)
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
-    if(is_null($items))
+    if(empty($items))
     {
       return;
     }
@@ -1196,7 +1196,7 @@ class testplan extends tlObjectWithAttachments
            " WHERE testplan_id = {$id} AND ${where_clause}";
     $exec_ids = $this->db->fetchRowsIntoMap($sql,'execution_id');
 
-    if( count($exec_ids ?? []) > 0 )
+    if( !empty($exec_ids) )
     {
       // has executions
       $exec_ids = array_keys($exec_ids);
@@ -1217,7 +1217,7 @@ class testplan extends tlObjectWithAttachments
     $sql=" SELECT id AS link_id FROM " . $this->tables['testplan_tcversions'] . " " .
        " WHERE testplan_id={$id} AND {$where_clause} ";
     $link_ids = $this->db->fetchRowsIntoMap($sql,'link_id');
-    $features = array_keys($link_ids ?? []);
+    $features = !empty($link_ids) ? array_keys($link_ids) : [];
     if( count($features) == 1)
     {
       $features=$features[0];
@@ -1645,7 +1645,7 @@ class testplan extends tlObjectWithAttachments
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $rs=$this->get_milestones($tplan_id);
-    if(!is_null($rs))
+    if(!empty($rs))
     {
       foreach($rs as $mstone)
       {
@@ -1909,7 +1909,7 @@ class testplan extends tlObjectWithAttachments
     $recordset=$this->db->fetchColumnsIntoMap($sql,'id','name');
 
     // we will apply natsort only if order by name was requested
-    if( !is_null($recordset) && stripos($orderClause, 'name') !== FALSE)
+    if( !empty($recordset) && stripos($orderClause, 'name') !== FALSE)
     {
       natsort($recordset);
     }
@@ -2130,7 +2130,7 @@ class testplan extends tlObjectWithAttachments
     $rs = $this->db->fetchRowsIntoMap($sql,$accessField);
 
     // _natsort_builds() has to be used ONLY if name is used on ORDER BY
-    if( !is_null($rs) && $doOrderBy && strpos($my['opt']['orderBy'],'name') !== FALSE)
+    if( !empty($rs) && $doOrderBy && strpos($my['opt']['orderBy'],'name') !== FALSE)
     {
       $rs = $this->_natsort_builds($rs);
     }
@@ -2879,7 +2879,7 @@ class testplan extends tlObjectWithAttachments
       {  
         $sql2exec = $sql . " AND node_id IN (" . implode(',',$items) . ")";
         $dummy = $this->db->fetchOneValue($sql2exec);
-        $estimated['platform'][$platfID]['minutes'] = is_null($dummy) ? 0 : $dummy;
+        $estimated['platform'][$platfID]['minutes'] = $dummy ?? 0;
         $estimated['platform'][$platfID]['tcase_qty'] = count($items);
         
         $estimated['totalMinutes'] += $estimated['platform'][$platfID]['minutes'];
@@ -3096,7 +3096,7 @@ class testplan extends tlObjectWithAttachments
         $sql2exec = $sql . " AND execution_id IN (" . implode(',',$items) . ")";
 
         $dummy = $this->db->fetchOneValue($sql2exec);
-        $total_time['platform'][$platfID]['minutes'] = is_null($dummy) ? 0 : $dummy;
+        $total_time['platform'][$platfID]['minutes'] = $dummy ?? 0;
         $total_time['platform'][$platfID]['tcase_qty'] = count($items);
 
         $total_time['totalMinutes'] += $total_time['platform'][$platfID]['minutes'];
@@ -3248,9 +3248,9 @@ class testplan extends tlObjectWithAttachments
     }
     
     $recordset = array();
-    foreach ($results as $result) 
+    foreach ($results as $result)
     {
-      if (!is_null($result) && (is_array($result)) ) //BUGID 3806
+      if (!empty($result)) //BUGID 3806
       {
         $recordset = array_merge_recursive($recordset, $result);
       }
@@ -4129,9 +4129,9 @@ class testplan extends tlObjectWithAttachments
     }
     
     $sql .= " ORDER BY node_order,id";
-    
+
     $rs = $this->db->fetchRowsIntoMap($sql,'id');
-    if( count($rs ?? []) == 0 )
+    if( empty($rs) )
     {
       return $qnum;
     }
@@ -4910,7 +4910,7 @@ class testplan extends tlObjectWithAttachments
         " AND E.status IS NULL ";
 
     $recordset = $this->db->fetchRowsIntoMap($sql,'tcase_id');
-    return is_null($recordset) ? $recordset : array_flip(array_keys($recordset));
+    return empty($recordset) ? [] : array_flip(array_keys($recordset));
   }
 
 
@@ -4947,7 +4947,7 @@ class testplan extends tlObjectWithAttachments
         " AND E.status IS NULL ";
 
     $recordset = $this->db->fetchRowsIntoMap($sql,'tcase_id');
-    return is_null($recordset) ? $recordset : array_flip(array_keys($recordset));
+    return empty($recordset) ? [] : array_flip(array_keys($recordset));
   }
 
 
@@ -5012,7 +5012,7 @@ class testplan extends tlObjectWithAttachments
         " AND E.status IN('{$statusInClause}')";
         
     $recordset = $this->db->fetchRowsIntoMap($sql,'tcase_id');
-    $hits = is_null($recordset) ? $recordset : array_flip(array_keys($recordset));
+    $hits = empty($recordset) ? [] : array_flip(array_keys($recordset));
     
     $items = (array)$hits + (array)$notRunHits; 
     return count($items) > 0 ? $items : null;
@@ -5078,7 +5078,7 @@ class testplan extends tlObjectWithAttachments
         " AND E.status IN('{$statusInClause}')";
     
     $recordset = $this->db->fetchRowsIntoMap($sql,'tcase_id');
-    $hits = is_null($recordset) ? $recordset : array_flip(array_keys($recordset));
+    $hits = empty($recordset) ? [] : array_flip(array_keys($recordset));
     
     $items = (array)$hits + (array)$notRunHits; 
     return count($items) > 0 ? $items : null;
@@ -5152,7 +5152,7 @@ class testplan extends tlObjectWithAttachments
 
     unset($safe_id,$buildsCfg,$sqlLEX);
     $recordset = $this->db->fetchRowsIntoMap($sql,'tcase_id');
-    return is_null($recordset) ? $recordset : array_flip(array_keys($recordset));
+    return empty($recordset) ? [] : array_flip(array_keys($recordset));
     }
 
 
@@ -5228,7 +5228,7 @@ class testplan extends tlObjectWithAttachments
 
     unset($safe_id,$buildsCfg,$sqlLEBP);
     $recordset = $this->db->fetchRowsIntoMap($sql,'tcase_id');
-    return is_null($recordset) ? $recordset : array_flip(array_keys($recordset));
+    return empty($recordset) ? [] : array_flip(array_keys($recordset));
     }
 
 
