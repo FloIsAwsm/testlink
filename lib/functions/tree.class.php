@@ -412,14 +412,14 @@ class tree extends tlObject
     returns: array
 
   */
-  function get_path($node_id,$to_node_id = null,$format = 'full') 
+  function get_path($node_id,$to_node_id = null,$format = 'full')
   {
     $the_path = array();
-    $this->_get_path($node_id,$the_path,$to_node_id,$format); 
-    
-    if( !is_null($the_path) && count($the_path) > 0 )
+    $this->_get_path($node_id,$the_path,$to_node_id,$format);
+
+    if( !empty($the_path) )
     {
-      $the_path=array_reverse($the_path);  
+      $the_path=array_reverse($the_path);
     }
     return $the_path;
   }
@@ -1252,8 +1252,8 @@ class tree extends tlObject
           $all_nodes = array_merge($all_nodes,(array)$path_to[$item_id]['name']);
         }
       }
-      
-      $status_ok = (!is_null($all_nodes) && count($all_nodes) > 0);
+
+      $status_ok = !empty($all_nodes);
       if( $status_ok )
       { 
         // get only different items, to get descriptions

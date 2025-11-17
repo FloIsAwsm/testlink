@@ -903,7 +903,7 @@ class cfield_mgr extends tlObject
          " ORDER BY CF.name";
 
     $map = $this->db->fetchRowsIntoMap($sql,'id');
-    if(!is_null($map) && !is_null($opt))
+    if(!empty($map) && !is_null($opt))
     {  
       $k2l = array_keys($map);
       foreach($k2l as $key)
@@ -1388,7 +1388,7 @@ class cfield_mgr extends tlObject
       $this->remove_all_scopes_values($id);
 		}
 		$linked_tprojects = $this->get_linked_testprojects($id);
-		if( !is_null($linked_tprojects) && count($linked_tprojects) > 0 )
+		if( !empty($linked_tprojects) )
 		{
 		  $target=array_keys($linked_tprojects);
 		  foreach($target as $tproject_id)
@@ -2778,7 +2778,7 @@ function getValuesFromUserInput($cf_map,$name_suffix='',$input_values=null)
 			    }
 			}
 			
-			if (!is_null($value) && is_array($value)){
+			if (is_array($value)){
 			    $value = implode("|", $value);
 			}
 			
@@ -2839,15 +2839,15 @@ function getValuesFromUserInput($cf_map,$name_suffix='',$input_values=null)
            " WHERE CF.id=CFNT.field_id " .
            " AND CF.id IN (" . implode(',',(array)$id) . ")";
 
-    if(!is_null($enableOn) && is_array($enableOn))
+    if(is_array($enableOn))
     {
       foreach($this->application_areas as $key)
       {
         if(isset($enableOn[$key]) && $enableOn[$key])
         {
           $sql .= " AND CF.enable_on_{$key}=1 ";
-        }  
-      }  
+        }
+      }
     } 
 
     return($this->db->fetchRowsIntoMap($sql,'id'));

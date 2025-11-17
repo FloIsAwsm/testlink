@@ -435,7 +435,7 @@ function initProject(&$db,$hash_user_sel)
     $tplan_data = $_SESSION['currentUser']->getAccessibleTestPlans($db,$tproject_id);
   }
   
-  if(!is_null($tplan_data) && is_array($tplan_data))
+  if(is_array($tplan_data) && !empty($tplan_data))
   {
     $tplan_data = $tplan_data[0];
     setSessionTestPlan($tplan_data);
