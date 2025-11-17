@@ -272,9 +272,9 @@ class assignment_mgr extends tlObjectWithDB
     $types = $this->get_available_types();
     $tc_execution_type = $types['testcase_execution']['id'];
     $type_sql = ($count_all_types) ? "" : " AND type = {$tc_execution_type} ";
-      
-    $user_sql = ($user_id && is_numeric($user_id)) ? "AND user_id = {$user_id} " : "";
-    
+
+    $user_sql = ($user_id > 0) ? "AND user_id = {$user_id} " : "";
+
     $sql = " SELECT COUNT(id) AS count FROM " . $this->tables['user_assignments'] . " " .
            " WHERE build_id = {$build_id} {$user_sql} {$type_sql} ";
       
@@ -298,8 +298,8 @@ class assignment_mgr extends tlObjectWithDB
     $types = $this->get_available_types();
     $tc_execution_type = $types['testcase_execution']['id'];
     $type_sql = ($all_types) ? "" : " AND UA.type = {$tc_execution_type} ";
-    $user_sql = ($user_id && is_numeric($user_id)) ? "AND UA.user_id = {$user_id} " : "";
-    
+    $user_sql = ($user_id > 0) ? "AND UA.user_id = {$user_id} " : "";
+
     $sql = " SELECT UA.id as assignment_id,UA.user_id,TPTCV.testplan_id," .
            " TPTCV.platform_id,BU.id AS BUILD_ID,E.id AS EXECID, E.status " .
            " FROM " . $this->tables['user_assignments'] . " UA " .
@@ -312,13 +312,13 @@ class assignment_mgr extends tlObjectWithDB
            "     AND E.tcversion_id = TPTCV.tcversion_id " .
            "     AND E.platform_id = TPTCV.platform_id " .
            "     AND E.build_id = UA.build_id " .
-           " WHERE UA.build_id = {$build_id} AND E.status IS NULL {$type_sql} {$user_sql} ";       
-       
-       
-    if (isset($build_id) && is_numeric($build_id)) {
+           " WHERE UA.build_id = {$build_id} AND E.status IS NULL {$type_sql} {$user_sql} ";
+
+
+    if ($build_id > 0) {
       $count = count($this->db->fetchRowsIntoMap($sql, 'assignment_id'));
     }
-    
+
     return $count;
   }
   
@@ -358,9 +358,9 @@ class assignment_mgr extends tlObjectWithDB
     $types = $this->get_available_types();
     $tc_execution_type = $types['testcase_execution']['id'];
     $delete_all_types = $copy_all_types;
-      
+
     $type_sql = ($my['opt']['copy_all_types']) ? "" : " AND type = {$tc_execution_type} ";
-    $user_sql = (is_numeric($assigner_id) && $assigner_id != 0) ? $assigner_id : "assigner_id";
+    $user_sql = ($assigner_id != 0) ? $assigner_id : "assigner_id";
 
     if ($my['opt']['keep_old_assignments'] == false) 
     {

@@ -1,0 +1,1429 @@
+﻿ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\api\rest\v1\tlRestApi.class.php                                                                            
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  293    Comparison operation ">" between 0 and 0 is always false.                                                      
+         ­ƒ¬¬  greater.alwaysFalse                                                                                        
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  293    Result of && is always false.                                                                                  
+         ­ƒ¬¬  booleanAnd.alwaysFalse                                                                                     
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ ---------------------------------------------------------------------------------- 
+  Line   lib\api\xmlrpc\v1\test\TestlinkXMLRPCServerTest.php                               
+ ------ ---------------------------------------------------------------------------------- 
+  28     Class TestlinkXMLRPCServerTest extends unknown class PHPUnit_Framework_TestCase.  
+         ­ƒÆí  Learn more at https://phpstan.org/user-guide/discovering-symbols              
+ ------ ---------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\api\xmlrpc\v1\xmlrpc.class.php                                                                             
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  49     Class TestlinkXMLRPCServer extends unknown class IXR_Server.                                                   
+         ­ƒÆí  Learn more at https://phpstan.org/user-guide/discovering-symbols                                           
+  990    Call to function is_numeric() with struct will always evaluate to false.                                       
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  991    Ignored error pattern #^If condition is always false\.$# (if.alwaysFalse) in path                              
+         C:\xampp\htdocs\testlink\lib\api\xmlrpc\v1\xmlrpc.class.php is expected to occur 1 time, but occurred 2        
+         times.                                                                                                         
+  1020   Loose comparison using == between '' and non-empty-string will always evaluate to false.                       
+         ­ƒ¬¬  equal.alwaysFalse                                                                                          
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1371   If condition is always false.                                                                                  
+         ­ƒ¬¬  if.alwaysFalse                                                                                             
+  2426   Call to function is_null() with string will always evaluate to false.                                          
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  3353   Call to function is_null() with int will always evaluate to false.                                             
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  3353   Loose comparison using != between int and '' will always evaluate to true.                                     
+         ­ƒ¬¬  notEqual.alwaysTrue                                                                                        
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  3353   Result of && is always true.                                                                                   
+         ­ƒ¬¬  booleanAnd.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  4722   Negated boolean expression is always false.                                                                    
+         ­ƒ¬¬  booleanNot.alwaysFalse                                                                                     
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  6164   Offset 'action' on string in isset() does not exist.                                                           
+         ­ƒ¬¬  isset.offset                                                                                               
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\execute\execDashboard.php                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  213    Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\execute\execSetResults.php                                                                                 
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  1255   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1761   Offset 'keyword_filter_type' on array{tcase_id: mixed, platform_id: mixed, build_id: mixed, keyword_id:        
+         mixed, assigned_to: mixed, exec_status: mixed, tsuites_id: mixed, assigned_on_build: mixed, ...} in isset()    
+         does not exist.                                                                                                
+         ­ƒ¬¬  isset.offset                                                                                               
+  1761   Result of && is always false.                                                                                  
+         ­ƒ¬¬  booleanAnd.alwaysFalse                                                                                     
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1801   Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\assignment_mgr.class.php                                                                         
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  276    Call to function is_numeric() with int<min, -1>|int<1, max> will always evaluate to true.                      
+         ­ƒ¬¬  function.alreadyNarrowedType                                                                               
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  301    Call to function is_numeric() with int<min, -1>|int<1, max> will always evaluate to true.                      
+         ­ƒ¬¬  function.alreadyNarrowedType                                                                               
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  318    Call to function is_numeric() with int will always evaluate to true.                                           
+         ­ƒ¬¬  function.alreadyNarrowedType                                                                               
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  318    Result of && is always true.                                                                                   
+         ­ƒ¬¬  booleanAnd.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  318    Variable $build_id in isset() always exists and is not nullable.                                               
+         ­ƒ¬¬  isset.variable                                                                                             
+  363    Call to function is_numeric() with int will always evaluate to true.                                           
+         ­ƒ¬¬  function.alreadyNarrowedType                                                                               
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\cfield_mgr.class.php                                                                             
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  459    Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  470    Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  475    Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  481    Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  906    Ignored error pattern #^Call to function is_null\(\) with array will always evaluate to false\.$#              
+         (function.impossibleType) in path C:\xampp\htdocs\testlink\lib\functions\cfield_mgr.class.php is expected to   
+         occur 1 time, but occurred 4 times.                                                                            
+  1114   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  2148   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  2595   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\common.php                                                                                       
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  470    Ignored error pattern #^Negated boolean expression is always true\.$# (booleanNot.alwaysTrue) in path          
+         C:\xampp\htdocs\testlink\lib\functions\common.php is expected to occur 2 times, but occurred 5 times.          
+  614    Call to function is_null() with non-empty-string will always evaluate to false.                                
+         ­ƒ¬¬  function.impossibleType                                                                                    
+  979    Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+  1026   Comparison operation ">=" between 1 and 0 is always true.                                                      
+         ­ƒ¬¬  greaterOrEqual.alwaysTrue                                                                                  
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1071   Call to function is_null() with string will always evaluate to false.                                          
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1131   Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1286   Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ ---------------------------------------------------------------- 
+  Line   lib\functions\csrf.php                                          
+ ------ ---------------------------------------------------------------- 
+  71     Offset unknown_type on array<mixed> in isset() does not exist.  
+         ­ƒ¬¬  isset.offset                                                
+ ------ ---------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\database.class - Kopie.php                                                                       
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  664    If condition is always true.                                                                                   
+         ­ƒ¬¬  if.alwaysTrue                                                                                              
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\database.class.php                                                                               
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  708    If condition is always true.                                                                                   
+         ­ƒ¬¬  if.alwaysTrue                                                                                              
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\doAuthorize.php                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  107    Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  165    Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\exec.inc.php                                                                                     
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  202    Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  338    Call to function is_object() with object will always evaluate to true.                                         
+         ­ƒ¬¬  function.alreadyNarrowedType                                                                               
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  451    Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  528    Call to function is_object() with object will always evaluate to true.                                         
+         ­ƒ¬¬  function.alreadyNarrowedType                                                                               
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  539    Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  641    Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\exttable.class.php                                                                               
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  183    Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\inputparameter.class.php                                                                         
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  289    If condition is always true.                                                                                   
+         ­ƒ¬¬  if.alwaysTrue                                                                                              
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  368    If condition is always true.                                                                                   
+         ­ƒ¬¬  if.alwaysTrue                                                                                              
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  421    Call to function is_numeric() with int will always evaluate to true.                                           
+         ­ƒ¬¬  function.alreadyNarrowedType                                                                               
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  443    Left side of && is always true.                                                                                
+         ­ƒ¬¬  booleanAnd.leftAlwaysTrue                                                                                  
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  514    Call to function is_null() with string will always evaluate to false.                                          
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  526    Method tlCheckBoxValidationInfo::normalize() should return array but returns string|true.                      
+         ­ƒ¬¬  return.type                                                                                                
+  535    Result of || is always true.                                                                                   
+         ­ƒ¬¬  booleanOr.alwaysTrue                                                                                       
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  535    Strict comparison using === between false and false will always evaluate to true.                              
+         ­ƒ¬¬  identical.alwaysTrue                                                                                       
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\inputparameter.inc.php                                                                           
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  334    Call to function is_null() with string will always evaluate to false.                                          
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\logger.class.php                                                                                 
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  376    Negated boolean expression is always false.                                                                    
+         ­ƒ¬¬  booleanNot.alwaysFalse                                                                                     
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  834    If condition is always true.                                                                                   
+         ­ƒ¬¬  if.alwaysTrue                                                                                              
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  866    Call to function is_null() with string will always evaluate to false.                                          
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1032   Negated boolean expression is always false.                                                                    
+         ­ƒ¬¬  booleanNot.alwaysFalse                                                                                     
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1041   Cannot access property $db on resource.                                                                        
+         ­ƒ¬¬  property.nonObject                                                                                         
+  1041   Negated boolean expression is always false.                                                                    
+         ­ƒ¬¬  booleanNot.alwaysFalse                                                                                     
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ ------------------------------------------------------------------------ 
+  Line   lib\functions\metastring.class.php                                      
+ ------ ------------------------------------------------------------------------ 
+  162    Variable $params on left side of ?? always exists and is not nullable.  
+         ­ƒ¬¬  nullCoalesce.variable                                               
+ ------ ------------------------------------------------------------------------ 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\object.class.php                                                                                 
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  573    Ignored error pattern #^Variable \$ids on left side of \?\? always exists and is not nullable\.$#              
+         (nullCoalesce.variable) in path C:\xampp\htdocs\testlink\lib\functions\object.class.php is expected to occur   
+         1 time, but occurred 2 times.                                                                                  
+  577    If condition is always true.                                                                                   
+         ­ƒ¬¬  if.alwaysTrue                                                                                              
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  609    Right side of && is always true.                                                                               
+         ­ƒ¬¬  booleanAnd.rightAlwaysTrue                                                                                 
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  609    Variable $ids on left side of ?? always exists and is not nullable.                                            
+         ­ƒ¬¬  nullCoalesce.variable                                                                                      
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\print.inc.php                                                                                    
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  538    Call to function is_null() with string will always evaluate to false.                                          
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  544    Call to function is_null() with string will always evaluate to false.                                          
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1230   Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1281   Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1311   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1538   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1752   Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\requirement_mgr.class.php                                                                        
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  644    Ignored error pattern #^If condition is always true\.$# (if.alwaysTrue) in path                                
+         C:\xampp\htdocs\testlink\lib\functions\requirement_mgr.class.php is expected to occur 1 time, but occurred 3   
+         times.                                                                                                         
+  660    If condition is always true.                                                                                   
+         ­ƒ¬¬  if.alwaysTrue                                                                                              
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  660    Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  671    Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  694    Left side of || is always true.                                                                                
+         ­ƒ¬¬  booleanOr.leftAlwaysTrue                                                                                   
+  695    If condition is always true.                                                                                   
+         ­ƒ¬¬  if.alwaysTrue                                                                                              
+  1102   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1619   Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  2041   Call to function is_null() with assoc_array will always evaluate to false.                                     
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  3368   Call to function is_null() with int will always evaluate to false.                                             
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  3611   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  3698   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  3906   Comparison operation ">" between int<1, max> and 0 is always true.                                             
+         ­ƒ¬¬  greater.alwaysTrue                                                                                         
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  3962   Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\requirement_spec_mgr.class.php                                                                   
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  460    Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  640    Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1501   Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  2231   Right side of || is always false.                                                                              
+         ­ƒ¬¬  booleanOr.rightAlwaysFalse                                                                                 
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\specview.php                                                                                     
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  151    Call to function is_array() with map|null will always evaluate to false.                                       
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  151    Result of && is always false.                                                                                  
+         ­ƒ¬¬  booleanAnd.alwaysFalse                                                                                     
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  157    Ternary operator condition is always false.                                                                    
+         ­ƒ¬¬  ternary.alwaysFalse                                                                                        
+  214    Ignored error pattern #^Call to function is_null\(\) with array will always evaluate to false\.$#              
+         (function.impossibleType) in path C:\xampp\htdocs\testlink\lib\functions\specview.php is expected to occur 1   
+         time, but occurred 3 times.                                                                                    
+  242    Left side of && is always false.                                                                               
+         ­ƒ¬¬  booleanAnd.leftAlwaysFalse                                                                                 
+  242    Parameter #3 $pruneUnlinkedTcversions of function removeEmptyTestSuites expects TBD, false given.              
+         ­ƒ¬¬  argument.type                                                                                              
+  281    Right side of && is always false.                                                                              
+         ­ƒ¬¬  booleanAnd.rightAlwaysFalse                                                                                
+  372    Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  446    Left side of && is always true.                                                                                
+         ­ƒ¬¬  booleanAnd.leftAlwaysTrue                                                                                  
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  735    Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+  772    Left side of && is always true.                                                                                
+         ­ƒ¬¬  booleanAnd.leftAlwaysTrue                                                                                  
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1227   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1271   Left side of && is always true.                                                                                
+         ­ƒ¬¬  booleanAnd.leftAlwaysTrue                                                                                  
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\testcase.class.php                                                                               
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  715    Ignored error pattern #^Call to function is_null\(\) with array will always evaluate to false\.$#              
+         (function.impossibleType) in path C:\xampp\htdocs\testlink\lib\functions\testcase.class.php is expected to     
+         occur 1 time, but occurred 13 times.                                                                           
+  846    Right side of && is always true.                                                                               
+         ­ƒ¬¬  booleanAnd.rightAlwaysTrue                                                                                 
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1078   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1125   Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1130   Call to function is_null() with array<mixed> will always evaluate to false.                                    
+         ­ƒ¬¬  function.impossibleType                                                                                    
+  1361   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  2644   Ignored error pattern #^Left side of && is always true\.$# (booleanAnd.leftAlwaysTrue) in path                 
+         C:\xampp\htdocs\testlink\lib\functions\testcase.class.php is expected to occur 2 times, but occurred 4 times.  
+  2776   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  2986   Left side of && is always true.                                                                                
+         ­ƒ¬¬  booleanAnd.leftAlwaysTrue                                                                                  
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  3101   Left side of && is always true.                                                                                
+         ­ƒ¬¬  booleanAnd.leftAlwaysTrue                                                                                  
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  3418   Call to function is_null() with assoc will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  3498   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  3533   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  3936   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  3944   Left side of || is always false.                                                                               
+         ­ƒ¬¬  booleanOr.leftAlwaysFalse                                                                                  
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  4485   Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  5251   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  5314   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  5509   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  5786   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  5898   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  5901   Left side of || is always false.                                                                               
+         ­ƒ¬¬  booleanOr.leftAlwaysFalse                                                                                  
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  6525   Comparison operation ">" between int<1, max> and 0 is always true.                                             
+         ­ƒ¬¬  greater.alwaysTrue                                                                                         
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  6557   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  7066   Call to function is_null() with int will always evaluate to false.                                             
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  7173   Comparison operation ">" between int<1, max> and 0 is always true.                                             
+         ­ƒ¬¬  greater.alwaysTrue                                                                                         
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\testplan.class.php                                                                               
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  804    Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1152   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1199   Variable $exec_ids on left side of ?? always exists and is not nullable.                                       
+         ­ƒ¬¬  nullCoalesce.variable                                                                                      
+  1220   Variable $link_ids on left side of ?? always exists and is not nullable.                                       
+         ­ƒ¬¬  nullCoalesce.variable                                                                                      
+  1648   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1912   Call to function is_null() with assoc will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  2133   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  2882   Call to function is_null() with string will always evaluate to false.                                          
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  3099   Call to function is_null() with string will always evaluate to false.                                          
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  3253   Call to function is_array() with array will always evaluate to true.                                           
+         ­ƒ¬¬  function.alreadyNarrowedType                                                                               
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  3253   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  3253   Result of && is always true.                                                                                   
+         ­ƒ¬¬  booleanAnd.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  3685   Right side of || is always false.                                                                              
+         ­ƒ¬¬  booleanOr.rightAlwaysFalse                                                                                 
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  4134   Variable $rs on left side of ?? always exists and is not nullable.                                             
+         ­ƒ¬¬  nullCoalesce.variable                                                                                      
+  4913   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  4950   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  5015   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  5081   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  5155   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  5231   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  6190   Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  6207   Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  6260   Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  7858   Call to function is_null() with string will always evaluate to false.                                          
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\testproject.class.php                                                                            
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  488    Variable $recordset on left side of ?? always exists and is not nullable.                                      
+         ­ƒ¬¬  nullCoalesce.variable                                                                                      
+  769    If condition is always true.                                                                                   
+         ­ƒ¬¬  if.alwaysTrue                                                                                              
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  799    If condition is always true.                                                                                   
+         ­ƒ¬¬  if.alwaysTrue                                                                                              
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1896   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  2052   Right side of && is always true.                                                                               
+         ­ƒ¬¬  booleanAnd.rightAlwaysTrue                                                                                 
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  2627   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  2654   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  2680   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  2932   Variable $rs on left side of ?? always exists and is not nullable.                                             
+         ­ƒ¬¬  nullCoalesce.variable                                                                                      
+  3010   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  3283   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\testsuite.class.php                                                                              
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  385    Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1641   Comparison operation ">" between int<1, max> and 0 is always true.                                             
+         ­ƒ¬¬  greater.alwaysTrue                                                                                         
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\tlAttachment.class.php                                                                           
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  298    Call to function is_null() with string will always evaluate to false.                                          
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  301    Call to function is_null() with string will always evaluate to false.                                          
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\tlAttachmentRepository.class.php                                                                 
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  144    Variable $fContents on left side of ?? always exists and is not nullable.                                      
+         ­ƒ¬¬  nullCoalesce.variable                                                                                      
+  324    Right side of && is always true.                                                                               
+         ­ƒ¬¬  booleanAnd.rightAlwaysTrue                                                                                 
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  433    Variable $attachmentIDs on left side of ?? always exists and is not nullable.                                  
+         ­ƒ¬¬  nullCoalesce.variable                                                                                      
+  478    Variable $idSet on left side of ?? always exists and is not nullable.                                          
+         ­ƒ¬¬  nullCoalesce.variable                                                                                      
+  550    Variable $file_contents on left side of ?? always exists and is not nullable.                                  
+         ­ƒ¬¬  nullCoalesce.variable                                                                                      
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\tlInventory.class.php                                                                            
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  210    Call to function is_null() with int will always evaluate to false.                                             
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\tlIssueTracker.class.php                                                                         
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  558    Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\tlKeyword.class.php                                                                              
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  104    Parameter #1 $db (database) of method tlKeyword::readFromDB() is not contravariant with parameter #1 $db       
+         (mixed) of method iDBSerialization::readFromDB().                                                              
+  104    Parameter #1 $db of method tlKeyword::readFromDB() is not passed by reference but parameter #1 $db of method   
+         iDBSerialization::readFromDB() is passed by reference.                                                         
+  162    Parameter #1 $db (database) of method tlKeyword::writeToDB() is not contravariant with parameter #1 $db        
+         (mixed) of method iDBSerialization::writeToDB().                                                               
+  162    Parameter #1 $db of method tlKeyword::writeToDB() is not passed by reference but parameter #1 $db of method    
+         iDBSerialization::writeToDB() is passed by reference.                                                          
+  221    Parameter #1 $db (database) of method tlKeyword::deleteFromDB() is not contravariant with parameter #1 $db     
+         (mixed) of method iDBSerialization::deleteFromDB().                                                            
+  221    Parameter #1 $db of method tlKeyword::deleteFromDB() is not passed by reference but parameter #1 $db of        
+         method iDBSerialization::deleteFromDB() is passed by reference.                                                
+  247    Parameter #1 $db (database) of method tlKeyword::getByID() is not contravariant with parameter #1 $db (mixed)  
+         of method iDBSerialization::getByID().                                                                         
+  247    Parameter #1 $db of method tlKeyword::getByID() is not passed by reference but parameter #1 $db of method      
+         iDBSerialization::getByID() is passed by reference.                                                            
+  261    Parameter #1 $db (database) of method tlKeyword::getByIDs() is not contravariant with parameter #1 $db         
+         (mixed) of method iDBSerialization::getByIDs().                                                                
+  261    Parameter #1 $db of method tlKeyword::getByIDs() is not passed by reference but parameter #1 $db of method     
+         iDBSerialization::getByIDs() is passed by reference.                                                           
+  277    Parameter #1 $db (database) of method tlKeyword::getAll() is not contravariant with parameter #1 $db (mixed)   
+         of method iDBSerialization::getAll().                                                                          
+  277    Parameter #1 $db of method tlKeyword::getAll() is not passed by reference but parameter #1 $db of method       
+         iDBSerialization::getAll() is passed by reference.                                                             
+  470    Offset 0 on non-empty-list<string> in isset() always exists and is not nullable.                               
+         ­ƒ¬¬  isset.offset                                                                                               
+  473    Ternary operator condition is always true.                                                                     
+         ­ƒ¬¬  ternary.alwaysTrue                                                                                         
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\tlReqMgrSystem.class.php                                                                         
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  506    Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\tlRequirementFilterControl.class.php                                                             
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  249    Negated boolean expression is always false.                                                                    
+         ­ƒ¬¬  booleanNot.alwaysFalse                                                                                     
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  512    Negated boolean expression is always false.                                                                    
+         ­ƒ¬¬  booleanNot.alwaysFalse                                                                                     
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  534    Method tlRequirementFilterControl::getCustomFields() overrides method tlFilterControl::getCustomFields() but   
+         misses parameter #1 $application_area.                                                                         
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\tlRole.class.php                                                                                 
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  120    Parameter #1 $db (database) of method tlRole::readFromDB() is not contravariant with parameter #1 $db (mixed)  
+         of method iDBSerialization::readFromDB().                                                                      
+  120    Parameter #1 $db of method tlRole::readFromDB() is not passed by reference but parameter #1 $db of method      
+         iDBSerialization::readFromDB() is passed by reference.                                                         
+  184    Parameter #1 $db (database) of method tlRole::writeToDB() is not contravariant with parameter #1 $db (mixed)   
+         of method iDBSerialization::writeToDB().                                                                       
+  184    Parameter #1 $db of method tlRole::writeToDB() is not passed by reference but parameter #1 $db of method       
+         iDBSerialization::writeToDB() is passed by reference.                                                          
+  237    Negated boolean expression is always false.                                                                    
+         ­ƒ¬¬  booleanNot.alwaysFalse                                                                                     
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  282    Parameter #1 $db (database) of method tlRole::deleteFromDB() is not contravariant with parameter #1 $db        
+         (mixed) of method iDBSerialization::deleteFromDB().                                                            
+  282    Parameter #1 $db of method tlRole::deleteFromDB() is not passed by reference but parameter #1 $db of method    
+         iDBSerialization::deleteFromDB() is passed by reference.                                                       
+  493    Parameter #1 $db (database) of method tlRole::getByID() is not contravariant with parameter #1 $db (mixed) of  
+         method iDBSerialization::getByID().                                                                            
+  493    Parameter #1 $db of method tlRole::getByID() is not passed by reference but parameter #1 $db of method         
+         iDBSerialization::getByID() is passed by reference.                                                            
+  498    Parameter #1 $db (database) of method tlRole::getAll() is not contravariant with parameter #1 $db (mixed) of   
+         method iDBSerialization::getAll().                                                                             
+  498    Parameter #1 $db of method tlRole::getAll() is not passed by reference but parameter #1 $db of method          
+         iDBSerialization::getAll() is passed by reference.                                                             
+  516    Parameter #1 $db (database) of method tlRole::getByIDs() is not contravariant with parameter #1 $db (mixed)    
+         of method iDBSerialization::getByIDs().                                                                        
+  516    Parameter #1 $db of method tlRole::getByIDs() is not passed by reference but parameter #1 $db of method        
+         iDBSerialization::getByIDs() is passed by reference.                                                           
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\tlTestCaseFilterControl.class.php                                                                
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  693    Right side of || is always false.                                                                              
+         ­ƒ¬¬  booleanOr.rightAlwaysFalse                                                                                 
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  718    Call to function is_numeric() with int will always evaluate to true.                                           
+         ­ƒ¬¬  function.alreadyNarrowedType                                                                               
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  872    Negated boolean expression is always false.                                                                    
+         ­ƒ¬¬  booleanNot.alwaysFalse                                                                                     
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1162   Call to function is_null() with testplan will always evaluate to false.                                        
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1215   Call to function is_null() with testplan will always evaluate to false.                                        
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1280   Negated boolean expression is always false.                                                                    
+         ­ƒ¬¬  booleanNot.alwaysFalse                                                                                     
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1291   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1325   Offset 'items' on array{items: array, selected: -1} in isset() always exists and is not nullable.              
+         ­ƒ¬¬  isset.offset                                                                                               
+  1347   Negated boolean expression is always false.                                                                    
+         ­ƒ¬¬  booleanNot.alwaysFalse                                                                                     
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1350   Negated boolean expression is always false.                                                                    
+         ­ƒ¬¬  booleanNot.alwaysFalse                                                                                     
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1394   Negated boolean expression is always false.                                                                    
+         ­ƒ¬¬  booleanNot.alwaysFalse                                                                                     
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1459   Negated boolean expression is always false.                                                                    
+         ­ƒ¬¬  booleanNot.alwaysFalse                                                                                     
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1468   Negated boolean expression is always false.                                                                    
+         ­ƒ¬¬  booleanNot.alwaysFalse                                                                                     
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1581   Negated boolean expression is always false.                                                                    
+         ­ƒ¬¬  booleanNot.alwaysFalse                                                                                     
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1617   Negated boolean expression is always false.                                                                    
+         ­ƒ¬¬  booleanNot.alwaysFalse                                                                                     
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1650   Negated boolean expression is always false.                                                                    
+         ­ƒ¬¬  booleanNot.alwaysFalse                                                                                     
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1679   Negated boolean expression is always false.                                                                    
+         ­ƒ¬¬  booleanNot.alwaysFalse                                                                                     
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1767   Call to function is_null() with testplan will always evaluate to false.                                        
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1900   Negated boolean expression is always false.                                                                    
+         ­ƒ¬¬  booleanNot.alwaysFalse                                                                                     
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\tlUser.class.php                                                                                 
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  347    If condition is always true.                                                                                   
+         ­ƒ¬¬  if.alwaysTrue                                                                                              
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  391    If condition is always true.                                                                                   
+         ­ƒ¬¬  if.alwaysTrue                                                                                              
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  663    Ignored error pattern #^Call to function is_null\(\) with array will always evaluate to false\.$#              
+         (function.impossibleType) in path C:\xampp\htdocs\testlink\lib\functions\tlUser.class.php is expected to       
+         occur 1 time, but occurred 2 times.                                                                            
+  667    Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1103   If condition is always true.                                                                                   
+         ­ƒ¬¬  if.alwaysTrue                                                                                              
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1354   Call to function is_null() with non-empty-array will always evaluate to false.                                 
+         ­ƒ¬¬  function.impossibleType                                                                                    
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\tree.class.php                                                                                   
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  1636   Right side of && is always true.                                                                               
+         ­ƒ¬¬  booleanAnd.rightAlwaysTrue                                                                                 
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\treeMenu.inc.php                                                                                 
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  200    Call to function is_null() with string will always evaluate to false.                                          
+         ­ƒ¬¬  function.impossibleType                                                                                    
+  1036   Variable $cf_hash in isset() always exists and is not nullable.                                                
+         ­ƒ¬¬  isset.variable                                                                                             
+  1133   Call to function is_null() with list<int|string> will always evaluate to false.                                
+         ­ƒ¬¬  function.impossibleType                                                                                    
+  1186   Call to function is_null() with list<int|string> will always evaluate to false.                                
+         ­ƒ¬¬  function.impossibleType                                                                                    
+  1715   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1749   Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  1942   Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  2098   Call to function is_null() with string will always evaluate to false.                                          
+         ­ƒ¬¬  function.impossibleType                                                                                    
+  2133   Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  2141   Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  2146   Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  2151   Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  2156   Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\functions\xml.inc.php                                                                                      
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  152    Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\inventory\getInventory.php                                                                                 
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  29     Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ ------------------------------------------------------------------------ 
+  Line   lib\issuetrackerintegration\code_testing\redmine\test.redmine.rest.php  
+ ------ ------------------------------------------------------------------------ 
+  16     Class Issue extends unknown class ActiveResource.                       
+         ­ƒÆí  Learn more at https://phpstan.org/user-guide/discovering-symbols    
+ ------ ------------------------------------------------------------------------ 
+
+ ------ ------------------------------------------------------------------------------- 
+  Line   lib\issuetrackerintegration\issueTrackerInterface.class.php                    
+ ------ ------------------------------------------------------------------------------- 
+  379    Call to function is_null() with true will always evaluate to false.            
+         ­ƒ¬¬  function.impossibleType                                                    
+  379    Offset 'raw' on non-empty-array in isset() always exists and is not nullable.  
+         ­ƒ¬¬  isset.offset                                                               
+ ------ ------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\issuetrackerintegration\youtrackrestInterface.class.php                                                    
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  164    Call to function is_null() with string will always evaluate to false.                                          
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  164    Call to function is_object() with string will always evaluate to false.                                        
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  164    Result of && is always false.                                                                                  
+         ­ƒ¬¬  booleanAnd.alwaysFalse                                                                                     
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\issuetrackers\issueTrackerEdit.php                                                                         
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  67     Right side of || is always false.                                                                              
+         ­ƒ¬¬  booleanOr.rightAlwaysFalse                                                                                 
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\plan\planAddTC.php                                                                                         
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  699    Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\plan\planExport.php                                                                                        
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  119    Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\plan\planImport.php                                                                                        
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  238    Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\plan\planMilestonesEdit.php                                                                                
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  139    Right side of || is always false.                                                                              
+         ­ƒ¬¬  booleanOr.rightAlwaysFalse                                                                                 
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\reqmgrsystemintegration\reqMgrSystemInterface.class.php                                                    
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  155    Loose comparison using == between 0 and 0 will always evaluate to true.                                        
+         ­ƒ¬¬  equal.alwaysTrue                                                                                           
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  160    Unreachable statement - code above always terminates.                                                          
+         ­ƒ¬¬  deadCode.unreachable                                                                                       
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\reqmgrsystems\reqMgrSystemEdit.php                                                                         
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  64     Right side of || is always false.                                                                              
+         ­ƒ¬¬  booleanOr.rightAlwaysFalse                                                                                 
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\requirements\reqEdit.php                                                                                   
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  99     Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  227    Right side of || is always false.                                                                              
+         ­ƒ¬¬  booleanOr.rightAlwaysFalse                                                                                 
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\requirements\reqExport.php                                                                                 
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  153    Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\requirements\reqImport.php                                                                                 
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  317    Call to function is_null() with array_of_array will always evaluate to false.                                  
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\requirements\reqSearchForm.php                                                                             
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  57     Call to function is_null() with associated will always evaluate to false.                                      
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\requirements\reqSpecCommands.class.php                                                                     
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  524    If condition is always true.                                                                                   
+         ­ƒ¬¬  if.alwaysTrue                                                                                              
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  579    If condition is always true.                                                                                   
+         ­ƒ¬¬  if.alwaysTrue                                                                                              
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\requirements\reqSpecSearchForm.php                                                                         
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  41     Call to function is_null() with associated will always evaluate to false.                                      
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------- 
+  Line   lib\requirements\reqTcAssign.php                                                 
+ ------ --------------------------------------------------------------------------------- 
+  209    Call to function is_null() with list<int|string> will always evaluate to false.  
+         ­ƒ¬¬  function.impossibleType                                                      
+ ------ --------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\results\displayMgr.php                                                                                     
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  138    Call to function is_null() with string will always evaluate to false.                                          
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  141    Call to function is_null() with string will always evaluate to false.                                          
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\results\resultsByStatus.php                                                                                
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  258    Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\results\resultsImport.php                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  43     Ignored error pattern #^If condition is always true\.$# (if.alwaysTrue) in path                                
+         C:\xampp\htdocs\testlink\lib\results\resultsImport.php is expected to occur 1 time, but occurred 2 times.      
+  64     If condition is always true.                                                                                   
+         ­ƒ¬¬  if.alwaysTrue                                                                                              
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  493    Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  511    Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\results\tbs_class_php4.php                                                                                 
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  16     Comparison operation "<" between 1 and 0 is always false.                                                      
+         ­ƒ¬¬  smaller.alwaysFalse                                                                                        
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\testcases\archiveData.php                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  270    Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\testcases\archiveDataNew.php                                                                               
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  231    Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  291    Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  374    Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  384    Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\testcases\archiveDataold.php                                                                               
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  270    Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\testcases\tcAssignedToUser.php                                                                             
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  36     Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  60     If condition is always true.                                                                                   
+         ­ƒ¬¬  if.alwaysTrue                                                                                              
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\testcases\tcCreateFromIssue.php                                                                            
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  157    Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  420    Ignored error pattern #^Negated boolean expression is always true\.$# (booleanNot.alwaysTrue) in path          
+         C:\xampp\htdocs\testlink\lib\testcases\tcCreateFromIssue.php is expected to occur 1 time, but occurred 3       
+         times.                                                                                                         
+  446    Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  650    Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\testcases\tcEdit.php                                                                                       
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  798    Right side of || is always false.                                                                              
+         ­ƒ¬¬  booleanOr.rightAlwaysFalse                                                                                 
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\testcases\tcImport.php                                                                                     
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  158    Call to function is_null() with array will always evaluate to false.                                           
+         ­ƒ¬¬  function.impossibleType                                                                                    
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  286    Ignored error pattern #^Negated boolean expression is always true\.$# (booleanNot.alwaysTrue) in path          
+         C:\xampp\htdocs\testlink\lib\testcases\tcImport.php is expected to occur 1 time, but occurred 4 times.         
+  461    Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  481    Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  682    Negated boolean expression is always true.                                                                     
+         ­ƒ¬¬  booleanNot.alwaysTrue                                                                                      
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   lib\usermanagement\usersAssign.php                                                                             
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  207    Right side of || is always false.                                                                              
+         ­ƒ¬¬  booleanOr.rightAlwaysFalse                                                                                 
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  306    Right side of && is always true.                                                                               
+         ­ƒ¬¬  booleanAnd.rightAlwaysTrue                                                                                 
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+  362    Call to function is_null() with array<int<0, max>, int|string> will always evaluate to false.                  
+         ­ƒ¬¬  function.impossibleType                                                                                    
+  460    Call to function is_null() with array<int<0, max>, int|string> will always evaluate to false.                  
+         ­ƒ¬¬  function.impossibleType                                                                                    
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  Line   login.php                                                                                                      
+ ------ --------------------------------------------------------------------------------------------------------------- 
+  200    Offset 'kill_session' on string in isset() does not exist.                                                     
+         ­ƒ¬¬  isset.offset                                                                                               
+  200    Result of && is always false.                                                                                  
+         ­ƒ¬¬  booleanAnd.alwaysFalse                                                                                     
+         ­ƒÆí  Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain  
+         : false in your phpstan.neon.                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------- 
+
+ [ERROR] Found 309 errors                                                                                              
+

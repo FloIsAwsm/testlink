@@ -976,9 +976,9 @@ class TestlinkXMLRPCServer extends IXR_Server
     }      
     
   /**
-   * Helper method to see if the tcid provided is valid 
-   *   
-   * @param struct $tcaseid   
+   * Helper method to see if the tcid provided is valid
+   *
+   * @param int|string $tcaseid
    * @param string $messagePrefix used to be prepended to error message
    * @param boolean $setError default false
    *                true: add predefined error code to $this->error[]
@@ -1009,15 +1009,15 @@ class TestlinkXMLRPCServer extends IXR_Server
     }    
     
     /**
-   * Helper method to see if a devKey is valid 
-   *   
-   * @param string $devKey   
+   * Helper method to see if a devKey is valid
+   *
+   * @param string|null $devKey
    * @return boolean
    * @access protected
-   */    
+   */
     protected function _isDevKeyValid($devKey)
-    {                       
-        if(null == $devKey || "" == $devKey)
+    {
+        if(empty($devKey))
         {
             return false;
         }
@@ -1281,7 +1281,7 @@ class TestlinkXMLRPCServer extends IXR_Server
       $status_ok=true;
 
       $options = new stdClass();
-      $options->getBugs = 0;
+      $options->getBugs = 0;  // Can be set to 1 via optionsParamName if provided
 
                 
       // Checks are done in order
@@ -2661,9 +2661,9 @@ class TestlinkXMLRPCServer extends IXR_Server
   /**
    * getKeywordSet()
    *  
-   * @param int tproject_id
-   *            
-   * @return string that represent a list of keyword id (comma is character separator)
+   * @param int $tproject_id
+   *
+   * @return string|null that represent a list of keyword id (comma is character separator) or null if not found
    *
    * @access protected
    */
@@ -3350,7 +3350,7 @@ class TestlinkXMLRPCServer extends IXR_Server
   protected function _getBugsForExecutionId($execution_id)
   {
     $rs=null;
-    if( !is_null($execution_id) && $execution_id <> '' )
+    if( $execution_id > 0 )
     {
         $sql = "SELECT execution_id,bug_id, B.name AS build_name " .
                "FROM {$this->tables['execution_bugs']} ," .
@@ -4856,25 +4856,37 @@ protected function checkUploadAttachmentRequest($msg_prefix = '')
 
 /**
  * <p>Creates a temporary file and writes the attachment content into this file.</p>
- * 
+ *
  * <p>Before writing to the file it <b>Base64 decodes</b> the file content.</p>
- * 
+ *
  * @since 1.9beta6
- * @return file handler
+ * @return array|false Array with keys 'tmp_name' and 'size', or false on error
  */
 protected function createAttachmentTempFile()
 {
   $resultInfo = array();
   $filename = tempnam(sys_get_temp_dir(), 'tl-');
-  
+
+  if ($filename === false) {
+    return false;
+  }
+
   $resultInfo["tmp_name"] = $filename;
   $handle = fopen( $filename, "w" );
+  if ($handle === false) {
+    return false;
+  }
+
   fwrite($handle, base64_decode($this->args[self::$contentParamName]));
   fclose( $handle );
-  
+
   $filesize = filesize($filename);
+  if ($filesize === false) {
+    return false;
+  }
+
   $resultInfo["size"] = $filesize;
-  
+
     return $resultInfo;
 }
 
@@ -6142,20 +6154,20 @@ protected function createAttachmentTempFile()
 
 
   /**
-    * @param struct $args
+    * @param array $args
     * @param string $args["devKey"]
     * @param int $args["testplanid"]
     * @param string $args["testcaseexternalid"] format PREFIX-NUMBER
     * @param int $args["buildid"] Mandatory => you can provide buildname as alternative
     * @param int $args["buildname"] Mandatory => you can provide buildid (DB ID) as alternative
     * @param int $args["platformid"] optional - BECOMES MANDATORY if Test plan has platforms
-    *                                           you can provide platformname as alternative  
-    *  
+    *                                           you can provide platformname as alternative
+    *
     * @param int $args["platformname"] optional - BECOMES MANDATORY if Test plan has platforms
-    *                                           you can provide platformid as alternative  
-    * @param string $args["user'] - login name => tester 
+    *                                           you can provide platformid as alternative
+    * @param string $args["user'] - login name => tester
     *                             - NOT NEEDED f $args['action'] = 'unassignAll'
-    * ¸
+    * @param string $args["action"] optional - defaults to 'unassignOne'
     *
     */
   public function unassignTestCaseExecutionTask($args)

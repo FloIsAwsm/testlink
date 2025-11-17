@@ -290,7 +290,7 @@ class tlRestApi
     {
       $tcaseIDSet = array();
       $this->tprojectMgr->get_all_testcases_id($tproject[0]['id'],$tcaseIDSet);
-      if( !is_null($tcaseIDSet) && count($tcaseIDSet) > 0 )
+      if( count($tcaseIDSet) > 0 )
       {
         $op['items'] = array();
         foreach( $tcaseIDSet as $key => $tcaseID )
