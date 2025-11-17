@@ -1469,7 +1469,7 @@ class testplan extends tlObjectWithAttachments
    * $id: source testplan id
    * $new_tplan_id: destination
    */
-  private function copy_builds($id,$new_tplan_id)
+  private function copy_builds($id,$new_tplan_id): array
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $rs=$this->get_builds($id);
@@ -1641,7 +1641,7 @@ class testplan extends tlObjectWithAttachments
         20070519 - franciscom
         changed date to target_date, because date is an Oracle reverved word.
 */
-  private function copy_milestones($tplan_id,$new_tplan_id,$mappings = null)
+  private function copy_milestones($tplan_id,$new_tplan_id,$mappings = null): void
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $rs=$this->get_milestones($tplan_id);
@@ -1693,7 +1693,7 @@ class testplan extends tlObjectWithAttachments
    * @param int $target_id new Test Plan id
    * @param array $mappings optional mappings (unused but kept for consistency)
    */
-  private function copy_user_roles($source_id, $target_id, $mappings = null)
+  private function copy_user_roles($source_id, $target_id, $mappings = null): void
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
     $sql = "/* $debugMsg */ SELECT user_id,role_id FROM " . $this->tables['user_testplan_roles'] . " " .
@@ -2029,7 +2029,7 @@ class testplan extends tlObjectWithAttachments
     
     returns: an array of all testsuite ancestors of $id
    */
-  private function get_parenttestsuites($id)
+  private function get_parenttestsuites($id): array
   {
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
 
@@ -3273,7 +3273,7 @@ class testplan extends tlObjectWithAttachments
    *                         USED when copy is done to a test plan that BELONGS to
    *                         another Test Project.
    */
-  private function copy_platforms_links($source_id, $target_id, $mappings = null)
+  private function copy_platforms_links($source_id, $target_id, $mappings = null): void
   {
       $sourceLinks = $this->platform_mgr->getLinkedToTestplanAsMap($source_id);
       if( !is_null($sourceLinks) )
@@ -3297,7 +3297,7 @@ class testplan extends tlObjectWithAttachments
    * @param int $target_id new Test Plan id
    * @param array $mappings optional mappings (unused but kept for consistency)
    */
-  private function copy_attachments($source_id, $target_id, $mappings = null)
+  private function copy_attachments($source_id, $target_id, $mappings = null): void
   {
       $this->attachmentRepository->copyAttachments($source_id,$target_id,$this->attachmentTableName);
   }
@@ -3408,7 +3408,7 @@ class testplan extends tlObjectWithAttachments
      * @param platformSet: default null, used as filter criteria.
      * @return map: key platform id, values count,platform_id
      */
-  public function countLinkedTCVersionsByPlatform($id,$platformSet=null)
+  public function countLinkedTCVersionsByPlatform($id,$platformSet=null): mixed
   {
     $sqlFilter = '';
     if( !is_null($platformSet) )
@@ -3426,10 +3426,10 @@ class testplan extends tlObjectWithAttachments
 
 
  /**
-  * 
+  *
   *
   */
-  public function getStatusForReports()
+  public function getStatusForReports(): array
   {
     // This will be used to create dynamically counters if user add new status
     $code_verbose = array(); // Initialize to avoid undefined variable warning
@@ -3552,7 +3552,7 @@ class testplan extends tlObjectWithAttachments
      *
      * @return int HIGH, MEDIUM or LOW
      */
-    public function urgencyImportanceToPriorityLevel($urgency, $importance=null)
+    public function urgencyImportanceToPriorityLevel($urgency, $importance=null): int
     {
         $urgencyImportance = intval($urgency) * (is_null($importance) ? 1 : intval($importance)) ;
         return priority_to_level($urgencyImportance);

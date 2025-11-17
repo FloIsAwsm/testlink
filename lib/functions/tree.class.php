@@ -101,7 +101,7 @@ class tree extends tlObject
      *
      * @internal revisions
    */
-  function get_available_node_types() 
+  function get_available_node_types(): mixed 
   {
     static $nodeTypes;
     if( !$nodeTypes )
@@ -115,11 +115,11 @@ class tree extends tlObject
   /**
    * creates a new root node in the hierarchy table.
    *        root node is tree starting point.
-   * 
+   *
    * @param string $name node name; default=''
    * @return integer node ID
    */
-  function new_root_node($name = '') 
+  function new_root_node($name = ''): int 
   {
     $this->new_node(null,$this->ROOT_NODE_TYPE_ID,$name,1);
     return $this->db->insert_id($this->object_table);
@@ -141,7 +141,7 @@ class tree extends tlObject
     returns: node_id of the new node created
 
   */
-  function new_node($parent_id,$node_type_id,$name='',$node_order=0,$node_id=0) 
+  function new_node($parent_id,$node_type_id,$name='',$node_order=0,$node_id=0): int 
   {
     $sql = "INSERT INTO {$this->object_table} " .
            "(name,node_type_id,node_order";
@@ -187,7 +187,7 @@ class tree extends tlObject
     returns: 
 
   */
-  function get_node_hierarchy_info($node_id,$parent_id = null,$options=null)
+  function get_node_hierarchy_info($node_id,$parent_id = null,$options=null): mixed
   {
 
     $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
