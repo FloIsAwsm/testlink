@@ -198,8 +198,7 @@ function write_execution(database $db,&$exec_signature,&$exec_data,&$issueTracke
             $execution_tcsteps_id = $db->insert_id($target);
 
             // NOW MANAGE attachments
-            if( isset($_FILES['uploadedFile']['name'][$step_id]) && 
-                !is_null($_FILES['uploadedFile']['name'][$step_id])) 
+            if( !empty($_FILES['uploadedFile']['name'][$step_id]) )
             {
               // May be we have enabled MULTIPLE on file upload
               if( is_array($_FILES['uploadedFile']['name'][$step_id])) 
@@ -321,11 +320,12 @@ function write_execution_bug(database $db,$exec_id, $bug_id,$just_delete=false)
 
 /**
  * get data about bug from external tool
- * 
+ *
  * @param database $db Database connection object
- * @param object &$bug_interface reference to instance of bugTracker class
+ * @param object|null &$bug_interface reference to instance of bugTracker class, or null if not available
  * @param integer $execution_id Identifier of execution record
- * 
+ * @param mixed $raw optional raw flag
+ *
  * @return array list of 'bug_id' with values: build_name,link_to_bts,isResolved
  */
 function get_bugs_for_exec(database $db,&$bug_interface,$execution_id,$raw = null)
@@ -444,30 +444,30 @@ function delete_execution(database $db,$exec_id)
   // Attachments NEED special processing.
   
   // get test step exec attachments if any exists
-  $dummy = " SELECT id FROM {$tables['execution_tcsteps']} " . 
+  $dummy = " SELECT id FROM {$tables['execution_tcsteps']} " .
            " WHERE execution_id = {$sid}";
-  
+
   $rs = $db->fetchRowsIntoMap($dummy,'id');
-  if(!is_null($rs))
+  if(!empty($rs))
   {
     foreach($rs as $fik => $v)
     {
       deleteAttachment($db,$fik,false);
-    }  
+    }
   }  
 
 
   // execution attachments
-  $dummy = " SELECT id FROM {$tables['attachments']} " . 
+  $dummy = " SELECT id FROM {$tables['attachments']} " .
            " WHERE fk_table = 'executions' AND fk_id = {$sid}";
-  
+
   $rs = $db->fetchRowsIntoMap($dummy,'id');
-  if(!is_null($rs))
+  if(!empty($rs))
   {
     foreach($rs as $fik => $v)
     {
       deleteAttachment($db,$fik,false);
-    }  
+    }
   }  
 
   // order is CRITIC, because is DELETING ORDER => ATTENTION to Foreing Keys
@@ -510,11 +510,12 @@ function updateExecutionNotes(database $db,$execID,$notes)
 
 /**
  * get data about bug from external tool
- * 
+ *
  * @param database $db Database connection object
- * @param object &$bug_interface reference to instance of bugTracker class
- * @param integer $execution_id Identifier of execution record
- * 
+ * @param object|null &$bug_interface reference to instance of bugTracker class, or null if not available
+ * @param array $execSet Array of execution IDs
+ * @param mixed $raw optional raw flag
+ *
  * @return array list of 'bug_id' with values: build_name,link_to_bts,isResolved
  */
 function getBugsForExecutions(database $db,&$bug_interface,$execSet,$raw = null)
@@ -536,7 +537,7 @@ function getBugsForExecutions(database $db,&$bug_interface,$execSet,$raw = null)
 
     $rs = $db->fetchMapRowsIntoMap($sql,'execution_id','bug_id');
 
-    if( !is_null($rs) )
+    if( !empty($rs) )
     {   
       $opt['raw'] = $raw;
       $addAttr = !is_null($raw);
@@ -638,7 +639,7 @@ function copyIssues(database $dbHandler,$source,$dest)
          " WHERE execution_id = " . intval($source);
 
   $linkedIssues = $dbHandler->fetchRowsIntoMap($sql,'bug_id');
-  if( !is_null($linkedIssues) )
+  if( !empty($linkedIssues) )
   {  
     $idSet = array_keys($linkedIssues);
     $safeDest = intval($dest);

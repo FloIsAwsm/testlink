@@ -270,12 +270,12 @@ class tlStringValidationInfo
 	public $regExp = null;
 	
 	/**
-	 * @var function callback function which can be used for validation
+	 * @var callable|null callback function which can be used for validation
 	 */
 	public $pfnValidation = null;
 	
 	/**
-	 * @var function callback function which can be used for normalization
+	 * @var callable|null callback function which can be used for normalization
 	 */
 	public $pfnNormalization = null;
 		
@@ -398,7 +398,7 @@ class tlIntegerValidationInfo
 	public $minVal = -2147483648;
 	
 	/**
-	 * @var function callback function which can be used for validation
+	 * @var callable|null callback function which can be used for validation
 	 */
 	public $pfnValidation = null;
 	
@@ -412,7 +412,7 @@ class tlIntegerValidationInfo
 	}
 	
 	/**
-	 * @param integer $value the value which should be validated
+	 * @param mixed $value the value which should be validated (will be checked if numeric)
 	 * @return bool return true if the value was successfully validated, else throws an Exception
 	 */
 	public function validate($value)
@@ -506,8 +506,8 @@ class tlArrayValidationInfo
 class tlCheckBoxValidationInfo
 {
 	/**
-	 * @param string $value the value which should be normalized
-	 * @return array returns the normalized bool-typed value, true if value == "on", false else
+	 * @param string|null $value the value which should be normalized (checkbox value or null)
+	 * @return bool returns the normalized bool-typed value, true if value == "on", false else
 	 */
 	public function normalize($value)
 	{

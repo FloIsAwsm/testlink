@@ -62,7 +62,7 @@ function unset_session($key): bool
  * Gets a value from session by its key. If the session cannot be found, it
  * return false.
  *
- * @param unknown_type $key
+ * @param string $key
  * @return mixed
  */
 function get_from_session($key): mixed
@@ -74,7 +74,7 @@ function get_from_session($key): mixed
 /**
  * Generates a CSRF token for a unique form name
  *
- * @param unknown_type $unique_form_name unique form name
+ * @param string $unique_form_name unique form name
  * @return string CSRF token
  */
 function csrfguard_generate_token($unique_form_name): string

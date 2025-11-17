@@ -656,7 +656,7 @@ class database
    *
    * @param string $sql the query to be executed
    * @param string $column the name of the column
-   * @param booleam $cumulative default 0
+   * @param int $cumulative default 0 (false) or 1 (true) for cumulative mode
    *                useful in situations with results set with multiple
    *                rows with same value on key column like this:
    *
@@ -667,14 +667,13 @@ class database
    *
    *        cumulative=0 -> return items= array('X' => array('A','C'), 'Y' => array('B','0') )
    *
-   *        cumulative=1 -> return items= 
+   *        cumulative=1 -> return items=
    *                        array('X' => array( 0 => array('A','C'), 1 => array('B','Z')),
    *                              'Y' => array( 0 => array('B','0')I )
    *
    * @param integer $limit (optional) number of rows
    *
-   * @return array an assoc array whose keys are the values from the columns
-   *         of the rows
+   * @return array|null an assoc array whose keys are the values from the columns, or null if no results/error
    **/
   function fetchRowsIntoMap($sql,$column,$cumulative = 0,$limit = -1)
   {

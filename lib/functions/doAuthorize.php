@@ -103,8 +103,8 @@ function doAuthorize(&$db,$login,$pwd,$options=null)
     setcookie($auth_cookie_name,$user->getSecurityCookie(),$expireOnBrowserClose,'/');      
 
     // Disallow two sessions within one browser
-    if ($my['options']['doSessionExistsCheck'] && 
-        isset($_SESSION['currentUser']) && !is_null($_SESSION['currentUser']))
+    if ($my['options']['doSessionExistsCheck'] &&
+        !empty($_SESSION['currentUser']))
     {
       $result['msg'] = lang_get('login_msg_session_exists1') . 
                        ' <a style="color:white;" href="logout.php">' . 
@@ -162,7 +162,7 @@ function doSSOClientCertificate(&$dbHandler,$apache_mod_ssl_env,$authCfg=null)
       setcookie($auth_cookie_name,$user->getSecurityCookie(),$expireOnBrowserClose,'/');      
 
       // Disallow two sessions within one browser
-      if (isset($_SESSION['currentUser']) && !is_null($_SESSION['currentUser']))
+      if (!empty($_SESSION['currentUser']))
       {
           $result['msg'] = lang_get('login_msg_session_exists1') . 
                            ' <a style="color:white;" href="logout.php">' . 

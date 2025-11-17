@@ -312,7 +312,7 @@ class tlPlatform extends tlObjectWithDB
 
   /**
    * @param map $options
-   * @return array Returns all platforms associated to a given testplan
+   * @return array|null Returns all platforms associated to a given testplan, or null if none found
    *
    * @internal revision
    * 20100705 - franciscom - interface - BUGID 3564

@@ -433,9 +433,9 @@ function checkForRepositoryDir($the_dir)
 
 /**
  * Check if DB schema is valid
- * 
- * @param pointer $db Database class
- * @return string message
+ *
+ * @param object $db Database class
+ * @return array{status: int, msg: string|null, kill_session: bool}|string Array with status info, or error message string
  * @todo Update list of versions
  */
 function checkSchemaVersion(&$db)

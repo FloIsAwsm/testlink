@@ -456,29 +456,29 @@ class cfield_mgr extends tlObject
 
     if( !is_null($filters) )
     {
-      if( isset($filters['show_on_execution']) && !is_null($filters['show_on_execution']) )
+      if( !empty($filters['show_on_execution']) )
       {
         $additional_filter .= " AND CF.show_on_execution=1 ";
-      }   
-        
+      }
+
       // Probably this piece need to be changed to act on enable_on_ attribute
       // due to CF display logic refactoring
       // if( isset($filters['show_on_testplan_design']) && !is_null($filters['show_on_testplan_design']) )
       // {
       //     $additional_filter .= " AND CF.show_on_testplan_design=1 ";
-      // }   
-      if( isset($filters['show_on_testplan_design']) && !is_null($filters['show_on_testplan_design']) )
+      // }
+      if( !empty($filters['show_on_testplan_design']) )
       {
         $additional_filter .= " AND CF.enable_on_testplan_design=1 ";
-      }   
-           
-      if( isset($filters['cfield_id']) && !is_null($filters['cfield_id']) )
+      }
+
+      if( !empty($filters['cfield_id']) )
       {
         $additional_filter .= " AND CF.id={$filters['cfield_id']} ";
       }
-        
+
       $filterKey='location';
-      if( isset($filters[$filterKey]) && !is_null($filters[$filterKey]) )
+      if( !empty($filters[$filterKey]) )
       {
         $additional_filter .= " AND CFTP.$filterKey={$filters[$filterKey]} ";
       }
@@ -1111,7 +1111,7 @@ class cfield_mgr extends tlObject
    */
 	function unlink_from_testproject($tproject_id,$cfield_ids)
   {
-		if(is_null($cfield_ids))
+		if(empty($cfield_ids))
 		{
 			return;
     }
@@ -2144,8 +2144,8 @@ function getXMLRPCServerParams($nodeID,$tplanLinkID=null)
 
 			$server_info = $this->db->fetchRowsIntoMap($sql,'name');
 		}
-		
-		if( is_null($server_info) )
+
+		if( empty($server_info) )
 		{
 			// Recurse
 			// 20110123 - franciscom
@@ -2592,7 +2592,7 @@ function buildLocationMap($nodeType)
 	$locationMap=null;
     $dummy = $this->getLocations();
 	$verboseLocationCode = array_flip($dummy[$nodeType]);
-	if( !is_null($verboseLocationCode) && count($verboseLocationCode) > 0 )
+	if( count($verboseLocationCode) > 0 )
 	{
 		foreach($verboseLocationCode as $key => $value)
 		{

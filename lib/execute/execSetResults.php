@@ -1735,13 +1735,14 @@ function getLinkedItems($argsObj,$historyOn,$cfgObj,$tcaseMgr,$tplanMgr,$identit
     }  
     */
 
-    // $setOfTestSuites = (array)$argsObj->tsuite_id; 
-    $bulk_filters = array('keyword_id' => $argsObj->keyword_id,'assigned_to' => $argsObj->filter_assigned_to, 
+    // $setOfTestSuites = (array)$argsObj->tsuite_id;
+    $bulk_filters = array('keyword_id' => $argsObj->keyword_id,'assigned_to' => $argsObj->filter_assigned_to,
                           'exec_status' => $argsObj->filter_status,
                           'tsuites_id' => $argsObj->tsuite_id,
                           'assigned_on_build' => $argsObj->build_id,
                           'exec_type' => $argsObj->execution_type,
-                          'urgencyImportance' => $argsObj->priority);
+                          'urgencyImportance' => $argsObj->priority,
+                          'keyword_filter_type' => $argsObj->keywordsFilterType);
 
     // var_dump($setOfTestSuites);
 
@@ -1797,8 +1798,8 @@ function getLinkedItems($argsObj,$historyOn,$cfgObj,$tcaseMgr,$tplanMgr,$identit
           foreach( array('design') as $l4)
           {
             $cf[$l4] = $tplanMgr->cfield_mgr->getByIDAndEnableOn($tk,array($l4 => true));
-          }  
-          if(isset($cf['design']) && !is_null($cf['design']))
+          }
+          if(!empty($cf['design']))
           {
             foreach($cf['design'] as $yy => $xc)
             {
