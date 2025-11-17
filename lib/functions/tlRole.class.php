@@ -181,7 +181,7 @@ class tlRole extends tlDBObject
   /**
    * @param database $db Database connection object
    **/
-  public function writeToDB(database &$db)
+  public function writeToDB(&$db)
   {
     //@TODO schlundus, now i removed the potentially modified object from the cache
     //another optimization could be: read the new contents if storing was successfully into the
@@ -279,7 +279,7 @@ class tlRole extends tlDBObject
   /**
    * @param database $db Database connection object
    **/
-  public function deleteFromDB(database &$db)
+  public function deleteFromDB(&$db)
   {
     $this->removeFromCache();
  
@@ -490,12 +490,12 @@ class tlRole extends tlDBObject
     return $rights;
   }
   
-  static public function getByID(database &$db,$id,$detailLevel = self::TLOBJ_O_GET_DETAIL_FULL)
+  static public function getByID(&$db,$id,$detailLevel = self::TLOBJ_O_GET_DETAIL_FULL)
   {
     return tlDBObject::createObjectFromDB($db,$id,__CLASS__,self::TLOBJ_O_SEARCH_BY_ID,$detailLevel);
   }
   
-  static public function getAll(database &$db,$whereClause = null,$column = null,
+  static public function getAll(&$db,$whereClause = null,$column = null,
                                 $orderBy = null,$detailLevel = self::TLOBJ_O_GET_DETAIL_FULL)
   {
     $tables  = tlObject::getDBTables("roles");
@@ -513,7 +513,7 @@ class tlRole extends tlDBObject
     return $roles;
   }
   
-  static public function getByIDs(database &$db,$ids,$detailLevel = self::TLOBJ_O_GET_DETAIL_FULL)
+  static public function getByIDs(&$db,$ids,$detailLevel = self::TLOBJ_O_GET_DETAIL_FULL)
   {
     return self::handleNotImplementedMethod(__FUNCTION__);
   }
