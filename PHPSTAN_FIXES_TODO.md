@@ -1,9 +1,9 @@
 # PHPStan Error Fixes - Progress Tracker
 
 **Total New Errors:** 309
-**Status:** In Progress (Batch 1 & 2 Complete - 70+ errors fixed)
+**Status:** In Progress (Batches 1-3 Complete - 90+ errors fixed)
 **Started:** 2025-11-17
-**Last Updated:** 2025-11-17 (Batch 2 complete)
+**Last Updated:** 2025-11-17 (Batch 3 complete)
 
 ## Batch Progress
 
@@ -13,7 +13,10 @@ Files: tlRestApi.class.php, xmlrpc.class.php, execDashboard.php, execSetResults.
 ### ✅ Batch 2 (Complete - 30+ errors)
 Files: cfield_mgr.class.php, common.php, csrf.php, database.class.php, files.inc.php, configCheck.php
 
-**Total Fixed: 70+ errors (~23% complete)**
+### ✅ Batch 3 (Complete - 20+ errors)
+Files: doAuthorize.php, exec.inc.php, exttable.class.php, inputparameter.class.php
+
+**Total Fixed: 90+ errors (~29% complete)**
 
 ---
 
@@ -22,9 +25,10 @@ Files: cfield_mgr.class.php, common.php, csrf.php, database.class.php, files.inc
 | Category | Count | Status |
 |----------|-------|--------|
 | Unknown Classes | 2 | Pending |
-| Logic Errors (always true/false) | ~150 | 30% Complete |
-| Impossible Type Checks | ~100 | 40% Complete |
-| PHPDoc Type Fixes | ~50 | 60% Complete |
+| Logic Errors (always true/false) | ~150 | 40% Complete |
+| Impossible Type Checks | ~100 | 50% Complete |
+| PHPDoc Type Fixes | ~50 | 70% Complete |
+| Callable Type Fixes | ~10 | ✅ Complete |
 | Isset Offset Errors | ~20 | Pending |
 | Baseline Mismatches | ~37 | Pending |
 
