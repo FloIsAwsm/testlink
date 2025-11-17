@@ -132,12 +132,13 @@ function importTestCaseDataFromXML(&$db,$fileName,$parentID,$tproject_id,$userID
   $resultMap  = null;
   $my = array();
   $my['options'] = array('useRecursion' => false, 'importIntoProject' => 0,
-                         'duplicateLogic' => array('hitCriteria' => 'name', 'actionOnHit' => null)); 
+                         'duplicateLogic' => array('hitCriteria' => 'name', 'actionOnHit' => null));
   $my['options'] = array_merge($my['options'], (array)$options);
-  foreach($my['options'] as $varname => $value)
-  {
-    $$varname = $value;
-  }
+
+  // Extract options to explicit variables for static analysis
+  $useRecursion = $my['options']['useRecursion'];
+  $importIntoProject = $my['options']['importIntoProject'];
+  $duplicateLogic = $my['options']['duplicateLogic'];
   
   if (file_exists($fileName))
   {

@@ -114,15 +114,14 @@ abstract class reqMgrSystemInterface
   // ===========================================================  
   function connect()
   {
-    if (is_null($type))
+    if (is_null($this->type))
     {
       return false;
     }
-    
-    $this->server = $server;
-    $this->user = $user;
-    $this->password = $password;
-    
+
+    // Properties server, user, and password should be set by child classes
+    // or through configuration before connecting
+
     return true;
   }
   
@@ -142,7 +141,7 @@ abstract class reqMgrSystemInterface
   
   function getProjects()
   {
-    if (is_null($server))
+    if (is_null($this->server))
     {
       // There is no connection with the requirement management server.
       return false;
@@ -162,7 +161,7 @@ abstract class reqMgrSystemInterface
   
   function getBaselines($project, $refresh = false)
   {
-    if (is_null($serverConnection))
+    if (is_null($this->serverConnection))
     {
       // There is no connection with the requirement management server.
       return false ;

@@ -112,12 +112,11 @@ function importIssueFromXML(&$db,$fileName,$parentID,$tproject_id,$userID,$optio
   $resultMap  = null;
   $my = array();
   $my['options'] = array('useRecursion' => false, 'importIntoProject' => 0,
-                         'duplicateLogic' => array('hitCriteria' => 'name', 'actionOnHit' => null)); 
+                         'duplicateLogic' => array('hitCriteria' => 'name', 'actionOnHit' => null));
   $my['options'] = array_merge($my['options'], (array)$options);
-  foreach($my['options'] as $varname => $value)
-  {
-    $$varname = $value;
-  }
+
+  // Extract options to explicit variables for static analysis
+  $duplicateLogic = $my['options']['duplicateLogic'];
   
   if (file_exists($fileName))
   {
