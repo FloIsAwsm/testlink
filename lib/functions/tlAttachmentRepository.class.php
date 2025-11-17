@@ -141,7 +141,7 @@ class tlAttachmentRepository extends tlObjectWithDB
     else
     {
       $fContents = $this->getFileContentsForDBRepository($fTmpName,$destFName);
-      $fileUploaded = count($fContents ?? []);
+      $fileUploaded = count($fContents);
       if($fileUploaded)
       {
           @unlink($fTmpName); 
@@ -430,7 +430,7 @@ class tlAttachmentRepository extends tlObjectWithDB
   {
     $bSuccess = true;
     $attachmentIDs = $this->getAttachmentIDsFor($fkid,$fkTableName);
-    for($i = 0;$i < count($attachmentIDs ?? []);$i++)
+    for($i = 0;$i < count($attachmentIDs);$i++)
     {
       $id = $attachmentIDs[$i];
       $bSuccess = ($this->deleteAttachment($id) && $bSuccess);
@@ -475,7 +475,7 @@ class tlAttachmentRepository extends tlObjectWithDB
   {
     $itemSet = null;
     $idSet = $this->getAttachmentIDsFor($fkid,$fkTableName);
-    $loop2do = count($idSet ?? []);
+    $loop2do = count($idSet);
     for($idx = 0;$idx < $loop2do; $idx++)
     {
       $attachmentInfo = $this->getAttachmentInfo($idSet[$idx]);
@@ -547,7 +547,7 @@ class tlAttachmentRepository extends tlObjectWithDB
         else
         {
           $file_contents = $this->getAttachmentContentFromDB($value['id']);
-          $status_ok = count($file_contents ?? []);
+          $status_ok = count($file_contents);
         }
         
         if($status_ok)

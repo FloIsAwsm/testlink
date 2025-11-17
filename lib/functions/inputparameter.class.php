@@ -518,6 +518,10 @@ class tlCheckBoxValidationInfo
 			{
 				$value = true;
 			}
+			else
+			{
+				$value = false;
+			}
 		}
 		else
 		{
