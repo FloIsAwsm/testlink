@@ -416,7 +416,9 @@ class tlRestApi
   {
     // throw new Exception($message, $code, $previous);
 
-    // Test plan ID exists and is ACTIVE    
+    $links = null; // Initialize to avoid undefined variable warning
+
+    // Test plan ID exists and is ACTIVE
     $msg = 'invalid Test plan ID';
     $getOpt = array('output' => 'testPlanFields','active' => 1,
                     'testPlanFields' => 'id,testproject_id,is_public');

@@ -5945,11 +5945,11 @@ protected function createAttachmentTempFile()
       } 
       if($status_ok)
       {
-        return $ret;   
-      }  
+        return $ret;
+      }
     }
-   
-    if(!$tatus_ok)
+
+    if(!$status_ok)
     {
       return $this->errors;
     } 

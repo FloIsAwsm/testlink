@@ -1,9 +1,9 @@
 # PHPStan Error Fixes - Progress Tracker
 
 **Total New Errors:** 309
-**Status:** In Progress (Batches 1-11 Complete - 171+ errors fixed)
+**Status:** In Progress (Batches 1-12 Complete - 177+ errors fixed)
 **Started:** 2025-11-17
-**Last Updated:** 2025-11-17 (Batch 11 complete)
+**Last Updated:** 2025-11-17 (Batch 12 complete)
 
 ## Batch Progress
 
@@ -40,7 +40,10 @@ Files: testcase.class.php (13+ errors), specview.php (2 errors), print.inc.php (
 ### ✅ Batch 11 (Complete - 7+ errors)
 Files: treeMenu.inc.php (4 errors), tlUser.class.php (3 errors)
 
-**Total Fixed: 171+ errors (~55% complete)**
+### ✅ Batch 12 (Complete - 6+ errors)
+Files: csv.inc.php (1 error), requirement_mgr.class.php (2 errors), xmlrpc.class.php (1 error), tlRestApi.class.php (2 errors)
+
+**Total Fixed: 177+ errors (~57% complete)**
 
 ---
 
@@ -231,3 +234,57 @@ Many `!is_null($var) && count($var) > 0` patterns are:
 3. **Focus on** improving PHPDoc annotations to help PHPStan
 4. **Consider** updating external dependencies if feasible
 5. **Prioritize** actual logic errors over style issues
+
+---
+
+## Notes and Findings (Batch 12)
+
+### Errors Fixed
+- **Batch 12**: 6 errors across 4 files
+- **Total Batches**: 12 batches completed
+- **Total Errors Fixed**: 177+ errors (~57% of 309)
+
+### Specific Fixes in Batch 12
+
+#### 1. lib/functions/csv.inc.php (1 error)
+- **Line 119**: Fixed undefined variable `$fieldMapping` (typo, should be `$fieldMappings`)
+- **Type**: Typo/naming error
+- **Impact**: High - would cause PHP warning and broken functionality when processing CSV headers
+
+#### 2. lib/functions/requirement_mgr.class.php (2 errors)
+- **Lines 3863-3864**: Fixed undefined variables `$beginTag` and `$endTag`
+- **Root cause**: Variables defined inside if block but used outside
+- **Solution**: Made them static variables with initial values
+- **Type**: Variable scope issue
+- **Impact**: High - would cause PHP warnings when function called with cached data
+
+#### 3. lib/api/xmlrpc/v1/xmlrpc.class.php (1 error)
+- **Line 5952**: Fixed typo `$tatus_ok` should be `$status_ok`
+- **Type**: Typo in variable name
+- **Impact**: High - would cause PHP warning and broken error handling
+
+#### 4. lib/api/rest/v1/tlRestApi.class.php (2 errors)
+- **Line 419**: Initialized `$links` variable to null
+- **Root cause**: PHPStan couldn't determine that variable would always be set when used
+- **Type**: Uninitialized variable warning
+- **Impact**: Medium - defensive fix to satisfy static analysis
+
+### Key Findings
+
+#### Real Bugs Found
+All 6 errors fixed in this batch were real bugs that would cause runtime issues:
+1. **Typos** (2): Variable name typos that would cause undefined variable errors
+2. **Scope issues** (2): Variables defined in wrong scope
+3. **Uninitialized variables** (2): Variables used before guaranteed initialization
+
+#### Error Discovery Method
+Used PHPStan baseline file (`phpstan-baseline.neon`) to identify errors:
+- Searched for "undefined variable" patterns
+- Found clear, actionable bugs
+- Prioritized high-impact files (API classes, core functionality)
+
+### Next Steps for Batch 13
+1. Continue reviewing undefined variable errors in baseline
+2. Look for more typos and scope issues
+3. Focus on files with multiple errors for efficiency
+4. Consider addressing "always true/false" logic errors

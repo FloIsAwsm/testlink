@@ -3860,12 +3860,12 @@ function getCoverageCounterSet($itemSet)
   {
     static $attSet;
     static $targetTag;
+    static $beginTag = '[tlInlineImage]';
+    static $endTag = '[/tlInlineImage]';
 
     if(!$attSet || !isset($attSet[$id]))
     {
       $attSet[$id] = $this->attachmentRepository->getAttachmentInfosFor($id,$this->attachmentTableName,'id');
-      $beginTag = '[tlInlineImage]';
-      $endTag = '[/tlInlineImage]';
     }  
 
     if(is_null($attSet[$id]))
