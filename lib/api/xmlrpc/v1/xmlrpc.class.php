@@ -1903,7 +1903,7 @@ class TestlinkXMLRPCServer extends IXR_Server
     $msg_prefix="(" .__FUNCTION__ . ") - ";
     $status_ok=true;
     $this->_setArgs($args);
-    $result = null;
+    $result = array();
       
     $checkFunctions = array('authenticate','checkTestCaseName');       
     $status_ok = $this->_runChecks($checkFunctions,$msg_prefix);
@@ -1962,7 +1962,7 @@ class TestlinkXMLRPCServer extends IXR_Server
     // test project.
     if($status_ok)
     {
-      $out = null;
+      $out = array();
       foreach($result as $testcase)
       {
         $this->args[self::$testProjectIDParamName] = $this->tcaseMgr->get_testproject($testcase['id']);
@@ -2749,7 +2749,7 @@ class TestlinkXMLRPCServer extends IXR_Server
     {
       if(is_null($op))
       {
-        $a_items = null;
+        $a_items = array();
         for($idx = 0; $idx < $items_qty; $idx++)
         {
           if(isset($keywordMap[$a_keywords[$idx]]))
@@ -3098,6 +3098,7 @@ class TestlinkXMLRPCServer extends IXR_Server
       $msg_prefix="(" .__FUNCTION__ . ") - ";
       $status_ok=true;
       $this->_setArgs($args);
+      $result = null;
 
       $checkFunctions = array('authenticate','checkTestProjectID');
       $status_ok=$this->_runChecks($checkFunctions,$msg_prefix);
@@ -3383,7 +3384,7 @@ class TestlinkXMLRPCServer extends IXR_Server
 public function getTestCaseAttachments($args)
 {
   $this->_setArgs($args);
-  $attachments=null;
+  $attachments=array();
   $checkFunctions = array('authenticate','checkTestCaseIdentity');       
   $status_ok = $this->_runChecks($checkFunctions) && 
                $this->userHasRight("mgt_view_tc",self::CHECK_PUBLIC_PRIVATE_ATTR);
@@ -3577,9 +3578,10 @@ public function getTestCaseAttachments($args)
     {
       $msg_prefix = "(" .__FUNCTION__ . ") - ";
       $status_ok = false;
-      $this->_setArgs($args);    
+      $this->_setArgs($args);
+      $op = array('info' => null, 'status_ok' => false);
 
-      if($this->authenticate() && 
+      if($this->authenticate() &&
          $this->_isParamPresent(self::$testProjectNameParamName,$msg_prefix,self::SET_ERROR))
       {
         $op = $this->helperGetTestProjectByName($msg_prefix);
@@ -3603,7 +3605,8 @@ public function getTestCaseAttachments($args)
     {
         $msg_prefix="(" .__FUNCTION__ . ") - ";
          $status_ok=true;
-      $this->_setArgs($args);    
+      $this->_setArgs($args);
+      $info = null;
       if($this->authenticate())
       {
             $keys2check = array(self::$testPlanNameParamName,
@@ -3674,7 +3677,8 @@ public function getTestCase($args)
   $msg_prefix="(" .__FUNCTION__ . ") - ";
   $status_ok=true;
   $this->_setArgs($args);
-    
+  $result = null;
+
   $checkFunctions = array('authenticate','checkTestCaseIdentity');       
   $status_ok = $this->_runChecks($checkFunctions,$msg_prefix);
   // && 
@@ -3923,8 +3927,9 @@ public function getTestCase($args)
       $this->_setArgs($args);
       $operation=__FUNCTION__;
       $msg_prefix="({$operation}) - ";
+      $full_path = null;
       $checkFunctions = array('authenticate');
-      $status_ok=$this->_runChecks($checkFunctions,$msg_prefix) && 
+      $status_ok=$this->_runChecks($checkFunctions,$msg_prefix) &&
                  $this->_isParamPresent(self::$nodeIDParamName,$msg_prefix,self::SET_ERROR) ;
     
       if( $status_ok )
