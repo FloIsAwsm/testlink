@@ -1007,7 +1007,7 @@ function exportReqSpecToXML($id,$tproject_id,$optExport=array())
         $xmlData .= $this->req_mgr->exportReqToXML($cNode['id'],$tproject_id);
 
         $relations = $this->req_mgr->get_relations($cNode['id']);
-        if( !is_null($relations['relations']) && count($relations['relations']) > 0 )
+        if( !empty($relations['relations']) )
         {
           foreach($relations['relations'] as $key => $rel) 
           {
@@ -1374,9 +1374,9 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id)
 	
 	// TICKET 4661
     // custom fields are linked to revision_id
-    $idCard = array('parent_id' => $id, 'item_id' => null, 'tproject_id' => $tproject_id); 
+    $idCard = array('parent_id' => $id, 'item_id' => null, 'tproject_id' => $tproject_id);
 	$cfMap = $this->get_linked_cfields($idCard);
-	if( !is_null($cfMap) && count($cfMap) > 0 )
+	if( !empty($cfMap) )
 	{
 		$xml = $this->cfield_mgr->exportValueAsXML($cfMap);
 	}

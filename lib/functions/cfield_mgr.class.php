@@ -2778,7 +2778,7 @@ function getValuesFromUserInput($cf_map,$name_suffix='',$input_values=null)
 			    }
 			}
 			
-			if (!is_null($value) && is_array($value)){
+			if (is_array($value)){
 			    $value = implode("|", $value);
 			}
 			
@@ -2839,15 +2839,15 @@ function getValuesFromUserInput($cf_map,$name_suffix='',$input_values=null)
            " WHERE CF.id=CFNT.field_id " .
            " AND CF.id IN (" . implode(',',(array)$id) . ")";
 
-    if(!is_null($enableOn) && is_array($enableOn))
+    if(is_array($enableOn))
     {
       foreach($this->application_areas as $key)
       {
         if(isset($enableOn[$key]) && $enableOn[$key])
         {
           $sql .= " AND CF.enable_on_{$key}=1 ";
-        }  
-      }  
+        }
+      }
     } 
 
     return($this->db->fetchRowsIntoMap($sql,'id'));

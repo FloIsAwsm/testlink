@@ -1846,7 +1846,7 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
  {
     $xml = null;
     $cfMap=$this->get_linked_cfields($id,$version_id,$tproject_id);
-  if( !is_null($cfMap) && count($cfMap) > 0 )
+  if( !empty($cfMap) )
   {
         $xml = $this->cfield_mgr->exportValueAsXML($cfMap);
     }
@@ -2403,8 +2403,8 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
            " WHERE source_id=" . $safeID . " OR destination_id=" . $safeID .
            " ORDER BY id ASC";
 
-    $relations['relations']= $this->db->get_recordset($sql);  
-    if( !is_null($relations['relations']) && count($relations['relations']) > 0 )
+    $relations['relations']= $this->db->get_recordset($sql);
+    if( !empty($relations['relations']) )
     {
       $labels = $this->get_all_relation_labels();
       $label_keys = array_keys($labels);
@@ -3384,7 +3384,7 @@ function html_table_of_custom_field_values($id,$child_id,$tproject_id=null)
       }
   
       $reqs = $this->get_by_id($relation['destination_id'],requirement_mgr::LATEST_VERSION);
-      if( !is_null($reqs) && count($reqs) > 0 )
+      if( !empty($reqs) )
       {
         $destination_docid = $reqs[0]['req_doc_id'];
         if ($check_for_req_project)

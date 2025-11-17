@@ -1901,12 +1901,12 @@ class testcase extends tlObjectWithAttachments
     // Need to get all steps
     $gso = array('renderGhostSteps' => false, 'renderImageInline' => false);
     $stepsSet = $this->get_steps($from_tcversion_id,0,$gso);
-    if( !is_null($stepsSet) && count($stepsSet) > 0)
+    if( !empty($stepsSet) )
     {
       foreach($stepsSet as $key => $step)
       {
         $op = $this->create_step($to_tcversion_id,$step['step_number'],$step['actions'],
-                                 $step['expected_results'],$step['execution_type']);      
+                                 $step['expected_results'],$step['execution_type']);
       }
     }
   }
@@ -3343,11 +3343,11 @@ class testcase extends tlObjectWithAttachments
     //               1 -> get last execution on EACH BUILD.
     //                    GROUP BY must be done BY tcversion_id,build_id
     //   
-    $localOptions=array('getNoExecutions' => 0, 'groupByBuild' => 0, 'getSteps' => 1, 
+    $localOptions=array('getNoExecutions' => 0, 'groupByBuild' => 0, 'getSteps' => 1,
                         'getStepsExecInfo' => 0, 'output' => 'std');
-    if(!is_null($options) && is_array($options))
+    if(is_array($options))
     {
-      $localOptions=array_merge($localOptions,$options);    
+      $localOptions=array_merge($localOptions,$options);
     }
     if( is_array($id) )
     {
@@ -3602,7 +3602,7 @@ class testcase extends tlObjectWithAttachments
       // each UPPER CASE word in this map KEY, MUST HAVE AN OCCURENCE on $elemTpl
       // value is a key inside $tc_data[0]
       //
-      if( !is_null($cfMap) && count($cfMap) > 0 )
+      if( !empty($cfMap) )
       {
         // $cfRootElem = "<custom_fields>{{XMLCODE}}</custom_fields>";
         // $cfElemTemplate = "\t" . "<custom_field>\n" .
@@ -3627,7 +3627,7 @@ class testcase extends tlObjectWithAttachments
     if (isset($optExport['REQS']) && $optExport['REQS'])
     {
       $requirements = $reqMgr->get_all_for_tcase($tcase_id);
-      if( !is_null($requirements) && count($requirements) > 0 )
+      if( !empty($requirements) )
       {
         $reqRootElem = "\t<requirements>\n{{XMLCODE}}\t</requirements>\n";
         $reqElemTemplate = "\t\t<requirement>\n" .
@@ -6820,9 +6820,9 @@ class testcase extends tlObjectWithAttachments
            " WHERE source_id=" . $safeID . " OR destination_id=" . $safeID .
            " ORDER BY id ASC";
 
-    $relSet['relations']= $this->db->get_recordset($sql);  
+    $relSet['relations']= $this->db->get_recordset($sql);
 
-    if( !is_null($relSet['relations']) && count($relSet['relations']) > 0 )
+    if( !empty($relSet['relations']) )
     {
       $labels = $this->getRelationLabels();
       $label_keys = array_keys($labels);
