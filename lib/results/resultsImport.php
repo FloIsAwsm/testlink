@@ -221,6 +221,7 @@ function saveImportedResultData(&$db,$resultData,$context,$options)
   // Initialize to avoid undefined variable warnings
   $tproject_mgr = null;
   $build_mgr = null;
+  $doIt = false;
 
   if($tc_qty)
   {

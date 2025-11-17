@@ -518,11 +518,11 @@ class tlUser extends tlDBObject
    * 
    * @return string the display nmae
    */
-  public function getDisplayName($format=null)
+  public function getDisplayName($format=null): string
   {
     $keys = array('%first%','%last%','%login%','%email%');
     $values = array($this->firstName, $this->lastName,$this->login,$this->emailAddress);
-    
+
     $fmt = is_null($format) ? $this->usernameFormat : $format;
     $displayName = trim(str_replace($keys,$values,$fmt));
 
@@ -531,32 +531,32 @@ class tlUser extends tlDBObject
   
   /**
    * Encrypts a given password with MD5
-   * 
+   *
    * @param $pwd the password to encrypt
-   * @return string the encrypted password
+   * @return string|int the encrypted password or S_PWDMGTEXTERNAL constant
    */
-  protected function encryptPassword($pwd,$authentication=null)
-  {
-    if (self::isPasswordMgtExternal($authentication))
-    {  
-      return self::S_PWDMGTEXTERNAL;
-    }  
-    return md5($pwd);
-  }
-  
-  /**
-   * Set encrypted password
-   * 
-   * @param string $pwd the new password
-   * @return integer return tl::OK is the password is stored, else errorcode
-   */
-  public function setPassword($pwd,$authentication=null)
+  protected function encryptPassword($pwd,$authentication=null): string|int
   {
     if (self::isPasswordMgtExternal($authentication))
     {
       return self::S_PWDMGTEXTERNAL;
     }
-    $pwd = trim($pwd);  
+    return md5($pwd);
+  }
+  
+  /**
+   * Set encrypted password
+   *
+   * @param string $pwd the new password
+   * @return int return tl::OK is the password is stored, else errorcode
+   */
+  public function setPassword($pwd,$authentication=null): int
+  {
+    if (self::isPasswordMgtExternal($authentication))
+    {
+      return self::S_PWDMGTEXTERNAL;
+    }
+    $pwd = trim($pwd);
     if ($pwd == "")
     {
       return self::E_PWDEMPTY;
@@ -567,24 +567,24 @@ class tlUser extends tlDBObject
   
   /**
    * Getter for the password of the user
-   * 
+   *
    * @return string the password of the user
    */
-  public function getPassword()
+  public function getPassword(): string
   {
     return $this->password;
   }
   
   /**
    * compares a given password with the current password of the user
-   * 
-   * @param string $pwd the password to compate with the password actually set 
-   * @return integer returns tl::OK if the password's match, else errorcode
+   *
+   * @param string $pwd the password to compate with the password actually set
+   * @return int returns tl::OK if the password's match, else errorcode
    */
-  public function comparePassword($pwd)
+  public function comparePassword($pwd): int
   {
     if (self::isPasswordMgtExternal($this->authentication))
-    {  
+    {
       return self::S_PWDMGTEXTERNAL;
     }
 
@@ -592,7 +592,7 @@ class tlUser extends tlDBObject
     {
       return tl::OK;
     }
-    return self::E_PWDDONTMATCH;    
+    return self::E_PWDDONTMATCH;
   }
 
   
