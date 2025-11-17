@@ -1126,11 +1126,11 @@ function filter_by_cf_values(&$db, &$tcase_tree, &$cf_hash, $node_types)
  * @param array $filters filters to apply to test case set
  * @return array new tcase_set
  */
-function filterStatusSetAtLeastOneOfActiveBuilds(&$tplan_mgr,&$tcase_set,$tplan_id,$filters) 
+function filterStatusSetAtLeastOneOfActiveBuilds(&$tplan_mgr,&$tcase_set,$tplan_id,$filters)
 {
   $safe_platform = intval($filters->setting_platform);
   $buildSet = array_keys($tplan_mgr->get_builds($tplan_id, testplan::ACTIVE_BUILDS));
-  if( !is_null($buildSet) ) 
+  if( !empty($buildSet) )
   {
     if( $safe_platform > 0 )
     {
@@ -1180,10 +1180,10 @@ function filterStatusSetAtLeastOneOfActiveBuilds(&$tplan_mgr,&$tcase_set,$tplan_
  * 
  * @return array new tcase_set
  */
-function filterStatusSetAllActiveBuilds(&$tplan_mgr,&$tcase_set,$tplan_id,$filters) 
+function filterStatusSetAllActiveBuilds(&$tplan_mgr,&$tcase_set,$tplan_id,$filters)
 {
   $buildSet = array_keys($tplan_mgr->get_builds($tplan_id, testplan::ACTIVE_BUILDS));
-  if( !is_null($buildSet) ) 
+  if( !empty($buildSet) )
   {
 
     $safe_platform = intval($filters->setting_platform);
@@ -1710,11 +1710,11 @@ function prepare_reqspec_treenode(&$db, $level, &$node, &$filtered_map, &$map_id
                                                     $filtered_map, $map_id_nodetype,
                                                     $map_nodetype_id,
                                                     $filters, $options);
-      
+
       // now count childnodes that have not been deleted and are requirements
-      if(!is_null($current_childnode) && $current_childnode != REMOVEME) 
+      if(!empty($current_childnode) && $current_childnode != REMOVEME)
       {
-        switch($current_childnode['node_type_id']) 
+        switch($current_childnode['node_type_id'])
         {
           case $map_nodetype_id['requirement']:
             $child_req_count ++;
@@ -1743,14 +1743,14 @@ function prepare_reqspec_treenode(&$db, $level, &$node, &$filtered_map, &$map_id
       $node['child_req_count'] = $child_req_count;
       $delete_node = !$child_req_count;
     break;
-    
+
     case 'requirement':
       // delete node from tree if it is not in $filtered_map
-      $delete_node = (is_null($filtered_map) || !array_key_exists($node['id'], $filtered_map));
+      $delete_node = (empty($filtered_map) || !array_key_exists($node['id'], $filtered_map));
     break;
   }
-  
-  if ($delete_node) 
+
+  if ($delete_node)
   {
     unset($node);
     $node = REMOVEME;
