@@ -327,9 +327,9 @@ function prepareNode(&$db,&$node,&$decoding_info,&$map_node_tccount,$tck_map = n
                           
     $results2filter = isset($my['filters']['filter_result_result']) ?
                           $my['filters']['filter_result_result'] : null;
-    
 
-    $testPlanIsNotEmpty = (!is_null($tplan_tcases) && count($tplan_tcases) > 0); 
+
+    $testPlanIsNotEmpty = !empty($tplan_tcases); 
   }
     
   $tcase_counters = array_fill_keys($status_descr_list, 0);

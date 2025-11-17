@@ -1596,7 +1596,7 @@ class TestlinkXMLRPCServer extends IXR_Server
     {
       $testProjectID = $this->args[self::$testProjectIDParamName];
       $info=$this->tprojectMgr->get_all_testplans($testProjectID);
-      if( !is_null($info) && count($info) > 0 )
+      if( !empty($info) )
       {
           $info = array_values($info);
       }

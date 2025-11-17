@@ -1388,7 +1388,7 @@ class cfield_mgr extends tlObject
       $this->remove_all_scopes_values($id);
 		}
 		$linked_tprojects = $this->get_linked_testprojects($id);
-		if( !is_null($linked_tprojects) && count($linked_tprojects) > 0 )
+		if( !empty($linked_tprojects) )
 		{
 		  $target=array_keys($linked_tprojects);
 		  foreach($target as $tproject_id)

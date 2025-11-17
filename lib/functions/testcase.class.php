@@ -3415,7 +3415,7 @@ class testcase extends tlObjectWithAttachments
        
     $recordset = $this->db->fetchColumnsIntoMap($sql,'execution_id','tcversion_id');
     $and_exec_id='';
-    if( !is_null($recordset) && count($recordset ?? []) > 0)
+    if( !empty($recordset) )
     {
       $the_list = implode(",", array_keys($recordset));
       if($the_list != '')
@@ -4807,7 +4807,7 @@ class testcase extends tlObjectWithAttachments
 
       // get all testcases on test project with this name and parent test suite
         $recordset = $this->get_by_name($tcaseName, $tsuiteName ,$tprojectName);
-        if( !is_null($recordset) && count($recordset ?? []) > 0 )
+        if( !empty($recordset) )
         {
           foreach($recordset as $value)
           {
@@ -6427,7 +6427,7 @@ class testcase extends tlObjectWithAttachments
 
     
     $testplans = $this->tproject_mgr->get_all_testplans($goo->tproject_id,array('plan_status' =>1) );
-    $goo->has_testplans = !is_null($testplans) && count($testplans) > 0 ? 1 : 0;
+    $goo->has_testplans = !empty($testplans) ? 1 : 0;
   
 
     $platformMgr = new tlPlatform($this->db,$goo->tproject_id);
