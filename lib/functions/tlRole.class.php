@@ -117,7 +117,7 @@ class tlRole extends tlDBObject
    *
    * @see lib/functions/iDBSerialization#readFromDB($db, $options)
    */
-  public function readFromDB(database &$db,$options = self::TLOBJ_O_SEARCH_BY_ID)
+  public function readFromDB(&$db,$options = self::TLOBJ_O_SEARCH_BY_ID)
   {
     if ($this->readFromCache() >= tl::OK)
     {  

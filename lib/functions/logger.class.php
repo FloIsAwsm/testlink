@@ -1431,7 +1431,7 @@ function shutdownLogger()
 // --------------------------------------------------------------------------------------
 // EXECUTED ON INCLUDE
 // create the global TestLink Logger, and open the initial default transaction
-global $g_loggerCfg;
+global $g_loggerCfg, $db;
 $g_tlLogger = tlLogger::create($db);
 if( !is_null($g_loggerCfg) )
 {
