@@ -17,6 +17,7 @@ require_once("web_editor.php");
 $editorCfg = getWebEditorCfg('role');
 require_once(require_web_editor($editorCfg['type']));
 
+$db = null; // Initialized by testlinkInitPage
 testlinkInitPage($db,false,false,"checkRights");
 init_global_rights_maps();
 $templateCfg = templateConfiguration();
@@ -242,7 +243,7 @@ function complete_gui(&$dbHandler,&$guiObj,&$argsObj,&$roleObj,&$webEditorObj)
   $guiObj->role = $roleObj;
   $guiObj->grants = getGrantsForUserMgmt($dbHandler,$_SESSION['currentUser']);
   $guiObj->rightsCfg = getRightsCfg();
-  $guiObj->mgt_view_events = $_SESSION['currentUser']->hasRight($db,"mgt_view_events");
+  $guiObj->mgt_view_events = $_SESSION['currentUser']->hasRight($dbHandler,"mgt_view_events");
   
   $guiObj->disabledAttr = $guiObj->roleCanBeEdited ? ' ' : ' disabled="disabled" '; 
 

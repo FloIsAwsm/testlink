@@ -101,7 +101,7 @@ abstract class tlTable
    *        @see tlTable::$columns
    *        @see tlTable::$data
    */
-  public function __construct($columns, $data, $tableID)
+  public function __construct($columns, $data, $tableID = '')
   {
     // Expand the simple column format (array-of-titles) to full
     // array-of-arrays and compute js friendly column names.

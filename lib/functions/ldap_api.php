@@ -70,7 +70,7 @@ function ldap_connect_bind( $p_binddn = '', $p_password = '', $context = '' ): o
       {
         $ret->status = ERROR_LDAP_START_TLS_FAILED;
         $ret->info = 'ERROR_LDAP_START_TLS_FAILED';
-        ldap_unbind($ts_ds);
+        ldap_unbind($t_ds);
         return $ret;  // >>>----> Bye!!!
       }
     }

@@ -352,7 +352,6 @@ function get_by_id($id,$version_id=self::ALL_VERSIONS,$version_number=1,$options
 
   unset($recordset);
   unset($my);
-  unset($dummy);
   return $rs;
 }
 
@@ -880,6 +879,8 @@ function get_coverage($id,$context=null,$options=null)
 function create_tc_from_requirement($mixIdReq,$srs_id, $user_id, $tproject_id = null, $tc_count=null)
 {
   $debugMsg = 'Class:' . __CLASS__ . ' - Method: ' . __FUNCTION__;
+  static $labels;
+
   $tcase_mgr = new testcase($this->db);
   $tsuite_mgr = new testsuite($this->db);
 
@@ -887,8 +888,10 @@ function create_tc_from_requirement($mixIdReq,$srs_id, $user_id, $tproject_id = 
   $node_descr_type = $this->tree_mgr->get_available_node_types();
   $empty_steps = null;
   $empty_preconditions = ''; // fix for BUGID 2995
-    
-  $labels['tc_created'] = lang_get('tc_created');
+
+  if (!$labels) {
+    $labels['tc_created'] = lang_get('tc_created');
+  }
 
   $output = null;
   $reqSet = is_array($mixIdReq) ? $mixIdReq : array($mixIdReq);
@@ -3759,11 +3762,10 @@ function getByIDBulkLatestVersionRevision($id,$opt=null)
       }
     }  
 
-  }    
+  }
 
   unset($recordset);
   unset($my);
-  unset($dummy);
 
   return $rs;
 }
@@ -3860,12 +3862,12 @@ function getCoverageCounterSet($itemSet)
   {
     static $attSet;
     static $targetTag;
+    static $beginTag = '[tlInlineImage]';
+    static $endTag = '[/tlInlineImage]';
 
     if(!$attSet || !isset($attSet[$id]))
     {
       $attSet[$id] = $this->attachmentRepository->getAttachmentInfosFor($id,$this->attachmentTableName,'id');
-      $beginTag = '[tlInlineImage]';
-      $endTag = '[/tlInlineImage]';
     }  
 
     if(is_null($attSet[$id]))

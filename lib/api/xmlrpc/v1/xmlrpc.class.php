@@ -2721,8 +2721,10 @@ class TestlinkXMLRPCServer extends IXR_Server
 
     $sql = " SELECT keyword,id FROM {$this->tables['keywords']} " .
            " WHERE testproject_id = {$tproject_id} ";
-    
+
     $keywords = trim($keywords);
+    $a_keywords = array(); // Initialize to avoid undefined variable warning
+    $items_qty = 0; // Initialize to avoid undefined variable warning
     if($keywords != "")
     {
       $a_keywords = explode(",",$keywords);
@@ -3231,7 +3233,8 @@ class TestlinkXMLRPCServer extends IXR_Server
       $ret=array('status_ok' => true, 'error_msg' => '' , 'error_code' => 0);
       $tproject_id=$this->args[self::$testProjectIDParamName];
       $nodes_types = $this->tprojectMgr->tree_manager->get_available_node_types();
-          
+      $error_code = 0; // Initialize to avoid undefined variable warning
+
       foreach($this->args[self::$requirementsParamName] as $item)
       {
           // does it exist ?
@@ -3278,15 +3281,15 @@ class TestlinkXMLRPCServer extends IXR_Server
                   {
                       $status_ok=false;
                       $req_info = $this->reqMgr->get_by_id($req_id,requirement_mgr::LATEST_VERSION);
-                      
+
                       if( is_null($req_info) )
                       {
                           $msg = sprintf(REQ_KO_STR,$req_id);
                           $error_code=REQ_KO;
                       }
-                      else 
-                      {  
-                          $req_info = $req_inf[0];
+                      else
+                      {
+                          $req_info = $req_info[0];
                           $msg = sprintf(REQ_REQSPEC_KO_STR,$req_info['req_doc_id'],$req_info['title'],$req_id,
                                          $reqspec_info['title'],$req_spec_id);
                           $error_code=REQ_REQSPEC_KO;
@@ -5945,11 +5948,11 @@ protected function createAttachmentTempFile()
       } 
       if($status_ok)
       {
-        return $ret;   
-      }  
+        return $ret;
+      }
     }
-   
-    if(!$tatus_ok)
+
+    if(!$status_ok)
     {
       return $this->errors;
     } 
@@ -6859,7 +6862,7 @@ protected function createAttachmentTempFile()
    */    
     protected function checkTestCaseSetIdentity($messagePrefix='',$itemSet=null)
     {
-      // Three Cases - Internal ID, External ID, No Id        
+      // Three Cases - Internal ID, External ID, No Id
       $status_ok = false;
       $fromExternal = false;
       $fromInternal = false;
@@ -6868,6 +6871,7 @@ protected function createAttachmentTempFile()
       $tcaseID = 0;
       $tcaseIDSet = null;
       $tcaseE2I = null;  // External to Internal
+      $errorCode = 0; // Initialize to avoid undefined variable warning
 
       if(!is_null($itemSet))
       {

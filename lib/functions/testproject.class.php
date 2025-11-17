@@ -2177,10 +2177,15 @@ function get_all_testplans($testproject_id,$filters=null,$options=null)
   if( !is_null($filters) )
   {
     $key2check=array('get_tp_without_tproject_id' => 0, 'plan_status' => null,'tplan2exclude' => null);
-    
+
+    // Initialize variables to help static analysis
+    $get_tp_without_tproject_id = 0;
+    $plan_status = null;
+    $tplan2exclude = null;
+
     foreach($key2check as $varname => $defValue)
     {
-      $$varname=isset($filters[$varname]) ? $filters[$varname] : $defValue;   
+      $$varname=isset($filters[$varname]) ? $filters[$varname] : $defValue;
     }                
         
     $where .= " ) ";

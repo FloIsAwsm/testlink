@@ -111,12 +111,12 @@ function importCSVData($fileName,$fieldMappings, $options = null)
 				
 				if( $isHeaderLine && $my['options']['processHeader'] )
 				{
-					// Get format information from first line, and rebuild with this 
+					// Get format information from first line, and rebuild with this
 					// information the keyMappings, using fieldMappings
 					//
 					$isHeaderLine = false;
 					$keyMappings = null;
-					foreach($fieldMapping as $k => $targetKey)
+					foreach($fieldMappings as $k => $targetKey)
 					{
 						if (is_int($k))
 						{
