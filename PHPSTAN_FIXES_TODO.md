@@ -1,9 +1,9 @@
 # PHPStan Error Fixes - Progress Tracker
 
 **Total New Errors:** 309
-**Status:** In Progress (Batches 1-14 Complete - 185+ errors fixed)
+**Status:** In Progress (Batches 1-15 Complete - 188+ errors fixed)
 **Started:** 2025-11-17
-**Last Updated:** 2025-11-17 (Batch 14 complete)
+**Last Updated:** 2025-11-17 (Batch 15 complete)
 
 ## Batch Progress
 
@@ -49,7 +49,10 @@ Files: xmlrpc.class.php (1 error), assignment_mgr.class.php (1 error), execTreeM
 ### ✅ Batch 14 (Complete - 4+ errors)
 Files: testproject.class.php (2 errors), projectEdit.php (1 error), fogbugzdbInterface.class.php (2 errors - actually 1 bug appearing twice)
 
-**Total Fixed: 185+ errors (~60% complete)**
+### ✅ Batch 15 (Complete - 3+ errors)
+Files: editExecution.php (1 error), ldap_api.php (1 error), requirement_mgr.class.php (1 error)
+
+**Total Fixed: 188+ errors (~61% complete)**
 
 ---
 
@@ -394,3 +397,51 @@ Continued systematic review of PHPStan baseline file:
 2. Look for more variable scope issues and typos
 3. Consider tackling logic errors ("always true/false")
 4. Focus on high-impact, frequently-used code paths
+
+---
+
+## Notes and Findings (Batch 15)
+
+### Errors Fixed
+- **Batch 15**: 3 errors across 3 files
+- **Total Batches**: 15 batches completed
+- **Total Errors Fixed**: 188+ errors (~61% of 309)
+
+### Specific Fixes in Batch 15
+
+#### 1. lib/execute/editExecution.php (1 error)
+- **Line 20**: Added `$db = null;` initialization before `testlinkInitPage()`
+- **Root cause**: Variable passed by reference to function but not initialized first
+- **Type**: Missing initialization for pass-by-reference parameter
+- **Impact**: Medium - defensive fix to satisfy static analysis, functional code works
+
+#### 2. lib/functions/ldap_api.php (1 error)
+- **Line 73**: Fixed typo `$ts_ds` → `$t_ds`
+- **Root cause**: Extra 's' in variable name
+- **Type**: Variable name typo
+- **Impact**: High - would cause undefined variable error when LDAP TLS fails
+
+#### 3. lib/functions/requirement_mgr.class.php (1 error)
+- **Line 883**: Added `static $labels;` declaration and initialization guard
+- **Root cause**: Variable used but not declared as static in function scope
+- **Type**: Missing static declaration
+- **Impact**: Medium - helps static analysis understand variable lifetime
+
+### Key Findings
+
+#### Real Bugs Found
+2 out of 3 fixes were real or significant bugs:
+1. **LDAP TLS error handling bug**: ldap_api.php using wrong variable name would cause crash on TLS failure
+2. **Static analysis helpers** (2): editExecution.php and requirement_mgr.class.php needed proper variable declarations
+
+#### Error Discovery Method
+Continued systematic review of PHPStan baseline file:
+- Searched for remaining "Undefined variable" errors
+- Found typos and missing declarations
+- Prioritized security-related code (LDAP authentication)
+
+### Next Steps for Batch 16
+1. Continue addressing remaining undefined variable errors
+2. Look for more typos in critical code paths
+3. Consider tackling logic errors ("always true/false")
+4. Focus on authentication, authorization, and data handling code

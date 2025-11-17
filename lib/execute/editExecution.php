@@ -17,6 +17,7 @@ require_once("web_editor.php");
 $editorCfg = getWebEditorCfg('edit_execution');
 require_once(require_web_editor($editorCfg['type']));
 
+$db = null; // Initialized by testlinkInitPage
 testlinkInitPage($db,false,false,"checkRights");
 $templateCfg = templateConfiguration();
 $tcase_mgr = new testcase($db);
