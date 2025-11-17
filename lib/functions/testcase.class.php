@@ -1074,12 +1074,12 @@ class testcase extends tlObjectWithAttachments
           break;
         }
       }
-        
-      if( $ret['status_ok'] && !is_null($steps) )
+
+      if( $ret['status_ok'] && !empty($steps) )
       {
         $this->update_tcversion_steps($tcversion_id,$steps);
       }
-        
+
       if( $ret['status_ok'] )
       {      
         $this->updateKeywordAssignment($id,$keywords_id);
@@ -1126,8 +1126,8 @@ class testcase extends tlObjectWithAttachments
     {
       $this->deleteKeywords($id,array_keys($items['todelete']),self::AUDIT_ON);
     }
-    
-    if(!is_null($items['new']) && count($items['new']))
+
+    if(!empty($items['new']))
     {
       $this->addKeywords($id,array_keys($items['new']),self::AUDIT_ON);
     }
@@ -1355,10 +1355,11 @@ class testcase extends tlObjectWithAttachments
             {
                 $sql .= " AND TTC.platform_id = {$platform_id} ";  
             }               
-            
+
+
             $recordset = $this->db->fetchMapRowsIntoMap($sql,'tcversion_id','testplan_id',database::CUMULATIVE);
 
-        if( !is_null($recordset) )
+        if( !empty($recordset) )
         {
           // changes third access key from sequential index to platform_id
           foreach ($recordset as $accessKey => $testplan)
@@ -2771,9 +2772,9 @@ class testcase extends tlObjectWithAttachments
              " JOIN " . $this->tables['nodes_hierarchy'] . " NHTCV " .
              " ON TCV.id = NHTCV.id " .
              " WHERE  TCV.tc_external_id = " . intval($externalID);
-    
+
       $testCases = $this->db->fetchRowsIntoMap($sql,'tcase_id');
-      if(!is_null($testCases))
+      if(!empty($testCases))
       {
         foreach($testCases as $tcaseID => $value)
         {
@@ -3493,9 +3494,9 @@ class testcase extends tlObjectWithAttachments
 
       
     $recordset = $this->db->fetchRowsIntoMap($sql,'id',$cumulativeMode);
-    
+
     // Multiple Test Case Steps Feature
-    if( !is_null($recordset) && $localOptions['getSteps'] )
+    if( !empty($recordset) && $localOptions['getSteps'] )
     {
       $exec_cfg = 
       $xx = null;
@@ -3530,11 +3531,11 @@ class testcase extends tlObjectWithAttachments
     }
 
     // ghost Test Case processing in summary & preconditions
-    if(!is_null($recordset))
+    if(!empty($recordset))
     {
       $key2loop = array_keys($recordset);
       foreach( $key2loop as $accessKey)
-      { 
+      {
         $this->renderGhost($recordset[$accessKey]);
       } 
       reset($recordset);
@@ -3931,9 +3932,9 @@ class testcase extends tlObjectWithAttachments
               break;
           }
       }
-      
+
       $rs=$this->db->fetchMapRowsIntoMap($sql,$access_key[0],$access_key[1],database::CUMULATIVE);
-      if( $has_options && !is_null($rs))
+      if( $has_options && !empty($rs))
       {
           if( isset($options->mode) )
           {
@@ -5248,7 +5249,7 @@ class testcase extends tlObjectWithAttachments
     $cfQuery = '';
     $cfQty = 0;
 
-    if( !is_null($recordset) )
+    if( !empty($recordset) )
     {
       $or_clause = '';
       $cf_query = '';
@@ -5307,11 +5308,11 @@ class testcase extends tlObjectWithAttachments
 
       $recordset = $this->db->fetchRowsIntoMap($sql,$my['options']['access_key'],database::CUMULATIVE);
 
-      // now loop over result, 
+      // now loop over result,
       // Processing has to be done no matter value of cfQty
       // (not doing this has produced in part TICKET 4704,4708)
       // entries whose count() < number of custom fields has to be removed
-      if( !is_null($recordset) )
+      if( !empty($recordset) )
       {
         $key2loop = array_keys($recordset);
         if($cfQty > 0)
@@ -5506,7 +5507,7 @@ class testcase extends tlObjectWithAttachments
     $recordset = $this->db->fetchRowsIntoMap($sql,$my['options']['access_key'],database::CUMULATIVE);
 
     // now loop over result, entries whose count() < number of custom fields has to be removed
-    if( !is_null($recordset) )
+    if( !empty($recordset) )
     {
       $key2loop = array_keys($recordset);
       foreach($key2loop as $key)
@@ -5780,13 +5781,13 @@ class testcase extends tlObjectWithAttachments
                         $yy = $this->get_last_version_info($xid,array('output' => 'full'));
                       }  
                       $vn = intval($yy['version']);
-                    }  
+                    }
 
                     $fi = $this->get_basic_info($xid,array('number' => $vn));
-                    if(!is_null($fi))
+                    if(!empty($fi))
                     {
                       if(intval($dx['Step']) > 0)
-                      {  
+                      {
                         $deghosted = true;
                         $stx = $this->get_steps($fi[0]['tcversion_id'],$dx['Step']);
                         $ghost .= str_replace($replaceSetWebRichEditor,'',$stx[0][$item_key]) . $rightside;
@@ -5892,10 +5893,10 @@ class testcase extends tlObjectWithAttachments
               break;
           }
       }
-      
+
       $rs=$this->db->fetchMapRowsIntoMap($sql,$access_key[0],$access_key[1],database::CUMULATIVE);
-      
-      if( $has_options && !is_null($rs)) // TBD: Check if we can remove it
+
+      if( $has_options && !empty($rs)) // TBD: Check if we can remove it
       {
       if( !isset($options->access_keys) ||
       (is_null($options->access_keys) || $options->access_keys='testplan_testcase') )
@@ -6551,12 +6552,12 @@ class testcase extends tlObjectWithAttachments
                       $linkFeedback=" to Latest Version{$addInfo})";
                     }  
                     $vn = intval($zorro['version']);
-                  }  
+                  }
 
                   $fi = $this->get_basic_info($xid,array('number' => $vn));
-                  if(!is_null($fi))
+                  if(!empty($fi))
                   {
-                    if( isset($dx['Step']) ) 
+                    if( isset($dx['Step']) )
                     {
                       $isTestCaseGhost = false;
 
