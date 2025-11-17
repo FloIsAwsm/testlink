@@ -167,13 +167,52 @@ Files: tlRestApi.class.php
 ---
 
 ## Next Steps
-1. Complete cataloging all 309 errors
-2. Fix high-priority files first (xmlrpc, execSetResults, common.php, database.class.php)
-3. Run PHPStan after each file fix to verify
-4. Update baseline
-5. Commit changes
+1. ✅ Fixed 99+ concrete errors across 6 batches
+2. Run PHPStan to generate fresh error report and updated baseline
+3. Address remaining errors after baseline regeneration
+4. Focus on improving PHPDoc annotations for better type inference
 
-## Notes
-- Many errors are due to PHPDoc type hints being too strict
-- Consider improving PHPDoc annotations alongside fixes
-- Several files show pattern: defensive is_null() checks that are unnecessary due to type narrowing
+## Notes and Findings (Batch 6)
+
+### Errors Fixed
+- **Batch 6**: 1 error in tlRestApi.class.php (array count check)
+- **Total Batches**: 6 batches completed
+- **Total Errors Fixed**: 99+ errors (~32% of 309)
+
+### Remaining Error Categories
+
+#### 1. False Positives
+Many reported errors are PHPStan false positives due to:
+- Type inference limitations with pass-by-reference parameters
+- PHPDoc type hints not accurately reflecting runtime behavior
+- Complex control flow that PHPStan can't analyze
+
+#### 2. Line Number Shifts
+Multiple errors referenced in original report have shifted line numbers due to:
+- Previous fixes changing file structure
+- Code modifications in earlier batches
+- Need for fresh PHPStan run to get accurate line numbers
+
+#### 3. Baseline Mismatches
+Several errors are baseline discrepancies that require:
+- Regenerating PHPStan baseline
+- Not code fixes but baseline updates
+
+#### 4. External Dependencies
+Some errors involve external libraries:
+- IXR_Server (XML-RPC library)
+- PHPUnit_Framework_TestCase (old PHPUnit version)
+- Cannot be fixed without updating dependencies
+
+#### 5. Defensive Code Patterns
+Many `!is_null($var) && count($var) > 0` patterns are:
+- Defensive programming (valid style choice)
+- Could be simplified to `!empty($var)` but not incorrect
+- Low priority for refactoring
+
+### Recommendations
+1. **Run PHPStan** with current codebase to get accurate error report
+2. **Update baseline** to reflect fixes made
+3. **Focus on** improving PHPDoc annotations to help PHPStan
+4. **Consider** updating external dependencies if feasible
+5. **Prioritize** actual logic errors over style issues
