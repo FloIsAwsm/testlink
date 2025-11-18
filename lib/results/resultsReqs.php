@@ -96,10 +96,10 @@ if(count($rspecSet))
       $rspecSet[$rspec_id]['requirements'][$req_id]['tc_counters']['expected_coverage'] = 
       $rspecSet[$rspec_id]['requirements'][$req_id]['expected_coverage'];
     
-      foreach ($req_info['linked_testcases'] as $key => $tc_info) 
+      foreach ($req_info['linked_testcases'] as $key => $tc_info)
       {
         $tc_id = $tc_info['id'];
-        $plat2loop = array_keys($testcases[$tc_id]);
+        $plat2loop = isset($testcases[$tc_id]) && is_array($testcases[$tc_id]) ? array_keys($testcases[$tc_id]) : array();
         $rspecSet[$rspec_id]['requirements'][$req_id]['tc_counters']['total']++;
  
         foreach($plat2loop as $plat_id)

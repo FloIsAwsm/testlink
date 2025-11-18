@@ -173,7 +173,10 @@ during refresh feature, and then we have a bad refresh on page getting a bug.
           {else}
             {$ikx=$gui->userFeatureRoles[$uID].uplayer_role_id}
           {/if}
-          {$inherited_role_name=$gui->optRights[$ikx]->name}
+          {$inherited_role_name=''}
+          {if isset($gui->optRights[$ikx]) && is_object($gui->optRights[$ikx])}
+            {$inherited_role_name=$gui->optRights[$ikx]->name}
+          {/if}
 
           {$user_row_class=''}
           {if $effective_role_id == $smarty.const.TL_ROLES_NO_RIGHTS}

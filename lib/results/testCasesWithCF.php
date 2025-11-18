@@ -254,7 +254,7 @@ function buildResultSet(&$dbHandler,&$guiObj,$tproject_id,$tplan_id)
         }
     }
 
-    if(($guiObj->row_qty=count($cf_map)) == 0 )
+    if(($guiObj->row_qty=(is_array($cf_map) ? count($cf_map) : 0)) == 0 )
     {
         $guiObj->warning_msg = lang_get('no_linked_tc_cf');
     }

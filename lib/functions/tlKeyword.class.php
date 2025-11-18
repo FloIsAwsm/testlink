@@ -101,7 +101,7 @@ class tlKeyword extends tlDBObject implements iSerialization,iSerializationToXML
    * 
    * @return integer returns tl::OK on success, tl::ERROR else
    */
-  public function readFromDB(database &$db,$options = self::TLOBJ_O_SEARCH_BY_ID)
+  public function readFromDB(&$db,$options = self::TLOBJ_O_SEARCH_BY_ID)
   {
     $this->_clean($options);
     
