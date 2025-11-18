@@ -138,9 +138,9 @@ class tlUser extends tlDBObject
   /**
    * Constructor, creates the user object
    *
-   * @param database|null $dbID Database object (can be null)
+   * @param int|null $dbID Database ID (can be null)
    */
-  public function __construct(?database $dbID = null)
+  public function __construct(?int $dbID = null)
   {
     parent::__construct($dbID);
 
