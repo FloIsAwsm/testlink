@@ -475,7 +475,7 @@ class tlAttachmentRepository extends tlObjectWithDB
   {
     $itemSet = null;
     $idSet = $this->getAttachmentIDsFor($fkid,$fkTableName);
-    $loop2do = count($idSet);
+    $loop2do = is_array($idSet) ? count($idSet) : 0;
     for($idx = 0;$idx < $loop2do; $idx++)
     {
       $attachmentInfo = $this->getAttachmentInfo($idSet[$idx]);

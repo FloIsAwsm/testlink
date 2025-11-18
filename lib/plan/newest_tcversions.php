@@ -40,7 +40,7 @@ $gui->testcases = $tplan_mgr->get_linked_and_newest_tcversions($args->tplan_id);
 
 if($qty_linked)
 {
-    $qty_newest = count($gui->testcases);
+    $qty_newest = is_array($gui->testcases) ? count($gui->testcases) : 0;
     if($qty_newest)
     {
         $gui->show_details = 1;
