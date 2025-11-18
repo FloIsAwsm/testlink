@@ -6799,9 +6799,35 @@ class testcase extends tlObjectWithAttachments
 
 
   /**
+   * Check if a database table exists
+   * Uses caching to avoid repeated database queries
+   *
+   * @param string $tableName Table name (without prefix)
+   * @return bool True if table exists, false otherwise
+   */
+  private function tableExists($tableName)
+  {
+    static $tableCache = array();
+
+    if (!isset($tableCache[$tableName])) {
+      $fullTableName = $this->tables[$tableName] ?? null;
+      if ($fullTableName === null) {
+        $tableCache[$tableName] = false;
+      } else {
+        $tableCache[$tableName] = $this->db->db_table_exists($fullTableName);
+      }
+    }
+
+    return $tableCache[$tableName];
+  }
+
+
+  /**
+   * Get test case relations
+   * Returns empty result set if testcase_relations table doesn't exist
    *
    */
-  public function getRelations($id) 
+  public function getRelations($id)
   {
     $debugMsg = "/* {$this->debugMsg}" . __FUNCTION__ . ' */';
 
@@ -6809,10 +6835,19 @@ class testcase extends tlObjectWithAttachments
 
     $relSet = array();
     $relSet['num_relations'] = 0;
-    $relSet['item'] = current($this->get_by_id($id,self::LATEST_VERSION,null, 
+    $relSet['item'] = current($this->get_by_id($id,self::LATEST_VERSION,null,
                                                array('output' => 'essential','getPrefix' => true,
                                                      'caller' => __FUNCTION__)));
     $relSet['relations'] = array();
+
+    // Check if testcase_relations table exists before querying
+    // This prevents errors when the table is missing from the database
+    // Feature was introduced in TestLink 1.9.12
+    if (!$this->tableExists('testcase_relations')) {
+      // Silently return empty relations if table doesn't exist
+      // This allows the application to continue functioning without this feature
+      return $relSet;
+    }
 
     $tproject_mgr = new testproject($this->db);
 
@@ -6895,6 +6930,11 @@ class testcase extends tlObjectWithAttachments
    */
   public function deleteAllRelations($id)
   {
+    // Skip if table doesn't exist
+    if (!$this->tableExists('testcase_relations')) {
+      return;
+    }
+
     $debugMsg = "/* {$this->debugMsg}" . __FUNCTION__ . ' */';
     $id_list = implode(",", (array)$id);
     $sql = $debugMsg . " DELETE FROM " . $this->tables['testcase_relations'] .
@@ -6906,17 +6946,22 @@ class testcase extends tlObjectWithAttachments
 
   /**
    * checks if there is a relation of a given type between two requirements
-   * 
+   *
    * @author Andreas Simon
-   * 
+   *
    * @param integer $first_id   ID to check
    * @param integer $second_id  ID to check
    * @param integer $rel_type_id relation type ID to check
-   * 
+   *
    * @return true, if relation already exists, false if not
    */
-  public function relationExits($first_id, $second_id, $rel_type_id) 
+  public function relationExits($first_id, $second_id, $rel_type_id)
   {
+    // Return false if table doesn't exist
+    if (!$this->tableExists('testcase_relations')) {
+      return false;
+    }
+
     $debugMsg = "/* {$this->debugMsg}" . __FUNCTION__ . ' */';
 
     $safe_first_id = intval($first_id);
@@ -6935,13 +6980,18 @@ class testcase extends tlObjectWithAttachments
   /**
    * Get count of all relations, no matter if it is source or destination
    * or what type of relation it is.
-   * 
+   *
    * @param integer $id requirement ID to check
-   * 
+   *
    * @return integer $count
    */
   public function getRelationsCount($id)
   {
+    // Return 0 if table doesn't exist
+    if (!$this->tableExists('testcase_relations')) {
+      return 0;
+    }
+
     $debugMsg = "/* {$this->debugMsg}" . __FUNCTION__ . ' */';
     $safeID = intval($id);
     $sql = $debugMsg . " SELECT COUNT(*) AS qty" .
@@ -6953,16 +7003,21 @@ class testcase extends tlObjectWithAttachments
 
   /**
    * add a relation of a given type
-   * 
+   *
    * @author Andreas Simon
-   * 
+   *
    * @param integer $source_id ID of source requirement
    * @param integer $destination_id ID of destination requirement
    * @param integer $type_id relation type ID to set
    * @param integer $author_id user's ID
    */
-  public function addRelation($source_id, $destination_id, $type_id, $author_id, $ts=null) 
+  public function addRelation($source_id, $destination_id, $type_id, $author_id, $ts=null)
   {
+    // Return error if table doesn't exist
+    if (!$this->tableExists('testcase_relations')) {
+      return array('status_ok' => false, 'msg' => 'testcase_relations_table_missing');
+    }
+
     $debugMsg = "/* {$this->debugMsg}" . __FUNCTION__ . ' */';
 
     // check if exists before trying to add
@@ -6975,23 +7030,28 @@ class testcase extends tlObjectWithAttachments
              " VALUES ($source_id, $destination_id, $type_id, $author_id, $time)";
       $this->db->exec_query($sql);
       $ret = array('status_ok' => true, 'msg' => 'relation_added');
-    }  
+    }
     else
     {
       $ret = array('status_ok' => false, 'msg' => 'relation_already_exists');
-    }  
+    }
     return $ret;
   }
 
   /**
    * delete an existing relation
-   * 
+   *
    * @author Andreas Simon
-   * 
+   *
    * @param int $id relation id
    */
   public function deleteRelationByID($relID)
   {
+    // Skip if table doesn't exist
+    if (!$this->tableExists('testcase_relations')) {
+      return;
+    }
+
     $debugMsg = "/* {$this->debugMsg}" . __FUNCTION__ . ' */';
     $sql = $debugMsg . " DELETE FROM " . $this->tables['testcase_relations'] .
            " WHERE id=" . intval($relID);
