@@ -159,7 +159,7 @@ class tlKeyword extends tlDBObject implements iSerialization,iSerializationToXML
    * 
    * @return integer returns tl::OK on success, tl::ERROR else
    */
-  public function writeToDB(database &$db)
+  public function writeToDB(&$db)
   {
     $result = $this->checkKeyword($db);
     if ($result >= tl::OK)
@@ -197,7 +197,7 @@ class tlKeyword extends tlDBObject implements iSerialization,iSerializationToXML
    *
    * @return integer returns tl::OK on success, error code else
    */
-  protected function checkKeyword(database $db)
+  protected function checkKeyword($db)
   {
     $this->name = trim($this->name);
     $this->notes = trim($this->notes);
@@ -218,7 +218,7 @@ class tlKeyword extends tlDBObject implements iSerialization,iSerializationToXML
    *
    * @return integer returns tl::OK on success, tl:ERROR else
    */
-  public function deleteFromDB(database &$db)
+  public function deleteFromDB(&$db)
   {
     $sql = "DELETE FROM " . $this->tables['testcase_keywords'] . " WHERE keyword_id = " . $this->dbID;
     $result = $db->exec_query($sql);
@@ -244,7 +244,7 @@ class tlKeyword extends tlDBObject implements iSerialization,iSerializationToXML
    * 
    * @return tlKeyword returns the created keyword on success, or null else
    */
-  static public function getByID(database &$db,$id,$detailLevel = self::TLOBJ_O_GET_DETAIL_FULL)
+  static public function getByID(&$db,$id,$detailLevel = self::TLOBJ_O_GET_DETAIL_FULL)
   {
     return tlDBObject::createObjectFromDB($db,$id,__CLASS__,tlKeyword::TLOBJ_O_SEARCH_BY_ID,$detailLevel);
   }
@@ -258,7 +258,7 @@ class tlKeyword extends tlDBObject implements iSerialization,iSerializationToXML
    * 
    * @return array returns the created keywords (tlKeyword) on success, or null else
    */
-  static public function getByIDs(database &$db,$ids,$detailLevel = self::TLOBJ_O_GET_DETAIL_FULL)
+  static public function getByIDs(&$db,$ids,$detailLevel = self::TLOBJ_O_GET_DETAIL_FULL)
   {
     return tlDBObject::createObjectsFromDB($db,$ids,__CLASS__,false,$detailLevel);
   }
@@ -274,7 +274,7 @@ class tlKeyword extends tlDBObject implements iSerialization,iSerializationToXML
    * @param integer $detailLevel
    * @return integer returns tl::E_NOT_IMPLEMENTED
    */
-  static public function getAll(database &$db,$whereClause = null,$column = null,$orderBy = null,
+  static public function getAll(&$db,$whereClause = null,$column = null,$orderBy = null,
                                 $detailLevel = self::TLOBJ_O_GET_DETAIL_FULL)
   {
     return self::handleNotImplementedMethod(__FUNCTION__);
@@ -326,7 +326,7 @@ class tlKeyword extends tlDBObject implements iSerialization,iSerializationToXML
    * @param integer $kwID an additional keyword id which is excluded in the search 
    * @return integer return tl::OK if the keyword is found, else tlKeyword::E_NAMEALREADYEXISTS 
    */
-  static public function doesKeywordExist(database $db,$name,$tprojectID,$kwID = null)
+  static public function doesKeywordExist($db,$name,$tprojectID,$kwID = null)
   {
     $result = tl::OK;
     $tables = tlObjectWithDB::getDBTables("keywords");
